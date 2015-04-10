@@ -18,6 +18,7 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBB68591-C2E9-433D-AFCB-D2FBAD16C953}</ProjectGuid>
@@ -48,8 +49,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Nathan\Desktop\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;C:\Users\Nathan\Desktop\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Nathan\Desktop\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;C:\Users\Nathan\Desktop\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\dependencies\SDL\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,7 +60,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2_main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

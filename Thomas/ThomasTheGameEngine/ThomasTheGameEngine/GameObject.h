@@ -26,13 +26,8 @@ public:
 	//but it also returns the address for storage in a variable.
 	Component * addComponent(Component *);
 
-	//Sexy bitch.
+	//Sexy bitch.	
 	template<class TYPE>
-	Component * getComponent(TYPE _component){
-		for (int i = 0; i < components.size(); i++){
-			if (typeid(*components[i]) == typeid(TYPE))
-				return components[i];
-		}
-	}
+	Component * getComponent(TYPE);
 };
 
