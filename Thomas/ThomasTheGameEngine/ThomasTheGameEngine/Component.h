@@ -5,10 +5,14 @@
 		a GetComponent method. 
 	*/
 
+class GameObject;
+
 class Component
 {
 public:
 	Component();
 	~Component();
+
+	GameObject * parentObject;
 };
 
