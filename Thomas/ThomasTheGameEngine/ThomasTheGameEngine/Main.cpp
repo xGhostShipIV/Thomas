@@ -5,18 +5,25 @@
 #include "Thomas.h"
 
 void RenderScene(void);
+void Update(int);
 
 int main()
 {
 	GameManager* testgame = GameManager::GetInstance();
 
-	testgame->StartProgram(RenderScene);
+	testgame->StartProgram(RenderScene, Update);
+
+	delete testgame;
 
 	return 0;
 }
 
 void RenderScene()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glutSwapBuffers();
+	
+}
+
+void Update(int ID)
+{
+
 }

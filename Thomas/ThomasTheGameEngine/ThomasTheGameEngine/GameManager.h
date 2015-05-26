@@ -9,13 +9,21 @@
 
 class GameManager
 {
-private:
+	typedef void(*UpdateFunc)(int);
+	typedef void(*RenderFunc)(void);
+private:	
 	GameManager();
 	static GameManager* instance;
+	
+	UpdateFunc updateFunc;
+	RenderFunc renderFunc;
 public:
 	static GameManager* GetInstance();
 	~GameManager();
-	void StartProgram(void (void));
+	void StartProgram(void(void) = nullptr, UpdateFunc = nullptr);
+
+	void Update(int);
+	void RenderScene();
 };
 
 #endif
