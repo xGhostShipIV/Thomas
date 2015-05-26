@@ -1,8 +1,10 @@
 //Author:	Mathieu Violette
 //Date:		5/26/2015(MV)
 
+#include <SDL.h>
+#undef main
+
 #include "GameManager.h"
-//#include <SDL.h>
 
 GameManager* GameManager::instance = nullptr;
 
@@ -35,12 +37,12 @@ GameManager::GameManager()
 
 
 	///SDL stuff
-	//SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init(SDL_INIT_EVERYTHING);
 }
 
 GameManager::~GameManager()
 {
-	//SDL_Quit();
+	SDL_Quit();
 }
 
 //Wrapper Classes for OpenGL linking

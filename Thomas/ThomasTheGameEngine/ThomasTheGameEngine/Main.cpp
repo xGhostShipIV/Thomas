@@ -10,9 +10,7 @@ void Update(int);
 int main()
 {
 	GameManager* testgame = GameManager::GetInstance();
-
 	testgame->StartProgram(RenderScene, Update);
-
 	delete testgame;
 
 	return 0;

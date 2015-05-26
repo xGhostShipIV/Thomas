@@ -2,7 +2,7 @@
 //Date:		5/26/2015(MV)
 /* Holds main loop and GLUT inits */
 
-#include "glut.h"
+#include "freeglut.h"
 
 #ifndef _GAME_MANAGER_H_
 #define _GAME_MANAGER_H_
