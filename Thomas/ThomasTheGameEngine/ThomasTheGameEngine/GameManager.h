@@ -9,20 +9,26 @@
 
 class GameManager
 {
-	typedef void(*UpdateFunc)(int);
+	/* defines the type of functions that can be passed */
+	typedef void(*UpdateFunc)(UINT32);
 	typedef void(*RenderFunc)(void);
+
 private:	
 	GameManager();
 	static GameManager* instance;
-	
+	bool isRunning;
+	UINT32 lastUpdateTime, timeSincelastUpdate;
+
 	UpdateFunc updateFunc;
 	RenderFunc renderFunc;
 public:
 	static GameManager* GetInstance();
 	~GameManager();
-	void StartProgram(void(void) = nullptr, UpdateFunc = nullptr);
 
-	void Update(int);
+	/* takes in 2 function pointer for the game's render and update*/
+	void StartProgram(RenderFunc = nullptr, UpdateFunc = nullptr);
+
+	void Update(UINT32);
 	void RenderScene();
 };
 
