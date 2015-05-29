@@ -156,15 +156,41 @@ void GameManager::RenderScene() /* Engine's Render*/
 	if (renderFunc != nullptr)
 		renderFunc();
 
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (!gameObjects[i]->isFlagged) 
+			gameObjects[i]->Render();
+		else
+			gameObjectsToBeDeleted.push_back(gameObjects[i]);
+	}
+
 	/* Render to screen */
 	SDL_GL_SwapWindow(gameWindow);
 	SDL_RenderPresent(gameRenderer);
+
+	PostRender();
+}
+
+/* Does all the clean up of flagged gameObjects */
+void GameManager::PostRender()
+{
+	for (auto it = gameObjectsToBeDeleted.begin(); it != gameObjectsToBeDeleted.end(); it++)
+	{
+		gameObjects.erase(it);
+
+		delete it._Ptr;
+	}
 }
 
 /* Performs engine specific updates, then calls game's update function */
 void GameManager::Update(UINT32 timeStep) /* Engine's Update*/
 {
 		
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (!gameObjects[i]->isFlagged)
+			gameObjects[i]->Update(timeStep);
+	}
 
 	//Game's Update Call
 	if (updateFunc != nullptr)

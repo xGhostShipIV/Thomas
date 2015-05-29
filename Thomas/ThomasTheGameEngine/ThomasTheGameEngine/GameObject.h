@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <typeinfo>
+#include <freeglut.h>
 
 class Component;
 typedef std::string Tag;
@@ -16,7 +17,10 @@ public:
 	~GameObject();
 
 	virtual void Render(){};
-	virtual void Update(float _deltaTime){};
+	virtual void Update(UINT32 _deltaTime){};
+
+	//Flag that sets object for removal from game
+	bool isFlagged;
 
 	//A list of ALL the gameObjects components
 	std::vector<Component *> components;
@@ -49,6 +53,9 @@ public:
 	//Returns the address to a given component type
 	template<class TYPE>
 	TYPE * getComponent();
+
+	//Triggers the isFlagged boolean
+	void Destroy();
 
 };
 

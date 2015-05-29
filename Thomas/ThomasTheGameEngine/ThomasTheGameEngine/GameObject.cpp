@@ -3,9 +3,13 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "GameManager.h"
 
 GameObject::GameObject()
 {
+	isFlagged = false;
+
+	GameManager::GetInstance()->gameObjects.push_back(this);
 }
 
 
@@ -81,4 +85,9 @@ TYPE * GameObject::getComponent()
 			return (TYPE*)components[i];
 	}
 	return nullptr;
+}
+
+void GameObject::Destroy()
+{
+	isFlagged = true;
 }
