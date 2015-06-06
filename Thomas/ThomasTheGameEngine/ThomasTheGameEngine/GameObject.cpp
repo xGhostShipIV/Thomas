@@ -3,15 +3,14 @@
 
 #include "GameObject.h"
 #include "Component.h"
-#include "GameManager.h"
+#include "Game.h"
 
 GameObject::GameObject()
 {
 	isFlagged = false;
-
-	GameManager::GetInstance()->gameObjects.push_back(this);
+	
+	GAME->gameObjects.push_back(this); 
 }
-
 
 GameObject::~GameObject()
 {

@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <typeinfo>
+#include <glew.h>
 #include <freeglut.h>
 
 class Component;

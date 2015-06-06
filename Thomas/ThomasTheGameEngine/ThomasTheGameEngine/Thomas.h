@@ -2,4 +2,4 @@
 	Simply so we can only include Thomas.h when it comes time to make the game. */
 
 #include "GameObject.h"
-#include "GameManager.h"
+#include "Game.h"
