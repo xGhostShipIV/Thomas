@@ -11,6 +11,7 @@
 #include <stdio.h>
 //#include "freeglut.h"
 #include "GameObject.h"
+#include "Input.h"
 #include <typeinfo>
 
 #define GAME Game<>::GetInstance() 
@@ -159,20 +160,20 @@ public:
 
 				while (SDL_PollEvent(&evt))
 				{
-					/* If user presses top right X or Esc key: exit game loop*/
-					if (evt.type == SDL_QUIT || evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-					{
-						isRunning = false;
-						printf("\nExit\n");
-					}
-					//Event Manager
-					//Game::eventManager.ManageEvents(&evt);
+					Input::PostEvent(evt);
 				}
 				SDL_PumpEvents();
+
+				if (Input::Keydown_ESCAPE())
+				{
+					isRunning = false;
+					printf("\nExit\n");
+				}
 
 				EngineUpdate(timeSincelastUpdate);
 				EngineRender();
 			}
+			Input::Clear();
 		}
 	}
 
