@@ -164,7 +164,8 @@ public:
 				}
 				SDL_PumpEvents();
 
-				if (Input::Keydown_ESCAPE())
+				/* If user presses close button (top right X) or Esc key: exit game loop*/
+				if (Input::Button_Pressed_Close() || Input::Keydown_ESCAPE())
 				{
 					isRunning = false;
 					printf("\nExit\n");

@@ -7,6 +7,8 @@ std::vector<bool *> Input::activeKeys;
 
 //static Vec2 initialMousePosition;
 
+bool Input::Button_Close;
+
 bool Input::Key_A;
 bool Input::Key_B;
 bool Input::Key_C;
@@ -516,6 +518,8 @@ void Input::PostEvent(SDL_Event _e)
 	{
 		//WHEN MATH LIBRARY IS IN DO MOUSE STUFF
 	}
+	else if (_e.type == SDL_QUIT)
+		toggleKey(&Button_Close);
 
 }
 
@@ -620,3 +624,5 @@ bool Input::Keydown_QUESTION(){ return Key_QUESTION; }
 bool Input::Mouse_LEFT_CLICK(){ return Mouse_LEFT; }
 bool Input::Mouse_MIDDLE_CLICK(){ return Mouse_MIDDLE; }
 bool Input::Mouse_RIGHT_CLICK(){ return Mouse_RIGHT; }
+
+bool Input::Button_Pressed_Close(){ return Button_Close; }

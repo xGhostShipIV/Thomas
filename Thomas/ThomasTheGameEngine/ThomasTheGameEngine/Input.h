@@ -103,6 +103,9 @@ public:
 	static bool Mouse_RIGHT_CLICK();
 	static bool Mouse_MIDDLE_CLICK();
 
+	//Close button in top right of window
+	static bool Button_Pressed_Close();
+
 	//static Vec2 mousePosition();
 	//static Vec2 deltaMouse;
 
@@ -197,4 +200,6 @@ private:
 	static bool Mouse_RIGHT;
 	static bool Mouse_LEFT;
 	static bool Mouse_MIDDLE;
+
+	static bool Button_Close;
 };
