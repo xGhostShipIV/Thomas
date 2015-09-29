@@ -36,17 +36,66 @@ Vec4 Vec4::BasisZ() {
 	return Vec4(0, 0, 0, 1);
 }
 
+Vec4 Vec4::HomoVec3(Vec3 value) {
+	return Vec4(value.x, value.y, value.z, 1);
+}
+
 //--------------------------------Operator Overloading-------------------------------------------\\
 
-inline Vec4 Vec4::operator+(const Vec4&) {}
-inline Vec4 Vec4::operator+=(const Vec4&) {}
-inline Vec4 Vec4::operator-(const Vec4&) {}
-inline Vec4 Vec4::operator-=(const Vec4&) {}
-inline Vec4 Vec4::operator*(const float&) {}
-inline Vec4 Vec4::operator*=(const float&) {}
-inline Vec4 Vec4::operator/(const float&) {}
-inline Vec4 Vec4::operator/=(const float&) {}
-inline void Vec4::operator=(const Vec4&) {}
+inline Vec4 Vec4::operator+(const Vec4& value) {
+	return Vec(w + value.w, x + value.x,y + value.y, z + value.z)
+}
+
+inline Vec4 Vec4::operator+=(const Vec4& value) {
+	w += value.w;
+	x += value.x;
+	y += value.y;
+	z += value.z;
+	return *this;
+}
+
+inline Vec4 Vec4::operator-(const Vec4& value) {
+	return Vec(w - value.w, x - value.x, y - value.y, z - value.z)
+}
+
+inline Vec4 Vec4::operator-=(const Vec4& value) {
+	w -= value.w;
+	x -= value.x;
+	y -= value.y;
+	z -= value.z;
+	return *this;
+}
+
+inline Vec4 Vec4::operator*(const float& value) {
+	return Vec4(w * value, x * value, y * value, z * value);
+}
+
+inline Vec4 Vec4::operator*=(const float& value) {
+	w *= value;
+	x *= value;
+	y *= value;
+	z *= value;
+	return *this;
+}
+
+inline Vec4 Vec4::operator/(const float& value) {
+	return Vec4(w / value, x / value, y / value, z / value);
+}
+
+inline Vec4 Vec4::operator/=(const float& value) {
+	w /= value;
+	x /= value;
+	y /= value;
+	z /= value;
+	return *this;
+}
+inline void Vec4::operator=(const Vec4& value) {
+	w = value.w;
+	x = value.x;
+	y = value.y;
+	z = value.z;
+	return *this;
+}
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -92,7 +141,9 @@ Matrix4::Matrix4(
 	values[12] = _12; values[13] = _13; values[14] = _14; values[15] = _15;
 }
 
-//Matrix4 Rotate(); TODO -- Take a quat (vec4)?
+//Matrix4 Rotate(Quat); TODO -- Take a quat (vec4)?
+
+
 Matrix4 Matrix4::Translate(float _x, float _y, float _z) {
 	return Matrix4(
 		1, 0, 0, _x,

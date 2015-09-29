@@ -14,6 +14,7 @@ public:
 	static Vec4 BasisX();
 	static Vec4 BasisY();
 	static Vec4 BasisZ();
+	static Vec4 HomoVec3();
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
@@ -64,6 +65,7 @@ public:
 	inline Matrix4 operator*(const float&);
 	inline Matrix4 operator*=(const float&);
 	inline void operator=(const Matrix4&);
+	inline Matrix4 operator*(const Vec4&);
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
