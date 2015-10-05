@@ -8,8 +8,6 @@
 GameObject::GameObject()
 {
 	isFlagged = false;
-	
-	GAME->gameObjects.push_back(this); 
 }
 
 GameObject::~GameObject()

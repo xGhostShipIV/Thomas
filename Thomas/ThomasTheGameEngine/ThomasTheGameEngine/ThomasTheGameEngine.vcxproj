@@ -11,18 +11,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="Music.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="Thomas.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Sound.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBB68591-C2E9-433D-AFCB-D2FBAD16C953}</ProjectGuid>
@@ -53,8 +63,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -64,7 +74,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glut32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;glut32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

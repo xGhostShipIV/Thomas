@@ -7,12 +7,12 @@
 
 class GameObject;
 
-template<class _objectType> class Component
+class Component
 {
 public:
 	Component();
 	~Component();
 
-	_objectType * parentObject;
+	GameObject * parentObject;
 };
 
