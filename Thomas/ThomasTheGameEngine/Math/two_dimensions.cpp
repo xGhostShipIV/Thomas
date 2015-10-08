@@ -73,6 +73,10 @@ inline void Vec2::operator=(const Vec2& value) {
 	y = value.y;
 };
 
+inline std::string Vec2::toString(){
+	return ("<" + std::to_string(x) + "," + std::to_string(y) + ">");
+}
+
 //-----------Actual Maths---------\\
 
 void Vec2::NormalizeThis() {
@@ -208,6 +212,9 @@ float Matrix2::minor(int index) {
 			return i;
 		}
 	}
+
+	//Should never get here, will check with tests
+	return 0.0f;
 }
 
 float Matrix2::det() {

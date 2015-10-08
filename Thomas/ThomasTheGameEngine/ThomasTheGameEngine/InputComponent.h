@@ -31,6 +31,6 @@ public:
 
 	~InputController();
 private:
-	InputController();
+	InputController(){};
 	std::map<SDL_Keycode, InputComponent*> inputMap;
 };

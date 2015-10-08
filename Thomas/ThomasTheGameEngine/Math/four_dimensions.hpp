@@ -1,6 +1,38 @@
 #pragma once
 #include "three_dimensions.hpp"
 
+class Quat { //q = {w,{x,y,z}} ==> q = {cos(9/2), {x sin (9/2), y sin(9/2), z sin(9/2)}}
+public:
+	float w;
+	Vec3 vector;
+
+	//--------------------------------Constructors and Factories------------------------------------\\
+
+	Quat();
+	Quat(float, Vec3);
+	Quat(float, float, float, float);
+
+	//--------------------------------Operator Overloading-------------------------------------------\\
+
+	inline Quat operator*(const Quat&);
+	inline Quat operator*(const float&);
+	inline Quat operator*(const Vec3&);
+	inline Quat operator+(const Quat&);
+	inline Quat operator-(const Quat&);
+	inline Quat operator/(const float&);
+
+	//--------------------------------Actual Maths----------------------------------------------------\\
+
+	inline Quat conjugate();
+	inline Quat inverse();
+	void NormalizeThis();
+
+	static Vec3 rotate(Quat, Vec3);
+	static float length(Quat);
+	static float dot(Quat, Quat);
+
+};
+
 class Vec4 {
 public:
 	float w, x, y, z;
@@ -14,7 +46,7 @@ public:
 	static Vec4 BasisX();
 	static Vec4 BasisY();
 	static Vec4 BasisZ();
-	static Vec4 HomoVec3();
+	static Vec4 HomoVec3(Vec3);
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
@@ -77,36 +109,4 @@ public:
 	Vec4 getRowVector(int) const;
 	Vec4 getColVector(int) const;
 	float det();
-};
-
-class Quat { //q = {w,{x,y,z}} ==> q = {cos(9/2), {x sin (9/2), y sin(9/2), z sin(9/2)}}
-public:
-	float w;
-	Vec3 vector;
-
-	//--------------------------------Constructors and Factories------------------------------------\\
-
-	Quat();
-	Quat(float, Vec3);
-	Quat(float, float, float, float);
-
-	//--------------------------------Operator Overloading-------------------------------------------\\
-
-	inline Quat operator*(const Quat&);
-	inline Quat operator*(const float&);
-	inline Quat operator*(const Vec3&);
-	inline Quat operator+(const Quat&);
-	inline Quat operator-(const Quat&);
-	inline Quat operator/(const float&);
-
-	//--------------------------------Actual Maths----------------------------------------------------\\
-
-	inline Quat conjugate();
-	inline Quat inverse();
-	void NormalizeThis();
-
-	static Vec3 rotate(Quat, Vec3);
-	static float length(Quat);
-	static float dot(Quat, Quat);
-	
 };

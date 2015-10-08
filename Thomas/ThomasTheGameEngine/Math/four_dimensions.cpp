@@ -43,7 +43,7 @@ Vec4 Vec4::HomoVec3(Vec3 value) {
 //--------------------------------Operator Overloading-------------------------------------------\\
 
 inline Vec4 Vec4::operator+(const Vec4& value) {
-	return Vec(w + value.w, x + value.x,y + value.y, z + value.z)
+	return Vec4(w + value.w, x + value.x, y + value.y, z + value.z);
 }
 
 inline Vec4 Vec4::operator+=(const Vec4& value) {
@@ -55,7 +55,7 @@ inline Vec4 Vec4::operator+=(const Vec4& value) {
 }
 
 inline Vec4 Vec4::operator-(const Vec4& value) {
-	return Vec(w - value.w, x - value.x, y - value.y, z - value.z)
+	return Vec4(w - value.w, x - value.x, y - value.y, z - value.z);
 }
 
 inline Vec4 Vec4::operator-=(const Vec4& value) {
@@ -94,7 +94,6 @@ inline void Vec4::operator=(const Vec4& value) {
 	x = value.x;
 	y = value.y;
 	z = value.z;
-	return *this;
 }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
@@ -215,13 +214,6 @@ inline Matrix4 Matrix4::operator-=(const Matrix4& other) {
 	return *this;
 }
 
-inline Matrix4 Matrix4::operator*=(const Matrix4& other) {
-	for (int i = 0; i < 16; i++) {
-		values[i] = Vec4::dot(getRowVector(i / 4), other.getColVector(i % 4));
-	}
-	return *this;
-}
-
 inline Matrix4 Matrix4::operator*=(const float& other) {
 	for (int i = 0; i < 16; i++) {
 		values[i] *= other;
@@ -336,7 +328,7 @@ inline Quat Quat::conjugate() {
 }
 
 inline Quat Quat::inverse() {
-	conjugate() / (Quat::length(*this) * Quat::length(*this));
+	return conjugate() / (Quat::length(*this) * Quat::length(*this));
 }
 
 void Quat::NormalizeThis() {

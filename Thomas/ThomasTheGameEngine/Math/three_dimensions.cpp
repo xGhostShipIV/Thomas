@@ -12,27 +12,19 @@ Vec3::Vec3() {
 }
 
 Vec3 Vec3::Zero() {
-	x = 0;
-	y = 0;
-	z = 0;
+	return Vec3(0, 0, 0);
 }
 
 Vec3 Vec3::BasisX() {
-	x = 1;
-	y = 0;
-	z = 0;
+	return Vec3(1, 0, 0);
 }
 
 Vec3 Vec3::BasisY() {
-	x = 0;
-	y = 1;
-	z = 0;
+	return Vec3(0, 1, 0);
 }
 
 Vec3 Vec3::BasisZ() {
-	x = 0;
-	y = 0;
-	z = 1;
+	return Vec3(0, 0, 1);
 }
 
 //Operator Overloads

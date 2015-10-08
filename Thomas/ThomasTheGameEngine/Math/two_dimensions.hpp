@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <string>
 
 class Vec2 {
 public:
@@ -24,6 +25,7 @@ public:
 	inline Vec2 operator*=(const float&);
 	inline Vec2 operator/(const float&) const;
 	inline Vec2 operator/=(const float&);
+	inline std::string toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -58,6 +60,7 @@ public:
 	inline Matrix2 operator=(const Matrix2&);
 	inline Matrix2 operator*(const Matrix2&);
 	inline Matrix2 operator*=(const Matrix2&);
+	inline std::string toString();
 
 	//------------------------------------Actual Maths----------------------------------------------\\
 
