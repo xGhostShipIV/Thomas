@@ -9,6 +9,7 @@
 #undef main
 #include <glew.h>
 #include <stdio.h>
+#include "OpenGLUtilities.h"
 #include "GameObject.h"
 #include "Input.h"
 
@@ -97,9 +98,9 @@ Game<T>::Game()
 	isRunning = true;
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
-	///SDL stuff
+	///init stuff
 	SDL_Init(SDL_INIT_VIDEO);
-
+	
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
 
@@ -113,50 +114,16 @@ Game<T>::Game()
 		/* We have no render surface and not accelerated. */
 		printf("\n NO RENDER SURFACE \n");
 	}
-
 	/* creates a context for OpenGL draw calls */
 	glcontext = SDL_GL_CreateContext(gameWindow);
 
-	//OpenGL stuff  (can change later)
-	{
-		/* Enable smooth shading */
-		glShadeModel(GL_SMOOTH);
-
-		/* Set the background black */
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		/* Depth buffer setup */
-		glClearDepth(1.0f);
-
-		/* Enables Depth Testing */
-		glEnable(GL_DEPTH_TEST);
-
-		/* The Type Of Depth Test To Do */
-		glDepthFunc(GL_LEQUAL);
-
-		/* Really Nice Perspective Calculations */
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-		/* Height / width ration */
-		GLfloat ratio;
-		ratio = (GLfloat)width / (GLfloat)height;
-
-		/* Setup our viewport. */
-		glViewport(0, 0, (GLsizei)width, (GLsizei)height);
-
-		/* change to the projection matrix and set our viewing volume. */
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-
-		/* Set our perspective */
-		gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-
-		/* Make sure we're chaning the model view and not the projection */
-		glMatrixMode(GL_MODELVIEW);
-
-		/* Reset The View */
-		glLoadIdentity();
+	if (glewInit()) {
+		//Unable to initialize GLEW ... exiting
+		exit(EXIT_FAILURE);
 	}
+
+	
+	
 };
 
 template<class T = GAMETYPE>
@@ -231,6 +198,7 @@ void Game<T>::EngineRender()
 	/* Render to screen */
 	SDL_GL_SwapWindow(gameWindow);
 	SDL_RenderPresent(gameRenderer);
+	//glFlush();
 
 	PostRender();
 }
