@@ -13,8 +13,10 @@
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameProperties.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Level.h" />
@@ -26,7 +28,9 @@
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameProperties.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Level.cpp" />
