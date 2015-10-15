@@ -11,6 +11,12 @@ Vec3::Vec3() {
 	z = 1;
 }
 
+Vec3::Vec3(float _x, float _y, float _z) {
+	x = _x;
+	y = _y;
+	z = _z;
+}
+
 Vec3 Vec3::Zero() {
 	return Vec3(0, 0, 0);
 }
@@ -29,50 +35,50 @@ Vec3 Vec3::BasisZ() {
 
 //Operator Overloads
 
-inline Vec3 Vec3::operator+(const Vec3& value) const {
+ Vec3 Vec3::operator+(const Vec3& value) const {
 	return Vec3(x + value.x, y + value.y, z + value.z);
 }
 
-inline Vec3 Vec3::operator+=(const Vec3& value) {
+ Vec3 Vec3::operator+=(const Vec3& value) {
 	x += value.x;
 	y += value.y;
 	z += value.z;
 	return *this;
 }
 
-inline Vec3 Vec3::operator-(const Vec3& value) const {
+ Vec3 Vec3::operator-(const Vec3& value) const {
 	return Vec3(x - value.x, y - value.y, z - value.z);
 }
 
-inline Vec3 Vec3::operator-=(const Vec3& value) {
+ Vec3 Vec3::operator-=(const Vec3& value) {
 	x -= value.x;
 	y -= value.y;
 	z -= value.z;
 	return *this;
 }
 
-inline Vec3 Vec3::operator*(const float& value) const {
+ Vec3 Vec3::operator*(const float& value) const {
 	return Vec3(x * value, y * value, z * value);
 }
 
-inline Vec3 Vec3::operator*=(const float& value) {
+ Vec3 Vec3::operator*=(const float& value) {
 	x *= value;
 	y *= value;
 	z *= value;
 	return *this;
 }
 
-inline void Vec3::operator=(const Vec3& value) {
+ void Vec3::operator=(const Vec3& value) {
 	x = value.x;
 	y = value.y;
 	z = value.z;
 };
 
-inline Vec3 Vec3::operator/(const float& value) const {
+ Vec3 Vec3::operator/(const float& value) const {
 	return Vec3(x / value, y / value, z / value);
 }
 
-inline Vec3 Vec3::operator/=(const float& value) {
+ Vec3 Vec3::operator/=(const float& value) {
 	x /= value;
 	y /= value;
 	z /= value;
@@ -81,7 +87,7 @@ inline Vec3 Vec3::operator/=(const float& value) {
 
 //Actual Maths
 
-float length(Vec3 value) {
+float Vec3::length(Vec3 value) {
 	return sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
 }
 
@@ -98,11 +104,15 @@ Vec3 Vec3::Normalized() {
 }
 
 float Vec3::dot(Vec3 first, Vec3 second) {
-	return first.x * second.x + first.y + second.y + first.z * second.z;
+	return first.x * second.x + first.y * second.y + first.z * second.z;
 }
 
 Vec3 Vec3::cross(Vec3 first, Vec3 second) {
-	return Vec3(first.y * second.z - first.z * second.y, first.x * second.z - first.z * second.x, first.x * second.y - first.y * second.x);
+	return Vec3(first.y * second.z - first.z * second.y, first.z * second.x - first.x * second.z, first.x * second.y - first.y * second.x);
+}
+
+std::string Vec3::toString() {
+	return ("<" + std::to_string(x) + " , " + std::to_string(y) + " , " + std::to_string(z) + ">");
 }
 
 //--------------------------------------------------------Matrix------------------------------------------------------------------------\\
@@ -154,78 +164,85 @@ Matrix3 Matrix3::Rotate(float angle, int axis) {
 	return Matrix3::Identity();
 }
 
+std::string Matrix3::toString() {
+	return (
+		"{" + std::to_string(values[0]) + "," + std::to_string(values[1]) + "," + std::to_string(values[2]) + "\n" +
+		std::to_string(values[3]) + "," + std::to_string(values[4]) + "," + std::to_string(values[5]) + "\n" +
+		std::to_string(values[6]) + "," + std::to_string(values[7]) + "," + std::to_string(values[8]));
+}
+
 //Operator Overloading
 
-inline Matrix3 Matrix3::operator+(const Matrix3& other) {
+ Matrix3 Matrix3::operator+(const Matrix3& other) {
 	return Matrix3(
 		other.values[0] + values[0], other.values[1] + values[1], other.values[2] + values[2],
 		other.values[3] + values[3], other.values[4] + values[4], other.values[5] + values[5],
 		other.values[6] + values[6], other.values[7] + values[7], other.values[8] + values[8]);
 }
 
-inline Matrix3 Matrix3::operator+=(const Matrix3& other) {
+ Matrix3 Matrix3::operator+=(const Matrix3& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = values[i] + other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix3 Matrix3::operator-(const Matrix3& other) {
+ Matrix3 Matrix3::operator-(const Matrix3& other) {
 	return Matrix3(
-		other.values[0] - values[0], other.values[1] - values[1], other.values[2] - values[2],
-		other.values[3] - values[3], other.values[4] - values[4], other.values[5] - values[5],
-		other.values[6] - values[6], other.values[7] - values[7], other.values[8] - values[8]);
+		values[0] - other.values[0], values[1] - other.values[1], values[2] - other.values[2],
+		values[3] - other.values[3], values[4] - other.values[4], values[5] - other.values[5],
+		values[6] - other.values[6], values[7] - other.values[7], values[8] - other.values[8]);
 }
 
-inline Matrix3 Matrix3::operator-=(const Matrix3& other) {
+ Matrix3 Matrix3::operator-=(const Matrix3& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = values[i] - other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix3 Matrix3::operator*(const float& other) {
+ Matrix3 Matrix3::operator*(const float& other) {
 	return Matrix3(
 		values[0] * other, values[1] * other, values[2] * other,
 		values[3] * other, values[4] * other, values[5] * other,
 		values[6] * other, values[7] * other, values[8] * other);
 }
 
-inline Matrix3 Matrix3::operator*=(const float& other) {
+ Matrix3 Matrix3::operator*=(const float& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = values[i] * other;
 	}
 	return *this;
 }
 
-inline Matrix3 Matrix3::operator/(const float& other) {
+ Matrix3 Matrix3::operator/(const float& other) {
 	return Matrix3(
 		values[0] / other, values[1] / other, values[2] / other,
 		values[3] / other, values[4] / other, values[5] / other,
 		values[6] / other, values[7] / other, values[8] / other);
 }
 
-inline Matrix3 Matrix3::operator/=(const float& other) {
+ Matrix3 Matrix3::operator/=(const float& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = values[i] / other;
 	}
 	return *this;
 }
-inline Matrix3 Matrix3::operator=(const Matrix3& other) {
+ Matrix3 Matrix3::operator=(const Matrix3& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix3 Matrix3::operator*(const Matrix3& other) {
+ Matrix3 Matrix3::operator*(const Matrix3& other) {
 	return Matrix3(
 		Vec3::dot(getRowVector(0), other.getColVector(0)), Vec3::dot(getRowVector(0), other.getColVector(1)), Vec3::dot(getRowVector(0), other.getColVector(2)),
 		Vec3::dot(getRowVector(1), other.getColVector(0)), Vec3::dot(getRowVector(1), other.getColVector(1)), Vec3::dot(getRowVector(1), other.getColVector(2)),
 		Vec3::dot(getRowVector(2), other.getColVector(0)), Vec3::dot(getRowVector(2), other.getColVector(1)), Vec3::dot(getRowVector(2), other.getColVector(2)));
 }
 
-inline Matrix3 Matrix3::operator*=(const Matrix3& other) {
+ Matrix3 Matrix3::operator*=(const Matrix3& other) {
 	for (int i = 0; i < 9; i++) {
 		values[i] = Vec3::dot(getRowVector(i / 3), other.getColVector(i % 3));
 	}
@@ -258,7 +275,7 @@ Matrix3 Matrix3::adjoint() {
 Matrix3 Matrix3::cofactor() {
 	Matrix3 cofactorMatrix;
 	for (int i = 0; i < 9; i++) {
-		cofactorMatrix.values[i] = pow(-1, i % 3 + i / 3 + 1) * minor(i).det();
+		cofactorMatrix.values[i] = pow(-1, i % 3 + i / 3) * minor(i).det();
 	}
 	return cofactorMatrix;
 }
@@ -279,7 +296,7 @@ Matrix2 Matrix3::minor(int pos) {
 float Matrix3::det() {
 	float determ = 0;
 	for (int i = 0; i < 3; i++) {
-		determ += minor(i).det();
+		determ += pow(-1, i % 3 + i / 3) * values[i] * minor(i).det();
 	}
 	return determ;
 }

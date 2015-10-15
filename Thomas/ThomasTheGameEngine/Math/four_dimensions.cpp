@@ -1,5 +1,82 @@
 #include "four_dimensions.hpp"
 
+//Quats
+
+//--------------------------------Constructors and Factories------------------------------------\\
+
+Quat::Quat() {
+	w = 1;
+	vector = Vec3::Zero();
+}
+
+Quat::Quat(float _w, Vec3 _vector) {
+	w = _w;
+	vector = _vector;
+}
+
+Quat::Quat(float _w, float _x, float _y, float _z) {
+	w = _w;
+	vector.x = _x;
+	vector.y = _y;
+	vector.z = _z;
+}
+
+//--------------------------------Operator Overloading-------------------------------------------\\
+
+ Quat Quat::operator*(const Quat& other) {
+	return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector)));
+}
+
+ Quat Quat::operator*(const float& other) {
+	return (Quat(w * other, vector * other));
+}
+
+ Quat Quat::operator*(const Vec3& other) {
+	return *this * Quat(0, other);
+}
+
+ Quat Quat::operator+(const Quat& other) {
+	return Quat(w + other.w, vector + other.vector);
+}
+
+ Quat Quat::operator-(const Quat& other) {
+	return Quat(w - other.w, vector - other.vector);
+}
+
+ Quat Quat::operator/(const float& other) {
+	return Quat(w / other, vector / other);
+}
+
+//--------------------------------Actual Maths----------------------------------------------------\\
+
+ Quat Quat::conjugate() {
+	return Quat(w, vector * -1);
+}
+
+ Quat Quat::inverse() {
+	return conjugate() / (Quat::length(*this) * Quat::length(*this));
+}
+
+void Quat::NormalizeThis() {
+	w /= Quat::length(*this);
+	vector /= Quat::length(*this);
+}
+
+Vec3 Quat::rotate(Quat rotation, Vec3 value) { //Assumes quat is normalized
+	return Quat(rotation * value * rotation.inverse()).vector;
+}
+
+float Quat::length(Quat value) {
+	return sqrt(value.w * value.w +
+		value.vector.x * value.vector.x +
+		value.vector.y * value.vector.y +
+		value.vector.z * value.vector.z);
+}
+
+float Quat::dot(Quat first, Quat second) {
+	return first.w * second.w + Vec3::dot(first.vector, second.vector);
+}
+
 //--------------------------------Constructors and Factories------------------------------------\\
 
 Vec4::Vec4() {
@@ -42,11 +119,11 @@ Vec4 Vec4::HomoVec3(Vec3 value) {
 
 //--------------------------------Operator Overloading-------------------------------------------\\
 
-inline Vec4 Vec4::operator+(const Vec4& value) {
+ Vec4 Vec4::operator+(const Vec4& value) {
 	return Vec4(w + value.w, x + value.x, y + value.y, z + value.z);
 }
 
-inline Vec4 Vec4::operator+=(const Vec4& value) {
+ Vec4 Vec4::operator+=(const Vec4& value) {
 	w += value.w;
 	x += value.x;
 	y += value.y;
@@ -54,11 +131,11 @@ inline Vec4 Vec4::operator+=(const Vec4& value) {
 	return *this;
 }
 
-inline Vec4 Vec4::operator-(const Vec4& value) {
+ Vec4 Vec4::operator-(const Vec4& value) {
 	return Vec4(w - value.w, x - value.x, y - value.y, z - value.z);
 }
 
-inline Vec4 Vec4::operator-=(const Vec4& value) {
+ Vec4 Vec4::operator-=(const Vec4& value) {
 	w -= value.w;
 	x -= value.x;
 	y -= value.y;
@@ -66,11 +143,11 @@ inline Vec4 Vec4::operator-=(const Vec4& value) {
 	return *this;
 }
 
-inline Vec4 Vec4::operator*(const float& value) {
+ Vec4 Vec4::operator*(const float& value) {
 	return Vec4(w * value, x * value, y * value, z * value);
 }
 
-inline Vec4 Vec4::operator*=(const float& value) {
+ Vec4 Vec4::operator*=(const float& value) {
 	w *= value;
 	x *= value;
 	y *= value;
@@ -78,23 +155,27 @@ inline Vec4 Vec4::operator*=(const float& value) {
 	return *this;
 }
 
-inline Vec4 Vec4::operator/(const float& value) {
+ Vec4 Vec4::operator/(const float& value) {
 	return Vec4(w / value, x / value, y / value, z / value);
 }
 
-inline Vec4 Vec4::operator/=(const float& value) {
+ Vec4 Vec4::operator/=(const float& value) {
 	w /= value;
 	x /= value;
 	y /= value;
 	z /= value;
 	return *this;
 }
-inline void Vec4::operator=(const Vec4& value) {
+ void Vec4::operator=(const Vec4& value) {
 	w = value.w;
 	x = value.x;
 	y = value.y;
 	z = value.z;
 }
+
+ std::string Vec4::toString() {
+	 return ("<" + std::to_string(w) + " , " + std::to_string(x) + " , " + std::to_string(y) + " , " + std::to_string(z) + ">");
+ }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -169,22 +250,22 @@ Matrix4 Matrix4::Identity() {
 
 //--------------------------------Operator Overloading-------------------------------------------\\
 
-inline Matrix4 Matrix4::operator*(const Matrix4& other) {
+ Matrix4 Matrix4::operator*(const Matrix4& other) {
 	return Matrix4(
-		Vec4::dot(getRowVector(0), other.getColVector(0)), Vec4::dot(getRowVector(0), other.getColVector(1)), Vec4::dot(getRowVector(0), other.getColVector(2)), Vec4::dot(getRowVector(0), getColVector(3)),
-		Vec4::dot(getRowVector(1), other.getColVector(0)), Vec4::dot(getRowVector(1), other.getColVector(1)), Vec4::dot(getRowVector(1), other.getColVector(2)), Vec4::dot(getRowVector(1), getColVector(3)),
-		Vec4::dot(getRowVector(2), other.getColVector(0)), Vec4::dot(getRowVector(2), other.getColVector(1)), Vec4::dot(getRowVector(2), other.getColVector(2)), Vec4::dot(getRowVector(2), getColVector(3)),
-		Vec4::dot(getRowVector(3), other.getColVector(0)), Vec4::dot(getRowVector(3), other.getColVector(1)), Vec4::dot(getRowVector(3), other.getColVector(2)), Vec4::dot(getRowVector(3), getColVector(3)));
+		Vec4::dot(getRowVector(0), other.getColVector(0)), Vec4::dot(getRowVector(0), other.getColVector(1)), Vec4::dot(getRowVector(0), other.getColVector(2)), Vec4::dot(getRowVector(0), other.getColVector(3)),
+		Vec4::dot(getRowVector(1), other.getColVector(0)), Vec4::dot(getRowVector(1), other.getColVector(1)), Vec4::dot(getRowVector(1), other.getColVector(2)), Vec4::dot(getRowVector(1), other.getColVector(3)),
+		Vec4::dot(getRowVector(2), other.getColVector(0)), Vec4::dot(getRowVector(2), other.getColVector(1)), Vec4::dot(getRowVector(2), other.getColVector(2)), Vec4::dot(getRowVector(2), other.getColVector(3)),
+		Vec4::dot(getRowVector(3), other.getColVector(0)), Vec4::dot(getRowVector(3), other.getColVector(1)), Vec4::dot(getRowVector(3), other.getColVector(2)), Vec4::dot(getRowVector(3), other.getColVector(3)));
 }
 
-inline Matrix4 Matrix4::operator*=(const Matrix4& other) {
+ Matrix4 Matrix4::operator*=(const Matrix4& other) {
 	for (int i = 0; i < 16; i++) {
 		values[i] = Vec4::dot(getRowVector(i / 4), getColVector(i % 4));
 	}
 	return *this;
 }
 
-inline Matrix4 Matrix4::operator+(const Matrix4& other) {
+ Matrix4 Matrix4::operator+(const Matrix4& other) {
 	return Matrix4(
 		values[0] + other.values[0], values[1] + other.values[1], values[2] + other.values[2], values[3] + other.values[3],
 		values[4] + other.values[4], values[5] + other.values[5], values[6] + other.values[6], values[7] + other.values[7],
@@ -192,14 +273,14 @@ inline Matrix4 Matrix4::operator+(const Matrix4& other) {
 		values[12] + other.values[12], values[13] + other.values[13], values[14] + other.values[14], values[15] + other.values[15]);
 }
 
-inline Matrix4 Matrix4::operator+=(const Matrix4& other) {
+ Matrix4 Matrix4::operator+=(const Matrix4& other) {
 	for (int i = 0; i < 16; i++) {
 		values[i] += other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix4 Matrix4::operator-(const Matrix4& other) {
+ Matrix4 Matrix4::operator-(const Matrix4& other) {
 	return Matrix4(
 		values[0] - other.values[0], values[1] - other.values[1], values[2] - other.values[2], values[3] - other.values[3],
 		values[4] - other.values[4], values[5] - other.values[5], values[6] - other.values[6], values[7] - other.values[7],
@@ -207,18 +288,49 @@ inline Matrix4 Matrix4::operator-(const Matrix4& other) {
 		values[12] - other.values[12], values[13] - other.values[13], values[14] - other.values[14], values[15] - other.values[15]);
 }
 
-inline Matrix4 Matrix4::operator-=(const Matrix4& other) {
+ Matrix4 Matrix4::operator-=(const Matrix4& other) {
 	for (int i = 0; i < 16; i++) {
 		values[i] -= other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix4 Matrix4::operator*=(const float& other) {
+ Matrix4 Matrix4::operator*=(const float& other) {
 	for (int i = 0; i < 16; i++) {
 		values[i] *= other;
 	}
+	return *this;
 }
+
+ Matrix4 Matrix4::operator*(const float& other) {
+	 Matrix4 result = Matrix4::Zero();
+	 for (int i = 0; i < 16; i++) {
+		 result.values[i] = values[i] * other;
+	 }
+	 return result;
+ }
+
+ void Matrix4::operator=(const Matrix4& other) {
+	 for (int i = 0; i < 16; i++) {
+		 values[i] = other.values[i];
+	 }
+ }
+
+ Vec4 Matrix4::operator*(const Vec4& other) {
+	 return Vec4(
+		 Vec4::dot(Matrix4::getRowVector(0), other),
+		 Vec4::dot(Matrix4::getRowVector(1), other),
+		 Vec4::dot(Matrix4::getRowVector(2), other),
+		 Vec4::dot(Matrix4::getRowVector(3), other));
+ }
+
+ std::string Matrix4::toString() {
+	 return (
+		 "{" + std::to_string(values[0]) + "," + std::to_string(values[1]) + "," + std::to_string(values[2]) + "," + std::to_string(values[3]) + "\n" +
+		 std::to_string(values[4]) + "," + std::to_string(values[5]) + "," + std::to_string(values[6]) + "," + std::to_string(values[7]) + "\n" +
+		 std::to_string(values[8]) + "," + std::to_string(values[9]) + "," + std::to_string(values[10]) + "," + std::to_string(values[11]) + "\n" +
+		 std::to_string(values[12]) + "," + std::to_string(values[13]) + "," + std::to_string(values[14]) + "," + std::to_string(values[15]) + "}");
+ }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -248,8 +360,8 @@ Matrix3 Matrix4::minor(int index) {
 
 Matrix4 Matrix4::cofactor() {
 	Matrix4 cofactorMatrix;
-	for (int i = 0; i < 15; i++) {
-		cofactorMatrix.values[i] = pow(-1, i % 3 + i / 3 + 1) * minor(i).det();
+	for (int i = 0; i < 16; i++) {
+		cofactorMatrix.values[i] = pow(-1, i % 4 + i / 4) * minor(i).det();
 	}
 	return cofactorMatrix;
 }
@@ -261,7 +373,7 @@ Matrix4 Matrix4::adjoint() {
 float Matrix4::det() {
 	float determ = 0;
 	for (int i = 0; i < 4; i++) {
-		determ += minor(i).det();
+		determ += pow(-1,i) * values[i] * minor(i).det();
 	}
 	return determ;
 }
@@ -297,37 +409,37 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 
 //--------------------------------Operator Overloading-------------------------------------------\\
 
-inline Quat Quat::operator*(const Quat& other) {
+Quat Quat::operator*(const Quat& other) {
 	return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector)));
 }
 
-inline Quat Quat::operator*(const float& other) {
+Quat Quat::operator*(const float& other) {
 	return (Quat(w * other, vector * other));
 }
 
-inline Quat Quat::operator*(const Vec3& other) {
+Quat Quat::operator*(const Vec3& other) {
 	return *this * Quat(0, other);
 }
 
-inline Quat Quat::operator+(const Quat& other) {
+Quat Quat::operator+(const Quat& other) {
 	return Quat(w + other.w, vector + other.vector);
 }
 
-inline Quat Quat::operator-(const Quat& other) {
+Quat Quat::operator-(const Quat& other) {
 	return Quat(w - other.w, vector - other.vector);
 }
 
-inline Quat Quat::operator/(const float& other) {
+Quat Quat::operator/(const float& other) {
 	return Quat(w / other, vector / other);
 }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
-inline Quat Quat::conjugate() {
+Quat Quat::conjugate() {
 	return Quat(w, vector * -1);
 }
 
-inline Quat Quat::inverse() {
+Quat Quat::inverse() {
 	return conjugate() / (Quat::length(*this) * Quat::length(*this));
 }
 

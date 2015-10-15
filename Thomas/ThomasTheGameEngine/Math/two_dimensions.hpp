@@ -16,16 +16,16 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	inline Vec2 operator+(const Vec2&) const;
-	inline Vec2 operator+=(const Vec2&);
-	inline void operator=(const Vec2&);
-	inline Vec2 operator-(const Vec2&) const;
-	inline Vec2 operator-=(const Vec2&);
-	inline Vec2 operator*(const float&) const;
-	inline Vec2 operator*=(const float&);
-	inline Vec2 operator/(const float&) const;
-	inline Vec2 operator/=(const float&);
-	inline std::string toString();
+	 Vec2 operator+(const Vec2&) const;
+	 Vec2 operator+=(const Vec2&);
+	 void operator=(const Vec2&);
+	 Vec2 operator-(const Vec2&) const;
+	 Vec2 operator-=(const Vec2&);
+	 Vec2 operator*(const float&) const;
+	 Vec2 operator*=(const float&);
+	 Vec2 operator/(const float&) const;
+	 Vec2 operator/=(const float&);
+	std::string toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -49,18 +49,18 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	inline Matrix2 operator+(const Matrix2&);
-	inline Matrix2 operator+=(const Matrix2&);
-	inline Matrix2 operator-(const Matrix2&);
-	inline Matrix2 operator-=(const Matrix2&);
-	inline Matrix2 operator*(const float&);
-	inline Matrix2 operator*=(const float&);
-	inline Matrix2 operator/(const float&);
-	inline Matrix2 operator/=(const float&);
-	inline Matrix2 operator=(const Matrix2&);
-	inline Matrix2 operator*(const Matrix2&);
-	inline Matrix2 operator*=(const Matrix2&);
-	inline std::string toString();
+	 Matrix2 operator+(const Matrix2&);
+	 Matrix2 operator+=(const Matrix2&);
+	 Matrix2 operator-(const Matrix2&);
+	 Matrix2 operator-=(const Matrix2&);
+	 Matrix2 operator*(const float&);
+	 Matrix2 operator*=(const float&);
+	 Matrix2 operator/(const float&);
+	 Matrix2 operator/=(const float&);
+	 Matrix2 operator=(const Matrix2&);
+	 Matrix2 operator*(const Matrix2&);
+	 Matrix2 operator*=(const Matrix2&);
+	 std::string toString();
 
 	//------------------------------------Actual Maths----------------------------------------------\\
 

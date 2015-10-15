@@ -14,17 +14,17 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	inline Quat operator*(const Quat&);
-	inline Quat operator*(const float&);
-	inline Quat operator*(const Vec3&);
-	inline Quat operator+(const Quat&);
-	inline Quat operator-(const Quat&);
-	inline Quat operator/(const float&);
+	 Quat operator*(const Quat&);
+	 Quat operator*(const float&);
+	 Quat operator*(const Vec3&);
+	 Quat operator+(const Quat&);
+	 Quat operator-(const Quat&);
+	 Quat operator/(const float&);
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
-	inline Quat conjugate();
-	inline Quat inverse();
+	 Quat conjugate();
+	 Quat inverse();
 	void NormalizeThis();
 
 	static Vec3 rotate(Quat, Vec3);
@@ -50,15 +50,16 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	inline Vec4 operator+(const Vec4&);
-	inline Vec4 operator+=(const Vec4&);
-	inline Vec4 operator-(const Vec4&);
-	inline Vec4 operator-=(const Vec4&);
-	inline Vec4 operator*(const float&);
-	inline Vec4 operator*=(const float&);
-	inline Vec4 operator/(const float&);
-	inline Vec4 operator/=(const float&);
-	inline void operator=(const Vec4&);
+	 Vec4 operator+(const Vec4&);
+	 Vec4 operator+=(const Vec4&);
+	 Vec4 operator-(const Vec4&);
+	 Vec4 operator-=(const Vec4&);
+	 Vec4 operator*(const float&);
+	 Vec4 operator*=(const float&);
+	 Vec4 operator/(const float&);
+	 Vec4 operator/=(const float&);
+	 void operator=(const Vec4&);
+	 std::string Vec4::toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -88,16 +89,17 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	inline Matrix4 operator+(const Matrix4&);
-	inline Matrix4 operator+=(const Matrix4&);
-	inline Matrix4 operator-(const Matrix4&);
-	inline Matrix4 operator-=(const Matrix4&);
-	inline Matrix4 operator*(const Matrix4&);
-	inline Matrix4 operator*=(const Matrix4&);
-	inline Matrix4 operator*(const float&);
-	inline Matrix4 operator*=(const float&);
-	inline void operator=(const Matrix4&);
-	inline Matrix4 operator*(const Vec4&);
+	 Matrix4 operator+(const Matrix4&);
+	 Matrix4 operator+=(const Matrix4&);
+	 Matrix4 operator-(const Matrix4&);
+	 Matrix4 operator-=(const Matrix4&);
+	 Matrix4 operator*(const Matrix4&);
+	 Matrix4 operator*=(const Matrix4&);
+	 Matrix4 operator*(const float&);
+	 Matrix4 operator*=(const float&);
+	 void operator=(const Matrix4&);
+	 Vec4 operator*(const Vec4&);
+	 std::string toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 

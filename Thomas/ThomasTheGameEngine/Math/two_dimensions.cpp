@@ -28,60 +28,61 @@ Vec2 Vec2::BasisY() {
 
 //------------Operators---------------\\
 
-inline Vec2 Vec2::operator+(const Vec2& value) const {
+ Vec2 Vec2::operator+(const Vec2& value) const {
 	return Vec2(x + value.x, y + value.y);
 }
 
-inline Vec2 Vec2::operator+=(const Vec2& value) {
+ Vec2 Vec2::operator+=(const Vec2& value) {
 	x += value.x;
 	y += value.y;
 	return *this;
 }
 
-inline Vec2 Vec2::operator-(const Vec2& value) const {
+ Vec2 Vec2::operator-(const Vec2& value) const {
 	return Vec2(x - value.x, y - value.y);
 }
 
-inline Vec2 Vec2::operator-=(const Vec2& value) {
+ Vec2 Vec2::operator-=(const Vec2& value) {
 	x -= value.x;
 	y -= value.y;
 	return *this;
 }
 
-inline Vec2 Vec2::operator*(const float& value) const {
+ Vec2 Vec2::operator*(const float& value) const {
 	return Vec2(x * value, y * value);
 }
 
-inline Vec2 Vec2::operator*=(const float& value) {
+ Vec2 Vec2::operator*=(const float& value) {
 	x *= value;
 	y *= value;
 	return *this;
 }
 
-inline Vec2 Vec2::operator/(const float& value) const {
+ Vec2 Vec2::operator/(const float& value) const {
 	return Vec2(x / value, y / value);
 }
 
-inline Vec2 Vec2::operator/=(const float& value) {
+ Vec2 Vec2::operator/=(const float& value) {
 	x /= value;
 	y /= value;
 	return *this;
 }
 
-inline void Vec2::operator=(const Vec2& value) {
+ void Vec2::operator=(const Vec2& value) {
 	x = value.x;
 	y = value.y;
 };
 
-inline std::string Vec2::toString(){
+std::string Vec2::toString() {
 	return ("<" + std::to_string(x) + "," + std::to_string(y) + ">");
 }
 
 //-----------Actual Maths---------\\
 
 void Vec2::NormalizeThis() {
-	x = x / Vec2::length(*this);
-	y = y / Vec2::length(*this);
+	float size = Vec2::length(*this);
+	x = x / size;
+	y = y / size;
 }
 
 
@@ -133,76 +134,82 @@ Matrix2 Matrix2::Rotate(float angle) {
 
 //--------------------------------Operator Overloading-------------------------------------------\\
 
-inline Matrix2 Matrix2::operator+(const Matrix2& other) {
+ Matrix2 Matrix2::operator+(const Matrix2& other) {
 	return Matrix2(
 		other.values[0] + values[0], other.values[1] + values[1],
 		other.values[2] + values[2], other.values[3] + values[3]);
 }
 
-inline Matrix2 Matrix2::operator+=(const Matrix2& other) {
+ Matrix2 Matrix2::operator+=(const Matrix2& other) {
 	for (int i = 0; i < 4; i++) {
 		values[i] = values[i] + other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix2 Matrix2::operator-(const Matrix2& other) {
+ Matrix2 Matrix2::operator-(const Matrix2& other) {
 	return Matrix2(
-		other.values[0] - values[0], other.values[1] - values[1],
-		other.values[2] - values[2], other.values[3] - values[3]);
+		values[0] - other.values[0], values[1] - other.values[1],
+		values[2] - other.values[2], values[3] - other.values[3]);
 }
 
-inline Matrix2 Matrix2::operator-=(const Matrix2& other) {
+ Matrix2 Matrix2::operator-=(const Matrix2& other) {
 	for (int i = 0; i < 4; i++) {
 		values[i] = values[i] - other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix2 Matrix2::operator*(const float& other){
+ Matrix2 Matrix2::operator*(const float& other){
 	return Matrix2(
 		values[0] * other, values[1] * other,
 		values[2] * other, values[3] * other);
 }
 
-inline Matrix2 Matrix2::operator*=(const float& other){
+ Matrix2 Matrix2::operator*=(const float& other){
 	for (int i = 0; i < 4; i++) {
 		values[i] = values[i] * other;
 	}
 	return *this;
 }
 
-inline Matrix2 Matrix2::operator/(const float& other){
+ Matrix2 Matrix2::operator/(const float& other){
 	return Matrix2(
 		values[0] / other, values[1] / other,
-		values[1] / other, values[2] / other);
+		values[2] / other, values[3] / other);
 }
 
-inline Matrix2 Matrix2::operator/=(const float& other) {
+ Matrix2 Matrix2::operator/=(const float& other) {
 	for (int i = 0; i < 4; i++) {
 		values[i] = values[i] / other;
 	}
 	return *this;
 }
-inline Matrix2 Matrix2::operator=(const Matrix2& other) {
+ Matrix2 Matrix2::operator=(const Matrix2& other) {
 	for (int i = 0; i < 4; i++) {
 		values[i] = other.values[i];
 	}
 	return *this;
 }
 
-inline Matrix2 Matrix2::operator*(const Matrix2& other) {
+ Matrix2 Matrix2::operator*(const Matrix2& other) {
 	return Matrix2(
 		Vec2::dot(getRowVector(0), other.getColVector(0)), Vec2::dot(getRowVector(0), other.getColVector(1)),
 		Vec2::dot(getRowVector(1), other.getColVector(0)), Vec2::dot(getRowVector(1), other.getColVector(1)));
 }
 
-inline Matrix2 Matrix2::operator*=(const Matrix2& other) {
+ Matrix2 Matrix2::operator*=(const Matrix2& other) {
 	for (int i = 0; i < 4; i++) {
 		values[i] = Vec2::dot(getRowVector(i / 2), other.getColVector(i % 2));
 	}
 	return *this;
 }
+
+ std::string Matrix2::toString() {
+	 return (
+		 "{" + std::to_string(values[0]) + "," + std::to_string(values[1]) + "\n" +
+		std::to_string(values[2]) + "," + std::to_string(values[3]) + "}");
+ }
 
 //------------------------------------Actual Maths----------------------------------------------\\
 
