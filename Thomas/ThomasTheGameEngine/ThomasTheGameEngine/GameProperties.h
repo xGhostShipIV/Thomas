@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AudioManager.h"
 #include "dependencies\TinyXML\tinyxml2.h"
 
 class GameProperties
@@ -43,9 +44,25 @@ public:
 	//Writes current values to the xml and saves it
 	static void ApplyChanges(){
 		vp->writeValues();
+
+		//A series of checks to ensure the volume values are between 0 and 1
+		//May not be neccesary?
+		if (ap->masterVolume > 1)ap->masterVolume = 1;
+		if (ap->masterVolume < 0)ap->masterVolume = 0;
+
+		if (ap->musicVolume > 1)ap->musicVolume = 1;
+		if (ap->musicVolume < 0)ap->musicVolume = 0;
+
+		if (ap->soundVolume > 1)ap->soundVolume = 1;
+		if (ap->soundVolume < 0)ap->soundVolume = 0;
+
 		ap->writeValues();
 
 		doc.SaveFile("properties.xml");
+
+		AudioManager * am = AudioManager::getInstance();
+		am->setSoundVolume(ap->soundVolume * ap->masterVolume);
+		am->setMusicVolume(ap->musicVolume * ap->masterVolume);
 	}
 
 	//Returns the address to the video propery struct

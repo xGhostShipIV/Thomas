@@ -1,4 +1,5 @@
 #include "AudioManager.h"
+#include "GameProperties.h"
 
 AudioManager * AudioManager::instance;
 
@@ -44,4 +45,14 @@ void AudioManager::loadSound(std::string _id, std::string _fileName)
 Sound * AudioManager::getSound(std::string _id)
 {
 	return Sounds.find(_id)->second;
+}
+
+void AudioManager::setSoundVolume(float _volume)
+{
+	Mix_Volume(-1, MIX_MAX_VOLUME * _volume);
+}
+
+void AudioManager::setMusicVolume(float _volume)
+{
+	Mix_VolumeMusic(MIX_MAX_VOLUME * _volume);
 }

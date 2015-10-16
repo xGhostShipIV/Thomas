@@ -12,6 +12,7 @@
 #include "OpenGLUtilities.h"
 #include "GameObject.h"
 #include "Input.h"
+#include "GameProperties.h"
 
 #include "Level.h"
 #include "AudioManager.h"
@@ -41,6 +42,7 @@ protected:
 
 public:
 
+	GameProperties * properties;
 	AudioManager * audioManager;
 	Level * currentLevel;
 
@@ -90,10 +92,6 @@ public:
 template<class T = GAMETYPE>
 Game<T>::Game()
 {
-	int width, height;
-	width = 1024;
-	height = 768;
-
 	/* Game Loop Flag */
 	isRunning = true;
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
@@ -103,9 +101,13 @@ Game<T>::Game()
 
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
+	properties = GameProperties::getInstance();
 
 	SDL_RendererInfo displayRendererInfo;
-	SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
+	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
+						SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
+
+	if (properties->getVideoProperties()->isFullscreen) SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
 
 	SDL_GetRendererInfo(gameRenderer, &displayRendererInfo);
 
@@ -130,6 +132,8 @@ Game<T>::~Game()
 {
 	/* delete SDL stuff */
 	delete audioManager;
+
+	delete properties;
 
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyRenderer(gameRenderer);

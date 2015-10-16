@@ -8,6 +8,10 @@
 
 class AudioManager
 {
+	//Friended with gameproperties so that when changes are applied to the properties
+	//the private setvolume methods are called.
+	friend class GameProperties;
+
 public:
 	~AudioManager();
 
@@ -20,17 +24,30 @@ public:
 		return instance;
 	}
 
+	//Load a sound into the map with the given identifier
 	void loadSound(std::string _id, std::string _fileName);
+
+	//Returns a sound with the given identifier
 	Sound * getSound(std::string _id);
 
+	//Loads a music into the map with the given identifier
 	void loadMusic(std::string _id, std::string _fileName);
+
+	//Returns a music from the map with the given identifier
 	Music * getMusic(std::string _id);
 
 private:
 	AudioManager();
 
+	//Maps to hold both Sounds and Musics
+	//Mapped with a string that acts as an identifier
 	std::map<std::string, Sound *> Sounds;
 	std::map<std::string, Music *> Musics;
+
+	//Private methods to change volume levels.
+	//Should only be accessed by GameProperties
+	void setSoundVolume(float _volume);
+	void setMusicVolume(float _volume);
 
 };
 

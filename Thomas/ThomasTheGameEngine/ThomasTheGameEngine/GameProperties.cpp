@@ -1,7 +1,9 @@
 #include "GameProperties.h"
+#include "AudioManager.h"
 #include <iostream>
 #include <string>
 
+GameProperties * GameProperties::instance;
 GameProperties::VideoProperties * GameProperties::vp;
 GameProperties::AudioProperties * GameProperties::ap;
 tinyxml2::XMLDocument GameProperties::doc;
@@ -13,10 +15,16 @@ GameProperties::GameProperties()
 	vp = new VideoProperties();
 	ap = new AudioProperties();
 
+	doc.LoadFile("properties.xml");
+
 	vp->readValues();
 	ap->readValues();
 
-	doc.LoadFile("properties.xml");
+	//These are called here in the constructor to ensure all audio is
+	//initialized to proper values.
+	AudioManager * am = AudioManager::getInstance();
+	am->setSoundVolume(ap->soundVolume * ap->masterVolume);
+	am->setMusicVolume(ap->musicVolume * ap->masterVolume);
 }
 
 
