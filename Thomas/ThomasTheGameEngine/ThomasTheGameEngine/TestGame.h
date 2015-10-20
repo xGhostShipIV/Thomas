@@ -53,12 +53,12 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers[ArrayBuffer]);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-		GLuint program = GLU::UseShaders("testGame.vert", "testGame.frag");
-
 		glVertexAttribPointer(vPosition, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(vPosition);
 
 		colorLocation = glGetUniformLocation(program, "fColor");
+
+		LoadLevel(new Level());
 
 	}
 	~TestGame(){}

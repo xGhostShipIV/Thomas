@@ -11,7 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Math\four_dimensions.hpp" />
+    <ClInclude Include="..\Math\three_dimensions.hpp" />
+    <ClInclude Include="..\Math\two_dimensions.hpp" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
     <ClInclude Include="Game.h" />
@@ -28,7 +32,11 @@
     <ClInclude Include="Thomas.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Math\four_dimensions.cpp" />
+    <ClCompile Include="..\Math\three_dimensions.cpp" />
+    <ClCompile Include="..\Math\two_dimensions.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="GameObject.cpp" />

@@ -17,6 +17,8 @@
 #include "Level.h"
 #include "AudioManager.h"
 
+#include "Camera.h"
+
 #define GAME Game<>::GetInstance() 
 
 class DefaultGame;
@@ -39,9 +41,9 @@ private:
 protected:	
 	/* Inits GLUT Window*/
 	Game();
+	GLuint program;
 
 public:
-
 	GameProperties * properties;
 	AudioManager * audioManager;
 	Level * currentLevel;
@@ -201,6 +203,8 @@ void Game<T>::EngineRender()
 	/* Render to screen */
 	SDL_GL_SwapWindow(gameWindow);
 	SDL_RenderPresent(gameRenderer);
+
+	glFlush();
 
 	PostRender();
 }

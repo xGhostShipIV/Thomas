@@ -11,5 +11,5 @@
 	<property id="drawDistance">1000</property>
 	<property id="width">1280</property>
 	<property id="height">720</property>
-	<property id="fullscreen">1</property>
+	<property id="fullscreen">0</property>
 </VideoProperty>

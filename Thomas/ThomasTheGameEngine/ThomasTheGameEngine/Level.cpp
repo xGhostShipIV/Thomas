@@ -1,8 +1,15 @@
 #include "Level.h"
-
+#include "OpenGLUtilities.h"
 
 Level::Level()
 {
+	GLuint program = GLU::UseShaders("testGame.vert", "testGame.frag");
+	cameraLocation = glGetUniformLocation(program, "cameraMatrix");
+
+	mainCamera = new Camera(cameraLocation);
+	currentCamera = mainCamera;
+
+	gameObjects.push_back(currentCamera);
 }
 
 
@@ -39,4 +46,9 @@ void Level::LevelCleanUp()
 		delete it._Ptr;
 	}
 	gameObjectsToBeDeleted.clear();
+}
+
+void Level::SetCamera(Camera * _c)
+{
+	currentCamera = _c;
 }
