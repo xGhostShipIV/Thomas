@@ -11,13 +11,22 @@ class TestGame;
 #define TEST_GAME_H
 
 #include "TestLevel.h"
+#include "closeGameInput.h"
 
 class TestGame : public Game<TestGame>
 {
+
 public:
 
 	TestGame()
 	{
+		instance = this;
+
+		inputManager = InputController::getInstance();
+		
+		CloseGame* Exit_Input = new CloseGame();
+		inputManager->bindKey(SDLK_ESCAPE, Exit_Input);
+
 		GLU::OutputOpenGLVersion();
 
 		program = GLU::UseShaders("testGame.vert", "testGame.frag");
@@ -34,7 +43,7 @@ protected:
 	/* Game Update Code Here */
 	void Update(UINT32)
 	{
-		if (Input::Keydown_W())
+		/*if (Input::Keydown_W())
 			currentLevel->currentCamera->CameraPosition.z += 0.1f;
 
 		if (Input::Keydown_S())
@@ -50,7 +59,10 @@ protected:
 			currentLevel->currentCamera->CameraPosition.y += 0.1f;
 
 		if (Input::Keydown_X())
-			currentLevel->currentCamera->CameraPosition.y -= 0.1f;
+			currentLevel->currentCamera->CameraPosition.y -= 0.1f;*/
+
+
+
 	}
 
 	/* Game Render Code Here */

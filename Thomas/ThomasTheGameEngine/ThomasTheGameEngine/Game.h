@@ -12,6 +12,7 @@
 #include "OpenGLUtilities.h"
 #include "GameObject.h"
 #include "Input.h"
+#include "InputComponent.h"
 #include "GameProperties.h"
 
 #include "Level.h"
@@ -30,7 +31,7 @@ class Game
 	friend class GameObject;
 
 private:
-	static T* instance;
+	
 	bool isRunning;
 	UINT32 lastUpdateTime, timeSincelastUpdate;
 
@@ -42,17 +43,21 @@ protected:
 	/* Inits GLUT Window*/
 	Game();
 	GLuint program;
-
+	static T* instance;
 public:
 	GameProperties * properties;
 	AudioManager * audioManager;
 	Level * currentLevel;
+	InputController * inputManager;
+	
 
 	/* Returns the instance of Game */
 	static T* GetInstance()
 	{
 		if (instance == nullptr)
 			instance = new T();
+
+		//static T* instance;
 
 		return instance;
 	}
@@ -77,6 +82,8 @@ public:
 
 	//Will load a new level into the engine & will unload the current level (if it exists)
 	void LoadLevel(Level * _level);
+
+	void setRunning(bool);
 };
 
 template<class T>
@@ -153,21 +160,24 @@ void Game<T>::StartGame()
 	while (isRunning)
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
-		if (timeSincelastUpdate >= 16)
+		if (timeSincelastUpdate >= 1000 / 24)
 		{
+			lastUpdateTime = SDL_GetTicks();
 
 			while (SDL_PollEvent(&evt))
 			{
-				Input::PostEvent(evt);
+				if(evt.type == SDL_KEYDOWN)
+				InputController::getInstance()->hitKey(evt.key.keysym.sym);
+				//Input::PostEvent(evt);
 			}
 			SDL_PumpEvents();
 
 			/* If user presses close button (top right X) or Esc key: exit game loop*/
-			if (Input::Button_Pressed_Close() || Input::Keydown_ESCAPE())
+			/*if (Input::Button_Pressed_Close() || Input::Keydown_ESCAPE())
 			{
 				isRunning = false;
 				printf("\nExit\n");
-			}
+			}*/
 
 			EngineUpdate(timeSincelastUpdate);
 			EngineRender();
@@ -201,10 +211,11 @@ void Game<T>::EngineRender()
 	Render();
 
 	/* Render to screen */
-	SDL_GL_SwapWindow(gameWindow);
 	SDL_RenderPresent(gameRenderer);
+	SDL_GL_SwapWindow(gameWindow);
+	
 
-	glFlush();
+	//glFlush();
 
 	PostRender();
 }
@@ -223,6 +234,11 @@ void Game<T>::LoadLevel(Level * _level)
 		delete currentLevel;
 
 	currentLevel = _level;
+}
+
+template<class T = GAMETYPE>
+void Game<T>::setRunning(bool _isRunning) {
+	isRunning = _isRunning;
 }
 
 #endif

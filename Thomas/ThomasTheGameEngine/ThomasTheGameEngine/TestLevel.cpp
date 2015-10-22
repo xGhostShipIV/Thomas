@@ -3,7 +3,10 @@
 //Example Level
 
 #include "TestLevel.h"
+#include "TestGame.h"
+#include "CameraInputTest.h"
 #include "Cube.h"
+#include "Game.h"
 
 Cube* cube;
 
@@ -31,6 +34,12 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 
 	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vPosition);
+
+	//Setup the input controller here
+	CameraUp * cho = new CameraUp(currentCamera);
+	currentCamera->addComponent(cho,cho);
+
+	TestGame::GetInstance()->inputManager->bindKey(SDLK_w, cho);
 }
 
 TestLevel::~TestLevel(){}
@@ -40,5 +49,5 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 	Level::LevelUpdate(_timeStep);
 
 	cube->colour = cube->colour > 1000 ? 0 : cube->colour + 1;
-	cube->Rotation.y += 1.f;
+	cube->Rotation.y += 0.1f;
 }

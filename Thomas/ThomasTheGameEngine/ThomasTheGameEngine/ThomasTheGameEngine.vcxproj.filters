@@ -78,6 +78,12 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CameraInputTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="closeGameInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -122,16 +128,19 @@
     <ClCompile Include="..\Math\four_dimensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Math\three_dimensions.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Math\two_dimensions.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Math\two_dimensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Math\three_dimensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="closeGameInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

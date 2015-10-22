@@ -16,6 +16,8 @@
     <ClInclude Include="..\Math\two_dimensions.hpp" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraInputTest.h" />
+    <ClInclude Include="closeGameInput.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
@@ -39,6 +41,7 @@
     <ClCompile Include="..\Math\two_dimensions.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="closeGameInput.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />

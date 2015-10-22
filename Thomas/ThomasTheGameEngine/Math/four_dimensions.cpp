@@ -204,13 +204,6 @@ float Vec4::dot(Vec4 first, Vec4 second) {
 
 //--------------------------------Constructors and Factories------------------------------------\\
 
-// no need for this... 
-//Matrix4::Matrix4() {
-//	for (int i = 0; i < 16; i++) {
-//		values[i] = 1;
-//	}
-//}
-
 //Default identity matrix
 Matrix4::Matrix4(
 	float _0, float _1, float _2, float _3,
@@ -230,7 +223,7 @@ Matrix4 Matrix4::Rotate(float angle_x, float angle_y, float angle_z)
 {
 	float toRads = 3.141592653589793f / 180.0f;
 
-	angle_x = angle_x * toRads;
+	angle_x = angle_x * toRads; 
 	angle_y = angle_y * toRads;
 	angle_z = angle_z * toRads;
 

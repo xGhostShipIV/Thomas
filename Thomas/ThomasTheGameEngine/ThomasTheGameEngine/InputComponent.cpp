@@ -3,7 +3,8 @@
 InputController * InputController::instance;
 
 void InputController::bindKey(SDL_Keycode key, InputComponent * action) {
-	inputMap[key] = action;
+	//inputMap[key] = action;
+	inputMap.insert(std::pair<SDL_Keycode, InputComponent*>(key, action));
 }
 
 void InputController::unbindKey(SDL_Keycode key) {
@@ -30,5 +31,6 @@ void InputController::swapKeybinds(SDL_Keycode key1, SDL_Keycode key2) {
 }
 
 void InputController::hitKey(SDL_Keycode key) {
+	if (inputMap.find(key) != inputMap.end())
 	inputMap.find(key)->second->whenPressed();
 }
