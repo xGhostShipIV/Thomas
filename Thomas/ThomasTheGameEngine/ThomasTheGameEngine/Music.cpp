@@ -13,7 +13,7 @@ Music::~Music()
 
 void Music::Play()
 {
-	if (Mix_PlayingMusic == 0)
+	if (Mix_PlayingMusic() == 0)
 	{
 		Mix_PlayMusic(music, isLooped);
 	}
@@ -26,7 +26,7 @@ void Music::Play()
 
 void Music::Stop()
 {
-	if (Mix_PlayingMusic != 0) Mix_HaltMusic();
+	if (Mix_PlayingMusic() != 0) Mix_HaltMusic();
 }
 
 void Music::Pause()

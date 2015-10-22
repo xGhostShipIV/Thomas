@@ -11,12 +11,12 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-	for (auto it = Sounds.end(); it != Sounds.begin(); it--)
+	for (auto it = Sounds.begin(); it != Sounds.end(); it++)
 	{
 		delete it->second;
 	}
 
-	for (auto it = Musics.end(); it != Musics.begin(); it--)
+	for (auto it = Musics.begin(); it != Musics.end(); it++)
 	{
 		delete it->second;
 	}

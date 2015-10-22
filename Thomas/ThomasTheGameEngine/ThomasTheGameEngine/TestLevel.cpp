@@ -6,9 +6,11 @@
 #include "TestGame.h"
 #include "CameraInputTest.h"
 #include "Cube.h"
+#include "AudioTester.h"
 #include "Game.h"
 
 Cube* cube;
+AudioTester * at;
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -22,6 +24,8 @@ GLuint Buffers[NumBuffers];
 TestLevel::TestLevel(GLuint _program) : Level(_program)
 {
 	cube = new Cube(_program);
+	at = new AudioTester();
+	gameObjects.push_back(at);
 	gameObjects.push_back(cube);
 
 

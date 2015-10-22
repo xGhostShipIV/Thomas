@@ -84,6 +84,9 @@
     <ClInclude Include="closeGameInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioTester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="closeGameInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
