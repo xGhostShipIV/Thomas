@@ -1,10 +1,9 @@
 #include "Level.h"
 #include "OpenGLUtilities.h"
 
-Level::Level()
+Level::Level(GLuint _program)
 {
-	GLuint program = GLU::UseShaders("testGame.vert", "testGame.frag");
-	cameraLocation = glGetUniformLocation(program, "cameraMatrix");
+	cameraLocation = glGetUniformLocation(_program, "cameraMatrix");
 
 	mainCamera = new Camera(cameraLocation);
 	currentCamera = mainCamera;
@@ -15,6 +14,7 @@ Level::Level()
 
 Level::~Level()
 {
+	LevelCleanUp();
 }
 
 void Level::LevelRender()

@@ -4,15 +4,15 @@ out vec4 fColor;
 
 void main()
 {	
-	float avgV = abs(colour);
-
-	float MEDIUM_LOW_SPEED = 250, 
-        MEDIUM_HIGH_SPEED = 500,
-            HIGH_SPEED = 750,
-                MAX_SPEED = 1000;
-    
-	if (avgV > 0)
+	if (colour > 0)
 	{
+		float avgV = abs(colour);
+
+		float MEDIUM_LOW_SPEED = 250, 
+			MEDIUM_HIGH_SPEED = 500,
+            HIGH_SPEED = 750,
+            MAX_SPEED = 1000;
+
 		float r = 0, g = 0, b = 0;
 
 		avgV = avgV < 0 ? 0 : avgV;

@@ -14,17 +14,17 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	 Quat operator*(const Quat&);
-	 Quat operator*(const float&);
-	 Quat operator*(const Vec3&);
-	 Quat operator+(const Quat&);
-	 Quat operator-(const Quat&);
-	 Quat operator/(const float&);
+	Quat operator*(const Quat&);
+	Quat operator*(const float&);
+	Quat operator*(const Vec3&);
+	Quat operator+(const Quat&);
+	Quat operator-(const Quat&);
+	Quat operator/(const float&);
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
-	 Quat conjugate();
-	 Quat inverse();
+	Quat conjugate();
+	Quat inverse();
 	void NormalizeThis();
 
 	static Vec3 rotate(Quat, Vec3);
@@ -50,16 +50,16 @@ public:
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	 Vec4 operator+(const Vec4&);
-	 Vec4 operator+=(const Vec4&);
-	 Vec4 operator-(const Vec4&);
-	 Vec4 operator-=(const Vec4&);
-	 Vec4 operator*(const float&);
-	 Vec4 operator*=(const float&);
-	 Vec4 operator/(const float&);
-	 Vec4 operator/=(const float&);
-	 void operator=(const Vec4&);
-	 std::string Vec4::toString();
+	Vec4 operator+(const Vec4&);
+	Vec4 operator+=(const Vec4&);
+	Vec4 operator-(const Vec4&);
+	Vec4 operator-=(const Vec4&);
+	Vec4 operator*(const float&);
+	Vec4 operator*=(const float&);
+	Vec4 operator/(const float&);
+	Vec4 operator/=(const float&);
+	void operator=(const Vec4&);
+	std::string Vec4::toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -75,31 +75,55 @@ public:
 
 	//--------------------------------Constructors and Factories------------------------------------\\
 
-	Matrix4();
+	//Matrix4(); // no need for this... 
+
+	//Default identity matrix
 	Matrix4(
-		float, float, float, float,
-		float, float, float, float,
-		float, float, float, float,
-		float, float, float, float);
+		float = 1, float = 0, float = 0, float = 0,
+		float = 0, float = 1, float = 0, float = 0,
+		float = 0, float = 0, float = 1, float = 0,
+		float = 0, float = 0, float = 0, float = 1);
 
 	static Matrix4 Rotate(Quat); //TODO -- Take other stuff??
+	static Matrix4 Rotate(float angle_x, float angle_y, float angle_z); //Rotation matrix (from my code -- Mat)
 	static Matrix4 Translate(float, float, float); //x,y,z
 	static Matrix4 Zero();
 	static Matrix4 Identity();
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	 Matrix4 operator+(const Matrix4&);
-	 Matrix4 operator+=(const Matrix4&);
-	 Matrix4 operator-(const Matrix4&);
-	 Matrix4 operator-=(const Matrix4&);
-	 Matrix4 operator*(const Matrix4&);
-	 Matrix4 operator*=(const Matrix4&);
-	 Matrix4 operator*(const float&);
-	 Matrix4 operator*=(const float&);
-	 void operator=(const Matrix4&);
-	 Vec4 operator*(const Vec4&);
-	 std::string toString();
+	Matrix4 operator+(const Matrix4&);
+	Matrix4 operator+=(const Matrix4&);
+	Matrix4 operator-(const Matrix4&);
+	Matrix4 operator-=(const Matrix4&);
+	Matrix4 operator*(const Matrix4&);
+	Matrix4 operator*=(const Matrix4&);
+	Matrix4 operator*(const float&);
+	Matrix4 operator*=(const float&);
+	void operator=(const Matrix4&);
+	Vec4 operator*(const Vec4&);
+	std::string toString();
+
+	//Entry access
+	struct Matrix4Entry
+	{
+		const int index;
+		const Matrix4* m;
+
+		Matrix4Entry(const int _index, const Matrix4* _m) : index(_index), m(_m){}
+
+		inline float operator[](const int& i2) const 
+		{
+			return m->values[(index * 4) + i2];
+		}
+	};
+
+	inline const Matrix4Entry& operator[](const int& i1) const
+	{
+		int index = i1;
+
+		return Matrix4Entry(index, this);
+	}
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 

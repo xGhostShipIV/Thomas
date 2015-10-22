@@ -6,7 +6,7 @@
 class Level
 {
 public:
-	Level();
+	Level(GLuint _program);
 	~Level();
 
 	GLuint cameraLocation;
@@ -20,7 +20,7 @@ public:
 	std::vector<GameObject *> gameObjectsToBeDeleted;
 
 	void LevelRender();
-	void LevelUpdate(UINT32 _timeStep);
+	virtual void LevelUpdate(UINT32 _timeStep);
 
 	void SetCamera(Camera * _c);
 

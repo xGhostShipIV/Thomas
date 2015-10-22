@@ -204,11 +204,14 @@ float Vec4::dot(Vec4 first, Vec4 second) {
 
 //--------------------------------Constructors and Factories------------------------------------\\
 
-Matrix4::Matrix4() {
-	for (int i = 0; i < 16; i++) {
-		values[i] = 1;
-	}
-}
+// no need for this... 
+//Matrix4::Matrix4() {
+//	for (int i = 0; i < 16; i++) {
+//		values[i] = 1;
+//	}
+//}
+
+//Default identity matrix
 Matrix4::Matrix4(
 	float _0, float _1, float _2, float _3,
 	float _4, float _5, float _6, float _7,
@@ -223,6 +226,31 @@ Matrix4::Matrix4(
 
 //Matrix4 Rotate(Quat); TODO -- Take a quat (vec4)?
 
+Matrix4 Matrix4::Rotate(float angle_x, float angle_y, float angle_z)
+{
+	float toRads = 3.141592653589793f / 180.0f;
+
+	angle_x = angle_x * toRads;
+	angle_y = angle_y * toRads;
+	angle_z = angle_z * toRads;
+
+	Matrix4 transformMatrix, xRotation, yRotation, zRotation;
+
+	xRotation = Matrix4(1, 0, 0, 0,
+		0, cos(angle_x), -sin(angle_x), 0,
+		0, sin(angle_x), cos(angle_x), 0);
+
+	yRotation = Matrix4(cos(angle_y), 0, sin(angle_y), 0,
+		0, 1, 0, 0,
+		-sin(angle_y), 0, cos(angle_y), 0);
+
+	zRotation = Matrix4(cos(angle_z), -sin(angle_z), 0, 0,
+		sin(angle_z), cos(angle_z), 0, 0);
+
+	transformMatrix = xRotation * yRotation * zRotation;
+
+	return transformMatrix;
+}
 
 Matrix4 Matrix4::Translate(float _x, float _y, float _z) {
 	return Matrix4(
@@ -384,81 +412,4 @@ Vec4 Matrix4::getRowVector(int row) const {
 
 Vec4 Matrix4::getColVector(int col) const {
 	return Vec4(values[0 + col], values[4 + col], values[8 + col], values[12 + col]);
-}
-
-//Quats
-
-//--------------------------------Constructors and Factories------------------------------------\\
-
-Quat::Quat() {
-	w = 1;
-	vector = Vec3::Zero();
-}
-
-Quat::Quat(float _w, Vec3 _vector) {
-	w = _w;
-	vector = _vector;
-}
-
-Quat::Quat(float _w, float _x, float _y, float _z) {
-	w = _w;
-	vector.x = _x;
-	vector.y = _y;
-	vector.z = _z;
-}
-
-//--------------------------------Operator Overloading-------------------------------------------\\
-
-Quat Quat::operator*(const Quat& other) {
-	return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector)));
-}
-
-Quat Quat::operator*(const float& other) {
-	return (Quat(w * other, vector * other));
-}
-
-Quat Quat::operator*(const Vec3& other) {
-	return *this * Quat(0, other);
-}
-
-Quat Quat::operator+(const Quat& other) {
-	return Quat(w + other.w, vector + other.vector);
-}
-
-Quat Quat::operator-(const Quat& other) {
-	return Quat(w - other.w, vector - other.vector);
-}
-
-Quat Quat::operator/(const float& other) {
-	return Quat(w / other, vector / other);
-}
-
-//--------------------------------Actual Maths----------------------------------------------------\\
-
-Quat Quat::conjugate() {
-	return Quat(w, vector * -1);
-}
-
-Quat Quat::inverse() {
-	return conjugate() / (Quat::length(*this) * Quat::length(*this));
-}
-
-void Quat::NormalizeThis() {
-	w /= Quat::length(*this);
-	vector /= Quat::length(*this);
-}
-
-Vec3 Quat::rotate(Quat rotation, Vec3 value) { //Assumes quat is normalized
-	return Quat(rotation * value * rotation.inverse()).vector;
-}
-
-float Quat::length(Quat value) {
-	return sqrt(value.w * value.w +
-		value.vector.x * value.vector.x +
-		value.vector.y * value.vector.y +
-		value.vector.z * value.vector.z);
-}
-
-float Quat::dot(Quat first, Quat second) {
-	return first.w * second.w + Vec3::dot(first.vector, second.vector);
 }

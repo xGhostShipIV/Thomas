@@ -17,6 +17,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="OpenGLUtilities.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="TestGame.h" />
+    <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Thomas.h" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +40,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameProperties.cpp" />
@@ -48,6 +51,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="TestLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testGame.frag" />

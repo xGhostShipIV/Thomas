@@ -179,10 +179,10 @@ void Game<T>::StartGame()
 template<class T = GAMETYPE>
 void Game<T>::EngineUpdate(UINT32 _timeStep)
 {
-	Update(_timeStep);
-
 	if (currentLevel)
 		currentLevel->LevelUpdate(_timeStep);
+
+	Update(_timeStep);
 }
 
 template<class T = GAMETYPE>
@@ -193,12 +193,12 @@ void Game<T>::EngineRender()
 	/* Clear The Screen And The Depth Buffer */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//Call the game specific Render function
-	Render();
-
 	//Call the update for the current level
 	if (currentLevel)
 		currentLevel->LevelRender();
+
+	//Call the game specific Render function
+	Render();
 
 	/* Render to screen */
 	SDL_GL_SwapWindow(gameWindow);
