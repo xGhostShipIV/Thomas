@@ -2,6 +2,7 @@
 #include "GameProperties.h"
 #include "dependencies\glm\glm.hpp"
 #include "dependencies\glm\gtc\matrix_transform.hpp"
+#include "dependencies\glm\gtc\type_ptr.hpp"
 
 #include <iostream>
 
@@ -20,16 +21,23 @@ void Camera::CalculateCameraMatrix()
 
 	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio, 0.00001f, gp->getVideoProperties()->drawDistance);
 	glm::mat4 m2 = glm::lookAt(glm::vec3(CameraPosition.x, CameraPosition.y, CameraPosition.z), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	
+	//Get array pointer to glm matrix
+	const float *mSource = (const float*)glm::value_ptr(m);
+	const float *m2Source = (const float*)glm::value_ptr(m2);
 
 	for (int i = 0; i < 16; i++)
 	{
-		projectionMatrix.values[i] = m[i % 4][i / 4];
-		modelViewMatrix.values[i] = m2[i % 4][i / 4];
-
-		//std::cout << std::endl << "i % 4 == " << i % 4 << "    i / 4 == " << i / 4;
+		projectionMatrix.values[i] = mSource[i];
+		modelViewMatrix.values[i] = m2Source[i];
 	}
-
+	
+	//Note: To get the same results as GLM we must transpose both before AND after multiplication.	
+	projectionMatrix = projectionMatrix.transpose();
+	modelViewMatrix = modelViewMatrix.transpose();
+	
 	cameraMatrix = projectionMatrix * modelViewMatrix;
+	cameraMatrix = cameraMatrix.transpose();
 }
 
 Matrix4 Camera::getMatrix() const

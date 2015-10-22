@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "../Math/four_dimensions.hpp"
 
-
 class Camera :
 	public GameObject
 {
