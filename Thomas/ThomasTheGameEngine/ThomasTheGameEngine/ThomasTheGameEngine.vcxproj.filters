@@ -102,6 +102,9 @@
     <ClInclude Include="AudioTester.h">
       <Filter>Header Files\Inputs</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -165,6 +168,9 @@
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
     <ClCompile Include="AudioTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

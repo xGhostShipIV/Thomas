@@ -8,7 +8,8 @@
 #include <glew.h>
 #include <freeglut.h>
 
-class Component;
+class Component; class Transform;
+
 typedef std::string Tag;
 
 class GameObject
@@ -52,8 +53,8 @@ public:
 	bool hasTag(Tag);
 
 	//Returns the address to a given component type
-	template<class TYPE>
-	TYPE * getComponent();
+	template<class TYPE> TYPE* getComponent();
+
 
 	//Triggers the isFlagged boolean
 	void Destroy();

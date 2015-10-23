@@ -87,6 +87,7 @@ public:
 	static Matrix4 Rotate(Quat); //TODO -- Take other stuff??
 	static Matrix4 Rotate(float angle_x, float angle_y, float angle_z); //Rotation matrix (from my code -- Mat)
 	static Matrix4 Translate(float, float, float); //x,y,z
+	static Matrix4 Scale(float _x, float _y, float _z);
 	static Matrix4 Zero();
 	static Matrix4 Identity();
 

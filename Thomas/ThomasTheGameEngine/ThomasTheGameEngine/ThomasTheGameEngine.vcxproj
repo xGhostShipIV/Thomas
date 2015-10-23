@@ -35,6 +35,7 @@
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Thomas.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Math\four_dimensions.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testGame.frag" />

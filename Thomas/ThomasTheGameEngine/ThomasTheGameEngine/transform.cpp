@@ -1,4 +1,5 @@
-#include "Transform.hpp"
+#include "Transform.h"
+#include "GameObject.h"
 
 void Transform::Translate(Vec3 _translate){
 	position += _translate;

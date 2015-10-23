@@ -1,6 +1,5 @@
 #pragma once
 #include "../Math/four_dimensions.hpp"
-#include "GameObject.h"
 #include "Component.h"
 
 class Transform : public Component {

@@ -3,7 +3,6 @@
 
 #include "GameObject.h"
 #include "Component.h"
-//#include "Game.h"
 
 GameObject::GameObject()
 {
@@ -74,12 +73,23 @@ bool GameObject::hasTag(Tag _tag)
 
 /* Returns a pointer to the first component found of the given type. */
 template<class TYPE>
-TYPE * GameObject::getComponent()
+TYPE* GameObject::getComponent()
 {
 	for (int i = 0; i < components.size(); i++)
 	{
 		if (typeid(*components[i]) == typeid(TYPE))
 			return (TYPE*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
+Transform* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if (typeid(*components[i]) == typeid(Transform))
+			return (Transform*)components[i];
 	}
 	return nullptr;
 }
