@@ -80,10 +80,10 @@ float Quat::dot(Quat first, Quat second) {
 //--------------------------------Constructors and Factories------------------------------------\\
 
 Vec4::Vec4() {
-	w = 1;
-	x = 1;
-	y = 1;
-	z = 1;
+	w = 0;
+	x = 0;
+	y = 0;
+	z = 0;
 }
 
 Vec4::Vec4(float _w, float _x, float _y, float _z) {

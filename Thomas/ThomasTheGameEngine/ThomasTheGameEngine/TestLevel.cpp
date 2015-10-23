@@ -3,10 +3,10 @@
 //Example Level
 
 #include "TestLevel.h"
-#include "TestGame.h"
 #include "CameraInputTest.h"
 #include "Cube.h"
-#include "Game.h"
+#include "TestGame.h"
+//#include "Game.h"
 
 Cube* cube;
 
@@ -36,10 +36,29 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 	glEnableVertexAttribArray(vPosition);
 
 	//Setup the input controller here
-	CameraUp * cho = new CameraUp(currentCamera);
-	currentCamera->addComponent(cho,cho);
+	CameraUp* cU = new CameraUp(currentCamera);
+	currentCamera->addComponent(cU, cU);
+	Game::GetInstance()->inputManager->bindKey(SDLK_SPACE, cU);
 
-	TestGame::GetInstance()->inputManager->bindKey(SDLK_w, cho);
+	CameraDown* cD = new CameraDown(currentCamera);
+	currentCamera->addComponent(cD, cD);
+	Game::GetInstance()->inputManager->bindKey(SDLK_x, cD);
+
+	CameraRight* cR = new CameraRight(currentCamera);
+	currentCamera->addComponent(cR, cR);
+	Game::GetInstance()->inputManager->bindKey(SDLK_d, cR);
+
+	CameraLeft* cL = new CameraLeft(currentCamera);
+	currentCamera->addComponent(cL, cL);
+	Game::GetInstance()->inputManager->bindKey(SDLK_a, cL);
+
+	CameraForward* cF = new CameraForward(currentCamera);
+	currentCamera->addComponent(cF, cF);
+	Game::GetInstance()->inputManager->bindKey(SDLK_w, cF);
+
+	CameraBackward* cB = new CameraBackward(currentCamera);
+	currentCamera->addComponent(cB, cB);
+	Game::GetInstance()->inputManager->bindKey(SDLK_s, cB);
 }
 
 TestLevel::~TestLevel(){}

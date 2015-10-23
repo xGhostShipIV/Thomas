@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
-#include "Game.h"
+//#include "Game.h"
 
 GameObject::GameObject()
 {

@@ -6,9 +6,9 @@
 //Constructors and Factories
 
 Vec3::Vec3() {
-	x = 1;
-	y = 1;
-	z = 1;
+	x = 0;
+	y = 0;
+	z = 0;
 }
 
 Vec3::Vec3(float _x, float _y, float _z) {
@@ -118,12 +118,6 @@ std::string Vec3::toString() {
 //--------------------------------------------------------Matrix------------------------------------------------------------------------\\
 
 //Constructors and Factories
-
-Matrix3::Matrix3() {
-	for (int i = 0; i < 9; i++) {
-		values[i] = 0;
-	}
-}
 
 Matrix3::Matrix3(float _0, float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8) {
 	values[0] = _0;

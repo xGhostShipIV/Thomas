@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Inputs">
+      <UniqueIdentifier>{197aa40e-9bd0-4857-bbfa-49fd8ef1a319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Levels">
+      <UniqueIdentifier>{5a9c8b26-6de4-4d69-82f4-c5bba936c9eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games">
+      <UniqueIdentifier>{959c5ebb-54a9-4e06-ac93-1635302680d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Levels">
+      <UniqueIdentifier>{f1444a44-6e26-4843-897f-9273e975b97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games">
+      <UniqueIdentifier>{66068696-b0e3-432e-b244-d86e0e72dabb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Thomas.h">
@@ -25,9 +40,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TestGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
@@ -75,14 +87,17 @@
     <ClInclude Include="Cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestLevel.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="closeGameInput.h">
+      <Filter>Header Files\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="CameraInputTest.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Inputs</Filter>
     </ClInclude>
-    <ClInclude Include="closeGameInput.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TestLevel.h">
+      <Filter>Header Files\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="TestGame.h">
+      <Filter>Header Files\Games</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,17 +146,20 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Math\two_dimensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Math\three_dimensions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="closeGameInput.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestGame.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

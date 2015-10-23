@@ -43,8 +43,7 @@ public:
 
 	//--------------------------------Constructors and Factories------------------------------------\\
 
-	Matrix2();
-	Matrix2(float, float, float, float); //4 in for 2x2
+	Matrix2(float=1, float=0, float=0, float=1); //4 in for 2x2
 	static Matrix2 Identity();
 	static Matrix2 Rotate(float);
 

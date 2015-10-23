@@ -43,8 +43,7 @@ public:
 
 	//--------------------------------Constructors and Factories------------------------------------\\
 
-	Matrix3();
-	Matrix3(float, float, float, float, float, float, float, float, float); //9 for building a custom matrix
+	Matrix3(float=1, float=0, float=0, float=0, float=1, float=0, float=0, float=0, float=1); //9 for building a custom matrix
 	static Matrix3 Identity();
 	static Matrix3 Rotate(float, int); //Angle - Axis (0 = x, 1 = y, 2 = z) This rotate is only for rotation about a basis axis (x/y/z)
 	static Matrix3 Translate(float, float);

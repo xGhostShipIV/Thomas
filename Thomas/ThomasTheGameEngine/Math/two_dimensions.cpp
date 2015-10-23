@@ -5,8 +5,8 @@
 //---------Constructors and Factories--------\\
 
 Vec2::Vec2() {
-	x = 1;
-	y = 1;
+	x = 0;
+	y = 0;
 }
 
 Vec2::Vec2(float _x, float _y) {
@@ -106,12 +106,6 @@ Vec2 Vec2::ortho(Vec2 value) { //Check back to confirm which one is negative
 //-----------------------------------------------Matrix--------------------------------\\
 
 //--------------------------------Constructors and Factories------------------------------------\\
-
-Matrix2::Matrix2() {
-	for (int i = 0; i < 4; i++) {
-		values[i] = 0;
-	}
-}
 
 Matrix2::Matrix2(float _0, float _1, float _2, float _3) {
 	values[0] = _0;
