@@ -99,6 +99,9 @@
     <ClInclude Include="TestGame.h">
       <Filter>Header Files\Games</Filter>
     </ClInclude>
+    <ClInclude Include="AudioTester.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Source Files\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioTester.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

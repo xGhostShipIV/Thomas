@@ -15,6 +15,7 @@
     <ClInclude Include="..\Math\three_dimensions.hpp" />
     <ClInclude Include="..\Math\two_dimensions.hpp" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="AudioTester.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\Math\three_dimensions.cpp" />
     <ClCompile Include="..\Math\two_dimensions.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="AudioTester.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Cube.cpp" />
