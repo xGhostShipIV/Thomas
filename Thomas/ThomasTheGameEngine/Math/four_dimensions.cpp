@@ -10,8 +10,10 @@ Quat::Quat() {
 }
 
 Quat::Quat(float _w, Vec3 _vector) {
-	w = _w;
-	vector = _vector;
+	w = cos(_w / 2);
+	vector.x = _vector.x * sin(_w / 2);
+	vector.y = _vector.y * sin(_w / 2);
+	vector.z = _vector.z * sin(_w / 2);
 }
 
 Quat::Quat(float _w, float _x, float _y, float _z) {
@@ -62,7 +64,8 @@ void Quat::NormalizeThis() {
 	vector /= Quat::length(*this);
 }
 
-Vec3 Quat::rotate(Quat rotation, Vec3 value) { //Assumes quat is normalized
+//Rotates the vec3 by the quaternion
+Vec3 Quat::rotate(Quat rotation, Vec3 value) {
 	return Quat(rotation * value * rotation.inverse()).vector;
 }
 
@@ -80,10 +83,10 @@ float Quat::dot(Quat first, Quat second) {
 //--------------------------------Constructors and Factories------------------------------------\\
 
 Vec4::Vec4() {
-	w = 0;
-	x = 0;
-	y = 0;
-	z = 0;
+	w = 1;
+	x = 1;
+	y = 1;
+	z = 1;
 }
 
 Vec4::Vec4(float _w, float _x, float _y, float _z) {
@@ -219,14 +222,9 @@ Matrix4::Matrix4(
 
 //Matrix4 Rotate(Quat); TODO -- Take a quat (vec4)?
 
+//Angles in radians.
 Matrix4 Matrix4::Rotate(float angle_x, float angle_y, float angle_z)
 {
-	float toRads = 3.141592653589793f / 180.0f;
-
-	angle_x = angle_x * toRads; 
-	angle_y = angle_y * toRads;
-	angle_z = angle_z * toRads;
-
 	Matrix4 transformMatrix, xRotation, yRotation, zRotation;
 
 	xRotation = Matrix4(1, 0, 0, 0,
@@ -251,6 +249,34 @@ Matrix4 Matrix4::Translate(float _x, float _y, float _z) {
 		0, 1, 0, _y,
 		0, 0, 1, _z,
 		0, 0, 0, 1);
+}
+
+Matrix4 Matrix4::Scale(float _x, float _y, float _z){
+	return Matrix4(
+		_x, 0, 0, 0,
+		0, _y, 0, 0,
+		0, 0, _z, 0,
+		0, 0, 0, 1);
+}
+
+Matrix4 Matrix4::Rotate(Quat _rotate){
+	Matrix4 rotationMatrix;
+	rotationMatrix.values[0] = 1 - 2 * _rotate.vector.y * _rotate.vector.y - 2 * _rotate.vector.z * _rotate.vector.z;
+	rotationMatrix.values[1] = 2 * (_rotate.vector.x * _rotate.vector.y - _rotate.vector.z * _rotate.w);
+	rotationMatrix.values[2] = 2 * (_rotate.vector.x * _rotate.vector.z + _rotate.vector.y * _rotate.w);
+	rotationMatrix.values[3] = 0;
+	rotationMatrix.values[4] = 2 * (_rotate.vector.x * _rotate.vector.y + _rotate.vector.z * _rotate.w);
+	rotationMatrix.values[5] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - _rotate.vector.z * _rotate.vector.z;
+	rotationMatrix.values[6] = 2 * (_rotate.vector.z * _rotate.vector.y - _rotate.vector.x * _rotate.w);
+	rotationMatrix.values[7] = 0;
+	rotationMatrix.values[8] = 2 * (_rotate.vector.z * _rotate.vector.x - _rotate.vector.y * _rotate.w);
+	rotationMatrix.values[9] = 2 * (_rotate.vector.z * _rotate.vector.y + _rotate.vector.x * _rotate.w);
+	rotationMatrix.values[10] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - _rotate.vector.y * _rotate.vector.y;
+	for (int i = 11; i < 15; i++){
+		rotationMatrix.values[i] = 0;
+	}
+	rotationMatrix.values[15] = 1;
+	return rotationMatrix;
 }
 
 Matrix4 Matrix4::Zero() {
