@@ -1,5 +1,7 @@
 #version 430 core
+
 layout(location = 1) in float colour;
+
 out vec4 fColor;
 
 void main()

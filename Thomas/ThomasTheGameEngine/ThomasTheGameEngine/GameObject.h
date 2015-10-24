@@ -7,8 +7,9 @@
 #include <typeinfo>
 #include <glew.h>
 #include <freeglut.h>
+#include"Transform.h"
 
-class Component; class Transform;
+class Component;
 
 typedef std::string Tag;
 
@@ -16,6 +17,8 @@ class GameObject
 {
 public:
 	GameObject();
+	GameObject(Vec3 _position);
+	GameObject(Transform _t);
 	~GameObject();
 
 	virtual void Render(){};
@@ -33,15 +36,12 @@ public:
 	//List of all objects that are children of this object
 	std::vector<GameObject *> childObjects;
 
-	//NOT IMPLEMENTED:
-	//Transform transform;
+	Transform * transform;
 
 
-	//The way i see this used is:
-	//  xComponent * _c = addComponent(new xComponent());
-	//That way, it adds itself to the list without us having to worry about it,
-	//but it also returns the address for storage in a variable.
+	//addComponent does not work as intended. Needs to be revisited
 	void addComponent(Component *, Component *);
+
 	void removeComponent(Component *);
 
 	void addTag(Tag);
@@ -53,7 +53,17 @@ public:
 	bool hasTag(Tag);
 
 	//Returns the address to a given component type
-	template<class TYPE> TYPE* getComponent();
+	template<class TYPE> 
+	TYPE* getComponent()
+	{
+		for (int i = 0; i < components.size(); i++)
+		{
+			if (typeid(*components[i]) == typeid(TYPE))
+				return (TYPE*)components[i];
+		}
+		return nullptr;
+	}
+
 
 
 	//Triggers the isFlagged boolean
