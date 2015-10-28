@@ -25,7 +25,7 @@ public:
 
 	Quat conjugate();
 	Quat inverse();
-	void NormalizeThis();
+	Quat NormalizeThis();
 
 	static Vec3 rotate(Quat, Vec3);
 	static float length(Quat);

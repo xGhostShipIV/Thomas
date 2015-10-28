@@ -26,27 +26,27 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 //--------------------------------Operator Overloading-------------------------------------------\\
 
  Quat Quat::operator*(const Quat& other) {
-	return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector)));
+	 return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector))).NormalizeThis();;
 }
 
  Quat Quat::operator*(const float& other) {
-	return (Quat(w * other, vector * other));
+	return (Quat(w * other, vector * other)).NormalizeThis();;
 }
 
  Quat Quat::operator*(const Vec3& other) {
-	return *this * Quat(0, other);
+	return (*this * Quat(0, other)).NormalizeThis();;
 }
 
  Quat Quat::operator+(const Quat& other) {
-	return Quat(w + other.w, vector + other.vector);
+	return Quat(w + other.w, vector + other.vector).NormalizeThis();;
 }
 
  Quat Quat::operator-(const Quat& other) {
-	return Quat(w - other.w, vector - other.vector);
+	return Quat(w - other.w, vector - other.vector).NormalizeThis();;
 }
 
  Quat Quat::operator/(const float& other) {
-	return Quat(w / other, vector / other);
+	return Quat(w / other, vector / other).NormalizeThis();;
 }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
