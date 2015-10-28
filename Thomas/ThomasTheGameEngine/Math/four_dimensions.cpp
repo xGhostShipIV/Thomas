@@ -220,8 +220,6 @@ Matrix4::Matrix4(
 	values[12] = _12; values[13] = _13; values[14] = _14; values[15] = _15;
 }
 
-//Matrix4 Rotate(Quat); TODO -- Take a quat (vec4)?
-
 //Angles in radians.
 Matrix4 Matrix4::Rotate(float angle_x, float angle_y, float angle_z)
 {

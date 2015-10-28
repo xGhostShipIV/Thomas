@@ -4,6 +4,8 @@
 
 class Transform : public Component {
 public:
+	Transform(Vec3 _position = Vec3::Zero(), Vec3 _scale = Vec3(1, 1, 1), Quat _rotation = Quat());
+
 	Vec3 position;
 	Vec3 scale;
 	Quat rotation;

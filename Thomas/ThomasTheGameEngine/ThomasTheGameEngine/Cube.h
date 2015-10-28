@@ -15,10 +15,9 @@ public:
 	float Length, colour;
 	float vertices[NumberOfVertices][3];
 
-	Vec3 Position, Rotation;
 	unsigned int faces[NumberOfVertices*3];
 
-	Cube(GLint _programID, float length = 1.0f, Vec3 position = Vec3::Zero());
+	Cube(GLint _programID, float _length = 1.0f, Vec3 _position = Vec3::Zero());
 	~Cube();
 
 	void Render() override;

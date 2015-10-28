@@ -71,5 +71,5 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 	Level::LevelUpdate(_timeStep);
 
 	cube->colour = cube->colour > 1000 ? 0 : cube->colour + 1;
-	cube->Rotation.y += 0.1f;
+	cube->transform->Rotate(Vec3(0, 0.1f, 0));
 }

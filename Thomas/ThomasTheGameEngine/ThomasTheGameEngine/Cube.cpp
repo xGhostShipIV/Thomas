@@ -10,10 +10,8 @@
 
 #include "Cube.h"
 
-Cube::Cube(GLint _programID, float length, Vec3 position) : program(_programID)
+Cube::Cube(GLint _programID, float _length, Vec3 _position) : program(_programID), Length(_length), GameObject(_position)
 {
-	Length = length;
-	Position = position;
 	colour = 0;
 
 	colourLocation = glGetUniformLocation(program, "fColor");
@@ -52,8 +50,8 @@ Cube::~Cube()
 
 void Cube::Render()
 {
-	glUniformMatrix4fv(rotLocation, 1, GL_FALSE, Matrix4::Rotate(Rotation.x, Rotation.y, Rotation.z).values);
-	glUniform4f(transLocation, Position.x, Position.y, Position.z, 0);
+	glUniformMatrix4fv(rotLocation, 1, GL_FALSE, Matrix4::Rotate(transform->rotation).values);
+	glUniform4f(transLocation, transform->position.x, transform->position.y, transform->position.z, 0);
 
 	DrawCubeSolid();
 	DrawCubeOutline();

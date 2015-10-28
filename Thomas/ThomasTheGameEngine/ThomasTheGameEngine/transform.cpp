@@ -1,6 +1,8 @@
 #include "Transform.h"
 #include "GameObject.h"
 
+Transform::Transform(Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale), rotation(_rotation){}
+
 void Transform::Translate(Vec3 _translate){
 	position += _translate;
 	for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
