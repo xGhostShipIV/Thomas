@@ -26,27 +26,27 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 //--------------------------------Operator Overloading-------------------------------------------\\
 
  Quat Quat::operator*(const Quat& other) {
-	 return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector))).NormalizeThis();;
+	 return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector))).NormalizeThis();
 }
 
  Quat Quat::operator*(const float& other) {
-	return (Quat(w * other, vector * other)).NormalizeThis();;
+	return (Quat(w * other, vector * other)).NormalizeThis();
 }
 
  Quat Quat::operator*(const Vec3& other) {
-	return (*this * Quat(0, other)).NormalizeThis();;
+	return (*this * Quat(0, other)).NormalizeThis();
 }
 
  Quat Quat::operator+(const Quat& other) {
-	return Quat(w + other.w, vector + other.vector).NormalizeThis();;
+	return Quat(w + other.w, vector + other.vector).NormalizeThis();
 }
 
  Quat Quat::operator-(const Quat& other) {
-	return Quat(w - other.w, vector - other.vector).NormalizeThis();;
+	return Quat(w - other.w, vector - other.vector).NormalizeThis();
 }
 
  Quat Quat::operator/(const float& other) {
-	return Quat(w / other, vector / other).NormalizeThis();;
+	return Quat(w / other, vector / other).NormalizeThis();
 }
 
 //--------------------------------Actual Maths----------------------------------------------------\\
@@ -59,9 +59,11 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 	return conjugate() / (Quat::length(*this) * Quat::length(*this));
 }
 
-void Quat::NormalizeThis() {
+ Quat Quat::NormalizeThis() {
 	w /= Quat::length(*this);
 	vector /= Quat::length(*this);
+
+	return *this;
 }
 
 //Rotates the vec3 by the quaternion

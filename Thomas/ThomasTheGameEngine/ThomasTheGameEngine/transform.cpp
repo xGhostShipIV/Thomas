@@ -1,7 +1,10 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-Transform::Transform(Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale), rotation(_rotation){}
+Transform::Transform(Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale)
+{
+	rotation = Quat(1, 0, 0, 0);
+}
 
 void Transform::Translate(Vec3 _translate){
 	position += _translate;
@@ -56,7 +59,7 @@ Vec3 Transform::getEuler(){
 }
 
 Vec3 Transform::forward(){
-	return rotation.vector;
+	return Quat::rotate(rotation,Vec3::BasisZ());
 }
 
 //Works according to the internet, needs testing.

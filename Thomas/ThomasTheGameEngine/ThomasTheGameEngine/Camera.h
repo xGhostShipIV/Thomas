@@ -6,9 +6,6 @@ class Camera :
 	public GameObject
 {
 public:
-	Vec3 CameraPosition;
-
-
 	Camera(GLuint _shaderPosition);
 	~Camera();
 

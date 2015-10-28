@@ -10,7 +10,7 @@ public:
 	CameraUp(Camera* _owner) : owner(_owner) {};
 
 	void whenPressed(){
-		owner->CameraPosition.y += 0.1f;
+		owner->transform->position.y += 0.1f;
 	}
 };
 
@@ -22,7 +22,7 @@ public:
 	CameraDown(Camera* _owner) : owner(_owner) {};
 
 	void whenPressed(){
-		owner->CameraPosition.y -= 0.1f;
+		owner->transform->position.y -= 0.1f;
 	}
 };
 
@@ -33,7 +33,7 @@ class CameraRight : public InputComponent {
 public:
 	CameraRight(Camera* _owner) : owner(_owner) {};
 	void whenPressed(){
-		owner->CameraPosition.x += 0.1f;
+		owner->transform->position.x -= 0.1f;
 	}
 };
 
@@ -44,7 +44,7 @@ class CameraLeft : public InputComponent {
 public:
 	CameraLeft(Camera* _owner) : owner(_owner) {};
 	void whenPressed(){
-		owner->CameraPosition.x -= 0.1f;
+		owner->transform->position.x += 0.1f;
 	}
 };
 
@@ -55,7 +55,7 @@ class CameraForward : public InputComponent {
 public:
 	CameraForward(Camera* _owner) : owner(_owner) {};
 	void whenPressed(){
-		owner->CameraPosition.z += 0.1f;
+		owner->transform->position.z += 0.1f;
 	}
 };
 
@@ -66,6 +66,28 @@ class CameraBackward : public InputComponent {
 public:
 	CameraBackward(Camera* _owner) : owner(_owner) {};
 	void whenPressed(){
-		owner->CameraPosition.z -= 0.1f;
+		owner->transform->position.z -= 0.1f;
+	}
+};
+
+class CameraTurnLeft : public InputComponent {
+
+	Camera* owner;
+
+public:
+	CameraTurnLeft(Camera* _owner) : owner(_owner) {};
+	void whenPressed(){
+		owner->transform->rotation = Quat(0.92387953f, 0, 0.382683432f,0);
+	}
+};
+
+class CameraTurnRight : public InputComponent {
+
+	Camera* owner;
+
+public:
+	CameraTurnRight(Camera* _owner) : owner(_owner) {};
+	void whenPressed(){
+		owner->transform->Rotate(Vec3(0, -0.1f, 0));
 	}
 };

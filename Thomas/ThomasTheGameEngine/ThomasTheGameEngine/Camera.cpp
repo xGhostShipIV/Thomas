@@ -6,12 +6,9 @@
 
 #include <iostream>
 
-Camera::Camera(GLuint _shaderPosition)
+Camera::Camera(GLuint _shaderPosition) : GameObject(Vec3(0, 0, -2))
 {
-	CameraPosition = Vec3(0, 0, -2);
-		
-	CalculateCameraMatrix();
-	
+	CalculateCameraMatrix();	
 	shaderPosition = _shaderPosition;
 }
 
@@ -20,7 +17,11 @@ void Camera::CalculateCameraMatrix()
 	GameProperties * gp = GameProperties::getInstance();
 
 	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio, 0.00001f, gp->getVideoProperties()->drawDistance);
-	glm::mat4 m2 = glm::lookAt(glm::vec3(CameraPosition.x, CameraPosition.y, CameraPosition.z), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+	Vec4 camForward = (Matrix4::Rotate(transform->rotation) * Vec4::BasisZ());
+	Vec3 forawrd = transform->position + Vec3(camForward.x, camForward.y, camForward.z);
+
+	glm::mat4 m2 = glm::lookAt(glm::vec3(transform->position.x, transform->position.y, transform->position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), glm::vec3(0, 1, 0));
 	
 	//Get array pointer to glm matrix
 	const float *mSource = (const float*)glm::value_ptr(m);

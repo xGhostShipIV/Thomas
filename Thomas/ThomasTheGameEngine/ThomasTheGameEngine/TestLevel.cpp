@@ -38,6 +38,8 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vPosition);
 
+	currentCamera->transform->position = Vec3(0, 0, -2);
+
 	//Setup the input controller here
 	CameraUp* cU = new CameraUp(currentCamera);
 	currentCamera->addComponent(cU, cU);
@@ -62,6 +64,14 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 	CameraBackward* cB = new CameraBackward(currentCamera);
 	currentCamera->addComponent(cB, cB);
 	Game::GetInstance()->inputManager->bindKey(SDLK_s, cB);
+
+	CameraTurnLeft* cTL = new CameraTurnLeft(currentCamera);
+	currentCamera->addComponent(cTL, cTL);
+	Game::GetInstance()->inputManager->bindKey(SDLK_q, cTL);
+
+	CameraTurnRight* cTR = new CameraTurnRight(currentCamera);
+	currentCamera->addComponent(cTR, cTR);
+	Game::GetInstance()->inputManager->bindKey(SDLK_e, cTR);
 }
 
 TestLevel::~TestLevel(){}
