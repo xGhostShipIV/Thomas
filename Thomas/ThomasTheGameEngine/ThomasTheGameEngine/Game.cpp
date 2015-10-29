@@ -8,6 +8,7 @@
 #include "InputComponent.h"
 #include "GameProperties.h"
 #include "AudioManager.h"
+#include "ModelManager.h"
 #include "Camera.h"
 #include "OpenGLUtilities.h"
 
@@ -27,6 +28,7 @@ Game::Game()
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
 	properties = GameProperties::getInstance();
+	modelManager = ModelManager::getInstance();
 
 	SDL_RendererInfo displayRendererInfo;
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
@@ -56,7 +58,7 @@ Game::~Game()
 {
 	/* delete SDL stuff */
 	delete audioManager;
-
+	delete modelManager;
 	delete properties;
 
 	SDL_GL_DeleteContext(glcontext);

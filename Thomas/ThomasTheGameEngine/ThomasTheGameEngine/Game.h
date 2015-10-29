@@ -12,7 +12,7 @@
 
 #define GAME Game::GetInstance() 
 
-class Level; class GameProperties; class AudioManager; class InputController;
+class Level; class GameProperties; class AudioManager; class ModelManager; class InputController;
 
 class Game
 {
@@ -34,6 +34,7 @@ protected:
 public:
 	GameProperties * properties;
 	AudioManager * audioManager;
+	ModelManager * modelManager;
 	Level * currentLevel;
 	InputController * inputManager;
 	
