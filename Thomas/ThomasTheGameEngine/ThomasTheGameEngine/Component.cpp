@@ -1,7 +1,8 @@
 #include "Component.h"
 
-Component::Component()
+Component::Component(GameObject * _go)
 {
+	parentObject = _go;
 }
 
 Component::~Component()

@@ -18,7 +18,9 @@ TestGame::TestGame()
 
 	inputManager = InputController::getInstance();
 
-	CloseGame* Exit_Input = new CloseGame();
+	//Totally overlook and ignore the gameobject added here
+	CloseGame* Exit_Input = new CloseGame(new GameObject());
+
 	inputManager->bindKey(SDLK_ESCAPE, Exit_Input);
 
 	GLU::OutputOpenGLVersion();

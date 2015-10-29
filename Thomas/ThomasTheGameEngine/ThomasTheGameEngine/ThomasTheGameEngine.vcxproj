@@ -31,6 +31,8 @@
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="OpenGLUtilities.h" />
+    <ClInclude Include="Primitive.h" />
+    <ClInclude Include="Renderable.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestLevel.h" />
@@ -56,6 +58,7 @@
     <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestLevel.cpp" />

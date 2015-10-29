@@ -25,7 +25,7 @@ class PlaySound : public InputComponent
 public:
 	AudioTester * owner;
 
-	PlaySound(AudioTester * _a){
+	PlaySound(AudioTester * _a) : InputComponent(_a){
 		owner = _a;
 	}
 
@@ -39,7 +39,7 @@ class PlayMusic : public InputComponent
 public:
 	AudioTester * owner;
 
-	PlayMusic(AudioTester * _a){
+	PlayMusic(AudioTester * _a) : InputComponent(_a){
 		owner = _a;
 	}
 

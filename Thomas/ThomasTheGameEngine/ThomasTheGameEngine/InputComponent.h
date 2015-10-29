@@ -7,6 +7,11 @@
 
 class InputComponent : public Component {
 public:
+	InputComponent(GameObject *);
+
+	//Probably a good idea to unbind the key within the destructor
+	~InputComponent();
+
 	virtual void whenPressed() = 0;
 };
 

@@ -1,9 +1,14 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-Transform::Transform(Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale)
+Transform::Transform(GameObject * _go, Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale), Component(_go)
 {
 	rotation = Quat(1, 0, 0, 0);
+}
+
+Transform::Transform(GameObject * _go, Transform & _t) : Component(_go)
+{
+	*this = _t;
 }
 
 void Transform::Translate(Vec3 _translate){

@@ -7,22 +7,19 @@
 GameObject::GameObject()
 {
 	isFlagged = false;
-	transform = new  Transform();
-	addComponent(transform, transform);
+	transform = new  Transform(this);
 }
 
 GameObject::GameObject(Vec3 _position)
 {
 	isFlagged = false;
-	transform = new  Transform(_position);
-	addComponent(transform, transform);
+	transform = new  Transform(this, _position);
 }
 
 GameObject::GameObject(Transform _t)
 {
 	isFlagged = false;
-	transform = new  Transform(_t);
-	addComponent(transform, transform);
+	transform = new  Transform(this, _t);
 }
 
 
@@ -31,15 +28,6 @@ GameObject::~GameObject()
 {
 }
 
-/* Adds the first parameter to the objects component list while passing its
-  address into the second parameter for use later. */
-void GameObject::addComponent(Component * _newComponent, Component * _outPut)
-{
-	_newComponent->parentObject = this;
-
-	components.push_back(_newComponent);
-	_outPut = _newComponent;
-}
 
 /* Removes parameter component from list of components and deletes it from memory */
 void GameObject::removeComponent(Component * _c)

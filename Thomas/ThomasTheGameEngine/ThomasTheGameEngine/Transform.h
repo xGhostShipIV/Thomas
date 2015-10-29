@@ -4,7 +4,8 @@
 
 class Transform : public Component {
 public:
-	Transform(Vec3 _position = Vec3::Zero(), Vec3 _scale = Vec3(1, 1, 1), Quat _rotation = Quat(1, 0, 0, 0));
+	Transform(GameObject * _go, Vec3 _position = Vec3::Zero(), Vec3 _scale = Vec3(1, 1, 1), Quat _rotation = Quat(1, 0, 0, 0));
+	Transform(GameObject * _go, Transform& _t);
 
 	Vec3 position;
 	Vec3 scale;

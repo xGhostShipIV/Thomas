@@ -2,6 +2,15 @@
 
 InputController * InputController::instance;
 
+InputComponent::InputComponent(GameObject * _go) : Component(_go){
+
+}
+
+InputComponent::~InputComponent()
+{
+
+}
+
 void InputController::bindKey(SDL_Keycode key, InputComponent * action) {
 	//inputMap[key] = action;
 	inputMap.insert(std::pair<SDL_Keycode, InputComponent*>(key, action));
