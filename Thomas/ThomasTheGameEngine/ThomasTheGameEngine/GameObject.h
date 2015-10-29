@@ -38,10 +38,6 @@ public:
 
 	Transform * transform;
 
-
-	//addComponent does not work as intended. Needs to be revisited
-	void addComponent(Component *, Component *);
-
 	void removeComponent(Component *);
 
 	void addTag(Tag);

@@ -42,35 +42,27 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 
 	//Setup the input controller here
 	CameraUp* cU = new CameraUp(currentCamera);
-	currentCamera->addComponent(cU, cU);
 	Game::GetInstance()->inputManager->bindKey(SDLK_SPACE, cU);
 
 	CameraDown* cD = new CameraDown(currentCamera);
-	currentCamera->addComponent(cD, cD);
 	Game::GetInstance()->inputManager->bindKey(SDLK_x, cD);
 
 	CameraRight* cR = new CameraRight(currentCamera);
-	currentCamera->addComponent(cR, cR);
 	Game::GetInstance()->inputManager->bindKey(SDLK_d, cR);
 
 	CameraLeft* cL = new CameraLeft(currentCamera);
-	currentCamera->addComponent(cL, cL);
 	Game::GetInstance()->inputManager->bindKey(SDLK_a, cL);
 
 	CameraForward* cF = new CameraForward(currentCamera);
-	currentCamera->addComponent(cF, cF);
 	Game::GetInstance()->inputManager->bindKey(SDLK_w, cF);
 
 	CameraBackward* cB = new CameraBackward(currentCamera);
-	currentCamera->addComponent(cB, cB);
 	Game::GetInstance()->inputManager->bindKey(SDLK_s, cB);
 
 	CameraTurnLeft* cTL = new CameraTurnLeft(currentCamera);
-	currentCamera->addComponent(cTL, cTL);
 	Game::GetInstance()->inputManager->bindKey(SDLK_q, cTL);
 
 	CameraTurnRight* cTR = new CameraTurnRight(currentCamera);
-	currentCamera->addComponent(cTR, cTR);
 	Game::GetInstance()->inputManager->bindKey(SDLK_e, cTR);
 }
 
