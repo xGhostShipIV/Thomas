@@ -20,6 +20,7 @@ public:
 	Quat operator+(const Quat&);
 	Quat operator-(const Quat&);
 	Quat operator/(const float&);
+	std::string Quat::toString();
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 

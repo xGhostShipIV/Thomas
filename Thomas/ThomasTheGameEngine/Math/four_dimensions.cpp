@@ -26,28 +26,40 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 //--------------------------------Operator Overloading-------------------------------------------\\
 
  Quat Quat::operator*(const Quat& other) {
-	 return Quat(w * other.w - Vec3::dot(vector, other.vector), Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector))).NormalizeThis();
+	 Quat returner;
+	 returner.w = w * other.w - Vec3::dot(vector, other.vector);
+	 returner.vector = Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector));
+	 return returner;
 }
 
  Quat Quat::operator*(const float& other) {
-	return (Quat(w * other, vector * other)).NormalizeThis();
+	 Quat returner;
+	 returner.w = w * other;
+	 returner.vector = vector * other;
+	 return returner;
 }
 
  Quat Quat::operator*(const Vec3& other) {
-	return (*this * Quat(0, other)).NormalizeThis();
+	return (*this * Quat(0, other.x,other.y,other.z));
 }
 
  Quat Quat::operator+(const Quat& other) {
-	return Quat(w + other.w, vector + other.vector).NormalizeThis();
+	return Quat(w + other.w, vector + other.vector);
 }
 
  Quat Quat::operator-(const Quat& other) {
-	return Quat(w - other.w, vector - other.vector).NormalizeThis();
+	return Quat(w - other.w, vector - other.vector);
 }
 
  Quat Quat::operator/(const float& other) {
-	return Quat(w / other, vector / other).NormalizeThis();
+	return Quat(w / other, vector / other);
 }
+
+ std::string Quat::toString() {
+	 return ("<" + std::to_string(w) + " , " + std::to_string(vector.x) + " , " + std::to_string(vector.y) + " , " + std::to_string(vector.z) + ">");
+ }
+
+
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
@@ -60,8 +72,9 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 }
 
  Quat Quat::NormalizeThis() {
-	w /= Quat::length(*this);
-	vector /= Quat::length(*this);
+	 float length = Quat::length(*this);
+	w /= length;
+	vector /= length;
 
 	return *this;
 }

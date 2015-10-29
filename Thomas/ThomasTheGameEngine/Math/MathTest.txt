@@ -29,14 +29,10 @@ List of untested math functions. If it's not on this list safe to use.
 	Matrix3 operator*=(const Matrix3&);
 
 	//4d Testbed
-	Quat();
 	Quat(float, Vec3);
-	Quat(float, float, float, float);
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
-	Quat operator*(const Quat&);
-	Quat operator*(const float&);
 	Quat operator*(const Vec3&);
 	Quat operator+(const Quat&);
 	Quat operator-(const Quat&);
@@ -46,10 +42,8 @@ List of untested math functions. If it's not on this list safe to use.
 
 	Quat conjugate();
 	Quat inverse();
-	void NormalizeThis();
 
 	static Vec3 rotate(Quat, Vec3);
-	static float length(Quat);
 	static float dot(Quat, Quat);
 
 	//VEC4
@@ -61,8 +55,6 @@ List of untested math functions. If it's not on this list safe to use.
 	Vec4 operator*=(const float&);
 	Vec4 operator/=(const float&);
 	void operator=(const Vec4&);
-
-	static Matrix4 Rotate(Quat); //TODO -- Take other stuff?? Not defined yet
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 

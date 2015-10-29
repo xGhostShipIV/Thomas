@@ -1,19 +1,24 @@
 #include "Component.h"
 #include <vector>
 #include "../Math/four_dimensions.hpp"
-class Renderable : public Component
+
+
+class Renderable
 {
 public:
-	Renderable(GameObject * _go) : Component(_go){
-	}
+	Renderable();
+	~Renderable(){};
 
-	~Renderable(){}
-
-	std::vector<Vec3> vertices;
-	std::vector<int> edges;
+	std::vector<Vec3> vertex;
+	std::vector<int> face;
+	std::vector<Vec3> normal;
 
 	virtual void Draw() = 0;
 private:
-	int offset;
-	Vec4 colour;
+	int offsetVertex;
+	int offsetFace;
+};
+
+class OpenGL_Renderable : public Renderable {
+	void draw();
 };
