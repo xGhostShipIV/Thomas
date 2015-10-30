@@ -3,7 +3,10 @@
 #include <string>
 
 class RenderableComponent : public Component {
+
 public:
 	std::string modelName;
 	RenderableComponent(std::string, GameObject*);
+
+	void DrawModel();
 };

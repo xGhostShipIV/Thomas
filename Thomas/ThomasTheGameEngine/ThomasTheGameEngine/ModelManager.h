@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <map>
+#include "../Math/four_dimensions.hpp"
 
 #define RENDER_MODE_OPENGL ModelManager::Render_OpenGL
 #define RENDER_MODE_DIRECTX ModelManager::Render_DirectX
@@ -13,6 +15,8 @@ typedef std::string string;
 
 class ModelManager
 {
+	friend class RenderableComponent;
+
 	//An enumeration to set which graphics engine is being used
 	enum Render_Mode{
 		Render_OpenGL,
@@ -40,20 +44,33 @@ public:
 	//it into the map of models with the _id as its string
 	void loadModel(string _id, string _fileName);
 
-	//Goes into the model map and returns a pointer to the renderable
-	//with the given tag
-	Renderable * getModel(string _id);
-
 	//called to delete all models in memory and clear the model map
 	void unloadModels();
 
+	//Pushed all model information to the GPU
+	void PrimeModels();
+
+	/* PRIMITIVE FACTORY METHODS */
+	void CreateCuboid(string _id, float _h, float _w, float _l);
+	void CreateSphere(string _id, float _r){}
+	void CreatePyramid(string _id, float _w, float _l, float _h){}
+	void CreateCone(string _id, float _r, float _h){}
+	void CreateCylinder(string _id, float _r, float _h){}
+
 private:
 	ModelManager(Render_Mode = Render_OpenGL);
+
+	//Goes into the model map and returns a pointer to the renderable
+	//with the given tag
+	Renderable * getModel(string _id);
 
 	//stores the current render mode for initialization of renderables
 	Render_Mode render_mode;
 
 	//The map to store all models
 	std::map<string, Renderable *> models;
+
+	//The master Vector list that will ultimately be pushed to the GPU
+	std::vector<Vec3> masterVectorList;
 };
 

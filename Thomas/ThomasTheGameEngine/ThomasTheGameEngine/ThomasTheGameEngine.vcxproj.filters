@@ -108,10 +108,10 @@
     <ClInclude Include="Renderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Primitive.h">
+    <ClInclude Include="ModelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelManager.h">
+    <ClInclude Include="DrawComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,10 +182,10 @@
     <ClCompile Include="transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Primitive.cpp">
+    <ClCompile Include="ModelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelManager.cpp">
+    <ClCompile Include="DrawComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

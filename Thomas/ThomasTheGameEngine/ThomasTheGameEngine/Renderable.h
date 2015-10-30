@@ -5,8 +5,8 @@
 
 class Renderable
 {
+	friend class ModelManager;
 public:
-	Renderable();
 	~Renderable(){};
 
 	std::vector<Vec3> vertex;
@@ -14,11 +14,16 @@ public:
 	std::vector<Vec3> normal;
 
 	virtual void Draw() = 0;
+
 private:
 	int offsetVertex;
 	int offsetFace;
+
+protected:
+	Renderable(){};
 };
 
 class OpenGL_Renderable : public Renderable {
-	void draw();
+public:
+	void Draw() override {}
 };
