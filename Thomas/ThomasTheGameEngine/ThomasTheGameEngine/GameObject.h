@@ -16,11 +16,13 @@ typedef std::string Tag;
 class GameObject
 {
 public:
+	//Various constructors to set the starting position of a gameObject
 	GameObject();
 	GameObject(Vec3 _position);
 	GameObject(Transform _t);
 	~GameObject();
 
+	//Render and update functionalities specific to the gameObject
 	virtual void Render();
 	virtual void Update(UINT32 _deltaTime){};
 
@@ -38,15 +40,26 @@ public:
 
 	Transform * transform;
 
+	//Removes the specified component from the gameObject
 	void removeComponent(Component *);
 
+	//Adds a string tag to the gameObject. Tags can be used
+	//as an easy way to identify gameObjects from outside itself
 	void addTag(Tag);
 
+	//Adds or removes gameObjects as children
 	void addChild(GameObject *);
 	void removeChild(GameObject *);
 
 	//Checks whether the game object has given tag
 	bool hasTag(Tag);
+
+	//Triggers the isFlagged boolean
+	void Destroy();
+
+	/**********************************************/
+	//NOTE: This method is still under development// 
+	/**********************************************/
 
 	//Returns the address to a given component type
 	template<class TYPE> TYPE* getComponent();
@@ -60,8 +73,7 @@ public:
 		return nullptr;
 	}*/
 
-	//Triggers the isFlagged boolean
-	void Destroy();
+
 
 };
 

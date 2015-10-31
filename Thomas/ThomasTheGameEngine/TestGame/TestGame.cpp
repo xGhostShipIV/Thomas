@@ -4,7 +4,6 @@
 #include "TestGame.h"
 #include "TestLevel.h"
 #include <GameObject.h>
-#include <Input.h>
 #include <InputComponent.h>
 #include <GameProperties.h>
 #include <AudioManager.h>
@@ -32,23 +31,6 @@ TestGame::~TestGame()
 
 void TestGame::Update(Uint32 _timestep)
 {
-	/*if (Input::Keydown_W())
-	currentLevel->currentCamera->CameraPosition.z += 0.1f;
-
-	if (Input::Keydown_S())
-	currentLevel->currentCamera->CameraPosition.z -= 0.1f;
-
-	if (Input::Keydown_A())
-	currentLevel->currentCamera->CameraPosition.x += 0.1f;
-
-	if (Input::Keydown_D())
-	currentLevel->currentCamera->CameraPosition.x -= 0.1f;
-
-	if (Input::Keydown_SPACE())
-	currentLevel->currentCamera->CameraPosition.y += 0.1f;
-
-	if (Input::Keydown_X())
-	currentLevel->currentCamera->CameraPosition.y -= 0.1f;*/
 
 }
 

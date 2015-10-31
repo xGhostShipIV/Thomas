@@ -3,16 +3,10 @@
 //Example Level
 
 #include "TestLevel.h"
-#include "CameraInputTest.h"
-#include "TestGame.h"
-#include "AudioTester.h"
-#include <ModelManager.h>
-#include <RenderableComponent.h>
+
 
 //Cube* cubeCube;
-AudioTester * at;
-GameObject cube;
-RenderableComponent* cubey;
+
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -38,16 +32,6 @@ TestLevel::TestLevel()
 	cubey = new RenderableComponent("idgaf", &cube);
 
 	ModelManager::getInstance()->PushModels();
-
-	/*glGenVertexArrays(NumVAOs, VAOs);
-	glBindVertexArray(VAOs[Triangles]);
-
-	glGenBuffers(NumBuffers, Buffers);
-	glBindBuffer(GL_ARRAY_BUFFER, Buffers[ArrayBuffer]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeCube->vertices), cubeCube->vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glEnableVertexAttribArray(vPosition);*/
 
 	currentCamera->transform->position = Vec3(0, 0, -2);
 

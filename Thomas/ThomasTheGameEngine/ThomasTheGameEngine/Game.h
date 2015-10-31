@@ -1,6 +1,11 @@
 //Author:	Mathieu Violette
-//Date:		5/26/2015(MV), 6/6/2015(MV)
-/* Holds main loop */
+//Date:		5/26/2015(MV), 6/6/2015(MV), 10/31/2015(NS)
+
+
+/* 
+	This is the core game, it holds the main loop, handles events
+	and renders and draws the game.
+*/
 
 #ifndef _GAME_H_
 #define _GAME_H_
@@ -12,25 +17,36 @@
 
 #define GAME Game::GetInstance() 
 
-class Level; class GameProperties; class AudioManager; class ModelManager; class InputController;
+class Level;		class GameProperties;	class InputController;
+class AudioManager; class ModelManager;		
 
 class Game
 {
 	friend class GameObject;
 
-private:	
+private:
+
+	//Flag boolean that keeps the mainloop running or exits it
 	bool isRunning;
+
+	//variables to track gameTime
 	Uint32 lastUpdateTime, timeSincelastUpdate;
 
+	//SDL relevant variables to initialize the window
 	SDL_Window* gameWindow;
 	SDL_Renderer* gameRenderer;
 	SDL_GLContext glcontext;
 
 protected:	
-	/* Inits GLUT Window*/
+
 	Game();	
+
+	//Singleton instance
 	static Game* instance;
 public:
+
+	//Pointers to non optional engine functionalities like resource
+	//managers and the game properties
 	GameProperties * properties;
 	AudioManager * audioManager;
 	ModelManager * modelManager;

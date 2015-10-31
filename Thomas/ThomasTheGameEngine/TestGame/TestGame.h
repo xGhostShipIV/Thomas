@@ -7,12 +7,17 @@
 
 #include <Game.h>
 
+/*
+	Inherits from Game.h so the user can make their own specific game
+*/
+
 class TestGame : public Game
 {
 public:
 
 	TestGame();	
 	~TestGame();
+
 
 protected:
 

@@ -6,6 +6,10 @@
 class Sound;
 class Music;
 
+/*
+	A gameobejct created to test both Input as well as the AudioManager
+*/
+
 class AudioTester :
 	public GameObject
 {
@@ -21,6 +25,8 @@ private:
 	Music * m;
 };
 
+//Following is specificly defined inputComponents that will play a
+//sound, or music when the right key is pressed
 class PlaySound : public InputComponent
 {
 public:

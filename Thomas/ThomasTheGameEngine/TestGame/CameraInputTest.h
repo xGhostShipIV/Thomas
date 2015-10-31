@@ -2,6 +2,9 @@
 #include <InputComponent.h>
 #include <Camera.h>
 
+/*
+	A number of input controls to control the camera within the game
+*/
 class CameraUp : public InputComponent {
 	
 	Camera* owner;

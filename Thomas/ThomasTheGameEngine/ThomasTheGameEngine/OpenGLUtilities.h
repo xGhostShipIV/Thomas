@@ -10,6 +10,10 @@
 
 #define GLU OpenGLUtilities
 
+/*
+	A utility class to simplify the use of complex openGl methods.
+*/
+
 class OpenGLUtilities
 {
 public:

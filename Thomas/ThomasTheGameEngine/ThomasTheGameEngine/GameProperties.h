@@ -3,6 +3,12 @@
 #include "AudioManager.h"
 #include "dependencies\TinyXML\tinyxml2.h"
 
+/*
+	A singleton class the will store all the relevant
+	properties of the game like screen size, master volume.
+	This class will read and write all properties to an XML
+	so they will be saved from one day to the next
+*/
 class GameProperties
 {
 public:
