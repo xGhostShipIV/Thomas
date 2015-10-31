@@ -15,8 +15,8 @@ Cube::Cube(GLint _programID, float _length, Vec3 _position) : program(_programID
 	colour = 0;
 
 	colourLocation = glGetUniformLocation(program, "fColor");
-	rotLocation = glGetUniformLocation(program, "RotationMatrix");
-	transLocation = glGetUniformLocation(program, "Translate");
+	//rotLocation = glGetUniformLocation(program, "RotationMatrix");
+	transLocation = glGetUniformLocation(program, "Transform");
 
 	{
 		vertices[0][0] = -0.5f * Length; vertices[0][1] = 0.5f * Length; vertices[0][2] = 0.5f * Length;
@@ -50,8 +50,10 @@ Cube::~Cube()
 
 void Cube::Render()
 {
-	glUniformMatrix4fv(rotLocation, 1, GL_FALSE, Matrix4::Rotate(transform->rotation).values);
-	glUniform4f(transLocation, transform->position.x, transform->position.y, transform->position.z, 0);
+	//glUniformMatrix4fv(rotLocation, 1, GL_FALSE, Matrix4::Rotate(transform->rotation).values);
+	//glUniform4f(transLocation, transform->position.x, transform->position.y, transform->position.z, 0);
+
+	glUniformMatrix4fv(transLocation, 1, GL_FALSE, transform->toMat4().values);
 
 	DrawCubeSolid();
 	DrawCubeOutline();

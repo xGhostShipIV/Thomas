@@ -28,7 +28,6 @@ Game::Game()
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
 	properties = GameProperties::getInstance();
-	modelManager = ModelManager::getInstance();
 
 	SDL_RendererInfo displayRendererInfo;
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
@@ -52,6 +51,8 @@ Game::Game()
 		//Unable to initialize GLEW ... exiting
 		exit(EXIT_FAILURE);
 	}
+
+	modelManager = ModelManager::getInstance();
 };
 
 Game::~Game()

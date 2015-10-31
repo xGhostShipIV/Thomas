@@ -3,6 +3,8 @@
 #include <vector>
 #include <map>
 #include "../Math/four_dimensions.hpp"
+#include <glew.h>
+#include "OpenGLUtilities.h"
 
 #define RENDER_MODE_OPENGL ModelManager::Render_OpenGL
 #define RENDER_MODE_DIRECTX ModelManager::Render_DirectX
@@ -16,6 +18,7 @@ typedef std::string string;
 class ModelManager
 {
 	friend class RenderableComponent;
+	friend class Camera;
 
 	//An enumeration to set which graphics engine is being used
 	enum Render_Mode{
@@ -26,6 +29,8 @@ class ModelManager
 
 public:
 	~ModelManager();
+
+	static GLuint colourLocation, transformLocation;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;
@@ -48,7 +53,7 @@ public:
 	void unloadModels();
 
 	//Pushed all model information to the GPU
-	void PrimeModels();
+	void PushModels();
 
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l);
@@ -56,6 +61,11 @@ public:
 	void CreatePyramid(string _id, float _w, float _l, float _h){}
 	void CreateCone(string _id, float _r, float _h){}
 	void CreateCylinder(string _id, float _r, float _h){}
+
+	GLuint GetProgramID()
+	{ 
+		return program; 
+	}
 
 private:
 	ModelManager(Render_Mode = Render_OpenGL);
@@ -72,5 +82,10 @@ private:
 
 	//The master Vector list that will ultimately be pushed to the GPU
 	std::vector<Vec3> masterVectorList;
+
+	//Shaders Location
+	GLuint program;
+	GLuint VAOs[1];
+	GLuint Buffers[1];
 };
 

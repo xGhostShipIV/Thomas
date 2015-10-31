@@ -1,11 +1,9 @@
 #include "Level.h"
 #include "OpenGLUtilities.h"
 
-Level::Level(GLuint _program)
+Level::Level()
 {
-	cameraLocation = glGetUniformLocation(_program, "cameraMatrix");
-
-	mainCamera = new Camera(cameraLocation);
+	mainCamera = new Camera();
 	currentCamera = mainCamera;
 
 	gameObjects.push_back(currentCamera);
@@ -26,6 +24,8 @@ void Level::LevelRender()
 		else
 			gameObjectsToBeDeleted.push_back(gameObjects[i]);
 	}
+
+	DebugRender();
 }
 
 void Level::LevelUpdate(UINT32 _timeStep)

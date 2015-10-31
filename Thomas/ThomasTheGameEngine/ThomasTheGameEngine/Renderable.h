@@ -2,6 +2,8 @@
 #include <vector>
 #include "../Math/four_dimensions.hpp"
 
+class Transform;
+
 
 class Renderable
 {
@@ -10,20 +12,21 @@ public:
 	~Renderable(){};
 
 	std::vector<Vec3> vertex;
-	std::vector<int> face;
+	std::vector<unsigned int> edge;
+	std::vector<unsigned int> face;
 	std::vector<Vec3> normal;
 
-	virtual void Draw() = 0;
+	virtual void Draw(Transform) = 0;
 
 private:
-	int offsetVertex;
-	int offsetFace;
 
 protected:
+	unsigned int offsetVertex;
+
 	Renderable(){};
 };
 
 class OpenGL_Renderable : public Renderable {
 public:
-	void Draw() override {}
+	void Draw(Transform) override;
 };

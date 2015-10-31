@@ -9,7 +9,6 @@
 #include "GameProperties.h"
 #include "AudioManager.h"
 #include "Camera.h"
-#include "OpenGLUtilities.h"
 #include "closeGameInput.h"
 
 TestGame::TestGame()
@@ -23,11 +22,7 @@ TestGame::TestGame()
 
 	inputManager->bindKey(SDLK_ESCAPE, Exit_Input);
 
-	GLU::OutputOpenGLVersion();
-
-	program = GLU::UseShaders("testGame.vert", "testGame.frag");
-
-	LoadLevel(new TestLevel(program));
+	LoadLevel(new TestLevel());
 }
 
 TestGame::~TestGame()

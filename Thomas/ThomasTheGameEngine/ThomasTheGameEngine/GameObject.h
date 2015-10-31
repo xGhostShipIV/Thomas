@@ -21,7 +21,7 @@ public:
 	GameObject(Transform _t);
 	~GameObject();
 
-	virtual void Render(){};
+	virtual void Render();
 	virtual void Update(UINT32 _deltaTime){};
 
 	//Flag that sets object for removal from game
@@ -49,18 +49,16 @@ public:
 	bool hasTag(Tag);
 
 	//Returns the address to a given component type
-	template<class TYPE> 
-	TYPE* getComponent()
-	{
+	template<class TYPE> TYPE* getComponent();
+	/*{
 		for (int i = 0; i < components.size(); i++)
 		{
 			if (typeid(*components[i]) == typeid(TYPE))
-				return (TYPE*)components[i];
+			return (TYPE*)components[i];
+
 		}
 		return nullptr;
-	}
-
-
+	}*/
 
 	//Triggers the isFlagged boolean
 	void Destroy();

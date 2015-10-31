@@ -9,8 +9,9 @@
 class TestLevel : public Level
 {
 public:
-	TestLevel(GLuint _program);
+	TestLevel();
 	~TestLevel();
 
+	void DebugRender() override;
 	void LevelUpdate(UINT32 _timeStep) override;
 };

@@ -6,7 +6,7 @@ class Camera :
 	public GameObject
 {
 public:
-	Camera(GLuint _shaderPosition);
+	Camera();
 	~Camera();
 
 	Matrix4 getMatrix() const;

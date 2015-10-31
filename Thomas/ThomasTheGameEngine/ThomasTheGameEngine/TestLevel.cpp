@@ -7,9 +7,13 @@
 #include "Cube.h"
 #include "TestGame.h"
 #include "AudioTester.h"
+#include "ModelManager.h"
+#include "DrawComponent.h"
 
-Cube* cube;
+//Cube* cubeCube;
 AudioTester * at;
+GameObject cube;
+RenderableComponent* cubey;
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -20,23 +24,31 @@ enum Attrib_IDs { vPosition = 0 };
 GLuint VAOs[NumVAOs];
 GLuint Buffers[NumBuffers];
 
-TestLevel::TestLevel(GLuint _program) : Level(_program)
+TestLevel::TestLevel()
 {
-	cube = new Cube(_program);
+	cube = GameObject();
 	at = new AudioTester();
 	gameObjects.push_back(at);
-	gameObjects.push_back(cube);
+	gameObjects.push_back(&cube);
+
+	/*cubeCube = new Cube(ModelManager::getInstance()->GetProgramID());
+	gameObjects.push_back(cubeCube);*/
 
 
-	glGenVertexArrays(NumVAOs, VAOs);
+	ModelManager::getInstance()->CreateCuboid("idgaf", 1, 1, 1);
+	cubey = new RenderableComponent("idgaf", &cube);
+
+	ModelManager::getInstance()->PushModels();
+
+	/*glGenVertexArrays(NumVAOs, VAOs);
 	glBindVertexArray(VAOs[Triangles]);
 
 	glGenBuffers(NumBuffers, Buffers);
 	glBindBuffer(GL_ARRAY_BUFFER, Buffers[ArrayBuffer]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube->vertices), cube->vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeCube->vertices), cubeCube->vertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glEnableVertexAttribArray(vPosition);
+	glEnableVertexAttribArray(vPosition);*/
 
 	currentCamera->transform->position = Vec3(0, 0, -2);
 
@@ -64,6 +76,12 @@ TestLevel::TestLevel(GLuint _program) : Level(_program)
 
 	CameraTurnRight* cTR = new CameraTurnRight(currentCamera);
 	Game::GetInstance()->inputManager->bindKey(SDLK_e, cTR);
+
+	CameraTurnDown* cTD = new CameraTurnDown(currentCamera);
+	Game::GetInstance()->inputManager->bindKey(SDLK_c, cTD);
+
+	CameraTurnUp* cTU = new CameraTurnUp(currentCamera);
+	Game::GetInstance()->inputManager->bindKey(SDLK_z, cTU);
 }
 
 TestLevel::~TestLevel(){}
@@ -72,6 +90,11 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	cube->colour = cube->colour > 1000 ? 0 : cube->colour + 1;
-	cube->transform->Rotate(Vec3(0, 0.1f, 0));
+	//cubeCube->colour = cubeCube->colour > 1000 ? 0 : cubeCube->colour + 1;
+	cube.transform->Rotate(Vec3(0, 0.1f, 0));
+}
+
+void TestLevel::DebugRender()
+{
+	cubey->DrawModel();
 }

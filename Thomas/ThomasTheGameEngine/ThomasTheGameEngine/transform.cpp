@@ -41,9 +41,11 @@ void Transform::Rotate(Quat _rotation){
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 void Transform::Rotate(Vec3 _rotation){
 	rotation = rotation * Quat(_rotation.x, Vec3::BasisX()) * Quat(_rotation.y, Vec3::BasisY()) * Quat(_rotation.z, Vec3::BasisZ());
+	
+	/*if (parentObject->childObjects.size() > 0)
 	for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
 		(*it)->getComponent<Transform>()->Rotate(_rotation);
-	}
+	}*/
 }
 
 Matrix4 Transform::toMat4() {

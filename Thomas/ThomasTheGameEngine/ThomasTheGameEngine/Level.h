@@ -5,7 +5,7 @@
 class Level
 {
 public:
-	Level(GLuint _program);
+	Level();
 	~Level();
 
 	GLuint cameraLocation;
@@ -24,5 +24,8 @@ public:
 	void SetCamera(Camera * _c);
 
 	void LevelCleanUp();
+
+protected:
+	virtual void DebugRender(){};
 };
 

@@ -28,8 +28,7 @@ private:
 
 protected:	
 	/* Inits GLUT Window*/
-	Game();
-	GLuint program;
+	Game();	
 	static Game* instance;
 public:
 	GameProperties * properties;
