@@ -53,6 +53,8 @@ Game::Game()
 	}
 
 	modelManager = ModelManager::getInstance();
+
+	currentLevel = nullptr;
 };
 
 Game::~Game()

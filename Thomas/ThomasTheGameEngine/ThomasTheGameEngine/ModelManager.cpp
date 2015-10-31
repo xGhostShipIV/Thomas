@@ -81,13 +81,14 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 		
 		cube = new OpenGL_Renderable();
 
-		cube->vertex.push_back(Vec3(_w, _h, _l));
-		cube->vertex.push_back(Vec3(_w, _h, -_l));
-		cube->vertex.push_back(Vec3(_w, -_h, _l));
-		cube->vertex.push_back(Vec3(_w, -_h, -_l));
 		cube->vertex.push_back(Vec3(-_w, _h, _l));
-		cube->vertex.push_back(Vec3(-_w, _h, -_l));
+		cube->vertex.push_back(Vec3(_w, _h, _l));
+		cube->vertex.push_back(Vec3(_w, -_h, _l));
 		cube->vertex.push_back(Vec3(-_w, -_h, _l));
+
+		cube->vertex.push_back(Vec3(-_w, _h, -_l));
+		cube->vertex.push_back(Vec3(_w, _h, -_l));
+		cube->vertex.push_back(Vec3(_w, -_h, -_l));
 		cube->vertex.push_back(Vec3(-_w, -_h, -_l));
 
 		/* Face 1 */	cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);

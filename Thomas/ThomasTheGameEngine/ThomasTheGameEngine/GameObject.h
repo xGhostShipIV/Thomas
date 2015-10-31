@@ -7,7 +7,7 @@
 #include <typeinfo>
 #include <glew.h>
 #include <freeglut.h>
-#include"Transform.h"
+#include "Transform.h"
 
 class Component;
 

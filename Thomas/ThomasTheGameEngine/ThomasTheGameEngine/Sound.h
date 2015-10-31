@@ -1,6 +1,6 @@
 #pragma once
 
-class Mix_Chunk;
+struct Mix_Chunk;
 
 class Sound
 {

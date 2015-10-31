@@ -56,3 +56,8 @@ void AudioManager::setMusicVolume(float _volume)
 {
 	Mix_VolumeMusic(MIX_MAX_VOLUME * _volume);
 }
+
+bool AudioManager::isMusicPlaying()
+{
+	return (Mix_PlayingMusic() != 0);
+}

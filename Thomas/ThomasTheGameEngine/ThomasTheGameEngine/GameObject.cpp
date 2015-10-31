@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
-#include "DrawComponent.h"
+#include "RenderableComponent.h"
 #include "InputComponent.h"
 
 GameObject::GameObject()

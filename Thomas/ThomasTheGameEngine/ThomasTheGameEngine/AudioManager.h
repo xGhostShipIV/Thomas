@@ -36,9 +36,7 @@ public:
 	//Returns a music from the map with the given identifier
 	Music * getMusic(std::string _id);
 
-	static bool isMusicPlaying(){
-		return (Mix_PlayingMusic() != 0);
-	}
+	static bool isMusicPlaying();
 
 private:
 	AudioManager();

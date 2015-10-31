@@ -17,6 +17,7 @@ public:
 	std::vector<Vec3> normal;
 
 	virtual void Draw(Transform) = 0;
+	virtual void DrawWireFrame(Transform) = 0;
 
 private:
 
@@ -29,4 +30,5 @@ protected:
 class OpenGL_Renderable : public Renderable {
 public:
 	void Draw(Transform) override;
+	void DrawWireFrame(Transform) override;
 };
