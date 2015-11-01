@@ -26,7 +26,7 @@ void OpenGL_Renderable::DrawWireFrame(Transform parentTransform)
 {
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().values);
-	glUniform1f(ModelManager::getInstance()->colourLocation, -1);
+	glUniform1f(ModelManager::getInstance()->colourLocation, 1);
 
 	int edgeIndex = 0;
 

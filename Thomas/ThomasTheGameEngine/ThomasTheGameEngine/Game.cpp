@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "Level.h"
 #include "GameObject.h"
-#include "Input.h"
 #include "InputComponent.h"
 #include "GameProperties.h"
 #include "AudioManager.h"
@@ -102,7 +101,6 @@ void Game::StartGame()
 			EngineUpdate(timeSincelastUpdate);
 			EngineRender();
 		}
-		Input::Clear();
 	}
 }
 

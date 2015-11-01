@@ -6,28 +6,29 @@
 #include "RenderableComponent.h"
 #include "InputComponent.h"
 
-GameObject::GameObject()
+GameObject::GameObject() : transform(Transform(this, Vec3::Zero(), Vec3(1, 1, 1), Quat(1, 0, 0, 0)))
 {
 	isFlagged = false;
-	transform = new  Transform(this);
 }
 
-GameObject::GameObject(Vec3 _position)
+GameObject::GameObject(Vec3 _position) : transform(Transform(this, _position))
 {
 	isFlagged = false;
-	transform = new  Transform(this, _position);
 }
 
-GameObject::GameObject(Transform _t)
+GameObject::GameObject(Transform _t) : transform(Transform(this, _t))
 {
 	isFlagged = false;
-	transform = new  Transform(this, _t);
 }
-
 
 
 GameObject::~GameObject()
 {
+}
+
+Transform& GameObject::GetTransform()
+{
+	return transform;
 }
 
 
@@ -97,16 +98,16 @@ RenderableComponent* GameObject::getComponent()
 	return nullptr;
 }
 
-template<>
-Transform* GameObject::getComponent()
-{
-	for (int i = 0; i < components.size(); i++)
-	{
-		if (typeid(*components[i]) == typeid(Transform))
-			return (Transform*)components[i];
-	}
-	return nullptr;
-}
+//template<>
+//Transform* GameObject::getComponent()
+//{
+//	for (int i = 0; i < components.size(); i++)
+//	{
+//		if (typeid(*components[i]) == typeid(Transform))
+//			return (Transform*)components[i];
+//	}
+//	return nullptr;
+//}
 
 template<>
 InputComponent* GameObject::getComponent()

@@ -5,9 +5,6 @@
 #include "TestLevel.h"
 
 
-//Cube* cubeCube;
-
-
 #define BUFFER_OFFSET(i) ((void*)(i))
 
 enum VAO_IDs { Triangles, NumVAOs };
@@ -24,16 +21,12 @@ TestLevel::TestLevel()
 	gameObjects.push_back(at);
 	gameObjects.push_back(&cube);
 
-	/*cubeCube = new Cube(ModelManager::getInstance()->GetProgramID());
-	gameObjects.push_back(cubeCube);*/
-
-
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	cubey = new RenderableComponent("idgaf", &cube);
 
 	ModelManager::getInstance()->PushModels();
 
-	currentCamera->transform->position = Vec3(0, 0, -2);
+	currentCamera->GetTransform().position = Vec3(0, 0, -2);
 
 	//Setup the input controller here
 	CameraUp* cU = new CameraUp(currentCamera);
@@ -73,8 +66,7 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	//cubeCube->colour = cubeCube->colour > 1000 ? 0 : cubeCube->colour + 1;
-	cube.transform->Rotate(Vec3(0, 0.1f, 0));
+	cube.GetTransform().Rotate(Quat(0.1570796f, Vec3(0, 1, 0)));
 }
 
 void TestLevel::DebugRender()

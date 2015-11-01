@@ -3,9 +3,11 @@
 
 Component::Component(GameObject * _go)
 {
-	parentObject = _go;
-	_go->components.push_back(this);
-	
+	if (_go)
+	{
+		parentObject = _go;
+		_go->components.push_back(this);
+	}	
 }
 
 Component::~Component()

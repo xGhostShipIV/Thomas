@@ -15,12 +15,16 @@ typedef std::string Tag;
 
 class GameObject
 {
+private:
+	Transform transform;
 public:
 	//Various constructors to set the starting position of a gameObject
 	GameObject();
 	GameObject(Vec3 _position);
 	GameObject(Transform _t);
 	~GameObject();
+
+	Transform& GetTransform();
 
 	//Render and update functionalities specific to the gameObject
 	virtual void Render();
@@ -37,8 +41,6 @@ public:
 
 	//List of all objects that are children of this object
 	std::vector<GameObject *> childObjects;
-
-	Transform * transform;
 
 	//Removes the specified component from the gameObject
 	void removeComponent(Component *);

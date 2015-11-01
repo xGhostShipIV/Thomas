@@ -101,6 +101,11 @@
   <ItemGroup>
     <ResourceCompile Include="TestGame.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThomasTheGameEngine\ThomasTheGameEngine.vcxproj">
+      <Project>{fbb68591-c2e9-433d-afcb-d2fbad16c953}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

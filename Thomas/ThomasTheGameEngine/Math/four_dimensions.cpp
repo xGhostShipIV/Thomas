@@ -275,16 +275,16 @@ Matrix4 Matrix4::Scale(float _x, float _y, float _z){
 Matrix4 Matrix4::Rotate(Quat _rotate){
 	Matrix4 rotationMatrix;
 	rotationMatrix.values[0] = 1 - 2 * _rotate.vector.y * _rotate.vector.y - 2 * _rotate.vector.z * _rotate.vector.z;
-	rotationMatrix.values[1] = 2 * (_rotate.vector.x * _rotate.vector.y - _rotate.vector.z * _rotate.w);
-	rotationMatrix.values[2] = 2 * (_rotate.vector.x * _rotate.vector.z + _rotate.vector.y * _rotate.w);
+	rotationMatrix.values[1] = 2 * _rotate.vector.x * _rotate.vector.y - 2 * _rotate.vector.z * _rotate.w;
+	rotationMatrix.values[2] = 2 * _rotate.vector.x * _rotate.vector.z + 2 * _rotate.vector.y * _rotate.w;
 	rotationMatrix.values[3] = 0;
-	rotationMatrix.values[4] = 2 * (_rotate.vector.x * _rotate.vector.y + _rotate.vector.z * _rotate.w);
-	rotationMatrix.values[5] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - _rotate.vector.z * _rotate.vector.z;
-	rotationMatrix.values[6] = 2 * (_rotate.vector.z * _rotate.vector.y - _rotate.vector.x * _rotate.w);
+	rotationMatrix.values[4] = 2 * _rotate.vector.x * _rotate.vector.y + 2 * _rotate.vector.z * _rotate.w;
+	rotationMatrix.values[5] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - 2 * _rotate.vector.z * _rotate.vector.z;
+	rotationMatrix.values[6] = 2 * _rotate.vector.z * _rotate.vector.y - 2 * _rotate.vector.x * _rotate.w;
 	rotationMatrix.values[7] = 0;
-	rotationMatrix.values[8] = 2 * (_rotate.vector.z * _rotate.vector.x - _rotate.vector.y * _rotate.w);
-	rotationMatrix.values[9] = 2 * (_rotate.vector.z * _rotate.vector.y + _rotate.vector.x * _rotate.w);
-	rotationMatrix.values[10] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - _rotate.vector.y * _rotate.vector.y;
+	rotationMatrix.values[8] = 2 * _rotate.vector.z * _rotate.vector.x - 2 * _rotate.vector.y * _rotate.w;
+	rotationMatrix.values[9] = 2 * _rotate.vector.z * _rotate.vector.y + 2 * _rotate.vector.x * _rotate.w;
+	rotationMatrix.values[10] = 1 - 2 * _rotate.vector.x * _rotate.vector.x - 2 * _rotate.vector.y * _rotate.vector.y;
 	for (int i = 11; i < 15; i++){
 		rotationMatrix.values[i] = 0;
 	}

@@ -9,7 +9,6 @@ class GameObject;
 class Component
 {
 public:
-
 	Component(GameObject *);
 	~Component();
 

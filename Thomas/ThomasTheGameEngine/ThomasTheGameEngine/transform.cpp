@@ -1,41 +1,43 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-Transform::Transform(GameObject * _go, Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale), Component(_go)
+Transform::Transform(GameObject * _go, Vec3 _position, Vec3 _scale, Quat _rotation) : position(_position), scale(_scale), rotation(_rotation)/*, Component(_go)*/
 {
-	rotation = Quat(1, 0, 0, 0);
+	parentObject = _go;
 }
 
-Transform::Transform(GameObject * _go, Transform & _t) : Component(_go)
+Transform::Transform(GameObject * _go, Transform & _t) /*: Component(_go)*/
 {
 	*this = _t;
+	parentObject = _go;
 }
 
 void Transform::Translate(Vec3 _translate){
 	position += _translate;
-	for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
+	/*for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
 		(*it)->getComponent<Transform>()->Translate(_translate);
-	}
+	}*/
 	
 }
 
 void Transform::Scale(Vec3 _scale){
 	scale += _scale;
-	for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
+	/*for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
 		if ((*it)->getComponent<Transform>()){
 			(*it)->getComponent<Transform>()->Scale(_scale);
 		}
-	}
+	}*/
 }
 
 void Transform::Rotate(Quat _rotation){
+	if (!parentObject)
+		return;
+
 	//If problem exists, change order, internet says it should be fine
-	rotation = rotation * _rotation;
-	for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
-		if ((*it)->getComponent<Transform>()){
-			(*it)->getComponent<Transform>()->Rotate(_rotation);
-		}
-	}
+	rotation = _rotation * rotation;
+	/*for (auto it = parentObject->childObjects.begin(); it != parentObject->childObjects.end(); it++){
+		(*it)->GetTransform().Rotate(_rotation);
+	}*/
 }
 
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
