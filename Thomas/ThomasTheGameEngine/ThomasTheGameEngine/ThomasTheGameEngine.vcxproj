@@ -31,6 +31,8 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Thomas.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Math\four_dimensions.cpp" />
@@ -51,6 +53,8 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBB68591-C2E9-433D-AFCB-D2FBAD16C953}</ProjectGuid>

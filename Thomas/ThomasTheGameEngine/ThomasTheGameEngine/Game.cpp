@@ -86,10 +86,6 @@ void Game::StartGame()
 			{
 				if (evt.type == SDL_KEYDOWN)
 					InputController::getInstance()->hitKey(evt.key.keysym.sym);
-				//Input::PostEvent(evt);
-
-				//If user presses close button (top right X) or Esc key: exit game loop*/
-				////if (Input::Button_Pressed_Close() || Input::Keydown_ESCAPE())
 				if (evt.type == SDL_QUIT)
 				{
 					isRunning = false;
