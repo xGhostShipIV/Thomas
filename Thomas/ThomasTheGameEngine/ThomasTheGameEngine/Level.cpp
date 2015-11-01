@@ -9,7 +9,6 @@ Level::Level()
 	gameObjects.push_back(currentCamera);
 }
 
-
 Level::~Level()
 {
 	LevelCleanUp();

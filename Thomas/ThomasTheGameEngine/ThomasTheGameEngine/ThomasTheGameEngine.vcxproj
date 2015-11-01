@@ -31,7 +31,6 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Thomas.h" />
-    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Math\four_dimensions.cpp" />
@@ -52,7 +51,6 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="transform.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBB68591-C2E9-433D-AFCB-D2FBAD16C953}</ProjectGuid>

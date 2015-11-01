@@ -4,7 +4,6 @@
 
 #include "TestLevel.h"
 
-
 #define BUFFER_OFFSET(i) ((void*)(i))
 
 enum VAO_IDs { Triangles, NumVAOs };
@@ -17,16 +16,24 @@ GLuint Buffers[NumBuffers];
 TestLevel::TestLevel()
 {
 	cube = GameObject();
+	lilCube = GameObject();
+	lilCube.position = Vec3(3, 0, 0);
+	lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
+
+	cube.addChild(&lilCube);
+
 	at = new AudioTester();
 	gameObjects.push_back(at);
 	gameObjects.push_back(&cube);
+	gameObjects.push_back(&lilCube);
 
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	cubey = new RenderableComponent("idgaf", &cube);
+	lilCubey = new RenderableComponent("idgaf", &lilCube);
 
 	ModelManager::getInstance()->PushModels();
 
-	currentCamera->GetTransform().position = Vec3(0, 0, -2);
+	currentCamera->GetTransform().position = Vec3(0, 0, -8);
 
 	//Setup the input controller here
 	CameraUp* cU = new CameraUp(currentCamera);
@@ -58,6 +65,19 @@ TestLevel::TestLevel()
 
 	CameraTurnUp* cTU = new CameraTurnUp(currentCamera);
 	Game::GetInstance()->inputManager->bindKey(SDLK_z, cTU);
+
+	
+	GameObject_PosX* goPX = new GameObject_PosX(&cube);
+	Game::GetInstance()->inputManager->bindKey(SDLK_LEFT, goPX);
+
+	GameObject_NegX* goNX = new GameObject_NegX(&cube);
+	Game::GetInstance()->inputManager->bindKey(SDLK_RIGHT, goNX);
+
+	GameObject_ScaleUp* goSU = new GameObject_ScaleUp(&cube);
+	Game::GetInstance()->inputManager->bindKey(SDLK_UP, goSU);
+
+	GameObject_ScaleDown* goSD = new GameObject_ScaleDown(&cube);
+	Game::GetInstance()->inputManager->bindKey(SDLK_DOWN, goSD);
 }
 
 TestLevel::~TestLevel(){}
@@ -66,11 +86,11 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	cube.GetTransform().Rotate(Quat(0.1570796f, Vec3(0, 1, 0)));
+	cube.GetTransform().Rotate(Quat(0.01570796f, Vec3(0, 1, 0)));
 }
 
 void TestLevel::DebugRender()
 {
-	cubey->DrawModel();
-	cubey->DrawWireframe();
+	/*cubey->DrawModel();
+	cubey->DrawWireframe();*/
 }

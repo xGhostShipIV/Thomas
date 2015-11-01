@@ -28,9 +28,12 @@ public:
 	 Vec3 operator/=(const float&);
 	 std::string toString();
 
+	 friend const Vec3 operator*(const float&, const Vec3&);
+
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
 	static float length(Vec3);
+	float magnitude();
 	void NormalizeThis();
 	Vec3 Normalized();
 	static float dot(Vec3, Vec3);

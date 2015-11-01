@@ -3,7 +3,7 @@
 #include "Renderable.h"
 #include "GameObject.h"
 
-RenderableComponent::RenderableComponent(std::string _ID, GameObject* parent) : Component(parent){
+RenderableComponent::RenderableComponent(std::string _ID, GameObject* parent) : Component(parent, Component::ComponentType::Renderable){
 	modelName = _ID;
 }
 

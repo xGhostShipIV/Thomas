@@ -1,7 +1,7 @@
 #include "Component.h"
 #include "GameObject.h"
 
-Component::Component(GameObject * _go)
+Component::Component(GameObject * _go, ComponentType _type) : type(_type)
 {
 	if (_go)
 	{

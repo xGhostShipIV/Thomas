@@ -2,7 +2,7 @@
 
 InputController * InputController::instance;
 
-InputComponent::InputComponent(GameObject * _go) : Component(_go){
+InputComponent::InputComponent(GameObject * _go) : Component(_go, Component::ComponentType::Input){
 
 }
 

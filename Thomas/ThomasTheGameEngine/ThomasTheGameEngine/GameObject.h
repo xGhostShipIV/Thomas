@@ -7,7 +7,8 @@
 #include <typeinfo>
 #include <glew.h>
 #include <freeglut.h>
-#include "Transform.h"
+#include "../Math/four_dimensions.hpp"
+//#include "Transform.h"
 
 class Component;
 
@@ -15,16 +16,41 @@ typedef std::string Tag;
 
 class GameObject
 {
-private:
-	Transform transform;
 public:
+	
+	Vec3 position;
+	Vec3 scale;
+	Quat rotation;
+
+	//Direction vectors that can aid in object movement
+	Vec3 forward();
+	Vec3 up();
+
+	//Returns the objects orientation in different formats
+	Quat getQuat();
+	Vec3 getEuler();
+
+	//Transform methods
+	//These will apply the given transforms and move the gameObject
+	void LookAt(Vec3);
+	void Rotate(Quat);
+	void Rotate(Vec3);
+	void Translate(Vec3);
+	void Scale(Vec3);
+
+	//Returns all components of the transform as a single matrix4
+	//More or less only used for the GPU
+	Matrix4 toMat4();
+
+	
 	//Various constructors to set the starting position of a gameObject
 	GameObject();
 	GameObject(Vec3 _position);
-	GameObject(Transform _t);
+	//GameObject(Transform _t);
 	~GameObject();
 
-	Transform& GetTransform();
+	GameObject& GetTransform();
+	//Transform transform;
 
 	//Render and update functionalities specific to the gameObject
 	virtual void Render();

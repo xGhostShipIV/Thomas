@@ -9,9 +9,16 @@ class GameObject;
 class Component
 {
 public:
-	Component(GameObject *);
+
+	enum ComponentType
+	{
+		Input, Renderable
+	};
+
+	Component(GameObject *, ComponentType);
 	~Component();
 
 	GameObject * parentObject;
+	ComponentType type;
 };
 

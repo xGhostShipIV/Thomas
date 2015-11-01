@@ -61,6 +61,11 @@ Vec3 Vec3::BasisZ() {
 	return Vec3(x * value, y * value, z * value);
 }
 
+ const Vec3 operator*(const float& value, const Vec3& _this)
+ {
+	 return Vec3(_this.x * value, _this.y * value, _this.z * value);
+ }
+
  Vec3 Vec3::operator*=(const float& value) {
 	x *= value;
 	y *= value;
@@ -89,6 +94,11 @@ Vec3 Vec3::BasisZ() {
 
 float Vec3::length(Vec3 value) {
 	return sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+}
+
+float Vec3::magnitude()
+{
+	return length(*this);
 }
 
 void Vec3::NormalizeThis() {

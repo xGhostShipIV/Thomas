@@ -1,12 +1,12 @@
 #include "Renderable.h"
 #include <glew.h>
-#include "Transform.h"
+#include "GameObject.h"
 #include "ModelManager.h"
 
-void OpenGL_Renderable::Draw(Transform parentTransform)
+void OpenGL_Renderable::Draw(GameObject& parentTransform)
 {
 	//Get Transform Stuff
-	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().values);
+	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	glUniform1f(ModelManager::getInstance()->colourLocation, 500);
 
 	int edgeIndex = 0;
@@ -22,10 +22,10 @@ void OpenGL_Renderable::Draw(Transform parentTransform)
 	}		
 }
 
-void OpenGL_Renderable::DrawWireFrame(Transform parentTransform)
+void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
 {
 	//Get Transform Stuff
-	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().values);
+	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	glUniform1f(ModelManager::getInstance()->colourLocation, 1);
 
 	int edgeIndex = 0;

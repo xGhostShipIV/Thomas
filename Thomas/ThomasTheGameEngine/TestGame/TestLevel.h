@@ -5,11 +5,13 @@
 #pragma once
 
 #include <Level.h>
-#include "CameraInputTest.h"
-#include "TestGame.h"
-#include "AudioTester.h"
 #include <ModelManager.h>
 #include <RenderableComponent.h>
+
+#include "TestGame.h"
+#include "AudioTester.h"
+#include "CameraInputTest.h"
+#include "GameObjectInputTest.h"
 
 /*
 	A class that inherits from Level so the user can specify the behaviour of
@@ -23,8 +25,8 @@ public:
 	~TestLevel();
 
 	AudioTester * at;
-	GameObject cube;
-	RenderableComponent* cubey;
+	GameObject cube, lilCube;
+	RenderableComponent *cubey, *lilCubey;
 
 	void DebugRender() override;
 	void LevelUpdate(UINT32 _timeStep) override;

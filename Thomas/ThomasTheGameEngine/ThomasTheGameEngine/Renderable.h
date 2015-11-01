@@ -1,8 +1,6 @@
-#include "Component.h"
+#include "GameObject.h"
 #include <vector>
 #include "../Math/four_dimensions.hpp"
-
-class Transform;
 
 /*
 	An abstract class that contains all information a renderable object
@@ -22,8 +20,8 @@ public:
 	std::vector<unsigned int> face;
 	std::vector<Vec3> normal;
 
-	virtual void Draw(Transform) = 0;
-	virtual void DrawWireFrame(Transform) = 0;
+	virtual void Draw(GameObject&) = 0;
+	virtual void DrawWireFrame(GameObject&) = 0;
 
 private:
 
@@ -39,6 +37,6 @@ protected:
 */
 class OpenGL_Renderable : public Renderable {
 public:
-	void Draw(Transform) override;
-	void DrawWireFrame(Transform) override;
+	void Draw(GameObject&) override;
+	void DrawWireFrame(GameObject&) override;
 };
