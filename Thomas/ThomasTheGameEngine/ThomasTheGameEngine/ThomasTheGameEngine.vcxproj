@@ -18,6 +18,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
+    <ClInclude Include="Logs.h" />
     <ClInclude Include="RenderableComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="Logs.cpp" />
     <ClCompile Include="RenderableComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
