@@ -58,10 +58,10 @@ public:
 
 	~InputController();
 private:
-	InputController(){};
-
 	//A map to link keycodes to actions
 	std::map<SDL_Keycode, InputComponent*> inputMap;
 
 	std::vector<SDL_Keycode> keysDown;
+
+	InputController(){};
 };

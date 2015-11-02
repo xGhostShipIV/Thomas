@@ -102,18 +102,7 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 		for (int i = 0; i < 6; i++)
 			cube->face.push_back(4);
 
-		cube->offsetVertex = masterVectorList.size();
-		models.insert(std::pair<string, Renderable *>(_id, cube));
-
-		for (auto it = cube->vertex.begin(); it != cube->vertex.end(); it++)
-		{
-			masterVectorList.push_back(*it);
-		}
-
-
-		//Update Edges
-		for (int i = 0; i < cube->edge.size(); i++)
-			cube->edge[i] += cube->offsetVertex;
+		InsertModel(cube, _id);
 
 		break;
 	case ModelManager::Render_DirectX:
@@ -150,16 +139,7 @@ void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
 
 		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
 
-		pyramid->offsetVertex = masterVectorList.size();
-		models.insert(std::pair<string, Renderable *>(_id, pyramid));
-
-		for (auto it = pyramid->vertex.begin(); it != pyramid->vertex.end(); it++)
-		{
-			masterVectorList.push_back(*it);
-		}
-
-		for (int i = 0; i < pyramid->edge.size(); i++)
-			pyramid->edge[i] += pyramid->offsetVertex;
+		InsertModel(pyramid, _id);
 
 		break;
 	case ModelManager::Render_DirectX:
@@ -171,8 +151,22 @@ void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
 	}
 }
 
-#define BUFFER_OFFSET(i) ((void*)(i))
+void ModelManager::InsertModel(Renderable* _renderable, string _id)
+{
+	_renderable->offsetVertex = masterVectorList.size();
+	models.insert(std::pair<string, Renderable *>(_id, _renderable));
 
+	for (auto it = _renderable->vertex.begin(); it != _renderable->vertex.end(); it++)
+	{
+		masterVectorList.push_back(*it);
+	}
+
+	for (int i = 0; i < _renderable->edge.size(); i++)
+		_renderable->edge[i] += _renderable->offsetVertex;
+}
+
+
+#define BUFFER_OFFSET(i) ((void*)(i))
 void ModelManager::PushModels()
 {
 	//Push vertex to GPU

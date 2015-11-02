@@ -58,7 +58,7 @@ public:
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l);
 	void CreateSphere(string _id, float _r){}
-	void CreatePyramid(string _id, float _w, float _l, float _h){}
+	void CreatePyramid(string _id, float _w, float _l, float _h);
 	void CreateCone(string _id, float _r, float _h){}
 	void CreateCylinder(string _id, float _r, float _h){}
 
@@ -87,5 +87,8 @@ private:
 	GLuint program;
 	GLuint VAOs[1];
 	GLuint Buffers[1];
+
+	//Sets vertexOffset and inserts into model map. Used to finish model creation.
+	void InsertModel(Renderable* _renderable, string _id);
 };
 

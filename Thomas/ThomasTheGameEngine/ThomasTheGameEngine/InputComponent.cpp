@@ -46,9 +46,6 @@ void InputController::hitKey(SDL_Keycode key) {
 	}
 
 	keysDown.push_back(key);
-
-	/*if (inputMap.find(key) != inputMap.end())
-	inputMap.find(key)->second->whenPressed();*/
 }
 
 void InputController::releaseKey(SDL_Keycode key)
