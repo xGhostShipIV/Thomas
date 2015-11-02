@@ -18,7 +18,7 @@ TestLevel::TestLevel()
 	cube = GameObject();
 	lilCube = GameObject();
 	lilCube.position = Vec3(3, 0, 0);
-	lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
+	//lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
 
 	cube.addChild(&lilCube);
 
@@ -28,8 +28,10 @@ TestLevel::TestLevel()
 	gameObjects.push_back(&lilCube);
 
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
+	ModelManager::getInstance()->CreatePyramid("igaf", .5f, .5f, .5f);
+
 	cubey = new RenderableComponent("idgaf", &cube);
-	lilCubey = new RenderableComponent("idgaf", &lilCube);
+	lilCubey = new RenderableComponent("igaf", &lilCube);
 
 	ModelManager::getInstance()->PushModels();
 

@@ -78,7 +78,7 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
-		
+
 		cube = new OpenGL_Renderable();
 
 		cube->vertex.push_back(Vec3(-_w, _h, _l));
@@ -98,13 +98,13 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 		/* Face 5 */	cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(5);	cube->edge.push_back(4);
 		/* Face 6 */	cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(6);	cube->edge.push_back(7);
 
-		
+
 		for (int i = 0; i < 6; i++)
 			cube->face.push_back(4);
 
 		cube->offsetVertex = masterVectorList.size();
 		models.insert(std::pair<string, Renderable *>(_id, cube));
-		
+
 		for (auto it = cube->vertex.begin(); it != cube->vertex.end(); it++)
 		{
 			masterVectorList.push_back(*it);
@@ -119,6 +119,54 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 	case ModelManager::Render_DirectX:
 		break;
 	case ModelManager::Render_Ogre:
+		break;
+	}
+}
+
+void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
+{
+	Renderable * pyramid;
+
+	switch (render_mode)
+	{
+	case ModelManager::Render_OpenGL:
+
+		pyramid = new OpenGL_Renderable();
+
+		pyramid->vertex.push_back(Vec3(_w, 0.0f, _l));
+		pyramid->vertex.push_back(Vec3(-_w, 0.0f, _l));
+		pyramid->vertex.push_back(Vec3(-_w, 0.0f, -_l));
+		pyramid->vertex.push_back(Vec3(_w, 0.0f, -_l));
+		pyramid->vertex.push_back(Vec3(0.0f, _h, 0.0f));
+
+
+		/* Bottom */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(2);		pyramid->edge.push_back(3);
+		/* Face 1 */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(4);
+		/* Face 2 */pyramid->edge.push_back(1);	 pyramid->edge.push_back(2);	pyramid->edge.push_back(4);
+		/* Face 3 */pyramid->edge.push_back(2);	 pyramid->edge.push_back(3);	pyramid->edge.push_back(4);
+		/* Face 4 */pyramid->edge.push_back(3);	 pyramid->edge.push_back(0);	pyramid->edge.push_back(4);
+
+		pyramid->face.push_back(4);
+
+		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
+
+		pyramid->offsetVertex = masterVectorList.size();
+		models.insert(std::pair<string, Renderable *>(_id, pyramid));
+
+		for (auto it = pyramid->vertex.begin(); it != pyramid->vertex.end(); it++)
+		{
+			masterVectorList.push_back(*it);
+		}
+
+		for (int i = 0; i < pyramid->edge.size(); i++)
+			pyramid->edge[i] += pyramid->offsetVertex;
+
+		break;
+	case ModelManager::Render_DirectX:
+		break;
+	case ModelManager::Render_Ogre:
+		break;
+	default:
 		break;
 	}
 }
@@ -142,10 +190,10 @@ void ModelManager::PushModels()
 	{
 		//newMasterList[i] = new float[3];
 
-		
+
 		newMasterList[i * 3] = masterVectorList[i].x;
-		newMasterList[3*i+1] = masterVectorList[i].y;
-		newMasterList[3*i+2] = masterVectorList[i].z;
+		newMasterList[3 * i + 1] = masterVectorList[i].y;
+		newMasterList[3 * i + 2] = masterVectorList[i].z;
 	}
 
 	//std::cout << "\n" << arraySize << "\n";
@@ -158,7 +206,7 @@ void ModelManager::PushModels()
 
 	for (int i = 0; i < masterVectorList.size() * 3; i++)
 	{
-		data[i] = 8;
+	data[i] = 8;
 	}
 
 	glGetBufferSubData(GL_ARRAY_BUFFER, 0, arraySize, &data[0]);*/
@@ -166,7 +214,7 @@ void ModelManager::PushModels()
 	/*for (int i = 0; i < masterVectorList.size() * 3; i++)
 		std::cout << std::endl << newMasterList[i];
 
-	std::cout << std::endl << std::endl;*/
+		std::cout << std::endl << std::endl;*/
 
 	/*for (int i = 0; i < masterVectorList.size() * 3; i++)
 		std::cout << std::endl << data[i];*/
