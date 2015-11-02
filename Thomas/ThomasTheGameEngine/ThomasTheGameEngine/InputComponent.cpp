@@ -38,6 +38,35 @@ void InputController::swapKeybinds(SDL_Keycode key1, SDL_Keycode key2) {
 }
 
 void InputController::hitKey(SDL_Keycode key) {
-	if (inputMap.find(key) != inputMap.end())
-	inputMap.find(key)->second->whenPressed();
+
+	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
+	{
+		if ((*it) == key)
+			return;
+	}
+
+	keysDown.push_back(key);
+
+	/*if (inputMap.find(key) != inputMap.end())
+	inputMap.find(key)->second->whenPressed();*/
+}
+
+void InputController::releaseKey(SDL_Keycode key)
+{
+	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
+	{
+		if ((*it) == key)
+		{
+			keysDown.erase(it);
+			return;
+		}
+	}
+}
+
+void InputController::Update()
+{ 
+	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
+	{
+		inputMap.find(*it)->second->whenPressed();
+	}
 }

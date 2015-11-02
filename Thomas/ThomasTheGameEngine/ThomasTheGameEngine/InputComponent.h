@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include <map>
+#include <vector>
 #include "dependencies\SDL\include\SDL.h"
 
 /*
@@ -51,10 +52,16 @@ public:
 	//and call the appropriate action
 	void hitKey(SDL_Keycode);
 
+	void releaseKey(SDL_Keycode);
+
+	void Update();
+
 	~InputController();
 private:
 	InputController(){};
 
 	//A map to link keycodes to actions
 	std::map<SDL_Keycode, InputComponent*> inputMap;
+
+	std::vector<SDL_Keycode> keysDown;
 };

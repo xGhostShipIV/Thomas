@@ -86,6 +86,9 @@ void Game::StartGame()
 			{
 				if (evt.type == SDL_KEYDOWN)
 					InputController::getInstance()->hitKey(evt.key.keysym.sym);
+				else if (evt.type == SDL_KEYUP)
+					InputController::getInstance()->releaseKey(evt.key.keysym.sym);
+
 				if (evt.type == SDL_QUIT)
 				{
 					isRunning = false;
@@ -102,6 +105,8 @@ void Game::StartGame()
 
 void Game::EngineUpdate(Uint32 _timeStep)
 {
+	InputController::getInstance()->Update();
+
 	if (currentLevel)
 		currentLevel->LevelUpdate(_timeStep);
 
