@@ -11,9 +11,12 @@
 #define RENDER_MODE_OGRE ModelManager::Render_Ogre
 
 class Renderable;
+class Texture;
 
 //So I dont have to type out std::string
 typedef std::string string;
+typedef unsigned int UINT32;
+
 
 class ModelManager
 {
@@ -55,6 +58,12 @@ public:
 	//Pushed all model information to the GPU
 	void PushModels();
 
+	//creates a texture using the pixel data and loads it into the texture map using the string _id
+	void createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);
+	
+	//loads a texture with the fileName and loads it into the texture map using the string _id
+	void loadTexture(string _id, string _fileName);
+
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l);
 	void CreateSphere(string _id, float _r){}
@@ -70,9 +79,11 @@ public:
 private:
 	ModelManager(Render_Mode = Render_OpenGL);
 
-	//Goes into the model map and returns a pointer to the renderable
-	//with the given tag
+	//Goes into the model map and returns a pointer to the renderable with the given tag
 	Renderable * getModel(string _id);
+
+	//Goes into the texture map and returns a pointer to the texture with the given tag
+	Texture* getTexture(string _id);
 
 	//stores the current render mode for initialization of renderables
 	Render_Mode render_mode;
@@ -83,12 +94,21 @@ private:
 	//The master Vector list that will ultimately be pushed to the GPU
 	std::vector<Vec3> masterVectorList;
 
+	//The map to store all textures
+	std::map<string, Texture *> textures;
+
+	//The master Texture coordinates list that will ultimately be pushed to the GPU
+	std::vector<Vec2> masterTextureCoords;
+
 	//Shaders Location
 	GLuint program;
 	GLuint VAOs[1];
-	GLuint Buffers[1];
+	GLuint Buffers[2];
 
 	//Sets vertexOffset and inserts into model map. Used to finish model creation.
 	void InsertModel(Renderable* _renderable, string _id);
+
+	//Generates the TextureMap for the model
+	void GenerateTextureMap(Renderable* _renderable, string _id);
 };
 

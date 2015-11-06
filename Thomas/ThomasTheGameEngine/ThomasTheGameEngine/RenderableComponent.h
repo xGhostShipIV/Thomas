@@ -13,9 +13,9 @@ class RenderableComponent : public Component {
 public:
 	//An identifier string that will be used to find
 	//the model information from the modelManager
-	std::string modelName;
+	std::string modelName, textureName;
 
-	RenderableComponent(std::string, GameObject*);
+	RenderableComponent(std::string _modelID, std::string _textureID, GameObject* _parent);
 
 	//Draws a filled in model
 	void DrawModel();

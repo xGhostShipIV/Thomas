@@ -30,8 +30,17 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePyramid("igaf", .5f, .5f, .5f);
 
-	cubey = new RenderableComponent("idgaf", &cube);
-	lilCubey = new RenderableComponent("igaf", &lilCube);
+	float pixelData[]
+	{
+		0.0f, 1.0f, 0.0f,	1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,	0.0f, 1.0f, 0.0f
+	};
+	ModelManager::getInstance()->createTexture("greenCheckers", pixelData, 2, 2);
+
+	cubey = new RenderableComponent("idgaf", "greenCheckers", &cube);
+	lilCubey = new RenderableComponent("igaf", "greenCheckers", &lilCube);
+	
+	
 
 	ModelManager::getInstance()->PushModels();
 

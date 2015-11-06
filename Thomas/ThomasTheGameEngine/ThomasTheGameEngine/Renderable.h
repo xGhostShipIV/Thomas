@@ -2,6 +2,8 @@
 #include <vector>
 #include "../Math/four_dimensions.hpp"
 
+class Texture;
+
 /*
 	An abstract class that contains all information a renderable object
 	would have. The draw method is abstract so that a concrete class can 
@@ -19,8 +21,9 @@ public:
 	std::vector<unsigned int> edge;
 	std::vector<unsigned int> face;
 	std::vector<Vec3> normal;
+	std::vector<Vec2> textureMap;
 
-	virtual void Draw(GameObject&) = 0;
+	virtual void Draw(GameObject&, Texture *) = 0;
 	virtual void DrawWireFrame(GameObject&) = 0;
 
 private:
@@ -37,6 +40,6 @@ protected:
 */
 class OpenGL_Renderable : public Renderable {
 public:
-	void Draw(GameObject&) override;
-	void DrawWireFrame(GameObject&) override;
+	void Draw(GameObject& parentTransform, Texture *_texture = nullptr) override;
+	void DrawWireFrame(GameObject& parentTransform) override;
 };

@@ -63,8 +63,6 @@ void GameProperties::VideoProperties::readValues()
 {
 	tinyxml2::XMLElement * element = doc.FirstChildElement("VideoProperty")->FirstChildElement("property");
 
-	aspectRatio = std::stoi(element->GetText());
-	element = element->NextSiblingElement("property");
 	drawDistance = std::stoi(element->GetText());
 	element = element->NextSiblingElement("property");
 	screenWidth = std::stoi(element->GetText());
@@ -79,8 +77,6 @@ void GameProperties::VideoProperties::writeValues()
 {
 	tinyxml2::XMLElement * element = doc.FirstChildElement("VideoProperty")->FirstChildElement("property");
 
-	element->SetText(aspectRatio);
-	element = element->NextSiblingElement("property");
 	element->SetText(drawDistance);
 	element = element->NextSiblingElement("property");
 	element->SetText(screenWidth);
@@ -88,4 +84,9 @@ void GameProperties::VideoProperties::writeValues()
 	element->SetText(screenHeight);
 	element = element->NextSiblingElement("property");
 	element->SetText(isFullscreen);
+}
+
+float GameProperties::VideoProperties::aspectRatio()
+{
+	return screenWidth / screenHeight;
 }

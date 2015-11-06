@@ -23,7 +23,6 @@ public:
 
 	//A struct containing all relavant video properties
 	struct VideoProperties{
-		float aspectRatio;
 		float drawDistance;
 		float screenWidth;
 		float screenHeight;
@@ -34,6 +33,8 @@ public:
 
 		//Writes changed values to xml
 		void writeValues();
+
+		float aspectRatio();
 	};
 
 	//Struct containing audio properties

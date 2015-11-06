@@ -7,6 +7,7 @@
 #include <Level.h>
 #include <ModelManager.h>
 #include <RenderableComponent.h>
+#include <Texture.h>
 
 #include "TestGame.h"
 #include "AudioTester.h"
@@ -27,6 +28,7 @@ public:
 	AudioTester * at;
 	GameObject cube, lilCube;
 	RenderableComponent *cubey, *lilCubey;
+	Texture* texture;
 
 	void DebugRender() override;
 	void LevelUpdate(UINT32 _timeStep) override;

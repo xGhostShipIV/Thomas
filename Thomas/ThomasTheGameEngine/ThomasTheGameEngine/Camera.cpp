@@ -19,12 +19,15 @@ void Camera::CalculateCameraMatrix()
 {
 	GameProperties * gp = GameProperties::getInstance();
 
-	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio, 0.00001f, gp->getVideoProperties()->drawDistance);
+	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio(), 0.00001f, gp->getVideoProperties()->drawDistance);
 
 	Vec3 camForward = Quat::rotate(GetTransform().rotation, Vec3::BasisZ());//(Matrix4::Rotate(transform->rotation) * Vec4::BasisZ());
 	Vec3 forawrd = GetTransform().position + camForward;//Vec3(camForward.x, camForward.y, camForward.z);
 
-	glm::mat4 m2 = glm::lookAt(glm::vec3(GetTransform().position.x, GetTransform().position.y, GetTransform().position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), glm::vec3(0, 1, 0));
+	Vec3 _camUp = Quat::rotate(rotation, Vec3(0, 1, 0));
+	glm::vec3 camUp = glm::vec3(_camUp.x, _camUp.y, _camUp.z);
+	
+	glm::mat4 m2 = glm::lookAt(glm::vec3(GetTransform().position.x, GetTransform().position.y, GetTransform().position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), camUp);
 	
 	//Get array pointer to glm matrix
 	const float *mSource = (const float*)glm::value_ptr(m);
