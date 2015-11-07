@@ -73,19 +73,17 @@ Quat Quat::inverse() {
 }
 
 Quat Quat::NormalizeThis() {
-	w /= length();
-	vector /= length();
+
+	float _length = length();
+
+	w /= _length;
+	vector /= _length;
 
 	return *this;
 }
 
 //Rotates the vec3 by the quaternion
 Vec3 Quat::rotate(Quat rotation, Vec3 value) {
-
-	Quat q0 = rotation.NormalizeThis().inverse();
-	Quat q1 = rotation.NormalizeThis() * value;
-	Quat q2 = q1 * q0;
-
 	return Quat(rotation * value * rotation.inverse()).vector;
 }
 

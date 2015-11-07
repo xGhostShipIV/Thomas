@@ -26,10 +26,6 @@ void Camera::CalculateCameraMatrix()
 	Vec3 forawrd = GetTransform().position + camForward;//Vec3(camForward.x, camForward.y, camForward.z);
 
 	Vec3 _camUp = Quat::rotate(rotation, Vec3(0, 1, 0)).Normalized();
-
-	if (_camUp.y != 1)
-		std::cout << _camUp.toString() << "\n";
-
 	glm::mat4 m2 = glm::lookAt(glm::vec3(GetTransform().position.x, GetTransform().position.y, GetTransform().position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), glm::vec3(_camUp.x, _camUp.y, _camUp.z));
 	
 	//Get array pointer to glm matrix
