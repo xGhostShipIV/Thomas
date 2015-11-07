@@ -6,6 +6,8 @@
 ModelManager * ModelManager::instance;
 GLuint ModelManager::colourLocation;
 GLuint ModelManager::transformLocation;
+GLuint ModelManager::translateLocation;
+GLuint ModelManager::normalLocation;
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -18,6 +20,8 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		colourLocation = glGetUniformLocation(program, "fColor");
 		transformLocation = glGetUniformLocation(program, "Transform");
+		translateLocation = glGetUniformLocation(program, "vTranslate");
+		normalLocation = glGetUniformLocation(program, "vNormal");
 	}
 }
 
@@ -126,7 +130,8 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 		for (int i = 0; i < 6; i++)
 			cube->face.push_back(4);
 
-		GenerateTextureMap(cube, _id);
+		GenerateNormals(cube);
+		GenerateTextureMap(cube);
 
 		InsertModel(cube, _id);
 
@@ -182,7 +187,17 @@ void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
 
 		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
 
-		GenerateTextureMap(pyramid, _id);
+		
+		{
+			pyramid->normal.push_back(Vec3(0, -1, 0));
+			pyramid->normal.push_back(Vec3(0, 1, 1).Normalized());
+			pyramid->normal.push_back(Vec3(-1, 1, 0).Normalized());
+			pyramid->normal.push_back(Vec3(0, 1, -1).Normalized());
+			pyramid->normal.push_back(Vec3(1, 1, 0).Normalized());
+		}
+
+		//GenerateNormals(pyramid);
+		GenerateTextureMap(pyramid);
 
 		InsertModel(pyramid, _id);
 
@@ -210,7 +225,7 @@ void ModelManager::InsertModel(Renderable* _renderable, string _id)
 		_renderable->edge[i] += _renderable->offsetVertex;
 }
 
-void ModelManager::GenerateTextureMap(Renderable* _renderable, string _id)
+void ModelManager::GenerateTextureMap(Renderable* _renderable)
 {
 	for (int i = 0; i < _renderable->face.size(); i++)
 	{
@@ -227,6 +242,32 @@ void ModelManager::GenerateTextureMap(Renderable* _renderable, string _id)
 	for (auto it = _renderable->textureMap.begin(); it != _renderable->textureMap.end(); it++)
 	{
 		masterTextureCoords.push_back(*it);
+	}
+}
+
+void ModelManager::GenerateNormals(Renderable* _renderable)
+{
+	int offset = 0;
+
+	for (int i = 0; i < _renderable->face.size(); i++)
+	{
+		Vec3 p1 = _renderable->vertex[offset];
+		Vec3 p2 = _renderable->vertex[offset + 1];
+		Vec3 p3 = _renderable->vertex[offset + 2];
+
+		Vec3 A = p1 - p2;
+		Vec3 B = p2 - p3;
+
+		Vec3 normal = Vec3::cross(A, B).Normalized();
+
+		float dotP = Vec3::dot(p1, normal);
+
+		if (Vec3::dot(p1, normal) > 0)
+			normal *= -1;
+
+		_renderable->normal.push_back(normal);
+
+		offset += _renderable->face[i];
 	}
 }
 

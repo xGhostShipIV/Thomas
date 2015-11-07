@@ -13,7 +13,7 @@ public:
 	CameraUp(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 
 	void whenPressed(){
-		owner->GetTransform().position += Vec3(0, 0.1f, 0);
+		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(0, 0.1f, 0));
 	}
 };
 
@@ -25,7 +25,7 @@ public:
 	CameraDown(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 
 	void whenPressed(){
-		owner->GetTransform().position -= Vec3(0, 0.1f, 0);
+		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(0, 0.1f, 0));
 	}
 };
 
@@ -36,7 +36,7 @@ class CameraRight : public InputComponent {
 public:
 	CameraRight(Camera* _owner) : owner(_owner), InputComponent(_owner){};
 	void whenPressed(){
-		owner->GetTransform().position -= Vec3(0.1f, 0, 0);
+		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(0.1f, 0, 0));
 	}
 };
 
@@ -47,7 +47,7 @@ class CameraLeft : public InputComponent {
 public:
 	CameraLeft(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().position += Vec3(0.1f, 0, 0);
+		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(0.1f, 0, 0));
 	}
 };
 
@@ -58,7 +58,7 @@ class CameraForward : public InputComponent {
 public:
 	CameraForward(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().position += Vec3(0, 0, 0.1f);
+		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(0, 0, 0.1f));
 	}
 };
 
@@ -69,7 +69,7 @@ class CameraBackward : public InputComponent {
 public:
 	CameraBackward(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().position -= Vec3(0, 0, 0.1f);
+		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(0, 0, 0.1f));
 	}
 };
 

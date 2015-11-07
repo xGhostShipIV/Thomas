@@ -12,7 +12,8 @@ glm::mat4 glmCameraMatrix;
 Camera::Camera() : GameObject(Vec3(0, 0, -2))
 {
 	CalculateCameraMatrix();	
-	shaderPosition = glGetUniformLocation(ModelManager::getInstance()->program, "cameraMatrix");
+	cameraMatrixLocation = glGetUniformLocation(ModelManager::getInstance()->program, "cameraMatrix");
+	cameraPositionLocation = glGetUniformLocation(ModelManager::getInstance()->program, "camView");
 }
 
 void Camera::CalculateCameraMatrix()
@@ -24,10 +25,12 @@ void Camera::CalculateCameraMatrix()
 	Vec3 camForward = Quat::rotate(GetTransform().rotation, Vec3::BasisZ());//(Matrix4::Rotate(transform->rotation) * Vec4::BasisZ());
 	Vec3 forawrd = GetTransform().position + camForward;//Vec3(camForward.x, camForward.y, camForward.z);
 
-	Vec3 _camUp = Quat::rotate(rotation, Vec3(0, 1, 0));
-	glm::vec3 camUp = glm::vec3(_camUp.x, _camUp.y, _camUp.z);
-	
-	glm::mat4 m2 = glm::lookAt(glm::vec3(GetTransform().position.x, GetTransform().position.y, GetTransform().position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), camUp);
+	Vec3 _camUp = Quat::rotate(rotation, Vec3(0, 1, 0)).Normalized();
+
+	if (_camUp.y != 1)
+		std::cout << _camUp.toString() << "\n";
+
+	glm::mat4 m2 = glm::lookAt(glm::vec3(GetTransform().position.x, GetTransform().position.y, GetTransform().position.z), glm::vec3(forawrd.x, forawrd.y, forawrd.z), glm::vec3(_camUp.x, _camUp.y, _camUp.z));
 	
 	//Get array pointer to glm matrix
 	const float *mSource = (const float*)glm::value_ptr(m);
@@ -57,8 +60,9 @@ Matrix4 Camera::getMatrix() const
 void Camera::Update(UINT32 _deltaTime)
 {
 	CalculateCameraMatrix();
-	glUniformMatrix4fv(shaderPosition, 1, GL_FALSE, cameraMatrix.values);
-	//glUniformMatrix4fv(shaderPosition, 1, GL_FALSE, &glmCameraMatrix[0][0]);
+	glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, cameraMatrix.values);
+	float camPos[]{ position.x, position.y, position.z, 0 };
+	glUniform4fv(cameraPositionLocation, 1, camPos);
 }
 
 void Camera::Render()

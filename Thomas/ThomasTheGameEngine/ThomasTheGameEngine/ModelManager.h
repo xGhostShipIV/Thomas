@@ -33,7 +33,7 @@ class ModelManager
 public:
 	~ModelManager();
 
-	static GLuint colourLocation, transformLocation;
+	static GLuint colourLocation, transformLocation, translateLocation, normalLocation;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;
@@ -109,6 +109,9 @@ private:
 	void InsertModel(Renderable* _renderable, string _id);
 
 	//Generates the TextureMap for the model
-	void GenerateTextureMap(Renderable* _renderable, string _id);
+	void GenerateTextureMap(Renderable* _renderable);
+
+	//Generates the normals for the model
+	void GenerateNormals(Renderable* _renderable);
 };
 

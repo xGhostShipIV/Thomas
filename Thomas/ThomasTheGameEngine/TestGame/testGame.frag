@@ -5,14 +5,16 @@ out vec4 fColor;
 in vec2 texCoord;
 uniform sampler2D texture;
 
+in float faceDot;
+
 void main()
 {	
-/*	if (IsCulled < 0 )
+	if (faceDot < 0 )
 	{
-		fColor = vec4(1.0f, 0.5f, 0.5f, 0.0f);
+		fColor = vec4(0.0f, 0.5f, 0.0f, 0.0f);
 		discard;
 	}
-	else */
+	else
 	{
 		float avgV = abs(colour);
 

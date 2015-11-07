@@ -27,7 +27,7 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 
  Quat Quat::operator*(const Quat& other) {
 	 Quat returner;
-	 returner.w = w * other.w - Vec3::dot(vector, other.vector);
+	 returner.w = w * other.w - vector.x * other.vector.x - vector.y * other.vector.y - vector.z * other.vector.z;
 	 returner.vector = Vec3(other.vector * w + vector * other.w + Vec3::cross(vector, other.vector));
 	 return returner;
 }
@@ -44,15 +44,15 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 }
 
  Quat Quat::operator+(const Quat& other) {
-	return Quat(w + other.w, vector + other.vector);
+	 return Quat(w + other.w, vector.x + other.vector.x, vector.y + other.vector.y, vector.z + other.vector.z);
 }
 
  Quat Quat::operator-(const Quat& other) {
-	return Quat(w - other.w, vector - other.vector);
+	 return Quat(w - other.w, vector.x - other.vector.x, vector.y - other.vector.y, vector.z - other.vector.z);
 }
 
  Quat Quat::operator/(const float& other) {
-	return Quat(w / other, vector / other);
+	 return Quat(w / other, vector.x / other, vector.y / other, vector.z / other);
 }
 
  std::string Quat::toString() {
@@ -63,24 +63,29 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 
 //--------------------------------Actual Maths----------------------------------------------------\\
 
- Quat Quat::conjugate() {
-	return Quat(w, vector * -1);
+Quat Quat::conjugate() 
+{
+	return Quat(w, -vector.x, -vector.y, -vector.z);
 }
 
- Quat Quat::inverse() {
-	return conjugate() / (Quat::length(*this) * Quat::length(*this));
+Quat Quat::inverse() {
+	 return  conjugate() / (length() * length());
 }
 
- Quat Quat::NormalizeThis() {
-	 float length = Quat::length(*this);
-	w /= length;
-	vector /= length;
+Quat Quat::NormalizeThis() {
+	w /= length();
+	vector /= length();
 
 	return *this;
 }
 
 //Rotates the vec3 by the quaternion
 Vec3 Quat::rotate(Quat rotation, Vec3 value) {
+
+	Quat q0 = rotation.NormalizeThis().inverse();
+	Quat q1 = rotation.NormalizeThis() * value;
+	Quat q2 = q1 * q0;
+
 	return Quat(rotation * value * rotation.inverse()).vector;
 }
 
@@ -89,6 +94,14 @@ float Quat::length(Quat value) {
 		value.vector.x * value.vector.x +
 		value.vector.y * value.vector.y +
 		value.vector.z * value.vector.z);
+}
+
+float Quat::length()
+{
+	return sqrt(w * w +
+		vector.x * vector.x +
+		vector.y * vector.y +
+		vector.z * vector.z);
 }
 
 float Quat::dot(Quat first, Quat second) {

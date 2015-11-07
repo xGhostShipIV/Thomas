@@ -30,6 +30,7 @@ public:
 
 	static Vec3 rotate(Quat, Vec3);
 	static float length(Quat);
+	float length();
 	static float dot(Quat, Quat);
 
 };

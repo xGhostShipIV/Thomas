@@ -8,6 +8,8 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Texture *_texture)
 {
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
+	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};
+	glUniform4fv(ModelManager::getInstance()->translateLocation, 1, pos);
 
 	//Get Texture
 	if (_texture)
@@ -22,6 +24,9 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Texture *_texture)
 
 	for (int i = 0; i < face.size(); i++)
 	{
+		float norm[] {normal[i].x, normal[i].y, normal[i].z, 0};
+		glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+
 		if (face[i] == 4)
 			glDrawElements(GL_QUADS, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
 		else if (face[i] == 3)
@@ -37,10 +42,16 @@ void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	glUniform1f(ModelManager::getInstance()->colourLocation, -1);
 
+	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};
+	glUniform4fv(ModelManager::getInstance()->translateLocation, 1, pos);
+
 	int edgeIndex = 0;
 
 	for (int i = 0; i < face.size(); i++)
 	{
+		float norm[] {normal[i].x, normal[i].y, normal[i].z, 0};
+		glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+
 		if (face[i] == 4)
 			glDrawElements(GL_LINE_LOOP, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
 		else if (face[i] == 3)
