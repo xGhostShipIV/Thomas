@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 #include "dependencies\SDL\include\SDL.h"
+#include "../Math/four_dimensions.hpp"
+#include <SDL.h>
 
 /*
 	A component to define an action desired to be taken when a 
@@ -36,6 +38,9 @@ public:
 		return instance;
 	}
 
+	Vec2 mousePos;
+	std::map<Uint8, SDL_Keycode> mouseButtonDict;
+
 	//Binds the given keycode with the given InputComponent
 	void bindKey(SDL_Keycode, InputComponent *);
 
@@ -63,5 +68,5 @@ private:
 
 	std::vector<SDL_Keycode> keysDown;
 
-	InputController(){};
+	InputController();
 };

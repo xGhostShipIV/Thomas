@@ -89,6 +89,17 @@ void Game::StartGame()
 				else if (evt.type == SDL_KEYUP)
 					InputController::getInstance()->releaseKey(evt.key.keysym.sym);
 
+				//Specific handling for mouse buttons
+				//Note on implementation:
+				//There is a dictinoary in the InputController that maps specific mouse input to Virtual keycodes from SDL_Keycode
+				//This allows mouse input to function identically to keyboard input in this particular manager.
+				//The actual dictionary entries can be found in the InputController constructor
+				
+				if (evt.type == SDL_MOUSEBUTTONDOWN)
+					InputController::getInstance()->hitKey(InputController::getInstance()->mouseButtonDict[evt.button.button]);
+				else if (evt.type == SDL_MOUSEBUTTONUP)
+					InputController::getInstance()->releaseKey(InputController::getInstance()->mouseButtonDict[evt.button.button]);
+
 				if (evt.type == SDL_QUIT)
 				{
 					isRunning = false;

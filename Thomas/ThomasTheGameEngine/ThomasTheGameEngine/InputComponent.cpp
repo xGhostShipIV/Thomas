@@ -62,8 +62,23 @@ void InputController::releaseKey(SDL_Keycode key)
 
 void InputController::Update()
 { 
+
 	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
 	{
 		inputMap.find(*it)->second->whenPressed();
 	}
+
+	//Update do things with new mouse pos then update the position
+
+	int newMouseX, newMouseY;
+	SDL_GetMouseState(&newMouseX, &newMouseY);
+}
+
+InputController::InputController() {
+	
+	//This sets up the dictionary for mouse click buttons to sdl_keycodes
+	mouseButtonDict.insert(std::pair<Uint8, SDL_Keycode>(SDL_BUTTON_LEFT, SDLK_UNDERSCORE));
+	mouseButtonDict.insert(std::pair<Uint8, SDL_Keycode>(SDL_BUTTON_MIDDLE, SDLK_AT));
+	mouseButtonDict.insert(std::pair<Uint8, SDL_Keycode>(SDL_BUTTON_RIGHT, SDLK_HASH));
+	
 }
