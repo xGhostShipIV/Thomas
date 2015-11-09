@@ -62,16 +62,15 @@ void InputController::releaseKey(SDL_Keycode key)
 
 void InputController::Update()
 { 
+	int newMouseX, newMouseY;
+	SDL_GetMouseState(&newMouseX, &newMouseY);
 
 	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
 	{
 		inputMap.find(*it)->second->whenPressed();
 	}
 
-	//Update do things with new mouse pos then update the position
-
-	int newMouseX, newMouseY;
-	SDL_GetMouseState(&newMouseX, &newMouseY);
+	mousePos = Vec2((float)newMouseX, (float)newMouseY);
 }
 
 InputController::InputController() {

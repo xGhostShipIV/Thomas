@@ -17,9 +17,7 @@ List of untested math functions. If it's not on this list safe to use.
 	Vec3 operator*=(const float&);
 	Vec3 operator/=(const float&);
 
-	static Matrix3 Identity();
 	static Matrix3 Rotate(float, int); //Angle - Axis (0 = x, 1 = y, 2 = z) This rotate is only for rotation about a basis axis (x/y/z)
-	static Matrix3 Translate(float, float);
 
 	Matrix3 operator+=(const Matrix3&);
 	Matrix3 operator-=(const Matrix3&);
@@ -29,21 +27,9 @@ List of untested math functions. If it's not on this list safe to use.
 	Matrix3 operator*=(const Matrix3&);
 
 	//4d Testbed
-	Quat(float, Vec3);
-
-	//--------------------------------Operator Overloading-------------------------------------------\\
-
-	Quat operator*(const Vec3&);
-	Quat operator+(const Quat&);
-	Quat operator-(const Quat&);
-	Quat operator/(const float&);
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
-	Quat conjugate();
-	Quat inverse();
-
-	static Vec3 rotate(Quat, Vec3);
 	static float dot(Quat, Quat);
 
 	//VEC4
