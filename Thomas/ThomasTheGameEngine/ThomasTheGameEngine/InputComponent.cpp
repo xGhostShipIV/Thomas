@@ -67,7 +67,8 @@ void InputController::Update()
 
 	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
 	{
-		inputMap.find(*it)->second->whenPressed();
+		if (inputMap.find(*it) != inputMap.end())
+			inputMap.find(*it)->second->whenPressed();
 	}
 
 	mousePos = Vec2((float)newMouseX, (float)newMouseY);

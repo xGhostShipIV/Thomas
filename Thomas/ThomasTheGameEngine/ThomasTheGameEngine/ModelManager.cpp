@@ -86,43 +86,45 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 
 		cube = new OpenGL_Renderable();
 
+		/* Face Back */
 		cube->vertex.push_back(Vec3(-_w, _h, _l));
 		cube->vertex.push_back(Vec3(_w, _h, _l));
 		cube->vertex.push_back(Vec3(_w, -_h, _l));
 		cube->vertex.push_back(Vec3(-_w, -_h, _l));
 
-		cube->vertex.push_back(Vec3(-_w, _h, -_l));
-		cube->vertex.push_back(Vec3(_w, _h, -_l));
-		cube->vertex.push_back(Vec3(_w, -_h, -_l));
+		/* Face Front */
 		cube->vertex.push_back(Vec3(-_w, -_h, -_l));
-
+		cube->vertex.push_back(Vec3(_w, -_h, -_l));
+		cube->vertex.push_back(Vec3(_w, _h, -_l));
+		cube->vertex.push_back(Vec3(-_w, _h, -_l));
+		/* Face Left */
 		cube->vertex.push_back(cube->vertex[0]);
 		cube->vertex.push_back(cube->vertex[3]);
-		cube->vertex.push_back(cube->vertex[7]);
 		cube->vertex.push_back(cube->vertex[4]);
-
-		cube->vertex.push_back(cube->vertex[1]);
-		cube->vertex.push_back(cube->vertex[2]);
+		cube->vertex.push_back(cube->vertex[7]);
+		/* Face Right */
 		cube->vertex.push_back(cube->vertex[6]);
 		cube->vertex.push_back(cube->vertex[5]);
-
-		cube->vertex.push_back(cube->vertex[0]);
+		cube->vertex.push_back(cube->vertex[2]);
 		cube->vertex.push_back(cube->vertex[1]);
-		cube->vertex.push_back(cube->vertex[5]);
-		cube->vertex.push_back(cube->vertex[4]);
-
+		/* Face Top */
+		cube->vertex.push_back(cube->vertex[7]);
+		cube->vertex.push_back(cube->vertex[6]);
+		cube->vertex.push_back(cube->vertex[1]);
+		cube->vertex.push_back(cube->vertex[0]);
+		/* Face Bottom */
 		cube->vertex.push_back(cube->vertex[3]);
 		cube->vertex.push_back(cube->vertex[2]);
-		cube->vertex.push_back(cube->vertex[6]);
-		cube->vertex.push_back(cube->vertex[7]);
+		cube->vertex.push_back(cube->vertex[5]);
+		cube->vertex.push_back(cube->vertex[4]);
 		
 		
-		////	/* Face 1 */	cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
-		////	/* Face 2 */	cube->edge.push_back(4);	cube->edge.push_back(5);	cube->edge.push_back(6);	cube->edge.push_back(7);
-		////	/* Face 3 */	cube->edge.push_back(0);	cube->edge.push_back(3);	cube->edge.push_back(7);	cube->edge.push_back(4);
-		////	/* Face 4 */	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(6);	cube->edge.push_back(5);
-		////	/* Face 5 */	cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(5);	cube->edge.push_back(4);
-		////	/* Face 6 */	cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(6);	cube->edge.push_back(7);
+		///* Face Back */		cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
+		///* Face Front */		cube->edge.push_back(4);	cube->edge.push_back(5);	cube->edge.push_back(6);	cube->edge.push_back(7);
+		///* Face Left */		cube->edge.push_back(0);	cube->edge.push_back(3);	cube->edge.push_back(4);	cube->edge.push_back(7);
+		///* Face Right */		cube->edge.push_back(6);	cube->edge.push_back(5);	cube->edge.push_back(2);	cube->edge.push_back(1);
+		///* Face Top */		cube->edge.push_back(7);	cube->edge.push_back(6);	cube->edge.push_back(1);	cube->edge.push_back(0);
+		///* Face Bottom */		cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(5);	cube->edge.push_back(4);
 
 		for (unsigned int i = 0; i < cube->vertex.size(); i++)
 			cube->edge.push_back(i);
@@ -153,26 +155,26 @@ void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
 
 		pyramid = new OpenGL_Renderable();
 
-		pyramid->vertex.push_back(Vec3(_w, 0.0f, _l));
-		pyramid->vertex.push_back(Vec3(-_w, 0.0f, _l));
-		pyramid->vertex.push_back(Vec3(-_w, 0.0f, -_l));
 		pyramid->vertex.push_back(Vec3(_w, 0.0f, -_l));
+		pyramid->vertex.push_back(Vec3(-_w, 0.0f, -_l));
+		pyramid->vertex.push_back(Vec3(-_w, 0.0f, _l));
+		pyramid->vertex.push_back(Vec3(_w, 0.0f, _l));
 		
 		pyramid->vertex.push_back(Vec3(0.0f, _h, 0.0f));
-		pyramid->vertex.push_back(pyramid->vertex[0]);
-		pyramid->vertex.push_back(pyramid->vertex[1]);
-
-		pyramid->vertex.push_back(pyramid->vertex[4]);
-		pyramid->vertex.push_back(pyramid->vertex[1]);
+		pyramid->vertex.push_back(pyramid->vertex[3]);
 		pyramid->vertex.push_back(pyramid->vertex[2]);
 
 		pyramid->vertex.push_back(pyramid->vertex[4]);
 		pyramid->vertex.push_back(pyramid->vertex[2]);
-		pyramid->vertex.push_back(pyramid->vertex[3]);
+		pyramid->vertex.push_back(pyramid->vertex[1]);
 
 		pyramid->vertex.push_back(pyramid->vertex[4]);
-		pyramid->vertex.push_back(pyramid->vertex[3]);
+		pyramid->vertex.push_back(pyramid->vertex[1]);
 		pyramid->vertex.push_back(pyramid->vertex[0]);
+
+		pyramid->vertex.push_back(pyramid->vertex[4]);
+		pyramid->vertex.push_back(pyramid->vertex[0]);
+		pyramid->vertex.push_back(pyramid->vertex[3]);
 
 		////	/* Bottom */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(2);		pyramid->edge.push_back(3);
 		////	/* Face 1 */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(4);
@@ -187,16 +189,7 @@ void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
 
 		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
 
-		
-		{
-			pyramid->normal.push_back(Vec3(0, -1, 0));
-			pyramid->normal.push_back(Vec3(0, 1, 1).Normalized());
-			pyramid->normal.push_back(Vec3(-1, 1, 0).Normalized());
-			pyramid->normal.push_back(Vec3(0, 1, -1).Normalized());
-			pyramid->normal.push_back(Vec3(1, 1, 0).Normalized());
-		}
-
-		//GenerateNormals(pyramid);
+		GenerateNormals(pyramid);
 		GenerateTextureMap(pyramid);
 
 		InsertModel(pyramid, _id);
@@ -251,9 +244,9 @@ void ModelManager::GenerateNormals(Renderable* _renderable)
 
 	for (int i = 0; i < _renderable->face.size(); i++)
 	{
-		Vec3 p1 = _renderable->vertex[offset];
-		Vec3 p2 = _renderable->vertex[offset + 1];
-		Vec3 p3 = _renderable->vertex[offset + 2];
+		Vec3 p1 = _renderable->vertex[_renderable->edge[offset]];
+		Vec3 p2 = _renderable->vertex[_renderable->edge[offset + 1]];
+		Vec3 p3 = _renderable->vertex[_renderable->edge[offset + 2]];
 
 		Vec3 A = p1 - p2;
 		Vec3 B = p2 - p3;

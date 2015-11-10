@@ -193,6 +193,6 @@ void GameObject::Render()
 	if (renderable)
 	{
 		renderable->DrawModel();
-		renderable->DrawWireframe();
+		//renderable->DrawWireframe();
 	}
 }

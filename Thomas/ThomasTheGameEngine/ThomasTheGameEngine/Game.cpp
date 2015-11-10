@@ -51,6 +51,10 @@ Game::Game()
 		exit(EXIT_FAILURE);
 	}
 
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+	glFrontFace(GL_CCW);
+
 	modelManager = ModelManager::getInstance();
 
 	currentLevel = nullptr;
