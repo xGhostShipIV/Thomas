@@ -7,6 +7,7 @@ uniform sampler2D texture;
 
 void main()
 {	
+
 	{
 		float avgV = abs(colour);
 

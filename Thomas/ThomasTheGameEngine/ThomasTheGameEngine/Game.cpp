@@ -51,9 +51,12 @@ Game::Game()
 		exit(EXIT_FAILURE);
 	}
 
-	glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE | GL_DEPTH_TEST);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CCW);
+
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	modelManager = ModelManager::getInstance();
 
@@ -82,7 +85,7 @@ void Game::StartGame()
 	while (isRunning)
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
-		if (timeSincelastUpdate >= 1000 / 24)
+		if (timeSincelastUpdate >= 1000 / 55)
 		{
 			lastUpdateTime = SDL_GetTicks();
 
