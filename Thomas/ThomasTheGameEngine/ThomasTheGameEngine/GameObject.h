@@ -54,6 +54,7 @@ public:
 
 	//Render and update functionalities specific to the gameObject
 	virtual void Render();
+	virtual void PreRender();
 	virtual void Update(UINT32 _deltaTime){};
 
 	//Flag that sets object for removal from game

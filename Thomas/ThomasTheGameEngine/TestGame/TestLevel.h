@@ -8,11 +8,13 @@
 #include <ModelManager.h>
 #include <RenderableComponent.h>
 #include <Texture.h>
+#include <Light.h>
 
 #include "TestGame.h"
 #include "AudioTester.h"
 #include "CameraInputTest.h"
 #include "GameObjectInputTest.h"
+
 
 /*
 	A class that inherits from Level so the user can specify the behaviour of
@@ -29,6 +31,8 @@ public:
 	GameObject cube, lilCube;
 	RenderableComponent *cubey, *lilCubey;
 	Texture* texture;
+	GameObject * light;
+	Light * spotLight;
 
 	void DebugRender() override;
 	void LevelUpdate(UINT32 _timeStep) override;

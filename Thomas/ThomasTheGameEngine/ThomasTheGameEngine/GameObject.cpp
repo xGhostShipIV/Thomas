@@ -5,6 +5,7 @@
 #include "Component.h"
 #include "RenderableComponent.h"
 #include "InputComponent.h"
+#include "Light.h"
 #include <iostream>
 
 
@@ -72,7 +73,7 @@ Vec3 GameObject::up() {
 }
 
 void GameObject::LookAt(Vec3 _target){
-	Vec3 pointToTarget = position - _target;
+	Vec3 pointToTarget = _target - position;
 	rotation = Quat(2 * acos(rotation.w), pointToTarget);
 }
 
@@ -175,6 +176,17 @@ InputComponent* GameObject::getComponent()
 	return nullptr;
 }
 
+template<>
+Light* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::Light)
+			return (Light*)components[i];
+	}
+	return nullptr;
+}
+
 template<class TYPE>
 TYPE* GameObject::getComponent()
 {
@@ -194,5 +206,15 @@ void GameObject::Render()
 	{
 		renderable->DrawModel();
 		//renderable->DrawWireframe();
+	}
+}
+
+void GameObject::PreRender()
+{
+	Light * light = getComponent<Light>();
+
+	if (light)
+	{
+		light->PushLight(forward());
 	}
 }

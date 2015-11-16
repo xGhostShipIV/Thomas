@@ -19,6 +19,7 @@ TestLevel::TestLevel()
 	lilCube = GameObject();
 	lilCube.position = Vec3(3, 0, 0);
 	//lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
+	light = new GameObject(Vec3(-2, 8, 0));
 
 	cube.addChild(&lilCube);
 
@@ -26,6 +27,7 @@ TestLevel::TestLevel()
 	gameObjects.push_back(at);
 	gameObjects.push_back(&cube);
 	gameObjects.push_back(&lilCube);
+	gameObjects.push_back(light);
 
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePyramid("igaf", .5f, .5f, .5f);
@@ -40,7 +42,10 @@ TestLevel::TestLevel()
 	cubey = new RenderableComponent("idgaf", "greenCheckers", &cube);
 	lilCubey = new RenderableComponent("igaf", "greenCheckers", &lilCube);
 	
+	light->LookAt(Vec3());
+	spotLight = new Light(light, Vec4(1.8f, 1.8f, 1.8f, 1.0f), Light::Spot);
 	
+	ambientLightColor = Vec4(0.1, 0.1, 0.1, 1);
 
 	ModelManager::getInstance()->PushModels();
 

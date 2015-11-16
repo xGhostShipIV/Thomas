@@ -34,7 +34,10 @@ public:
 	//Will delete all gameObjects that have been flagged for deletion
 	void LevelCleanUp();
 
+	void SetAmbientColor(Vec4 _color);
 protected:
 	virtual void DebugRender(){};
+
+	Vec4 ambientLightColor;
 };
 

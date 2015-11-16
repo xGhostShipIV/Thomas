@@ -7,7 +7,12 @@ ModelManager * ModelManager::instance;
 GLuint ModelManager::colourLocation;
 GLuint ModelManager::transformLocation;
 GLuint ModelManager::translateLocation;
+GLuint ModelManager::ambientLocation;
 GLuint ModelManager::normalLocation;
+GLuint ModelManager::materialLocation;
+GLuint ModelManager::lightColorLocation;
+GLuint ModelManager::lightDirectionLocation;
+
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -21,7 +26,11 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		colourLocation = glGetUniformLocation(program, "fColor");
 		transformLocation = glGetUniformLocation(program, "Transform");
 		translateLocation = glGetUniformLocation(program, "vTranslate");
-		normalLocation = glGetUniformLocation(program, "vNormal");
+		normalLocation = glGetUniformLocation(program, "Normal");
+		ambientLocation = glGetUniformLocation(program, "AmbientColor");
+		materialLocation = glGetUniformLocation(program, "Material");
+		lightColorLocation = glGetUniformLocation(program, "LightColor");
+		lightDirectionLocation = glGetUniformLocation(program, "LightDirection");
 	}
 }
 

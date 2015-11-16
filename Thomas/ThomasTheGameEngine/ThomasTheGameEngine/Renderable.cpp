@@ -3,13 +3,18 @@
 #include "GameObject.h"
 #include "ModelManager.h"
 #include "Texture.h"
+#include "Material.h"
 
-void OpenGL_Renderable::Draw(GameObject& parentTransform, Texture *_texture)
+void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Texture *_texture)
 {
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};
 	glUniform4fv(ModelManager::getInstance()->translateLocation, 1, pos);
+
+	//MATERIAL UNIFORM JUNK
+	float mat[] {_mat->ambient, _mat->diffuse, _mat->specular};
+	glUniform3fv(ModelManager::getInstance()->materialLocation, 1, mat);
 
 	//Get Texture
 	if (_texture)

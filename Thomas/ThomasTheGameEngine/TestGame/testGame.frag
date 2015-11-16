@@ -5,6 +5,12 @@ out vec4 fColor;
 in vec2 texCoord;
 uniform sampler2D texture;
 
+in vec4 vAmbientColor;
+in vec4 vLightColor;
+in vec4 vLightDirection;
+in vec3 vMaterial;
+in vec4 vNormal;
+
 void main()
 {	
 
@@ -62,6 +68,18 @@ void main()
 		{
 			fColor = texture2D(texture, texCoord);		
 		}
+
+		//lighting calculations
+		vec4 ambientLight = (vMaterial.x * vAmbientColor * fColor);
+
+		vec4 diffuse = (vLightColor * vMaterial.y * dot(vLightDirection, vNormal));
+
+		diffuse.x = diffuse.x < 0 ? 0 : diffuse.x;
+		diffuse.y = diffuse.y < 0 ? 0 : diffuse.y;
+		diffuse.z = diffuse.z < 0 ? 0 : diffuse.z;
+		diffuse.w = diffuse.w < 0 ? 0 : diffuse.w;
+
+		fColor = ambientLight + diffuse;
 	}
 	
 }

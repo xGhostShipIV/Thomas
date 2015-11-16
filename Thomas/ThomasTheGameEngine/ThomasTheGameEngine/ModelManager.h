@@ -33,7 +33,8 @@ class ModelManager
 public:
 	~ModelManager();
 
-	static GLuint colourLocation, transformLocation, translateLocation, normalLocation;
+	static GLuint colourLocation, transformLocation, translateLocation, normalLocation, materialLocation;
+	static GLuint ambientLocation, lightColorLocation, lightDirectionLocation;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;

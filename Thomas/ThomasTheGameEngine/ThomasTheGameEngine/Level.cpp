@@ -1,11 +1,12 @@
 #include "Level.h"
 #include "OpenGLUtilities.h"
-
+#include "ModelManager.h"
 Level::Level()
 {
 	mainCamera = new Camera();
 	currentCamera = mainCamera;
 
+	ambientLightColor = Vec4(0.5f, 0.5f, 0.5f, 1.0f);
 	gameObjects.push_back(currentCamera);
 }
 
@@ -16,6 +17,17 @@ Level::~Level()
 
 void Level::LevelRender()
 {
+	float ambient[] = { ambientLightColor.x, ambientLightColor.y, ambientLightColor.z, ambientLightColor.w };
+	glUniform4fv(ModelManager::getInstance()->ambientLocation, 1, ambient);
+
+	//Pre-Render
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (!gameObjects[i]->isFlagged)
+			gameObjects[i]->PreRender();
+	}
+
+	//Render
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
 		if (!gameObjects[i]->isFlagged)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <string>
+#include "Material.h"
 
 /*
 	A component that contains all the graphical information that can be
@@ -15,7 +16,9 @@ public:
 	//the model information from the modelManager
 	std::string modelName, textureName;
 
-	RenderableComponent(std::string _modelID, std::string _textureID, GameObject* _parent);
+	Material * mat;
+
+	RenderableComponent(std::string _modelID, std::string _textureID, GameObject* _parent, Material * mat = new Material(1.0f, 1.0f, 1.0f));
 
 	//Draws a filled in model
 	void DrawModel();
