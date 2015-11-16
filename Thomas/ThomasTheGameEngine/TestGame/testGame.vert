@@ -11,6 +11,7 @@ out vec4 vLightColor;
 out vec4 vLightDirection;
 out vec3 vMaterial;
 out vec4 vNormal;
+out vec4 fPosition;
 
 uniform float fColor;
 uniform vec4 Normal;
@@ -26,6 +27,8 @@ uniform vec4 LightDirection;
 void main()
 {
 	gl_Position = cameraMatrix * (Transform * vPosition);
+	fPosition = gl_Position;
+
 	vColor = fColor;
 
 	/* Textures */

@@ -45,3 +45,36 @@ public:
 		go->Scale(Vec3(1/1.1f, 1/1.1f, 1/1.1f));
 	}
 };
+
+class AmbientBrightnessDown : public InputComponent {
+
+	Vec4* color;
+
+public:
+	AmbientBrightnessDown(Vec4* _color) : color(_color), InputComponent(nullptr) {};
+	void whenPressed(){
+		*color -= Vec4(0.01, 0.01, 0.01, 0);
+
+		(*color).x = (*color).x < 0 ? 0 : (*color).x;
+		(*color).y = (*color).y < 0 ? 0 : (*color).y;
+		(*color).z = (*color).z < 0 ? 0 : (*color).z;
+		(*color).w = (*color).w < 0 ? 0 : (*color).w;
+
+	}
+};
+
+class AmbientBrightnessUp : public InputComponent {
+
+	Vec4* color;
+
+public:
+	AmbientBrightnessUp(Vec4* _color) : color(_color), InputComponent(nullptr) {};
+	void whenPressed(){
+		*color += Vec4(0.01, 0.01, 0.01, 0);
+
+		(*color).x = (*color).x > 1 ? 1 : (*color).x;
+		(*color).y = (*color).y > 1 ? 1 : (*color).y;
+		(*color).z = (*color).z > 1 ? 1 : (*color).z;
+		(*color).w = (*color).w > 1 ? 1 : (*color).w;
+	}
+};

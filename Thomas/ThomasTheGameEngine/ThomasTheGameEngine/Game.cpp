@@ -51,7 +51,7 @@ Game::Game()
 		exit(EXIT_FAILURE);
 	}
 
-	glEnable(GL_CULL_FACE | GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CCW);
 

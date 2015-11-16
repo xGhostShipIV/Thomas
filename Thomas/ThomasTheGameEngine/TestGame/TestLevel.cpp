@@ -19,7 +19,7 @@ TestLevel::TestLevel()
 	lilCube = GameObject();
 	lilCube.position = Vec3(3, 0, 0);
 	//lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
-	light = new GameObject(Vec3(-2, 8, 0));
+	light = new GameObject(Vec3(-4, 8, 0));
 
 	cube.addChild(&lilCube);
 
@@ -43,9 +43,12 @@ TestLevel::TestLevel()
 	lilCubey = new RenderableComponent("igaf", "greenCheckers", &lilCube);
 	
 	light->LookAt(Vec3());
-	spotLight = new Light(light, Vec4(1.8f, 1.8f, 1.8f, 1.0f), Light::Spot);
+	spotLight = new Light(light, Vec4(.6f, 0.6f, 0.6f, 1.0f), Light::Spot);
 	
 	ambientLightColor = Vec4(0.1, 0.1, 0.1, 1);
+
+
+
 
 	ModelManager::getInstance()->PushModels();
 
@@ -94,6 +97,12 @@ TestLevel::TestLevel()
 
 	GameObject_ScaleDown* goSD = new GameObject_ScaleDown(&cube);
 	Game::GetInstance()->inputManager->bindKey(SDLK_DOWN, goSD);
+
+	AmbientBrightnessUp* abu = new AmbientBrightnessUp(&ambientLightColor);
+	Game::GetInstance()->inputManager->bindKey(Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT], abu);
+
+	AmbientBrightnessDown* abd = new AmbientBrightnessDown(&ambientLightColor);
+	Game::GetInstance()->inputManager->bindKey(Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT], abd);
 }
 
 TestLevel::~TestLevel(){}

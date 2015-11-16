@@ -10,6 +10,7 @@ in vec4 vLightColor;
 in vec4 vLightDirection;
 in vec3 vMaterial;
 in vec4 vNormal;
+in vec4 fPosition;
 
 void main()
 {	
@@ -66,20 +67,19 @@ void main()
 		}
 		else
 		{
-			fColor = texture2D(texture, texCoord);		
+			//lighting calculations
+			vec4 ambientLight = (vMaterial.x * vAmbientColor * texture2D(texture, texCoord));
+
+			vec4 diffuse = (vLightColor * vMaterial.y * dot(vLightDirection, vNormal));
+
+			diffuse.x = diffuse.x < 0 ? 0 : diffuse.x;
+			diffuse.y = diffuse.y < 0 ? 0 : diffuse.y;
+			diffuse.z = diffuse.z < 0 ? 0 : diffuse.z;
+			diffuse.w = diffuse.w < 0 ? 0 : diffuse.w;
+
+			fColor = ambientLight + diffuse;
 		}
-
-		//lighting calculations
-		vec4 ambientLight = (vMaterial.x * vAmbientColor * fColor);
-
-		vec4 diffuse = (vLightColor * vMaterial.y * dot(vLightDirection, vNormal));
-
-		diffuse.x = diffuse.x < 0 ? 0 : diffuse.x;
-		diffuse.y = diffuse.y < 0 ? 0 : diffuse.y;
-		diffuse.z = diffuse.z < 0 ? 0 : diffuse.z;
-		diffuse.w = diffuse.w < 0 ? 0 : diffuse.w;
-
-		fColor = ambientLight + diffuse;
+		
 	}
 	
 }

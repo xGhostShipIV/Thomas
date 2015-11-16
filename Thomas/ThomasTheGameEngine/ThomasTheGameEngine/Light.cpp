@@ -15,7 +15,7 @@ Light::~Light()
 
 void Light::PushLight(Vec3 _forward)
 {
-	float light[] {colourIntensity.x, colourIntensity.y, colourIntensity.z, colourIntensity.w};
+	float light[] {colourIntensity.w, colourIntensity.x, colourIntensity.y, colourIntensity.z};
 	glUniform4fv(ModelManager::getInstance()->lightColorLocation, 1, light);
 
 	float direction[] {_forward.x, _forward.y, _forward.z, 0};

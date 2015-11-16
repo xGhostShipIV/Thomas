@@ -73,8 +73,9 @@ Vec3 GameObject::up() {
 }
 
 void GameObject::LookAt(Vec3 _target){
-	Vec3 pointToTarget = _target - position;
-	rotation = Quat(2 * acos(rotation.w), pointToTarget);
+	Vec3 pointToTarget = (_target - position).Normalized();
+
+	rotation = Quat(acos(Vec3::dot(forward(), pointToTarget)), Vec3::cross(forward(), pointToTarget));
 }
 
 

@@ -29,7 +29,9 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Textu
 
 	for (int i = 0; i < face.size(); i++)
 	{
-		float norm[] {normal[i].x, normal[i].y, normal[i].z, 0};
+		Vec3 _normal = Quat::rotate(parentTransform.rotation, normal[i]);
+
+		float norm[] {_normal.x, _normal.y, _normal.z, 0};
 		glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
 
 		if (face[i] == 4)
