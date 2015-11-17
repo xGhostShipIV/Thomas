@@ -11,7 +11,7 @@ public:
 	~Frustrum();
 
 	//Pass in a game object and this method will return true if the object is within the frustrum
-	bool checkObjectInside(GameObject * _go);
+	bool checkObjectInside(GameObject * _go, Camera * _c);
 
 	//Returns a copy of the frustrum but matched to the current cameras transform
 	Frustrum getTransofmedFrustrum(Camera * camera);

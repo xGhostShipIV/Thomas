@@ -146,7 +146,7 @@ Vec4 Vec4::HomoVec3(Vec3 value) {
 	return Vec4(value.x, value.y, value.z, 1);
 }
 
-Vec3 DownCast(Vec4 _v){
+Vec3 Vec4::DownCast(Vec4 _v){
 	return Vec3(_v.w, _v.x, _v.y);
 }
 
