@@ -49,6 +49,7 @@ public:
 	static Vec4 BasisY();
 	static Vec4 BasisZ();
 	static Vec4 HomoVec3(Vec3);
+	static Vec3 DownCast(Vec4);
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 
