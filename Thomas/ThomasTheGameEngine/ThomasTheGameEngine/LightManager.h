@@ -30,7 +30,10 @@ public:
 private:
 	LightManager();
 
+	void ResetDirectional();
+
 	unsigned int directionIndex;
 	static const unsigned int DirectionLength = 2;
 	DirectionalLight Directional[DirectionLength];
+
 };

@@ -218,6 +218,4 @@ void GameObject::PreRender()
 	{
 		light->PushLight(forward());
 	}
-
-	LightManager::getInstance()->PushLights();
 }

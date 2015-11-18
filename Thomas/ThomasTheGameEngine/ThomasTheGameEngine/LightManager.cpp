@@ -5,10 +5,20 @@ LightManager * LightManager::instance;
 
 LightManager::LightManager()
 {
-	directionIndex = 0;
+	ResetDirectional();
 }
 
 LightManager::~LightManager(){}
+
+void LightManager::ResetDirectional()
+{
+	directionIndex = 0;
+	for (int i = 0; i < DirectionLength; i++)
+	{
+		Directional[i].color = Vec4::Zero();
+		Directional[i].direction = Vec4::Zero();
+	}
+}
 
 void LightManager::InputDirectionalLight(Vec4 _color, Vec4 _direction)
 {
@@ -42,6 +52,8 @@ void LightManager::PushLights()
 
 		glUniform4fv(ModelManager::getInstance()->lightColor_Directional_Location, DirectionLength, color);
 		glUniform4fv(ModelManager::getInstance()->lightDirection_Directional_Location, DirectionLength, direction);
+
+		ResetDirectional();
 	}
 		
 }

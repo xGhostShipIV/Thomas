@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "OpenGLUtilities.h"
 #include "ModelManager.h"
+#include "LightManager.h"
+
 Level::Level()
 {
 	mainCamera = new Camera();
@@ -26,6 +28,8 @@ void Level::LevelRender()
 		if (!gameObjects[i]->isFlagged)
 			gameObjects[i]->PreRender();
 	}
+	LightManager::getInstance()->PushLights();
+
 
 	//Render
 	for (int i = 0; i < gameObjects.size(); i++)
