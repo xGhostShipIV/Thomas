@@ -47,27 +47,33 @@ bool Frustrum::checkObjectInside(GameObject * _go, Camera * _c)
 
 	//Near Plane
 	Plane p = Plane(Vec3(f.nearTopLeft.x, f.nearBottomRight.y, f.nearBottomRight.z), f.nearTopLeft, f.nearBottomRight);
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	if (p.DistanceToPoint(_go->position) < 0) 
+		return false;
 
 	//Far Plane
 	p = Plane(Vec3(f.farTopLeft.x, f.farBottomRight.y, f.farBottomRight.z), f.farTopLeft, f.farBottomRight);
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	if (p.DistanceToPoint(_go->position) > 0) 
+		return false;
 
 	//Left Plane
-	p = Plane(Vec3(f.farTopLeft.x, f.farBottomRight.y, f.farBottomRight.z),f.farTopLeft,Vec3(f.nearTopLeft.x, f.nearBottomRight.y, f.nearBottomRight.z));
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	p = Plane(Vec3(f.farTopLeft.x, f.farBottomRight.y, f.farBottomRight.z),f.farTopLeft, f.nearTopLeft); //Vec3(f.nearTopLeft.x, f.nearBottomRight.y, f.nearBottomRight.z)
+	if (p.DistanceToPoint(_go->position) < 0) 
+		return false;
 
 	//Right Plane
 	p = Plane(f.nearBottomRight, Vec3(f.nearBottomRight.x, f.nearTopLeft.y, f.nearBottomRight.z), f.farBottomRight);
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	if (p.DistanceToPoint(_go->position) < 0) 
+		return false;
 
 	//Top Plane
 	p = Plane(f.nearTopLeft, f.farTopLeft, Vec3(f.nearBottomRight.x, f.nearTopLeft.y, f.nearBottomRight.z));
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	if (p.DistanceToPoint(_go->position) < 0) 
+		return false;
 
 	//Bottom Plane
 	p = Plane(Vec3(f.farTopLeft.x, f.farBottomRight.y, f.farBottomRight.z), Vec3(f.nearTopLeft.x, f.nearBottomRight.y, f.nearBottomRight.z), f.farBottomRight);
-	if (p.DistanceToPoint(_go->position) < 0) return false;
+	if (p.DistanceToPoint(_go->position) < 0) 
+		return false;
 
 	//If youve made it this far, you're inside
 	//CONGRATULATIONS!
