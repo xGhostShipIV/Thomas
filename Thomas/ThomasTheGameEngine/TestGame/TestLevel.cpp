@@ -19,7 +19,8 @@ TestLevel::TestLevel()
 	lilCube = GameObject();
 	lilCube.position = Vec3(3, 0, 0);
 	//lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
-	light = new GameObject(Vec3(-4, 8, 0));
+	light = GameObject(Vec3(-4, 8, 0));
+	soBright = GameObject(Vec3(0, 0, -5));
 
 	cube.addChild(&lilCube);
 
@@ -27,7 +28,8 @@ TestLevel::TestLevel()
 	gameObjects.push_back(at);
 	gameObjects.push_back(&cube);
 	gameObjects.push_back(&lilCube);
-	gameObjects.push_back(light);
+	gameObjects.push_back(&light);
+	gameObjects.push_back(&soBright);
 
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePyramid("igaf", .5f, .5f, .5f);
@@ -42,13 +44,13 @@ TestLevel::TestLevel()
 	cubey = new RenderableComponent("idgaf", "greenCheckers", &cube);
 	lilCubey = new RenderableComponent("igaf", "greenCheckers", &lilCube);
 	
-	light->LookAt(Vec3());
-	spotLight = new Light(light, Vec4(.6f, 0.6f, 0.6f, 1.0f), Light::Spot);
+	light.LookAt(Vec3());
+	soBright.LookAt(Vec3());
+
+	directionLightOne = new Light(&light, Vec4(.6f, 0.6f, 0.6f, 1.0f), Light::Directional);
+	directionLightTwo = new Light(&soBright, Vec4(1, 0, 0, 1.0f), Light::Directional);
 	
 	ambientLightColor = Vec4(0.1, 0.1, 0.1, 1);
-
-
-
 
 	ModelManager::getInstance()->PushModels();
 
@@ -119,3 +121,4 @@ void TestLevel::DebugRender()
 	/*cubey->DrawModel();
 	cubey->DrawWireframe();*/
 }
+

@@ -17,7 +17,6 @@ class Texture;
 typedef std::string string;
 typedef unsigned int UINT32;
 
-
 class ModelManager
 {
 	friend class RenderableComponent;
@@ -34,7 +33,7 @@ public:
 	~ModelManager();
 
 	static GLuint colourLocation, transformLocation, translateLocation, normalLocation, materialLocation;
-	static GLuint ambientLocation, lightColorLocation, lightDirectionLocation;
+	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;

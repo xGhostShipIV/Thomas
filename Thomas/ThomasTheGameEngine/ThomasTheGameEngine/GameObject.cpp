@@ -7,7 +7,7 @@
 #include "InputComponent.h"
 #include "Light.h"
 #include <iostream>
-
+#include "LightManager.h"
 
 void GameObject::Translate(Vec3 _translate){
 	position += _translate;
@@ -218,4 +218,6 @@ void GameObject::PreRender()
 	{
 		light->PushLight(forward());
 	}
+
+	LightManager::getInstance()->PushLights();
 }

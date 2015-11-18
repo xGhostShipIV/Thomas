@@ -31,8 +31,8 @@ public:
 	GameObject cube, lilCube;
 	RenderableComponent *cubey, *lilCubey;
 	Texture* texture;
-	GameObject * light;
-	Light * spotLight;
+	GameObject light, soBright;
+	Light *directionLightOne, *directionLightTwo;
 
 	void DebugRender() override;
 	void LevelUpdate(UINT32 _timeStep) override;

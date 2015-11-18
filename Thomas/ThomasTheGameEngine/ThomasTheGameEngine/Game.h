@@ -32,13 +32,11 @@ private:
 
 	//variables to track gameTime
 	Uint32 lastUpdateTime, timeSincelastUpdate;
-
+protected:	
 	//SDL relevant variables to initialize the window
 	SDL_Window* gameWindow;
 	SDL_Renderer* gameRenderer;
 	SDL_GLContext glcontext;
-
-protected:	
 
 	Game();	
 

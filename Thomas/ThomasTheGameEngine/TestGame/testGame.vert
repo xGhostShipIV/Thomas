@@ -7,8 +7,8 @@ in vec2 vTexCoord;
 out vec2 texCoord;
 
 out vec4 vAmbientColor;
-out vec4 vLightColor;
-out vec4 vLightDirection;
+out vec4[2] vLightColor_Directional;
+out vec4[2] vLightDirection_Directional;
 out vec3 vMaterial;
 out vec4 vNormal;
 out vec4 fPosition;
@@ -21,8 +21,8 @@ uniform mat4 Transform;
 uniform vec3 Material;
 
 uniform vec4 AmbientColor;
-uniform vec4 LightColor;
-uniform vec4 LightDirection;
+uniform vec4[2] LightColor_Directional;
+uniform vec4[2] LightDirection_Directional;
 
 void main()
 {
@@ -35,8 +35,8 @@ void main()
 	texCoord = vTexCoord;
 
 	vAmbientColor = AmbientColor;
-	vLightColor = LightColor;
-	vLightDirection = LightDirection;
+	vLightColor_Directional = LightColor_Directional;
+	vLightDirection_Directional = LightDirection_Directional;
 	vMaterial = Material;
 	vNormal = Normal;
 }

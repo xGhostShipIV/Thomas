@@ -10,8 +10,8 @@ GLuint ModelManager::translateLocation;
 GLuint ModelManager::ambientLocation;
 GLuint ModelManager::normalLocation;
 GLuint ModelManager::materialLocation;
-GLuint ModelManager::lightColorLocation;
-GLuint ModelManager::lightDirectionLocation;
+GLuint ModelManager::lightColor_Directional_Location;
+GLuint ModelManager::lightDirection_Directional_Location;
 
 
 ModelManager::ModelManager(Render_Mode _render_mode)
@@ -29,8 +29,8 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		normalLocation = glGetUniformLocation(program, "Normal");
 		ambientLocation = glGetUniformLocation(program, "AmbientColor");
 		materialLocation = glGetUniformLocation(program, "Material");
-		lightColorLocation = glGetUniformLocation(program, "LightColor");
-		lightDirectionLocation = glGetUniformLocation(program, "LightDirection");
+		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
+		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
 	}
 }
 

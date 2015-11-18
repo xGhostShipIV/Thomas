@@ -6,8 +6,8 @@ in vec2 texCoord;
 uniform sampler2D texture;
 
 in vec4 vAmbientColor;
-in vec4 vLightColor;
-in vec4 vLightDirection;
+in vec4[2] vLightColor_Directional;
+in vec4[2] vLightDirection_Directional;
 in vec3 vMaterial;
 in vec4 vNormal;
 in vec4 fPosition;
@@ -67,15 +67,24 @@ void main()
 		}
 		else
 		{
-			//lighting calculations
+			//Ambient
 			vec4 ambientLight = (vMaterial.x * vAmbientColor * texture2D(texture, texCoord));
 
-			vec4 diffuse = (vLightColor * vMaterial.y * dot(vLightDirection, vNormal));
+			//Direction
+			vec4 diffuse = vec4(0, 0, 0, 0);
 
-			diffuse.x = diffuse.x < 0 ? 0 : diffuse.x;
-			diffuse.y = diffuse.y < 0 ? 0 : diffuse.y;
-			diffuse.z = diffuse.z < 0 ? 0 : diffuse.z;
-			diffuse.w = diffuse.w < 0 ? 0 : diffuse.w;
+			for (int i = 0; i < vLightDirection_Directional.length(); i++)
+			{
+				vec4 directionalDiffuse = (vLightColor_Directional[i] * vMaterial.y * dot(vLightDirection_Directional[i], vNormal));
+
+				directionalDiffuse.x = directionalDiffuse.x < 0 ? 0 : directionalDiffuse.x;
+				directionalDiffuse.y = directionalDiffuse.y < 0 ? 0 : directionalDiffuse.y;
+				directionalDiffuse.z = directionalDiffuse.z < 0 ? 0 : directionalDiffuse.z;
+				directionalDiffuse.w = directionalDiffuse.w < 0 ? 0 : directionalDiffuse.w;
+
+				diffuse += directionalDiffuse;
+			}
+
 
 			fColor = ambientLight + diffuse;
 		}
