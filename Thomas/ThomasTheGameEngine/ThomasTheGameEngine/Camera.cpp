@@ -20,7 +20,7 @@ void Camera::CalculateCameraMatrix()
 {
 	GameProperties * gp = GameProperties::getInstance();
 
-	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio(), 0.00001f, gp->getVideoProperties()->drawDistance);
+	glm::mat4 m = glm::perspective(45.0f, gp->getVideoProperties()->aspectRatio(), 0.1f, gp->getVideoProperties()->drawDistance);
 
 	Vec3 camForward = Quat::rotate(GetTransform().rotation, Vec3::BasisZ());//(Matrix4::Rotate(transform->rotation) * Vec4::BasisZ());
 	Vec3 forawrd = GetTransform().position + camForward;//Vec3(camForward.x, camForward.y, camForward.z);

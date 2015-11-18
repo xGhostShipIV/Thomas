@@ -30,6 +30,11 @@ void Level::LevelRender()
 	//Render
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
+		if (!currentCamera->frustrum.checkObjectInside(gameObjects[i], currentCamera))
+		{
+			printf("YOU SUCKS");
+		}
+
 		if (!gameObjects[i]->isFlagged)
 			gameObjects[i]->Render();
 		else

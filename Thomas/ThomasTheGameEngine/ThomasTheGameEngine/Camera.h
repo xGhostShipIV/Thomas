@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Frustrum.h"
 #include "../Math/four_dimensions.hpp"
 
 class Camera :
@@ -8,6 +9,8 @@ class Camera :
 public:
 	Camera();
 	~Camera();
+
+	Frustrum frustrum;
 
 	//Returns a matrix of all aspects of the camera to be used by the GPU.
 	// I.e. projection and model view matrix
