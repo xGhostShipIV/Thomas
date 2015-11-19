@@ -13,6 +13,9 @@ GLuint ModelManager::materialLocation;
 GLuint ModelManager::lightColor_Directional_Location;
 GLuint ModelManager::lightDirection_Directional_Location;
 
+GLuint ModelManager::lightColor_Point_Location;
+GLuint ModelManager::lightPosition_Point_Location;
+GLuint ModelManager::lightRadius_Point_Location;
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -31,6 +34,9 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		materialLocation = glGetUniformLocation(program, "Material");
 		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
 		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
+		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
+		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
+		lightRadius_Point_Location = glGetUniformLocation(program, "LightRadius_Point");
 	}
 }
 

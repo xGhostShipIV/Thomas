@@ -37,6 +37,7 @@ protected:
 	SDL_Window* gameWindow;
 	SDL_Renderer* gameRenderer;
 	SDL_GLContext glcontext;
+	float FPS;
 
 	Game();	
 

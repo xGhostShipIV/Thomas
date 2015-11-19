@@ -13,6 +13,10 @@
 
 Game* Game::instance = nullptr;
 
+int timeStart, timeSinceLastFPSUpdate, timeSinceLastUpdate, updatesCount;
+float deltaTime;
+float FPS_CAP;
+
 Game::Game()
 {
 	instance = this;
@@ -29,6 +33,7 @@ Game::Game()
 	properties = GameProperties::getInstance();
 
 	SDL_RendererInfo displayRendererInfo;
+	
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
 		SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
 
@@ -61,6 +66,24 @@ Game::Game()
 	modelManager = ModelManager::getInstance();
 
 	currentLevel = nullptr;
+
+	/* Get Moniter Refresh Rate */
+	SDL_DisplayMode target, moniter;
+	target.w = properties->getVideoProperties()->screenWidth;
+	target.h = properties->getVideoProperties()->screenHeight;
+	target.format = 0;  // don't care
+	target.refresh_rate = 0; // don't care
+	target.driverdata = 0; // initialize to 0
+	SDL_GetClosestDisplayMode(0, &target, &moniter);
+	FPS_CAP = moniter.refresh_rate * 5 / 6.0f;
+
+	//FPS
+	{
+		timeSinceLastUpdate = timeStart = glutGet(GLUT_ELAPSED_TIME);
+		updatesCount = 0;
+		timeSinceLastFPSUpdate = timeStart;
+		FPS = 0;
+	}
 };
 
 Game::~Game()
@@ -81,11 +104,13 @@ void Game::StartGame()
 	//Event Handling
 	SDL_Event evt;
 
+	Uint32 timeSinceLastRender = 0;
+
 	/* Game Loop */
 	while (isRunning)
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
-		if (timeSincelastUpdate >= 1000 / 50)
+		if (timeSincelastUpdate >= 1000 /1000.0f)
 		{
 			lastUpdateTime = SDL_GetTicks();
 
@@ -101,7 +126,7 @@ void Game::StartGame()
 				//There is a dictinoary in the InputController that maps specific mouse input to Virtual keycodes from SDL_Keycode
 				//This allows mouse input to function identically to keyboard input in this particular manager.
 				//The actual dictionary entries can be found in the InputController constructor
-				
+
 				if (evt.type == SDL_MOUSEBUTTONDOWN)
 					InputController::getInstance()->hitKey(InputController::getInstance()->mouseButtonDict[evt.button.button]);
 				else if (evt.type == SDL_MOUSEBUTTONUP)
@@ -116,8 +141,16 @@ void Game::StartGame()
 			SDL_PumpEvents();
 
 			EngineUpdate(timeSincelastUpdate);
-			EngineRender();
-		}
+
+			timeSinceLastRender += timeSincelastUpdate;
+
+			if (timeSinceLastRender >= 1000 / FPS_CAP)
+			{
+				timeSinceLastRender = 0;
+				EngineRender();
+			}
+			
+		}		
 	}
 }
 
@@ -131,13 +164,30 @@ void Game::EngineUpdate(Uint32 _timeStep)
 	Update(_timeStep);
 }
 
+
+
 void Game::EngineRender()
 {
+	//FPS
+	{
+		int updateTime = glutGet(GLUT_ELAPSED_TIME);
+		timeSinceLastUpdate = updateTime;
+		updatesCount++;
+
+		if (updatesCount >= 10)
+		{
+			FPS = updatesCount / ((float)(updateTime - timeSinceLastFPSUpdate) / 1000.f);
+			timeSinceLastFPSUpdate = updateTime;
+			updatesCount = 0;
+		}
+	}
+
 	/* Set the background */
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	/* Clear The Screen And The Depth Buffer */
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	/* Clear The Screen And The Depth Buffer */
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	
 	//Call the update for the current level
 	if (currentLevel)
 		currentLevel->LevelRender();
@@ -148,9 +198,6 @@ void Game::EngineRender()
 	/* Render to screen */
 	SDL_RenderPresent(gameRenderer);
 	SDL_GL_SwapWindow(gameWindow);
-
-
-	//glFlush();
 
 	PostRender();
 }

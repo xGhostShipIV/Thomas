@@ -15,14 +15,14 @@ GLuint Buffers[NumBuffers];
 
 TestLevel::TestLevel()
 {
-	cube = GameObject();
-	lilCube = GameObject();
-	lilCube.position = Vec3(3, 0, 0);
+	cube = GameObject(Vec3(0, 0, 0));
+	lilCube = GameObject(Vec3(2, 0, 0));
 	//lilCube.scale = (Vec3(0.3f, 0.3f, 0.3f));
 	light = GameObject(Vec3(-4, 8, 0));
-	soBright = GameObject(Vec3(0, 0, -5));
+	soBright = GameObject(Vec3(0, 0, -3));
 
-	cube.addChild(&lilCube);
+	//cube.addChild(&lilCube);
+	cube.addChild(&soBright);
 
 	at = new AudioTester();
 	gameObjects.push_back(at);
@@ -33,6 +33,7 @@ TestLevel::TestLevel()
 
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePyramid("igaf", .5f, .5f, .5f);
+	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
 
 	float pixelData[]
 	{
@@ -41,14 +42,22 @@ TestLevel::TestLevel()
 	};
 	ModelManager::getInstance()->createTexture("greenCheckers", pixelData, 2, 2);
 
+	float pixelDataRed[]
+	{
+		1.0f, 0.0f, 0.0f,	1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,	1.0f, 0.0f, 0.0f
+	};
+	ModelManager::getInstance()->createTexture("redCheckers", pixelDataRed, 2, 2);
+
 	cubey = new RenderableComponent("idgaf", "greenCheckers", &cube);
 	lilCubey = new RenderableComponent("igaf", "greenCheckers", &lilCube);
-	
+	pointyLight = new RenderableComponent("light", "redCheckers", &soBright);
+
 	light.LookAt(Vec3());
 	soBright.LookAt(Vec3());
 
 	directionLightOne = new Light(&light, Vec4(.6f, 0.6f, 0.6f, 1.0f), Light::Directional);
-	directionLightTwo = new Light(&soBright, Vec4(1, 0, 0, 1.0f), Light::Directional);
+	directionLightTwo = new Light(&soBright, Vec4(10, 0, 0, 1.0f), Light::Point, 3.0f);
 	
 	ambientLightColor = Vec4(0.1, 0.1, 0.1, 1);
 
@@ -113,7 +122,7 @@ void TestLevel::LevelUpdate(UINT32 _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	cube.GetTransform().Rotate(Quat(0.01570796f, Vec3(0, 1, 0)));
+	//cube.GetTransform().Rotate(Quat(0.01570796f, Vec3(0, 1, 0)));
 }
 
 void TestLevel::DebugRender()

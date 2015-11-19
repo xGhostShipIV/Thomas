@@ -36,7 +36,7 @@ void Level::LevelRender()
 	{
 		if (!currentCamera->frustrum.checkObjectInside(gameObjects[i], currentCamera) && i != 0)
 		{
-			printf("YOU SUCKS: %d \n", i);
+			//printf("YOU SUCKS: %d \n", i);
 		}
 
 		if (!gameObjects[i]->isFlagged)
@@ -45,7 +45,7 @@ void Level::LevelRender()
 			gameObjectsToBeDeleted.push_back(gameObjects[i]);
 	}
 
-	printf("\n");
+	//printf("\n");
 
 	DebugRender();
 }

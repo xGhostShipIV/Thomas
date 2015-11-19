@@ -216,6 +216,6 @@ void GameObject::PreRender()
 
 	if (light)
 	{
-		light->PushLight(forward());
+		light->PushLight();
 	}
 }

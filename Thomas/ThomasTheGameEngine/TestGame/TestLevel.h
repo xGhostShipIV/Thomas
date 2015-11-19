@@ -29,7 +29,7 @@ public:
 
 	AudioTester * at;
 	GameObject cube, lilCube;
-	RenderableComponent *cubey, *lilCubey;
+	RenderableComponent *cubey, *lilCubey, *pointyLight;
 	Texture* texture;
 	GameObject light, soBright;
 	Light *directionLightOne, *directionLightTwo;

@@ -8,6 +8,9 @@ uniform sampler2D texture;
 in vec4 vAmbientColor;
 in vec4[2] vLightColor_Directional;
 in vec4[2] vLightDirection_Directional;
+in vec4[8]  vLightColor_Point;
+in vec4[8]  vLightPosition_Point;
+in float[8] vLightRadius_Point;
 in vec3 vMaterial;
 in vec4 vNormal;
 in vec4 fPosition;
@@ -67,12 +70,13 @@ void main()
 		}
 		else
 		{
-			//Ambient
+			/* AMBIENT LIGHTING */
 			vec4 ambientLight = (vMaterial.x * vAmbientColor * texture2D(texture, texCoord));
 
-			//Direction
+			/* DIFFUSE LIGHTING */
 			vec4 diffuse = vec4(0, 0, 0, 0);
 
+			//Directional
 			for (int i = 0; i < vLightDirection_Directional.length(); i++)
 			{
 				vec4 directionalDiffuse = (vLightColor_Directional[i] * vMaterial.y * dot(vLightDirection_Directional[i], vNormal));
@@ -80,9 +84,33 @@ void main()
 				directionalDiffuse.x = directionalDiffuse.x < 0 ? 0 : directionalDiffuse.x;
 				directionalDiffuse.y = directionalDiffuse.y < 0 ? 0 : directionalDiffuse.y;
 				directionalDiffuse.z = directionalDiffuse.z < 0 ? 0 : directionalDiffuse.z;
-				directionalDiffuse.w = directionalDiffuse.w < 0 ? 0 : directionalDiffuse.w;
+				directionalDiffuse.w = 0;
 
 				diffuse += directionalDiffuse;
+			}
+
+			//Point
+			for (int i = 0; i < vLightPosition_Point.length(); i++)
+			{
+				vec4 distanceToPoint =  fPosition - vLightPosition_Point[i];
+
+				//Check if in radius
+				//if (distanceToPoint.length() > vLightRadius_Point[i] && distanceToPoint.length() > 0)
+				//	continue;
+
+				float brightness = dot(vNormal, distanceToPoint) / (length(distanceToPoint) * length(vNormal));
+				brightness = clamp(brightness, 0, 1);
+				vec4 pointDiffuse = brightness * vLightColor_Point[i] * vMaterial.y;
+
+				pointDiffuse.x = pointDiffuse.x < 0 ? 0 : pointDiffuse.x;
+				pointDiffuse.y = pointDiffuse.y < 0 ? 0 : pointDiffuse.y;
+				pointDiffuse.z = pointDiffuse.z < 0 ? 0 : pointDiffuse.z;
+				pointDiffuse.w = 0;
+
+				//pointDiffuse *=  1 - (vLightRadius_Point[i] / (vLightRadius_Point[i] + distanceToPoint.length() * distanceToPoint.length()));
+				//pointDiffuse *=  1 / (distanceToPoint.length() * distanceToPoint.length());
+
+				diffuse += pointDiffuse;
 			}
 
 

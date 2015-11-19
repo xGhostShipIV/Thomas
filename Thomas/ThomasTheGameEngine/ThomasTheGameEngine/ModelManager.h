@@ -34,6 +34,7 @@ public:
 
 	static GLuint colourLocation, transformLocation, translateLocation, normalLocation, materialLocation;
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
+	static GLuint lightColor_Point_Location, lightPosition_Point_Location, lightRadius_Point_Location;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;
