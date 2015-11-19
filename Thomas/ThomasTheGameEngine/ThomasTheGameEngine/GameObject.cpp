@@ -33,7 +33,7 @@ void GameObject::Rotate(Quat _rotation){
 		//Children don't quite rotate at the right pace.
 		(*it)->Rotate(_rotation);
 		Vec3 newPos = (*it)->position - position;
-		(*it)->position = newPos.magnitude() * Quat::rotate(_rotation, newPos).Normalized();
+		(*it)->Translate((Quat::rotate(_rotation, newPos.Normalized()) * newPos.magnitude() + position) - (*it)->position);
 	}
 }
 
