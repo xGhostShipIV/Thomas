@@ -30,5 +30,9 @@ void Light::PushLight()
 		case Light_Type::Point:
 			LightManager::getInstance()->InputPointLight(colourIntensity, Vec4(parentObject->position.x, parentObject->position.y, parentObject->position.z, 0), Radius);
 			break;
+
+		case Light_Type::Spot:
+			LightManager::getInstance()->InputSpotLight(colourIntensity, Vec4(parentObject->position.x, parentObject->position.y, parentObject->position.z, 0), Vec4(_forward.x, _forward.y, _forward.z, 0), Radius, ConeAngle);
+			break;
 	}	
 }
