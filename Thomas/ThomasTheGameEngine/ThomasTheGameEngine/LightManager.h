@@ -51,7 +51,7 @@ private:
 	void ResetSpot();
 
 	unsigned int directionalIndex, pointIndex, spotIndex;
-	static const unsigned int DirectionalLength = 2, PointLength = 8, SpotLength = 8;
+	static const unsigned int DirectionalLength = 2, PointLength = 4, SpotLength = 4;
 	DirectionalLight Directional[DirectionalLength];
 	PointLight Point[PointLength];
 	SpotLight Spot[SpotLength];

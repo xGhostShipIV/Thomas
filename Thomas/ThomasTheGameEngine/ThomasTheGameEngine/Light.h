@@ -14,7 +14,7 @@ public:
 		Directional
 	};
 
-	Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _radius = 1, float _coneAngle = 60);
+	Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _radius = 1, float _coneAngle = 0.5f);
 	~Light();
 
 	Light_Type lightType;

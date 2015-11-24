@@ -69,7 +69,7 @@ class CameraBackward : public InputComponent {
 public:
 	CameraBackward(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(0, 0, 0.1f));
+		owner->position -= Quat::rotate(owner->rotation, Vec3(0, 0, 0.1f));
 	}
 };
 
@@ -80,7 +80,7 @@ class CameraTurnLeft : public InputComponent {
 public:
 	CameraTurnLeft(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().Rotate(Vec3(0, 0.1f, 0));
+		owner->Rotate(Vec3(0, 0.1f, 0));
 	}
 };
 
@@ -91,7 +91,7 @@ class CameraTurnRight : public InputComponent {
 public:
 	CameraTurnRight(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().Rotate(Vec3(0, -0.1f, 0));
+		owner->Rotate(Vec3(0, -0.1f, 0));
 	}
 };
 
@@ -102,7 +102,7 @@ class CameraTurnDown : public InputComponent {
 public:
 	CameraTurnDown(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().Rotate(Vec3(0.1f, 0, 0));
+		owner->Rotate(Vec3(0.1f, 0, 0));
 	}
 };
 
@@ -113,7 +113,7 @@ class CameraTurnUp : public InputComponent {
 public:
 	CameraTurnUp(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
 	void whenPressed(){
-		owner->GetTransform().Rotate(Vec3(-0.1f, 0, 0));
+		owner->Rotate(Vec3(-0.1f, 0, 0));
 	}
 };
 

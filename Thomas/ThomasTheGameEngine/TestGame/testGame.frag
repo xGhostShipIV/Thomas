@@ -8,9 +8,17 @@ uniform sampler2D texture;
 in vec4 vAmbientColor;
 in vec4[2] vLightColor_Directional;
 in vec4[2] vLightDirection_Directional;
-in vec4[8]  vLightColor_Point;
-in vec4[8]  vLightPosition_Point;
-in float[8] vLightRadius_Point;
+
+in vec4[4]  vLightColor_Point;
+in vec4[4]  vLightPosition_Point;
+in float[4] vLightRadius_Point;
+
+in vec4[4]	 vLightColor_Spot;
+in vec4[4]  vLightPosition_Spot;
+in vec4[4]  vLightDirection_Spot;
+in float[4] vLightRadius_Spot;
+in float[4] vLightAngle_Spot;
+
 in vec3 vMaterial;
 in vec4 vNormal;
 in vec4 fPosition;
@@ -79,7 +87,11 @@ void main()
 			//Directional
 			for (int i = 0; i < vLightDirection_Directional.length(); i++)
 			{
-				vec4 directionalDiffuse = (vLightColor_Directional[i] * vMaterial.y * dot(vLightDirection_Directional[i], vNormal));
+				//vec4 directionalDiffuse = (vLightColor_Directional[i] * vMaterial.y * dot(vLightDirection_Directional[i], vNormal));
+
+				float brightness = dot(vNormal, vLightDirection_Directional[i]) / (length(vLightDirection_Directional[i]) * length(vNormal));
+				brightness = clamp(brightness, 0, 1);
+				vec4 directionalDiffuse = brightness * vLightColor_Directional[i] * vMaterial.y;
 
 				directionalDiffuse.x = directionalDiffuse.x < 0 ? 0 : directionalDiffuse.x;
 				directionalDiffuse.y = directionalDiffuse.y < 0 ? 0 : directionalDiffuse.y;
@@ -113,6 +125,33 @@ void main()
 				diffuse += pointDiffuse;
 			}
 
+			//Spot
+			for (int i = 0; i < vLightPosition_Spot.length(); i++)
+			{
+				vec4 distanceToFrag =  vLightPosition_Spot[i] - fPosition;
+
+				//Check if in radius
+				//if (distanceToFrag.length() > vLightRadius_Spot[i] && distanceToFrag.length() > 0)
+				//	continue;
+
+				//Check if within cone
+				vec4 spotForward = vLightPosition_Spot[i] + vLightDirection_Spot[i];
+				if ( dot(distanceToFrag, spotForward) / (length(distanceToFrag) * length(spotForward))
+					 >  cos(vLightAngle_Spot[i] / 2.0f))
+				{
+
+					float brightness = dot(vNormal, vLightDirection_Spot[i]) / (length(vLightDirection_Spot[i]) * length(vNormal));
+					brightness = clamp(brightness, 0, 1);
+					vec4 spotDiffuse = brightness * vLightColor_Spot[i] * vMaterial.y;
+
+					spotDiffuse.x = spotDiffuse.x < 0 ? 0 : spotDiffuse.x;
+					spotDiffuse.y = spotDiffuse.y < 0 ? 0 : spotDiffuse.y;
+					spotDiffuse.z = spotDiffuse.z < 0 ? 0 : spotDiffuse.z;
+					spotDiffuse.w = 0;
+
+					diffuse += spotDiffuse;
+				}
+			}
 
 			fColor = ambientLight + diffuse;
 		}

@@ -135,5 +135,41 @@ void LightManager::PushLights()
 	}
 
 	//Spot
-		
+	{
+		float color[SpotLength * 4];
+		float position[SpotLength * 4];
+		float direction[SpotLength * 4];
+		float radius[SpotLength];
+		float angle[SpotLength];
+
+		for (int i = 0; i < SpotLength; i++)
+		{
+			color[i * 4 + 0] = Spot[i].color.w;
+			color[i * 4 + 1] = Spot[i].color.x;
+			color[i * 4 + 2] = Spot[i].color.y;
+			color[i * 4 + 3] = Spot[i].color.z;
+
+			position[i * 4 + 0] = Spot[i].position.w;
+			position[i * 4 + 1] = Spot[i].position.x;
+			position[i * 4 + 2] = Spot[i].position.y;
+			position[i * 4 + 3] = Spot[i].position.z;
+
+			direction[i * 4 + 0] = Spot[i].direction.w;
+			direction[i * 4 + 1] = Spot[i].direction.x;
+			direction[i * 4 + 2] = Spot[i].direction.y;
+			direction[i * 4 + 3] = Spot[i].direction.z;
+
+			radius[i] = Spot[i].radius;
+
+			angle[i] = Spot[i].coneAngle;
+		}
+
+		glUniform4fv(ModelManager::getInstance()->lightColor_Spot_Location, SpotLength, color);
+		glUniform4fv(ModelManager::getInstance()->lightPosition_Spot_Location, SpotLength, position);
+		glUniform4fv(ModelManager::getInstance()->lightDirection_Spot_Location, SpotLength, direction);
+		glUniform1fv(ModelManager::getInstance()->lightRadius_Spot_Location, SpotLength, radius);
+		glUniform1fv(ModelManager::getInstance()->lightAngle_Spot_Location, SpotLength, angle);
+
+		ResetSpot();
+	}
 }
