@@ -117,3 +117,15 @@ public:
 	}
 };
 
+class CameraResetOrientation : public InputComponent {
+
+	Camera* owner;
+
+public:
+	CameraResetOrientation(Camera* _owner) : owner(_owner), InputComponent(_owner) {};
+	void whenPressed(){
+		//owner->Rotate(owner->rotation.inverse().vector);
+		owner->LookAt(Vec3(0, 0, 0));
+	}
+};
+

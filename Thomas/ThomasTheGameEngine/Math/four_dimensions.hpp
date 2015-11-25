@@ -42,7 +42,7 @@ public:
 	//--------------------------------Constructors and Factories------------------------------------\\
 
 	Vec4();
-	Vec4(float, float, float, float);
+	Vec4(float _w, float _x, float _y, float _z);
 	static Vec4 Zero();
 	static Vec4 BasisW();
 	static Vec4 BasisX();

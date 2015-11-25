@@ -16,12 +16,10 @@ GLuint ModelManager::lightDirection_Directional_Location;
 
 GLuint ModelManager::lightColor_Point_Location;
 GLuint ModelManager::lightPosition_Point_Location;
-GLuint ModelManager::lightRadius_Point_Location;
 
 GLuint ModelManager::lightColor_Spot_Location;
 GLuint ModelManager::lightPosition_Spot_Location;
 GLuint ModelManager::lightDirection_Spot_Location;
-GLuint ModelManager::lightRadius_Spot_Location;
 GLuint ModelManager::lightAngle_Spot_Location;
 
 
@@ -31,7 +29,6 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 	if (_render_mode == RENDER_MODE_OPENGL)
 	{
-		GLU::OutputOpenGLVersion();
 		program = GLU::UseShaders("testGame.vert", "testGame.frag");
 
 		colourLocation = glGetUniformLocation(program, "fColor");
@@ -46,12 +43,10 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		
 		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
 		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
-		lightRadius_Point_Location = glGetUniformLocation(program, "LightRadius_Point");
 
 		lightColor_Spot_Location = glGetUniformLocation(program, "LightColor_Spot");
 		lightPosition_Spot_Location = glGetUniformLocation(program, "LightPosition_Spot");
 		lightDirection_Spot_Location = glGetUniformLocation(program, "LightDirection_Spot");
-		lightRadius_Spot_Location = glGetUniformLocation(program, "LightRadius_Spot");
 		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
 	}
 }
@@ -107,7 +102,7 @@ void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
 	render_mode = _rm;
 }
 
-void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
+void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l)
 {
 	Renderable * cube;
 
@@ -176,7 +171,7 @@ void ModelManager::CreateCuboid(string _id, float _h, float _w, float _l)
 	}
 }
 
-void ModelManager::CreatePyramid(string _id, float _w, float _l, float _h)
+void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 {
 	Renderable * pyramid;
 

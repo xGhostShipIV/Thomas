@@ -23,6 +23,8 @@ TestGame::TestGame()
 	inputManager->bindKey(SDLK_ESCAPE, Exit_Input);
 
 	LoadLevel(new TestLevel());
+
+	GLU::OutputOpenGLVersion();
 }
 
 TestGame::~TestGame()

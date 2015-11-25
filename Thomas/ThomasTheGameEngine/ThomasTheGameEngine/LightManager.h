@@ -11,13 +11,12 @@ public:
 	struct PointLight
 	{
 		Vec4 color, position;
-		float radius;
 	};
 
 	struct SpotLight
 	{
 		Vec4 color, position, direction;
-		float radius, coneAngle;
+		float coneAngle;
 	};
 	
 	~LightManager();
@@ -35,10 +34,10 @@ public:
 	void InputDirectionalLight(Vec4 _color, Vec4 _direction);
 
 	//Input a Point Light into Light array
-	void InputPointLight(Vec4 _color, Vec4 _position, float _radius);
+	void InputPointLight(Vec4 _color, Vec4 _position);
 
 	//Input a Spot Light into Light array
-	void InputSpotLight(Vec4 _color, Vec4 _position, Vec4 _direction, float _radius, float _coneAngle);
+	void InputSpotLight(Vec4 _color, Vec4 _position, Vec4 _direction, float _coneAngle);
 
 	//Pushes Lights to Shaders. Should be called After lighting arrays have been built and before draw calls.
 	void PushLights();
@@ -51,7 +50,7 @@ private:
 	void ResetSpot();
 
 	unsigned int directionalIndex, pointIndex, spotIndex;
-	static const unsigned int DirectionalLength = 2, PointLength = 4, SpotLength = 4;
+	static const unsigned int DirectionalLength = 1, PointLength = 2, SpotLength = 2;
 	DirectionalLight Directional[DirectionalLength];
 	PointLight Point[PointLength];
 	SpotLight Spot[SpotLength];

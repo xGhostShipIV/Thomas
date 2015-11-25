@@ -4,11 +4,10 @@
 #include "LightManager.h"
 #include "GameObject.h"
 
-Light::Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _radius, float _coneAngle) : Component(_g, Component::Light)
+Light::Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _coneAngle) : Component(_g, Component::Light)
 {
 	colourIntensity = _colourIntensity;
 	lightType = _type;
-	Radius = _radius;
 	ConeAngle = _coneAngle;
 }
 
@@ -24,15 +23,16 @@ void Light::PushLight()
 	{
 		case Light_Type::Directional:
 			_forward = parentObject->forward();
-			LightManager::getInstance()->InputDirectionalLight(colourIntensity, Vec4(_forward.x, _forward.y, _forward.z, 0));
+			LightManager::getInstance()->InputDirectionalLight(colourIntensity, Vec4(0, _forward.x, _forward.y, _forward.z));
 			break;
 
 		case Light_Type::Point:
-			LightManager::getInstance()->InputPointLight(colourIntensity, Vec4(parentObject->position.x, parentObject->position.y, parentObject->position.z, 0), Radius);
+			LightManager::getInstance()->InputPointLight(colourIntensity, Vec4(0, parentObject->position.x, parentObject->position.y, parentObject->position.z));
 			break;
 
 		case Light_Type::Spot:
-			LightManager::getInstance()->InputSpotLight(colourIntensity, Vec4(parentObject->position.x, parentObject->position.y, parentObject->position.z, 0), Vec4(_forward.x, _forward.y, _forward.z, 0), Radius, ConeAngle);
+			_forward = parentObject->forward();
+			LightManager::getInstance()->InputSpotLight(colourIntensity, Vec4(0, parentObject->position.x, parentObject->position.y, parentObject->position.z), Vec4(0, _forward.x, _forward.y, _forward.z), ConeAngle);
 			break;
 	}	
 }
