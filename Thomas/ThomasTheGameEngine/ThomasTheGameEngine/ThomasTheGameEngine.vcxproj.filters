@@ -125,12 +125,18 @@
     </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Header Files\Resource</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Math\Plane.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Frustrum.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsWorld.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,12 +214,18 @@
     </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>Source Files\Resource</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Math\Plane.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="Frustrum.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsWorld.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

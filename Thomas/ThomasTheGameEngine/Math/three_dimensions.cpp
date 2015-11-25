@@ -253,6 +253,13 @@ std::string Matrix3::toString() {
 	return *this;
 }
 
+ Vec3 Matrix3::operator*(const Vec3& other){
+	 return Vec3(
+		 Vec3::dot(getRowVector(0), other),
+		 Vec3::dot(getRowVector(1), other),
+		 Vec3::dot(getRowVector(2), other));
+ }
+
 //Actual Maths
 Matrix3 Matrix3::Translate(float x, float y) {
 	return Matrix3(

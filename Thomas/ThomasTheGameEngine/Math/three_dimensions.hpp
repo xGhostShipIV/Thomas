@@ -65,6 +65,7 @@ public:
 	 Matrix3 operator=(const Matrix3&);
 	 Matrix3 operator*(const Matrix3&);
 	 Matrix3 operator*=(const Matrix3&);
+	 Vec3 operator*(const Vec3&);
 	 std::string toString();
 
 	//------------------------------------Actual Maths----------------------------------------------\\

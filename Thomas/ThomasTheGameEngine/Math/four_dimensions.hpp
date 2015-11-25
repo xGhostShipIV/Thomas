@@ -11,6 +11,7 @@ public:
 	Quat();
 	Quat(float, Vec3);
 	Quat(float, float, float, float);
+	static Quat Identity();
 
 	//--------------------------------Operator Overloading-------------------------------------------\\
 

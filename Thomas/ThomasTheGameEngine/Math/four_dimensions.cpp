@@ -23,6 +23,10 @@ Quat::Quat(float _w, float _x, float _y, float _z) {
 	vector.z = _z;
 }
 
+Quat Quat::Identity(){
+	return Quat(0.f, Vec3::BasisZ());
+}
+
 //--------------------------------Operator Overloading-------------------------------------------\\
 
  Quat Quat::operator*(const Quat& other) {
