@@ -17,7 +17,7 @@ public:
 	Particle(Level *, Vec3 _startPosition, float _lifeTime, std::string _modelName, std::string _textureName, Object_Type _type);
 	~Particle();
 
-	void Update(UINT32 _deltaTime) override;
+	void Update(float _deltaTime) override;
 	void Render() override;
 
 	void SetVelocity(Vec3);

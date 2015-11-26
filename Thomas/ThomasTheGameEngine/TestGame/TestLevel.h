@@ -29,17 +29,9 @@ public:
 	TestLevel();
 	~TestLevel();
 
-	AudioTester * at;
-	GameObject* cube, *lilCube;
-	RenderableComponent *cubey, *pointyLight;
-	GameObject * lilCubey;
-	Texture* texture;
-	GameObject* light, *soBright;
-	Light *directionLightOne, *directionLightTwo;
-
-	ParticleSystem * p;
+	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground;
 
 	void DebugRender() override;
-	void LevelUpdate(UINT32 _timeStep) override;
+	void LevelUpdate(float _timeStep) override;
 
 };

@@ -21,7 +21,7 @@ public:
 		float _maxParticles, float _rateOfEmission, float _lifeTime);
 
 	~ParticleSystem();
-	void UpdateParticles(unsigned int);
+	void UpdateParticles(float _deltaTime);
 	void RenderParticles();
 	void SetEmitterType(Emitter_Type);
 private:

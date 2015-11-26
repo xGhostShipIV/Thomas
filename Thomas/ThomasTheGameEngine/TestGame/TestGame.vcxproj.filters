@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Level">
       <UniqueIdentifier>{28b13c73-43ce-4b66-b478-53f62d97a0cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Level">
+      <UniqueIdentifier>{3f7d51d7-79d6-4b30-b473-69eace42dfb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioTester.h">
@@ -47,9 +50,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestLevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

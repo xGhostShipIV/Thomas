@@ -14,12 +14,12 @@
 */
 class InputComponent : public Component {
 public:
-	InputComponent(GameObject *);
+	InputComponent(GameObject *, SDL_Keycode key);
 	~InputComponent();
 
 	//Abstract method that defines the action to be taken when the associated
 	//Key has been pressed.
-	virtual void whenPressed() = 0;
+	virtual void whenPressed(float _timestep) = 0;
 };
 
 
@@ -59,7 +59,7 @@ public:
 
 	void releaseKey(SDL_Keycode);
 
-	void Update();
+	void Update(float _timestep);
 
 	~InputController();
 private:

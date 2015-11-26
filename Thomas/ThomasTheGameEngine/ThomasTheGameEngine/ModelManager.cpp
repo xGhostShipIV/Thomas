@@ -4,7 +4,6 @@
 #include "OpenGLUtilities.h"
 
 ModelManager * ModelManager::instance;
-GLuint ModelManager::colourLocation;
 GLuint ModelManager::transformLocation;
 GLuint ModelManager::translateLocation;
 GLuint ModelManager::ambientLocation;
@@ -31,7 +30,6 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 	{
 		program = GLU::UseShaders("testGame.vert", "testGame.frag");
 
-		colourLocation = glGetUniformLocation(program, "fColor");
 		transformLocation = glGetUniformLocation(program, "Transform");
 		translateLocation = glGetUniformLocation(program, "vTranslate");
 		normalLocation = glGetUniformLocation(program, "Normal");

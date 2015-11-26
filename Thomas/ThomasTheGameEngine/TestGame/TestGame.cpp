@@ -19,8 +19,7 @@ TestGame::TestGame()
 
 	LoadLevel(new TestLevel());
 
-	CloseGame* Exit_Input = new CloseGame(new GameObject(GAME->currentLevel));
-	inputManager->bindKey(SDLK_ESCAPE, Exit_Input);
+	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 
 	GLU::OutputOpenGLVersion();
 }
@@ -30,7 +29,7 @@ TestGame::~TestGame()
 
 }
 
-void TestGame::Update(Uint32 _timestep)
+void TestGame::Update(float _timestep)
 {
 	//FPS
 	{

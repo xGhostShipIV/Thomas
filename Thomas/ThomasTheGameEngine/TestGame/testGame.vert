@@ -1,7 +1,6 @@
 #version 430 core
 
 layout(location = 0) in vec4 vPosition;
-layout(location = 1) out float vColor;
 
 in vec2 vTexCoord;
 out vec2 texCoord;
@@ -22,7 +21,6 @@ out vec4[2]  vLightPosition_Spot;
 out vec4[2]  vLightDirection_Spot;
 out float[2] vLightAngle_Spot;
 
-uniform float fColor;
 uniform vec4 Normal;
 
 uniform mat4 cameraMatrix;
@@ -45,8 +43,6 @@ void main()
 {
 	gl_Position = cameraMatrix * (Transform * vPosition);
 	fPosition = Transform * vPosition;
-
-	vColor = fColor;
 
 	/* Textures */
 	texCoord = vTexCoord;

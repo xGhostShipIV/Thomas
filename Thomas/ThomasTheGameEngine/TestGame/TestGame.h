@@ -22,7 +22,7 @@ public:
 protected:
 
 	/* Game Update Code Here */
-	void Update(Uint32 _timestep);
+	void Update(float _timestep);
 
 	/* Game Render Code Here */
 	void Render();

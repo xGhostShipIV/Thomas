@@ -1,9 +1,11 @@
 #include "InputComponent.h"
+#include "Game.h"
 
 InputController * InputController::instance;
 
-InputComponent::InputComponent(GameObject * _go) : Component(_go, Component::ComponentType::Input){
-
+InputComponent::InputComponent(GameObject * _go, SDL_Keycode key) : Component(_go, Component::ComponentType::Input)
+{
+	Game::GetInstance()->inputManager->bindKey(key, this);
 }
 
 InputComponent::~InputComponent()
@@ -60,7 +62,7 @@ void InputController::releaseKey(SDL_Keycode key)
 	}
 }
 
-void InputController::Update()
+void InputController::Update(float _timestep)
 { 
 	int newMouseX, newMouseY;
 	SDL_GetMouseState(&newMouseX, &newMouseY);
@@ -68,7 +70,7 @@ void InputController::Update()
 	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
 	{
 		if (inputMap.find(*it) != inputMap.end())
-			inputMap.find(*it)->second->whenPressed();
+			inputMap.find(*it)->second->whenPressed(_timestep);
 	}
 
 	mousePos = Vec2((float)newMouseX, (float)newMouseY);

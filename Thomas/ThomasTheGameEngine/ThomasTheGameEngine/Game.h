@@ -68,7 +68,7 @@ public:
 	void StartGame();
 
 	/* Performs engine specific updates, then calls game's update function */
-	void EngineUpdate(Uint32 timeStep); /* Engine's Update*/
+	void EngineUpdate(float timeStep); /* Engine's Update*/
 
 	/* Performs engine draw calls, then calls game's render function */
 	void EngineRender(); /* Engine's Render*/
@@ -77,7 +77,7 @@ public:
 	void PostRender();
 
 	//Functions that will be changed depending on the games specific needs
-	virtual void Update(Uint32 timeStep){}
+	virtual void Update(float timeStep){}
 	virtual void Render(){}
 
 	//Will load a new level into the engine & will unload the current level (if it exists)

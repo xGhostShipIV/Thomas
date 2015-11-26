@@ -15,120 +15,100 @@ GLuint Buffers[NumBuffers];
 
 TestLevel::TestLevel()
 {
-	cube = new GameObject(this, Vec3(0, 0, 0));
-	lilCube = new GameObject(this, Vec3(2, 0, 0));
-	light = new GameObject(this, Vec3(-4, 8, 0));
-	soBright = new GameObject(this, Vec3(0, 0, -3));
+	currentCamera->GetTransform().position = Vec3(0, 1, -8);
 
-	//cube.addChild(&lilCube);
+	ambientLightColor = Vec4(1, 0.1, 0.1, 0.1);
+
+	new AudioTester(this);
+
+	cube = new GameObject(this, Vec3(0, 0.5f, 0));
+	lilCube = new GameObject(this, Vec3(2, 0.5f, 0));
+	light = new GameObject(this, Vec3(0, 14, 30));
+	lightAnchor = new GameObject(this, Vec3());
+	soBright = new GameObject(this, Vec3(0, 5.25f, -3));
+	ground = new GameObject(this, Vec3(0, 0, 0));
+
+	light->LookAt(Vec3());
+	soBright->LookAt(Vec3());
+	ground->LookAt(Vec3(0, 1, 0));
+
 	cube->addChild(soBright);
+	lightAnchor->addChild(light);
 
-	at = new AudioTester(this);
-
+	/* CREATE MODELS */
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePlane("plane", .5f, .5f);
 	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
+	ModelManager::getInstance()->CreatePlane("ground", 100, 100);
+	ModelManager::getInstance()->CreatePyramid("directional", 2.5f, 2.5f, 2.5f);
+
+	/* CREATE TEXTURES */
 
 	float pixelData[]
 	{
-		0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
+		0.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f
 	};
 	ModelManager::getInstance()->createTexture("greenCheckers", pixelData, 2, 2);
 
 	float pixelDataRed[]
 	{
-		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+		1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f, 0.0f, 1.0f
 	};
 
 	ModelManager::getInstance()->createTexture("redCheckers", pixelDataRed, 2, 2);
-	ModelManager::getInstance()->loadTexture("smoke", "Images/star.png");
+	ModelManager::getInstance()->loadTexture("star", "Images/star.png");
+	ModelManager::getInstance()->loadTexture("smoke", "Images/Smoke.png");
+	ModelManager::getInstance()->loadTexture("grass", "Images/grass.png");
 
-	cubey = new RenderableComponent("idgaf", "redCheckers", cube);
+	/* Add Components */
+	new RenderableComponent("idgaf", "redCheckers", cube);
+	new RenderableComponent("light", "star", soBright);
+	new RenderableComponent("ground", "grass", ground);
+	new RenderableComponent("directional", "greenCheckers", light);
 
-	lilCubey = new GameObject(this, Vec3(2, 0, 0));
-	p = new ParticleSystem(lilCubey, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
+	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 
-	pointyLight = new RenderableComponent("light", "smoke", soBright);
+	new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
+	new Light(soBright, Vec4(1, 8, 8, 0), Light::Spot, 90 * 3.14159f / 180.0f);
 
-	light->LookAt(Vec3());
-	soBright->LookAt(Vec3());
-
-	directionLightOne = new Light(light, Vec4(.6f, 0.6f, 0.6f, 1.0f), Light::Directional);
-	directionLightTwo = new Light(soBright, Vec4(10, 0, 0, 1.0f), Light::Point, 3.0f);
-
-	ambientLightColor = Vec4(0.1, 0.1, 0.1, 1);
-
+	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
 
-	currentCamera->GetTransform().position = Vec3(0, 0, -8);
-
 	//Setup the input controller here
-	CameraUp* cU = new CameraUp(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_SPACE, cU);
+	new CameraUp(currentCamera, SDLK_SPACE);
+	new CameraDown(currentCamera, SDLK_x);
+	new CameraRight(currentCamera, SDLK_d);
+	new CameraLeft(currentCamera, SDLK_a);
+	new CameraForward(currentCamera, SDLK_w);
+	new CameraBackward(currentCamera, SDLK_s);
+	new CameraTurnLeft(currentCamera, SDLK_q);
+	new CameraTurnRight(currentCamera, SDLK_e);
+	new CameraTurnDown(currentCamera, SDLK_c);
+	new CameraTurnUp(currentCamera, SDLK_z);
 
-	CameraDown* cD = new CameraDown(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_x, cD);
+	new GameObject_PosX(cube, SDLK_LEFT);
+	new GameObject_NegX(cube, SDLK_RIGHT);
+	new GameObject_ScaleUp(cube, SDLK_UP);
+	new GameObject_ScaleDown(cube, SDLK_DOWN);
 
-	CameraRight* cR = new CameraRight(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_d, cR);
-
-	CameraLeft* cL = new CameraLeft(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_a, cL);
-
-	CameraForward* cF = new CameraForward(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_w, cF);
-
-	CameraBackward* cB = new CameraBackward(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_s, cB);
-
-	CameraTurnLeft* cTL = new CameraTurnLeft(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_q, cTL);
-
-	CameraTurnRight* cTR = new CameraTurnRight(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_e, cTR);
-
-	CameraTurnDown* cTD = new CameraTurnDown(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_c, cTD);
-
-	CameraTurnUp* cTU = new CameraTurnUp(currentCamera);
-	Game::GetInstance()->inputManager->bindKey(SDLK_z, cTU);
-
-
-	GameObject_PosX* goPX = new GameObject_PosX(cube);
-	Game::GetInstance()->inputManager->bindKey(SDLK_LEFT, goPX);
-
-	GameObject_NegX* goNX = new GameObject_NegX(cube);
-	Game::GetInstance()->inputManager->bindKey(SDLK_RIGHT, goNX);
-
-	GameObject_ScaleUp* goSU = new GameObject_ScaleUp(cube);
-	Game::GetInstance()->inputManager->bindKey(SDLK_UP, goSU);
-
-	GameObject_ScaleDown* goSD = new GameObject_ScaleDown(cube);
-	Game::GetInstance()->inputManager->bindKey(SDLK_DOWN, goSD);
-
-	AmbientBrightnessUp* abu = new AmbientBrightnessUp(&ambientLightColor);
-	Game::GetInstance()->inputManager->bindKey(Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT], abu);
-
-	AmbientBrightnessDown* abd = new AmbientBrightnessDown(&ambientLightColor);
-	Game::GetInstance()->inputManager->bindKey(Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT], abd);
+	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
+	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 }
 
 TestLevel::~TestLevel(){}
 
-void TestLevel::LevelUpdate(UINT32 _timeStep)
+void TestLevel::LevelUpdate(float _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	//soBright->LookAt(cube->position);
-	cube->GetTransform().Rotate(Quat(0.01570796f, Vec3(0, 1, 0)));
-	p->UpdateParticles(_timeStep);
+	cube->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(0, 1, 0)));
+	lightAnchor->GetTransform().Rotate(Quat(-0.6f * _timeStep, Vec3(1, 1, 0)));
 }
 
 void TestLevel::DebugRender()
 {
-	/*cubey->DrawModel();
-	cubey->DrawWireframe();*/
+
 }
 

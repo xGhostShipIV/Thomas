@@ -33,7 +33,7 @@ class ModelManager
 public:
 	~ModelManager();
 
-	static GLuint colourLocation, transformLocation, translateLocation, normalLocation, materialLocation;
+	static GLuint transformLocation, translateLocation, normalLocation, materialLocation;
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 	static GLuint lightColor_Point_Location, lightPosition_Point_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;

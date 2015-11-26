@@ -8,7 +8,7 @@ Level::Level()
 	mainCamera = new Camera(this);
 	currentCamera = mainCamera;
 
-	ambientLightColor = Vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	ambientLightColor = Vec4(1, 0.5f, 0.5f, 0.5f);
 	gameObjects.push_back(currentCamera);
 }
 
@@ -50,7 +50,7 @@ void Level::LevelRender()
 	DebugRender();
 }
 
-void Level::LevelUpdate(UINT32 _timeStep)
+void Level::LevelUpdate(float _timeStep)
 {
 	for (int i = 0; i < gameObjects.size(); i++)
 	{

@@ -39,17 +39,17 @@ void Particle::Render()
 	}
 }
 
-void Particle::Update(UINT32 _deltaTime)
+void Particle::Update(float _deltaTime)
 {
 	if (isAlive)
 	{
 		if (objectType == Billboard)
 			LookAt(level->currentCamera->position);
 
-		currentLifeTime += _deltaTime / 1000.0f;
-		Rotate(Quat(rotationAmount * (_deltaTime / 1000.0f), forward()));
+		currentLifeTime += _deltaTime;
+		Rotate(Quat(rotationAmount * _deltaTime, forward()));
 
-		position += velocity;
+		position += velocity * _deltaTime;
 
 		if (currentLifeTime >= maxLifeTime)
 		{

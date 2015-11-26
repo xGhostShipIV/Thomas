@@ -32,13 +32,13 @@ class PlaySound : public InputComponent
 public:
 	AudioTester * owner;
 
-	PlaySound(AudioTester * _a) : InputComponent(_a){
+	PlaySound(AudioTester * _a, SDL_Keycode key) : InputComponent(_a, key){
 		owner = _a;
 	}
 
 	~PlaySound();
 
-	void whenPressed() override;
+	void whenPressed(float _timestep) override;
 };
 
 class PlayMusic : public InputComponent
@@ -46,11 +46,11 @@ class PlayMusic : public InputComponent
 public:
 	AudioTester * owner;
 
-	PlayMusic(AudioTester * _a) : InputComponent(_a){
+	PlayMusic(AudioTester * _a, SDL_Keycode key) : InputComponent(_a, key){
 		owner = _a;
 	}
 
 	~PlayMusic();
 
-	void whenPressed() override;
+	void whenPressed(float _timestep) override;
 };

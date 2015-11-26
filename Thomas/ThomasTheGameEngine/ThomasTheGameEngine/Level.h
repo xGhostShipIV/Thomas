@@ -26,7 +26,7 @@ public:
 
 	//Renders and updates all gameObjects in the game
 	void LevelRender();
-	virtual void LevelUpdate(UINT32 _timeStep);
+	virtual void LevelUpdate(float _timeStep);
 
 	//Sets the current camera
 	void SetCamera(Camera * _c);

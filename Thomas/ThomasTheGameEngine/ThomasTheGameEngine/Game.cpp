@@ -79,7 +79,7 @@ Game::Game()
 	target.refresh_rate = 0; // don't care
 	target.driverdata = 0; // initialize to 0
 	SDL_GetClosestDisplayMode(0, &target, &moniter);
-	FPS_CAP = moniter.refresh_rate * 5 / 6.0f;
+	FPS_CAP = moniter.refresh_rate;
 
 	//FPS
 	{
@@ -114,7 +114,7 @@ void Game::StartGame()
 	while (isRunning)
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
-		if (timeSincelastUpdate >= 1000 /100.0f)
+		//if (timeSincelastUpdate >= 1000 / 1000.0f)
 		{
 			lastUpdateTime = SDL_GetTicks();
 
@@ -144,7 +144,7 @@ void Game::StartGame()
 			}
 			SDL_PumpEvents();
 
-			EngineUpdate(timeSincelastUpdate);
+			EngineUpdate(timeSincelastUpdate / 1000.0f);
 
 			timeSinceLastRender += timeSincelastUpdate;
 
@@ -158,9 +158,9 @@ void Game::StartGame()
 	}
 }
 
-void Game::EngineUpdate(Uint32 _timeStep)
+void Game::EngineUpdate(float _timeStep)
 {
-	InputController::getInstance()->Update();
+	InputController::getInstance()->Update(_timeStep);
 
 	if (currentLevel)
 		currentLevel->LevelUpdate(_timeStep);
@@ -200,7 +200,6 @@ void Game::EngineRender()
 	Render();
 
 	/* Render to screen */
-	//SDL_RenderPresent(gameRenderer);
 	SDL_GL_SwapWindow(gameWindow);
 
 	PostRender();

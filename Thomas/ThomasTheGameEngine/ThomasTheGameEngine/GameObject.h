@@ -57,7 +57,7 @@ public:
 	//Render and update functionalities specific to the gameObject
 	virtual void Render();
 	virtual void PreRender();
-	virtual void Update(UINT32 _deltaTime){};
+	virtual void Update(float _deltaTime);
 
 	Level * level;
 

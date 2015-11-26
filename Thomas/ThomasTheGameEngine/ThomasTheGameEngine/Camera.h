@@ -21,7 +21,7 @@ public:
 
 	//Overridden methods inherited from the base class
 	void Render() override;
-	void Update(UINT32 _deltaTime) override;
+	void Update(float _deltaTime) override;
 
 private:
 	//OpenGL specific identifier

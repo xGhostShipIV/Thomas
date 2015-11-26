@@ -15,7 +15,7 @@ ParticleSystem::ParticleSystem(GameObject * _owner, Emitter_Type _emitterType, s
 	emitter_type = _emitterType;
 }
 
-void ParticleSystem::UpdateParticles(UINT32 _deltaTime)
+void ParticleSystem::UpdateParticles(float _deltaTime)
 {
 	if (elapsedTime >= emissionRate)
 	{
@@ -26,14 +26,14 @@ void ParticleSystem::UpdateParticles(UINT32 _deltaTime)
 			{
 				particles[i]->position = parentObject->position;
 				//particles[i]->scale = Vec3(1, 1, 1);
-				particles[i]->SetVelocity(Vec3(0, .01f, 0));
+				particles[i]->SetVelocity(Vec3(0, 1, 0));
 				particles[i]->isAlive = true;
 				elapsedTime = 0.0f;
 				break;
 			}
 		}
 	}
-	else elapsedTime += _deltaTime / 1000.0f;
+	else elapsedTime += _deltaTime;
 
 
 	//Update living particles

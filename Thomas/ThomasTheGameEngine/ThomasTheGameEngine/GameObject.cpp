@@ -217,6 +217,14 @@ TYPE* GameObject::getComponent()
 	return nullptr;
 }
 
+void GameObject::Update(float _deltaTime)
+{
+	ParticleSystem* particles = getComponent<ParticleSystem>();
+
+	if (particles)
+		particles->UpdateParticles(_deltaTime);
+}
+
 void GameObject::Render()
 {
 	RenderableComponent* renderable = getComponent<RenderableComponent>();
@@ -227,8 +235,9 @@ void GameObject::Render()
 		//renderable->DrawWireframe();
 	}
 
-	ParticleSystem * p = getComponent<ParticleSystem>();
-	if (p) p->RenderParticles();
+	ParticleSystem * particles = getComponent<ParticleSystem>();
+	if (particles)
+		particles->RenderParticles();
 }
 
 void GameObject::PreRender()

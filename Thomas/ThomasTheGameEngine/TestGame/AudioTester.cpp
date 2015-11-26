@@ -12,11 +12,8 @@ AudioTester::AudioTester(Level * _level) : GameObject(_level)
 	am->loadMusic("music", "Sounds/music.wav");
 	m = am->getMusic("music");
 
-	PlaySound * ps = new PlaySound(this);
-	PlayMusic * pm = new PlayMusic(this);
-
-	InputController::getInstance()->bindKey(SDLK_n, ps);
-	InputController::getInstance()->bindKey(SDLK_m, pm);
+	new PlaySound(this, SDLK_n);
+	new PlayMusic(this, SDLK_m);
 }
 
 
@@ -24,12 +21,12 @@ AudioTester::~AudioTester()
 {
 }
 
-void PlaySound::whenPressed()
+void PlaySound::whenPressed(float _timestep)
 {
 	owner->s->Play();
 }
 
-void PlayMusic::whenPressed()
+void PlayMusic::whenPressed(float _timestep)
 {
 	if (!AudioManager::isMusicPlaying())
 		owner->m->Play();

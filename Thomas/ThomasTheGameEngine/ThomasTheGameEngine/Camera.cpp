@@ -53,7 +53,7 @@ Matrix4 Camera::getMatrix() const
 	return cameraMatrix;
 }
 
-void Camera::Update(UINT32 _deltaTime)
+void Camera::Update(float _deltaTime)
 {
 	CalculateCameraMatrix();
 	glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, cameraMatrix.values);

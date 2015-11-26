@@ -8,13 +8,13 @@
 class CloseGame : public InputComponent {
 
 public:
-	CloseGame(GameObject * _go) : InputComponent(_go)
+	CloseGame(GameObject * _go, SDL_Keycode key) : InputComponent(_go, key)
 	{
 
 	}
 	~CloseGame(){}
 
-	void whenPressed(){
+	void whenPressed(float _timestep){
 		Game::GetInstance()->setRunning(false);
 		printf("\nExit\n");
 	}

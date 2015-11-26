@@ -11,7 +11,7 @@ public:
 	Billboard(Level * _level, Vec3 _position);
 	//Billboard(Level * _level, Vec3 _position, Quat _rotation, Vec3 _scale){};
 
-	void Update(UINT32 _deltaTime) override;
+	void Update(float _deltaTime) override;
 
 private:
 	RenderableComponent * rc;
