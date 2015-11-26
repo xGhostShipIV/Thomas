@@ -7,7 +7,7 @@ class Sound;
 class Music;
 
 /*
-	A gameobejct created to test both Input as well as the AudioManager
+A gameobejct created to test both Input as well as the AudioManager
 */
 
 class AudioTester :
@@ -17,7 +17,7 @@ class AudioTester :
 	friend class PlayMusic;
 
 public:
-	AudioTester();
+	AudioTester(Level * _level);
 	~AudioTester();
 
 private:

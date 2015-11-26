@@ -5,6 +5,7 @@
 #include "../Math/four_dimensions.hpp"
 #include <glew.h>
 #include "OpenGLUtilities.h"
+#include <SDL_image.h>
 
 #define RENDER_MODE_OPENGL ModelManager::Render_OpenGL
 #define RENDER_MODE_DIRECTX ModelManager::Render_DirectX
@@ -69,6 +70,7 @@ public:
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l);
 	void CreateSphere(string _id, float _r){}
+	void CreatePlane(string _id, float _h, float _w);
 	void CreatePyramid(string _id, float _w, float _l, float _h);
 	void CreateCone(string _id, float _r, float _h){}
 	void CreateCylinder(string _id, float _r, float _h){}
@@ -77,6 +79,8 @@ public:
 	{ 
 		return program; 
 	}
+
+	SDL_Surface * texture;
 
 private:
 	ModelManager(Render_Mode = Render_OpenGL);

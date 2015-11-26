@@ -9,7 +9,7 @@
 
 glm::mat4 glmCameraMatrix;
 
-Camera::Camera() : GameObject(Vec3(0, 0, -2))
+Camera::Camera(Level * _level) : GameObject(_level, Vec3(0, 0, -2))
 {
 	CalculateCameraMatrix();	
 	cameraMatrixLocation = glGetUniformLocation(ModelManager::getInstance()->program, "cameraMatrix");

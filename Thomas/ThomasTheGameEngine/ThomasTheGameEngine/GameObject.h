@@ -11,11 +11,13 @@
 //#include "Transform.h"
 
 class Component;
+class Level;
 
 typedef std::string Tag;
 
 class GameObject
 {
+	friend class Particle;
 public:
 	
 	Vec3 position;
@@ -44,8 +46,8 @@ public:
 
 	
 	//Various constructors to set the starting position of a gameObject
-	GameObject();
-	GameObject(Vec3 _position);
+	GameObject(Level *);
+	GameObject(Level *, Vec3 _position);
 	//GameObject(Transform _t);
 	~GameObject();
 
@@ -56,6 +58,8 @@ public:
 	virtual void Render();
 	virtual void PreRender();
 	virtual void Update(UINT32 _deltaTime){};
+
+	Level * level;
 
 	//Flag that sets object for removal from game
 	bool isFlagged;
@@ -103,6 +107,8 @@ public:
 	}*/
 
 
+private:
+	GameObject(){};
 
 };
 

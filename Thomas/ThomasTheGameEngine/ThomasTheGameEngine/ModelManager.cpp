@@ -230,6 +230,45 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 	}
 }
 
+void ModelManager::CreatePlane(string _id, float _h, float _w)
+{
+	Renderable * plane;
+
+	switch (render_mode)
+	{
+	case ModelManager::Render_OpenGL:
+
+		plane = new OpenGL_Renderable();
+
+		_h /= 2.0f;
+		_w /= 2.0f;
+
+		plane->vertex.push_back(Vec3(-_w, _h, 0.0f));
+		plane->vertex.push_back(Vec3(_w, _h, 0.0f));
+		plane->vertex.push_back(Vec3(_w, -_h, 0.0f));
+		plane->vertex.push_back(Vec3(-_w, -_h, 0.0f));
+
+		for (unsigned int i = 0; i < plane->vertex.size(); i++)
+			plane->edge.push_back(i);
+
+		for (int i = 0; i < 1; i++)
+			plane->face.push_back(4);
+
+		GenerateNormals(plane);
+		GenerateTextureMap(plane);
+
+		InsertModel(plane, _id);
+
+		break;
+	case ModelManager::Render_DirectX:
+		break;
+	case ModelManager::Render_Ogre:
+		break;
+	default:
+		break;
+	}
+}
+
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
 {
 	_renderable->offsetVertex = masterVectorList.size();
@@ -330,10 +369,20 @@ void ModelManager::PushModels()
 	int i = 0;
 	for (auto it = textures.begin(); it != textures.end(); it++)
 	{
-		it->second->address = textureArray[i]; 
+		it->second->address = textureArray[i];
 
 		glBindTexture(GL_TEXTURE_2D, it->second->address);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, it->second->width, it->second->height, 0, GL_RGB, GL_FLOAT, it->second->pixelData);
+
+		switch (it->second->dataType)
+		{
+		case Texture::TextureDataType::Float:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, it->second->width, it->second->height, 0, GL_RGBA, GL_FLOAT, it->second->pixelData);
+			break;
+		case Texture::TextureDataType::UnsignedByte:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, it->second->width, it->second->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, it->second->pixelData);
+			break;
+		}
+
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -342,6 +391,8 @@ void ModelManager::PushModels()
 		i++;
 	}
 	delete textureArray;
+
+	SDL_FreeSurface(texture);
 	
 	if (masterTextureCoords.size() > 0)
 	{
@@ -369,7 +420,15 @@ void ModelManager::createTexture(string _id, float* _pixelData, UINT32 _textureW
 
 void ModelManager::loadTexture(string _id, string _fileName)
 {
-	textures.insert(std::pair<string, Texture*>(_id, new Texture(_fileName)));
+	texture = IMG_Load(_fileName.c_str());
+
+	if (texture == NULL)		{
+		printf("Image failed to load! SDL_image Error: %s\n", IMG_GetError());
+		return;
+	}
+
+	Texture * t = new Texture(texture);
+	textures.insert(std::pair<string, Texture*>(_id, t));
 }
 
 Texture* ModelManager::getTexture(string _id)

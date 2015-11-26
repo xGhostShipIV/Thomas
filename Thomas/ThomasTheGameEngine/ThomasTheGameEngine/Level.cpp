@@ -5,7 +5,7 @@
 
 Level::Level()
 {
-	mainCamera = new Camera();
+	mainCamera = new Camera(this);
 	currentCamera = mainCamera;
 
 	ambientLightColor = Vec4(0.5f, 0.5f, 0.5f, 1.0f);

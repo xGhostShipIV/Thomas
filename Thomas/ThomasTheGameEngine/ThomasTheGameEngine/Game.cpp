@@ -57,8 +57,12 @@ Game::Game()
 	}
 
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_FRONT);
+	glDepthFunc(GL_LESS);
+	glDepthMask(GL_TRUE);
 	glFrontFace(GL_CCW);
+
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -196,7 +200,7 @@ void Game::EngineRender()
 	Render();
 
 	/* Render to screen */
-	SDL_RenderPresent(gameRenderer);
+	//SDL_RenderPresent(gameRenderer);
 	SDL_GL_SwapWindow(gameWindow);
 
 	PostRender();

@@ -8,6 +8,8 @@
 #include "Light.h"
 #include <iostream>
 #include "LightManager.h"
+#include "Level.h"
+#include "ParticleSystem.h"
 
 void GameObject::Translate(Vec3 _translate){
 	position += _translate;
@@ -74,19 +76,24 @@ Vec3 GameObject::up() {
 
 void GameObject::LookAt(Vec3 _target){
 	Vec3 pointToTarget = (_target - position).Normalized();
-
-	rotation = Quat(acos(Vec3::dot(forward(), pointToTarget)), Vec3::cross(forward(), pointToTarget));
+	if (acos(Vec3::dot(forward(), pointToTarget)) < 0.002f || acos(Vec3::dot(forward(), pointToTarget) > 0.998f)){
+		Rotate(Quat(acos(Vec3::dot(forward(), pointToTarget)), Vec3::cross(forward(), pointToTarget)));
+	}
 }
 
 
-GameObject::GameObject() : position(Vec3::Zero()), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
+GameObject::GameObject(Level * _level) : position(Vec3::Zero()), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
 {
 	isFlagged = false;
+	level = _level;
+	level->gameObjects.push_back(this);
 }
 
-GameObject::GameObject(Vec3 _position) : position(_position), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
+GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
 {
 	isFlagged = false;
+	level = _level;
+	level->gameObjects.push_back(this);
 }
 
 
@@ -167,6 +174,17 @@ RenderableComponent* GameObject::getComponent()
 }
 
 template<>
+ParticleSystem* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::ParticleSystem)
+			return (ParticleSystem*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
 InputComponent* GameObject::getComponent()
 {
 	for (int i = 0; i < components.size(); i++)
@@ -208,6 +226,9 @@ void GameObject::Render()
 		renderable->DrawModel();
 		//renderable->DrawWireframe();
 	}
+
+	ParticleSystem * p = getComponent<ParticleSystem>();
+	if (p) p->RenderParticles();
 }
 
 void GameObject::PreRender()

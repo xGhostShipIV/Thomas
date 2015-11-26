@@ -7,7 +7,7 @@ class Camera :
 	public GameObject
 {
 public:
-	Camera();
+	Camera(Level * _level);
 	~Camera();
 
 	Frustrum frustrum;

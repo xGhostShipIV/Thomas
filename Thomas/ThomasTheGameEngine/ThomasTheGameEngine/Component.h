@@ -12,7 +12,7 @@ public:
 
 	enum ComponentType
 	{
-		Input, Renderable, Light, Rigidbody
+		Input, Renderable, Light, Rigidbody, ParticleSystem
 	};
 
 	Component(GameObject *, ComponentType);

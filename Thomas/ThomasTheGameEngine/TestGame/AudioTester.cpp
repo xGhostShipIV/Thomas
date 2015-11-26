@@ -2,7 +2,7 @@
 #include <AudioManager.h>
 #include <iostream>
 
-AudioTester::AudioTester()
+AudioTester::AudioTester(Level * _level) : GameObject(_level)
 {
 	AudioManager * am = AudioManager::getInstance();
 

@@ -1,5 +1,6 @@
 #include "PhysicsWorld.h"
 #include "Rigidbody.h"
+#include "Game.h"
 
 
 PhysicsWorld::PhysicsWorld()
@@ -30,8 +31,8 @@ void PhysicsWorld::Update(UINT32 _deltaTime){
 	
 	{
 		//Scope already defined, just slap in if statment around this sucka
-		GameObject* testOne = new GameObject();
-		GameObject* testTwo = new GameObject();
+		GameObject* testOne = new GameObject(GAME->currentLevel);
+		GameObject* testTwo = new GameObject(GAME->currentLevel);
 
 		Rigidbody* testBodyOne = testOne->getComponent<Rigidbody>();
 		Rigidbody* testBodyTwo = testTwo->getComponent<Rigidbody>();

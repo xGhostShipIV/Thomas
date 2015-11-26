@@ -1,0 +1,65 @@
+
+#include "Particle.h"
+#include "Level.h"
+
+#include <stdlib.h>
+
+Particle::Particle(Level * _level, Vec3 _startPosition, float _lifeTime, std::string _modelName, std::string _textureName, Object_Type _type)
+{
+	maxLifeTime = _lifeTime;
+	currentLifeTime = 0.0f;
+
+	scaleAmount = 0.5f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (1.4f - 0.5f)));
+
+	scale = Vec3(scaleAmount, scaleAmount, scaleAmount);
+	
+	rotationAmount = rand() % 8 - 4;
+
+	position = _startPosition;
+
+	renderer = new RenderableComponent(_modelName, _textureName, this);
+
+	isAlive = false;
+
+	objectType = _type;
+
+	level = _level;
+}
+
+Particle::~Particle()
+{
+	delete renderer;
+}
+
+void Particle::Render()
+{
+	if (isAlive)
+	{
+		renderer->DrawModel();
+	}
+}
+
+void Particle::Update(UINT32 _deltaTime)
+{
+	if (isAlive)
+	{
+		if (objectType == Billboard)
+			LookAt(level->currentCamera->position);
+
+		currentLifeTime += _deltaTime / 1000.0f;
+		Rotate(Quat(rotationAmount * (_deltaTime / 1000.0f), forward()));
+
+		position += velocity;
+
+		if (currentLifeTime >= maxLifeTime)
+		{
+			isAlive = false;
+			currentLifeTime = 0.0f;
+		}
+	}
+}
+
+void Particle::SetVelocity(Vec3 _velocity)
+{
+	velocity = _velocity;
+}
