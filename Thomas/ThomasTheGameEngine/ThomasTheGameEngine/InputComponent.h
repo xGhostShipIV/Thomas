@@ -7,6 +7,9 @@
 #include "../Math/four_dimensions.hpp"
 #include <SDL.h>
 
+//For binding multiple keys
+#define BindKey Game::GetInstance()->inputManager->bindKey
+
 /*
 	A component to define an action desired to be taken when a 
 	particular key has been pressed. Because it is abstract,
@@ -20,6 +23,8 @@ public:
 	//Abstract method that defines the action to be taken when the associated
 	//Key has been pressed.
 	virtual void whenPressed(float _timestep) = 0;
+
+	bool hasBeenPressed;
 };
 
 
@@ -41,8 +46,9 @@ public:
 	Vec2 mousePos;
 	std::map<Uint8, SDL_Keycode> mouseButtonDict;
 
-	//Binds the given keycode with the given InputComponent
-	void bindKey(SDL_Keycode, InputComponent *);
+	//Binds the given keycode with the given InputComponent, 
+	//returns InputComponent back for multiple keybinds
+	InputComponent* bindKey(SDL_Keycode, InputComponent *);
 
 	//Deletes the actions associated with the given keybind
 	void unbindKey(SDL_Keycode);

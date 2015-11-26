@@ -13,11 +13,12 @@ public:
 		return instance;
 	}
 	
-	std::vector<Rigidbody> PhysicalObjects;
+	std::vector<Rigidbody*> PhysicalObjects;
 
+	//Easies to think of in regular gravity units (Newtons or KG * M / S^2) whatever works though earth standard is Vec3(0,-9.8,0)
 	Vec3 worldGravity;
 
 	float static Impulse(GameObject*, GameObject*);
-	void Update(UINT32);
+	void Update(float);
 };
 

@@ -70,10 +70,13 @@ void main()
 		vec4 distanceToFrag =  fPosition - vLightPosition_Spot[i];
 
 		{
+
 			//Check if within cone
 			if ( dot(distanceToFrag, vLightDirection_Spot[i]) / (length(distanceToFrag) * length(vLightDirection_Spot[i])) > cos(vLightAngle_Spot[i]/2.0f) )
 			{
-				float brightness = dot(vNormal, distanceToFrag) / (length(distanceToFrag) * length(distanceToFrag) * length(vNormal));
+				float distanceOfAngle = (vLightAngle_Spot[i]/2.0f) - acos(dot(distanceToFrag, vLightDirection_Spot[i]) / (length(distanceToFrag) * length(vLightDirection_Spot[i])));
+
+				float brightness = dot(vNormal, distanceToFrag) / (length(distanceToFrag) * length(distanceToFrag) * length(vNormal)) * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f));
 				brightness = clamp(brightness, 0, 1);
 				vec4 spotDiffuse = brightness * vLightColor_Spot[i] * vMaterial.y;
 
@@ -86,6 +89,11 @@ void main()
 			}
 		}
 	}
+
+	diffuse.x = diffuse.x > 1 ? 1 : diffuse.x;
+	diffuse.y = diffuse.y > 1 ? 1 : diffuse.y;
+	diffuse.z = diffuse.z > 1 ? 1 : diffuse.z;
+	diffuse.w = diffuse.w > 1 ? 1 : diffuse.w;
 
 	fColor = texture2D(texture, texCoord) * (ambientLight + diffuse);
 		

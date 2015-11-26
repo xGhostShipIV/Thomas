@@ -18,14 +18,15 @@ public:
 	float drag;
 	float angularDrag;
 	float sleepThreshold;
-	Quat AngularVelocity;
+	float angularSleep;
+	Vec3 AngularVelocity;
 	Vec3 velocity;
-	Quat AngularAccel;
+	Vec3 AngularAccel;
 	Vec3 accel;
 
 	//Functions
 	void AddForce(Vec3);
-	void AddTorque(Quat); //Axis, amount
+	void AddTorque(Vec3); //torque in local space
 	bool isColliding(GameObject*);
 };
 

@@ -16,7 +16,7 @@ public:
 	CameraUp(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 
 	void whenPressed(float _timestep){
-		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(0, CameraSpeed, 0) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, CameraSpeed, 0) * _timestep));
 	}
 };
 
@@ -28,7 +28,7 @@ public:
 	CameraDown(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 
 	void whenPressed(float _timestep){
-		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(0, CameraSpeed, 0) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, -CameraSpeed, 0) * _timestep));
 	}
 };
 
@@ -39,7 +39,7 @@ class CameraRight : public InputComponent {
 public:
 	CameraRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key){};
 	void whenPressed(float _timestep){
-		owner->GetTransform().position -= Quat::rotate(owner->rotation, Vec3(CameraSpeed, 0, 0) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(-CameraSpeed, 0, 0) * _timestep));
 	}
 };
 
@@ -50,7 +50,7 @@ class CameraLeft : public InputComponent {
 public:
 	CameraLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(CameraSpeed, 0, 0) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(CameraSpeed, 0, 0) * _timestep));
 	}
 };
 
@@ -61,7 +61,7 @@ class CameraForward : public InputComponent {
 public:
 	CameraForward(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->GetTransform().position += Quat::rotate(owner->rotation, Vec3(0, 0, CameraSpeed) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, 0, CameraSpeed) * _timestep));
 	}
 };
 
@@ -72,7 +72,7 @@ class CameraBackward : public InputComponent {
 public:
 	CameraBackward(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->position -= Quat::rotate(owner->rotation, Vec3(0, 0, CameraSpeed) * _timestep);
+		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, 0, -CameraSpeed) * _timestep));
 	}
 };
 
@@ -83,7 +83,7 @@ class CameraTurnLeft : public InputComponent {
 public:
 	CameraTurnLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Vec3(0, CameraSpeed, 0) * _timestep);
+		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(0, 1, 0)));
 	}
 };
 
@@ -94,7 +94,7 @@ class CameraTurnRight : public InputComponent {
 public:
 	CameraTurnRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Vec3(0, -CameraSpeed, 0) * _timestep);
+		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(0, 1, 0)));
 	}
 };
 
@@ -105,7 +105,7 @@ class CameraTurnDown : public InputComponent {
 public:
 	CameraTurnDown(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Vec3(CameraSpeed, 0, 0) * _timestep);
+		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(1, 0, 0)));
 	}
 };
 
@@ -116,7 +116,29 @@ class CameraTurnUp : public InputComponent {
 public:
 	CameraTurnUp(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Vec3(-CameraSpeed, 0, 0) * _timestep);
+		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(1, 0, 0)));
+	}
+};
+
+class CameraRollLeft : public InputComponent {
+
+	Camera* owner;
+
+public:
+	CameraRollLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	void whenPressed(float _timestep){
+		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(0, 0, 1)));
+	}
+};
+
+class CameraRollRight : public InputComponent {
+
+	Camera* owner;
+
+public:
+	CameraRollRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	void whenPressed(float _timestep){
+		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(0, 0, 1)));
 	}
 };
 

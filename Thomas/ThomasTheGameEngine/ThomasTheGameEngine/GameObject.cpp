@@ -25,6 +25,7 @@ void GameObject::Scale(Vec3 _scale){
 	}
 }
 
+
 void GameObject::Rotate(Quat _rotation){
 
 	_rotation = _rotation.NormalizeThis();
@@ -35,16 +36,22 @@ void GameObject::Rotate(Quat _rotation){
 		//Children don't quite rotate at the right pace.
 		(*it)->Rotate(_rotation);
 		Vec3 newPos = (*it)->position - position;
-		(*it)->Translate((Quat::rotate(_rotation, newPos.Normalized()) * newPos.magnitude() + position) - (*it)->position);
+		if (newPos.length() > 0)
+			(*it)->Translate((Quat::rotate(_rotation, newPos.Normalized()) * newPos.magnitude() + position) - (*it)->position);
 	}
 }
 
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 void GameObject::Rotate(Vec3 _rotation){
-	rotation = rotation * Quat(_rotation.x, Vec3::BasisX()) * Quat(_rotation.y, Vec3::BasisY()) * Quat(_rotation.z, Vec3::BasisZ());
+	Quat _rot = (Quat(_rotation.x, Vec3::BasisX()) * Quat(_rotation.y, Vec3::BasisY()) * Quat(_rotation.z, Vec3::BasisZ())).NormalizeThis();
+	
+	rotation = rotation * _rot;
 
 	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
-		(*it)->Rotate(_rotation);
+		//Children don't quite rotate at the right pace.
+		(*it)->Rotate(_rot);
+		Vec3 newPos = (*it)->position - position;
+		(*it)->Translate((Quat::rotate(_rot, newPos.Normalized()) * newPos.magnitude() + position) - (*it)->position);
 	}
 }
 

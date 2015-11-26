@@ -96,6 +96,11 @@ float Vec3::length(Vec3 value) {
 	return sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
 }
 
+float Vec3::length()
+{
+	return sqrt(x * x + y * y + z * z);
+}
+
 float Vec3::magnitude()
 {
 	return length(*this);

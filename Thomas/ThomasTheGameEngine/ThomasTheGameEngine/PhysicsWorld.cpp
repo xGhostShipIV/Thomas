@@ -5,6 +5,7 @@
 
 PhysicsWorld::PhysicsWorld()
 {
+	worldGravity = Vec3(0, -9.8f, 0);
 }
 
 
@@ -27,44 +28,43 @@ float PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 	return J;
 }
 
-void PhysicsWorld::Update(UINT32 _deltaTime){
-	
-	{
-		//Scope already defined, just slap in if statment around this sucka
-		GameObject* testOne = new GameObject(GAME->currentLevel);
-		GameObject* testTwo = new GameObject(GAME->currentLevel);
+void PhysicsWorld::Update(float _deltaTime){
 
-		Rigidbody* testBodyOne = testOne->getComponent<Rigidbody>();
-		Rigidbody* testBodyTwo = testTwo->getComponent<Rigidbody>();
+	//Collision Response
+	for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
+		for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
+			if ((*first)->isColliding((*second)->parentObject)){
 
-		float J = PhysicsWorld::Impulse(testOne, testTwo);
+				float J = PhysicsWorld::Impulse((*first)->parentObject, (*second)->parentObject);
 
-		testBodyOne->accel += (testTwo->position - testOne->position) * J / testBodyOne->mass;
-		testBodyTwo->accel += (testOne->position - testTwo->position) * J / testBodyOne->mass;
+				(*first)->accel += ((*second)->parentObject->position - (*first)->parentObject->position) * J / (*first)->mass;
+				(*second)->accel += ((*first)->parentObject->position - (*second)->parentObject->position) * J / (*second)->mass;
 
-		testBodyOne->AngularAccel = testBodyOne->AngularAccel * Quat::Identity() * (testBodyOne->inertiaTensor.inverse() * ((testTwo->position - testOne->position) * J *testBodyOne->CollisionRadius));
-		testBodyTwo->AngularAccel = testBodyTwo->AngularAccel * Quat::Identity() * (testBodyTwo->inertiaTensor.inverse() * ((testOne->position - testTwo->position) * J *testBodyTwo->CollisionRadius));
+				/*(*first)->AngularAccel = (*first)->AngularAccel * Quat::Identity() * ((*first)->inertiaTensor.inverse() * (((*second)->parentObject->position - (*first)->parentObject->position) * J * (*first)->CollisionRadius));
+				(*second)->AngularAccel = (*second)->AngularAccel * Quat::Identity() * ((*second)->inertiaTensor.inverse() * (((*first)->parentObject->position - (*second)->parentObject->position) * J * (*second)->CollisionRadius));*/
+			}
+		}
 	}
 
 	for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
-		it->AddForce(worldGravity);
-	}
+		(*it)->AddForce(worldGravity);
 
-	for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
-		it->velocity += it->accel;
-		it->AngularVelocity = it->AngularVelocity * it->AngularAccel;
-		it->AngularVelocity.NormalizeThis();
+		(*it)->velocity += (*it)->accel * _deltaTime;
+		(*it)->AngularVelocity = (*it)->AngularVelocity + (*it)->AngularAccel * _deltaTime;
 
-		it->parentObject->Translate(it->velocity * _deltaTime);
-		it->parentObject->Rotate(it->AngularVelocity * _deltaTime);
+		(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
+		(*it)->parentObject->Rotate(Quat(0,(*it)->AngularVelocity) * _deltaTime);
 
 		//Angular and linear drag goes here
-		it->AngularVelocity.w *= (1 - it->angularDrag);
-		it->AngularVelocity.NormalizeThis();
-		it->velocity *= (1 - it->drag);
+		(*it)->AngularVelocity *= (1 - (*it)->angularDrag);
+		(*it)->velocity *= (1 - (*it)->drag);
 
-		if (Vec3::length(it->velocity) < it->sleepThreshold){
-			it->velocity = Vec3::Zero();
+		if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
+			(*it)->velocity = Vec3::Zero();
+		}
+
+		if (Vec3::length((*it)->AngularVelocity) < (*it)->angularSleep) {
+			(*it)->AngularVelocity = Vec3::Zero();
 		}
 	}
 }

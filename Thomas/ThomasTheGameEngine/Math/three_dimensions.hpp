@@ -33,6 +33,7 @@ public:
 	//--------------------------------Actual Maths----------------------------------------------------\\
 
 	static float length(Vec3);
+	float length();
 	float magnitude();
 	void NormalizeThis();
 	Vec3 Normalized();
