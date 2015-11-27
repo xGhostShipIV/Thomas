@@ -87,7 +87,10 @@ void InputController::Update(float _timestep)
 
 	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
 	{
-		inputMap.find(*it)->second->hasBeenPressed = false;
+		if (inputMap.find(*it) != inputMap.end())
+		{
+			inputMap.find(*it)->second->hasBeenPressed = false;
+		}		
 	}
 }
 

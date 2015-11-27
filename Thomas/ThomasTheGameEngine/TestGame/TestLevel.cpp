@@ -87,21 +87,21 @@ TestLevel::TestLevel()
 	//Setup the input controller here
 	BindKey(SDLK_b, BindKey(SDLK_v, new CameraUp(currentCamera, SDLK_SPACE)));
 	new CameraDown(currentCamera, SDLK_x);
-	new CameraRight(currentCamera, SDLK_d);
-	new CameraLeft(currentCamera, SDLK_a);
+	
 	new CameraForward(currentCamera, SDLK_w);
 	new CameraBackward(currentCamera, SDLK_s);
-	new CameraTurnLeft(currentCamera, SDLK_q);
-	new CameraTurnRight(currentCamera, SDLK_e);
+
+	new CameraTurnLeft(currentCamera, SDLK_a);
+	new CameraTurnRight(currentCamera, SDLK_d);
+	
 	new CameraTurnDown(currentCamera, SDLK_c);
 	new CameraTurnUp(currentCamera, SDLK_z);
-	new CameraRollLeft(currentCamera, SDLK_r);
-	new CameraRollRight(currentCamera, SDLK_f);
+	
+	new CameraRollLeft(currentCamera, SDLK_q);
+	new CameraRollRight(currentCamera, SDLK_e);
 
-	new GameObject_PosX(cube, SDLK_LEFT);
-	new GameObject_NegX(cube, SDLK_RIGHT);
-	new GameObject_ScaleUp(cube, SDLK_UP);
-	new GameObject_ScaleDown(cube, SDLK_DOWN);
+	new CameraRight(currentCamera, SDLK_RIGHT);
+	new CameraLeft(currentCamera, SDLK_LEFT);
 
 	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
 	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
