@@ -10,8 +10,8 @@ Rigidbody::Rigidbody(GameObject* _parent) : Component(_parent,Component::Compone
 	velocity = Vec3::Zero();
 	accel = Vec3::Zero();
 	CollisionRadius = 1;
-	AngularVelocity = Quat(0, Vec3::Zero());
-	AngularAccel = Quat(0, Vec3::Zero());
+	//AngularVelocity = Quat(0, Vec3::Zero());
+	//AngularAccel = Quat(0, Vec3::Zero());
 
 	//Build the intertia tensor, they are always spheres right now:
 	float tensorValue = 2.f / 5.f * mass * CollisionRadius * CollisionRadius;

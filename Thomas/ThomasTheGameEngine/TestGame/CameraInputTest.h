@@ -83,7 +83,7 @@ class CameraTurnLeft : public InputComponent {
 public:
 	CameraTurnLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(0, 1, 0)));
+		owner->Rotate(Quat(CameraSpeed * _timestep, owner->up()));
 	}
 };
 
@@ -94,7 +94,7 @@ class CameraTurnRight : public InputComponent {
 public:
 	CameraTurnRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(0, 1, 0)));
+		owner->Rotate(Quat(-CameraSpeed * _timestep, owner->up()));
 	}
 };
 
@@ -105,7 +105,7 @@ class CameraTurnDown : public InputComponent {
 public:
 	CameraTurnDown(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(1, 0, 0)));
+		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3::cross(owner->forward(), owner->up())));
 	}
 };
 
@@ -116,7 +116,7 @@ class CameraTurnUp : public InputComponent {
 public:
 	CameraTurnUp(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(1, 0, 0)));
+		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3::cross(owner->forward(),owner->up())));
 	}
 };
 
@@ -127,7 +127,7 @@ class CameraRollLeft : public InputComponent {
 public:
 	CameraRollLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3(0, 0, 1)));
+		owner->Rotate(Quat(-CameraSpeed * _timestep, owner->forward()));
 	}
 };
 
@@ -138,7 +138,7 @@ class CameraRollRight : public InputComponent {
 public:
 	CameraRollRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3(0, 0, 1)));
+		owner->Rotate(Quat(CameraSpeed * _timestep, owner->forward()));
 	}
 };
 
