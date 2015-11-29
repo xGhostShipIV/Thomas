@@ -3,6 +3,11 @@
 //Example Level
 
 #include "TestLevel.h"
+#include "AudioTester.h"
+#include "CameraInputTest.h"
+#include "GameObjectInputTest.h"
+#include "FPS_Inputs.h"
+#include <SDL.h>
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -17,13 +22,13 @@ TestLevel::TestLevel()
 {
 	currentCamera->position = Vec3(0, 1, -8);
 
-	ambientLightColor = Vec4(1, 0.1, 0.1, 0.1);
+	ambientLightColor = Vec4(1, 0.0, 0.0, 0.0);
 
 	new AudioTester(this);
 
 	cube = new GameObject(this, Vec3(0, 0.5f, 0));
 	lilCube = new GameObject(this, Vec3(2, 0.5f, 0));
-	light = new GameObject(this, Vec3(0, 14, 30));
+	light = new GameObject(this, Vec3(0, 30, 40));
 	lightAnchor = new GameObject(this, Vec3());
 	soBright = new GameObject(this, Vec3(0, 5.25f, -3));
 	ground = new GameObject(this, Vec3(0, 0, 0));
@@ -76,16 +81,16 @@ TestLevel::TestLevel()
 
 	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 
-	new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
-	new Light(soBright, Vec4(1, 8, 8, 0), Light::Spot, 90 * 3.14159f / 180.0f);
+	//new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
+	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 90 * 3.14159f / 180.0f);
 
-	new Light(flashLight, Vec4(1, 20, 20, 20), Light::Spot, 60 * 3.14159f / 180.0f);
+	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
 
-	//Setup the input controller here
-	BindKey(SDLK_b, BindKey(SDLK_v, new CameraUp(currentCamera, SDLK_SPACE)));
+	/* Space Controls */
+	/*BindKey(SDLK_b, BindKey(SDLK_v, new CameraUp(currentCamera, SDLK_SPACE)));
 	new CameraDown(currentCamera, SDLK_x);
 	
 	new CameraForward(currentCamera, SDLK_w);
@@ -100,11 +105,23 @@ TestLevel::TestLevel()
 	new CameraRollLeft(currentCamera, SDLK_q);
 	new CameraRollRight(currentCamera, SDLK_e);
 
-	new CameraRight(currentCamera, SDLK_RIGHT);
-	new CameraLeft(currentCamera, SDLK_LEFT);
+	new CameraTurnRight(currentCamera, SDLK_RIGHT);
+	new CameraTurnLeft(currentCamera, SDLK_LEFT);*/
 
 	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
 	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
+
+	/* FPS CONTROLS */
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	new FPS_FORWARD(currentCamera, SDLK_w);
+	new FPS_BACKWARD(currentCamera, SDLK_s);
+	new FPS_STRAFE_LEFT(currentCamera, SDLK_a);
+	new FPS_STRAFE_RIGHT(currentCamera, SDLK_d);
+
+	new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
+	new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
+	new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
+	new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
 }
 
 TestLevel::~TestLevel(){}
@@ -115,6 +132,7 @@ void TestLevel::LevelUpdate(float _timeStep)
 
 	cube->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(0, 1, 0)));
 	lightAnchor->GetTransform().Rotate(Quat(-0.6f * _timeStep, Vec3(1, 1, 0)));
+	light->LookAt(Vec3());
 }
 
 void TestLevel::DebugRender()

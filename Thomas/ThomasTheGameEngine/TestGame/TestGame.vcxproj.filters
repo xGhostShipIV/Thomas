@@ -48,6 +48,9 @@
     <ClInclude Include="GameObjectInputTest.h">
       <Filter>Header Files\Inputs</Filter>
     </ClInclude>
+    <ClInclude Include="FPS_Inputs.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioTester.cpp">

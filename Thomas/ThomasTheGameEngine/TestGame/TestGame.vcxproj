@@ -84,6 +84,7 @@
     <ClInclude Include="AudioTester.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
+    <ClInclude Include="FPS_Inputs.h" />
     <ClInclude Include="GameObjectInputTest.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TestGame.h" />

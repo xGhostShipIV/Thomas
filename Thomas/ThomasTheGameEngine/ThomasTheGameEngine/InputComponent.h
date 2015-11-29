@@ -10,6 +10,11 @@
 //For binding multiple keys
 #define BindKey Game::GetInstance()->inputManager->bindKey
 
+enum MouseMovement
+{
+	None, Positive_X, Negative_X, Positive_Y, Negative_Y
+};
+
 /*
 	A component to define an action desired to be taken when a 
 	particular key has been pressed. Because it is abstract,
@@ -18,6 +23,7 @@
 class InputComponent : public Component {
 public:
 	InputComponent(GameObject *, SDL_Keycode key);
+	InputComponent(GameObject *, MouseMovement _event);
 	~InputComponent();
 
 	//Abstract method that defines the action to be taken when the associated
@@ -44,14 +50,19 @@ public:
 	}
 
 	Vec2 mousePos;
+
 	std::map<Uint8, SDL_Keycode> mouseButtonDict;
 
 	//Binds the given keycode with the given InputComponent, 
 	//returns InputComponent back for multiple keybinds
 	InputComponent* bindKey(SDL_Keycode, InputComponent *);
 
+	InputComponent* bindMouseEvent(MouseMovement, InputComponent *);
+
 	//Deletes the actions associated with the given keybind
 	void unbindKey(SDL_Keycode);
+
+	void unbindMouseEvent(MouseMovement);
 
 	//Deletes the provided action
 	void unbindAction(InputComponent *);
@@ -65,12 +76,15 @@ public:
 
 	void releaseKey(SDL_Keycode);
 
+	void mouseMovement(SDL_MouseMotionEvent _event, float _timestep);
+
 	void Update(float _timestep);
 
 	~InputController();
 private:
 	//A map to link keycodes to actions
 	std::map<SDL_Keycode, InputComponent*> inputMap;
+	std::map<MouseMovement, InputComponent*> motionMap;
 
 	std::vector<SDL_Keycode> keysDown;
 

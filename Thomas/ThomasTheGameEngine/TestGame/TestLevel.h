@@ -13,10 +13,6 @@
 #include <ParticleSystem.h>
 
 #include "TestGame.h"
-#include "AudioTester.h"
-#include "CameraInputTest.h"
-#include "GameObjectInputTest.h"
-
 
 /*
 A class that inherits from Level so the user can specify the behaviour of

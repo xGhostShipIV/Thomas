@@ -124,6 +124,8 @@ void Game::StartGame()
 					InputController::getInstance()->hitKey(evt.key.keysym.sym);
 				else if (evt.type == SDL_KEYUP)
 					InputController::getInstance()->releaseKey(evt.key.keysym.sym);
+				else if (evt.type == SDL_MOUSEMOTION)
+					InputController::getInstance()->mouseMovement(evt.motion, timeSincelastUpdate / 1000.0f);
 
 				//Specific handling for mouse buttons
 				//Note on implementation:

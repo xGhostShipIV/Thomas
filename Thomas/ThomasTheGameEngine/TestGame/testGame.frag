@@ -76,7 +76,7 @@ void main()
 			{
 				float distanceOfAngle = (vLightAngle_Spot[i]/2.0f) - acos(dot(distanceToFrag, vLightDirection_Spot[i]) / (length(distanceToFrag) * length(vLightDirection_Spot[i])));
 
-				float brightness = dot(vNormal, distanceToFrag) / (length(distanceToFrag) * length(distanceToFrag) * length(vNormal)) * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f));
+				float brightness = dot(vNormal, distanceToFrag) / (length(distanceToFrag) * length(distanceToFrag) * length(distanceToFrag) * length(vNormal)) * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f));
 				brightness = clamp(brightness, 0, 1);
 				vec4 spotDiffuse = brightness * vLightColor_Spot[i] * vMaterial.y;
 

@@ -25,7 +25,7 @@ public:
 
 private:
 	//OpenGL specific identifier
-	GLuint cameraMatrixLocation, cameraPositionLocation;
+	GLuint cameraMatrixLocation;
 
 	//All matricies associated with the camera
 	Matrix4 projectionMatrix;
