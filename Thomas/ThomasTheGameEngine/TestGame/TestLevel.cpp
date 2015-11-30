@@ -47,7 +47,8 @@ TestLevel::TestLevel()
 	flashLight->Rotate(Quat(20 * 3.14159f / 180.0f, Vec3::BasisX()));
 
 	/* CREATE MODELS */
-	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
+	//ModelManager::getInstance()->loadModel("barrel", "Images/barrel.obj");
+	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePlane("plane", .5f, .5f);
 	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
 	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
@@ -76,7 +77,7 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadTexture("skybox", "Images/Day_Skybox.png");
 
 	/* Add Components */
-	new RenderableComponent("idgaf", "redCheckers", cube);
+	new RenderableComponent("cube", "redCheckers", cube);
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);

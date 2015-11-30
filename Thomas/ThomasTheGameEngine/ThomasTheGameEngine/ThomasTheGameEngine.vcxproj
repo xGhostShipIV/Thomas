@@ -109,8 +109,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,6 +127,12 @@
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
+    <Lib>
+      <AdditionalDependencies>assimp.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

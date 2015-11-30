@@ -27,18 +27,24 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Textu
 
 	for (int i = 0; i < face.size(); i++)
 	{
-		Vec3 _normal = Quat::rotate(parentTransform.rotation, normal[i]);
+		if (normal.size() != 0)
+		{
+			Vec3 _normal = Quat::rotate(parentTransform.rotation, normal[i]);
 
-		float norm[] {_normal.x, _normal.y, _normal.z, 0};
-		glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+			float norm[] {_normal.x, _normal.y, _normal.z, 0};
+			glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+		}
 
-		if (face[i] == 4)
-			glDrawElements(GL_QUADS, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
-		else if (face[i] == 3)
-			glDrawElements(GL_TRIANGLES, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
+		//if (edgeIndex <= edge.size())
+		{
+			if (face[i] == 4)
+				glDrawElements(GL_QUADS, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
+			else if (face[i] == 3)
+				glDrawElements(GL_TRIANGLES, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
 
-		edgeIndex += face[i];
-	}		
+			edgeIndex += face[i];
+		}
+	}
 }
 
 void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
