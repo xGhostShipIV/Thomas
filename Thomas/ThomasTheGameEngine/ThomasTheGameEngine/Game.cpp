@@ -150,7 +150,7 @@ void Game::StartGame()
 
 			timeSinceLastRender += timeSincelastUpdate;
 
-			if (timeSinceLastRender >= 1000 / FPS_CAP)
+			//if (timeSinceLastRender >= 1000 / FPS_CAP)
 			{
 				timeSinceLastRender = 0;
 				EngineRender();

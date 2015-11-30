@@ -69,8 +69,9 @@ public:
 
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l);
+	void CreateSkybox(string _id, float _size);
 	void CreateSphere(string _id, float _r){}
-	void CreatePlane(string _id, float _h, float _w);
+	void CreatePlane(string _id, float _h, float _w, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreatePyramid(string _id, float _w, float _l, float _h);
 	void CreateCone(string _id, float _r, float _h){}
 	void CreateCylinder(string _id, float _r, float _h){}
@@ -115,7 +116,7 @@ private:
 	void InsertModel(Renderable* _renderable, string _id);
 
 	//Generates the TextureMap for the model
-	void GenerateTextureMap(Renderable* _renderable);
+	void GenerateTextureMap(Renderable* _renderable, float _uvRepeatX = 1, float _uvRepeatY = 1);
 
 	//Generates the normals for the model
 	void GenerateNormals(Renderable* _renderable);

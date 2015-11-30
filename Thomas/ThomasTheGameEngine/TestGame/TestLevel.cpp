@@ -33,7 +33,7 @@ TestLevel::TestLevel()
 	soBright = new GameObject(this, Vec3(0, 5.25f, -3));
 	ground = new GameObject(this, Vec3(0, 0, 0));
 	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
-	
+	skybox = new GameObject(this, currentCamera->position);
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
@@ -50,8 +50,9 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->CreateCuboid("idgaf", 0.5f, 0.5f, 0.5f);
 	ModelManager::getInstance()->CreatePlane("plane", .5f, .5f);
 	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
-	ModelManager::getInstance()->CreatePlane("ground", 100, 100);
+	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
 	ModelManager::getInstance()->CreatePyramid("directional", 2.5f, 2.5f, 2.5f);
+	ModelManager::getInstance()->CreateSkybox("skybox", 200);
 
 	/* CREATE TEXTURES */
 
@@ -72,17 +73,19 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadTexture("star", "Images/star.png");
 	ModelManager::getInstance()->loadTexture("smoke", "Images/Smoke.png");
 	ModelManager::getInstance()->loadTexture("grass", "Images/grass.png");
+	ModelManager::getInstance()->loadTexture("skybox", "Images/Day_Skybox.png");
 
 	/* Add Components */
 	new RenderableComponent("idgaf", "redCheckers", cube);
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
+	new RenderableComponent("skybox", "skybox", skybox);
 
 	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 
 	//new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
-	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 90 * 3.14159f / 180.0f);
+	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 120 * 3.14159f / 180.0f);
 
 	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
 
@@ -133,6 +136,8 @@ void TestLevel::LevelUpdate(float _timeStep)
 	cube->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(0, 1, 0)));
 	lightAnchor->GetTransform().Rotate(Quat(-0.6f * _timeStep, Vec3(1, 1, 0)));
 	light->LookAt(Vec3());
+
+	skybox->position = currentCamera->position;
 }
 
 void TestLevel::DebugRender()

@@ -169,6 +169,110 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l)
 	}
 }
 
+void ModelManager::CreateSkybox(string _id, float _size)
+{
+	Renderable * skybox;
+
+	switch (render_mode)
+	{
+	case ModelManager::Render_OpenGL:
+
+		skybox = new OpenGL_Renderable();
+
+		/* Face Front */
+		skybox->vertex.push_back(Vec3(-_size, -_size, _size)); //3
+		skybox->vertex.push_back(Vec3(_size, -_size, _size)); //2
+		skybox->vertex.push_back(Vec3(_size, _size, _size)); //1
+		skybox->vertex.push_back(Vec3(-_size, _size, _size)); //0
+
+		/* Face Back */
+		skybox->vertex.push_back(Vec3(-_size, _size, -_size)); //7
+		skybox->vertex.push_back(Vec3(_size, _size, -_size)); //6
+		skybox->vertex.push_back(Vec3(_size, -_size, -_size)); //5
+		skybox->vertex.push_back(Vec3(-_size, -_size, -_size)); //4
+		/* Face Left */
+		skybox->vertex.push_back(skybox->vertex[0]);
+		skybox->vertex.push_back(skybox->vertex[3]);
+		skybox->vertex.push_back(skybox->vertex[4]);
+		skybox->vertex.push_back(skybox->vertex[7]);
+		/* Face Right */
+		skybox->vertex.push_back(skybox->vertex[6]);
+		skybox->vertex.push_back(skybox->vertex[5]);
+		skybox->vertex.push_back(skybox->vertex[2]);
+		skybox->vertex.push_back(skybox->vertex[1]);
+		/* Face Top */
+		skybox->vertex.push_back(skybox->vertex[7]);
+		skybox->vertex.push_back(skybox->vertex[6]);
+		skybox->vertex.push_back(skybox->vertex[1]);
+		skybox->vertex.push_back(skybox->vertex[0]);
+		/* Face Bottom */
+		skybox->vertex.push_back(skybox->vertex[3]);
+		skybox->vertex.push_back(skybox->vertex[2]);
+		skybox->vertex.push_back(skybox->vertex[5]);
+		skybox->vertex.push_back(skybox->vertex[4]);
+
+		for (unsigned int i = 0; i < skybox->vertex.size(); i++)
+			skybox->edge.push_back(i);
+
+		for (int i = 0; i < 6; i++)
+			skybox->face.push_back(4);
+
+		GenerateNormals(skybox);
+
+		//Generate Cubemap 
+		{
+			//Front
+			skybox->textureMap.push_back(Vec2(1, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.75f, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.75f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(1, 1/3.0f));
+
+			//Back
+			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.5f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.5f, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
+
+			//Left  !
+			skybox->textureMap.push_back(Vec2(0, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
+
+			//Right  !
+			skybox->textureMap.push_back(Vec2(0.50f, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.50f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.75f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.75f, 2/3.0f));
+
+			//Bottom  ?
+			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.50f, 2/3.0f));
+			skybox->textureMap.push_back(Vec2(0.50f, 1));
+			skybox->textureMap.push_back(Vec2(0.25f, 1));
+
+			//Top  ?
+			skybox->textureMap.push_back(Vec2(0.25f, 0));
+			skybox->textureMap.push_back(Vec2(0.50f, 0));
+			skybox->textureMap.push_back(Vec2(0.50f, 1/3.0f));
+			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
+		}
+
+		for (auto it = skybox->textureMap.begin(); it != skybox->textureMap.end(); it++)
+		{
+			masterTextureCoords.push_back(*it);
+		}
+
+		InsertModel(skybox, _id);
+
+		break;
+	case ModelManager::Render_DirectX:
+		break;
+	case ModelManager::Render_Ogre:
+		break;
+	}
+}
+
 void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 {
 	Renderable * pyramid;
@@ -228,7 +332,7 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 	}
 }
 
-void ModelManager::CreatePlane(string _id, float _h, float _w)
+void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * plane;
 
@@ -253,7 +357,7 @@ void ModelManager::CreatePlane(string _id, float _h, float _w)
 			plane->face.push_back(4);
 
 		GenerateNormals(plane);
-		GenerateTextureMap(plane);
+		GenerateTextureMap(plane, _uvRepeatX, _uvRepeatY);
 
 		InsertModel(plane, _id);
 
@@ -281,17 +385,17 @@ void ModelManager::InsertModel(Renderable* _renderable, string _id)
 		_renderable->edge[i] += _renderable->offsetVertex;
 }
 
-void ModelManager::GenerateTextureMap(Renderable* _renderable)
+void ModelManager::GenerateTextureMap(Renderable* _renderable, float _uvRepeatX, float _uvRepeatY)
 {
 	for (int i = 0; i < _renderable->face.size(); i++)
 	{
 		if (_renderable->face[i] == 4)
 		{
-			_renderable->textureMap.push_back(Vec2(0, 1));
+			_renderable->textureMap.push_back(Vec2(0, _uvRepeatY));
 		}
 		
-		_renderable->textureMap.push_back(Vec2(1, 1));
-		_renderable->textureMap.push_back(Vec2(1, 0));
+		_renderable->textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
+		_renderable->textureMap.push_back(Vec2(_uvRepeatX, 0));
 		_renderable->textureMap.push_back(Vec2(0, 0));
 	}
 
