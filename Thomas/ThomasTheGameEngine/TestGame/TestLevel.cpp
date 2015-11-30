@@ -72,9 +72,11 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadTexture("star", "Images/star.png");
 	ModelManager::getInstance()->loadTexture("smoke", "Images/Smoke.png");
 	ModelManager::getInstance()->loadTexture("grass", "Images/grass.png");
+	ModelManager::getInstance()->loadModel("barrel", "Images/barrel.obj");
+
 
 	/* Add Components */
-	new RenderableComponent("idgaf", "redCheckers", cube);
+	new RenderableComponent("barrel", "redCheckers", cube);
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);

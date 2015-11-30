@@ -3,6 +3,10 @@
 #include "Texture.h"
 #include "OpenGLUtilities.h"
 
+#include <assimp\Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
+
 ModelManager * ModelManager::instance;
 GLuint ModelManager::transformLocation;
 GLuint ModelManager::translateLocation;
@@ -35,10 +39,10 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		normalLocation = glGetUniformLocation(program, "Normal");
 		ambientLocation = glGetUniformLocation(program, "AmbientColor");
 		materialLocation = glGetUniformLocation(program, "Material");
-		
+
 		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
 		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
-		
+
 		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
 		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
 
@@ -66,9 +70,53 @@ void ModelManager::loadModel(string _id, string _fileName)
 	//Checks what our current render mode is and will create the appropriate
 	//Renderable based on such. For example, will create an OpenGL_Renderable
 	//if current render mode is for OpenGL
+
+	Assimp::Importer import;
+	const aiScene * scene;
+
+	Renderable * model;
+
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
+
+		model = new OpenGL_Renderable();
+
+		scene = import.ReadFile(_fileName, NULL);
+
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
+			{
+				Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
+				model->vertex.push_back(vertex);
+
+				if (scene->mMeshes[i]->HasNormals())
+				{
+					Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
+					model->normal.push_back(normal);
+				}
+			}
+		}
+
+		for (unsigned int i = 0; i < model->vertex.size(); i++)
+			model->edge.push_back(i);
+
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			for (int j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
+			{
+				model->face.push_back(scene->mMeshes[i]->mFaces[j].mNumIndices);
+			}
+		}
+
+		GenerateTextureMap(model);
+
+		/*if (model->normal.size() == 0)
+		GenerateNormals(model);*/
+
+		InsertModel(model, _id);
+
 		break;
 	case ModelManager::Render_DirectX:
 		break;
@@ -141,8 +189,8 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l)
 		cube->vertex.push_back(cube->vertex[2]);
 		cube->vertex.push_back(cube->vertex[5]);
 		cube->vertex.push_back(cube->vertex[4]);
-		
-		
+
+
 		///* Face Back */		cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
 		///* Face Front */		cube->edge.push_back(4);	cube->edge.push_back(5);	cube->edge.push_back(6);	cube->edge.push_back(7);
 		///* Face Left */		cube->edge.push_back(0);	cube->edge.push_back(3);	cube->edge.push_back(4);	cube->edge.push_back(7);
@@ -183,7 +231,7 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 		pyramid->vertex.push_back(Vec3(-_w, 0.0f, -_l));
 		pyramid->vertex.push_back(Vec3(-_w, 0.0f, _l));
 		pyramid->vertex.push_back(Vec3(_w, 0.0f, _l));
-		
+
 		pyramid->vertex.push_back(Vec3(0.0f, _h, 0.0f));
 		pyramid->vertex.push_back(pyramid->vertex[3]);
 		pyramid->vertex.push_back(pyramid->vertex[2]);
@@ -289,7 +337,7 @@ void ModelManager::GenerateTextureMap(Renderable* _renderable)
 		{
 			_renderable->textureMap.push_back(Vec2(0, 1));
 		}
-		
+
 		_renderable->textureMap.push_back(Vec2(1, 1));
 		_renderable->textureMap.push_back(Vec2(1, 0));
 		_renderable->textureMap.push_back(Vec2(0, 0));
@@ -355,9 +403,9 @@ void ModelManager::PushModels()
 		glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(0);
-		
+
 		delete newMasterList;
-	}	
+	}
 
 	/*  TEXTURES  */
 	GLuint* textureArray = new GLuint[textures.size()];
@@ -391,7 +439,7 @@ void ModelManager::PushModels()
 	delete textureArray;
 
 	SDL_FreeSurface(texture);
-	
+
 	if (masterTextureCoords.size() > 0)
 	{
 		float * newMasterTextureList = new float[masterTextureCoords.size() * 2];
