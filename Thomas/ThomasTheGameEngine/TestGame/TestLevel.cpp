@@ -32,7 +32,7 @@ TestLevel::TestLevel()
 	lightAnchor = new GameObject(this, Vec3());
 	soBright = new GameObject(this, Vec3(0, 5.25f, -3));
 	ground = new GameObject(this, Vec3(0, 0, 0));
-	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, 0));
+	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
 	
 
 	light->LookAt(Vec3());
@@ -112,7 +112,7 @@ TestLevel::TestLevel()
 	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 
 	/* FPS CONTROLS */
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
 	new FPS_FORWARD(currentCamera, SDLK_w);
 	new FPS_BACKWARD(currentCamera, SDLK_s);
 	new FPS_STRAFE_LEFT(currentCamera, SDLK_a);

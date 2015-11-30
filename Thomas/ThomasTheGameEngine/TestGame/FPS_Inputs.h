@@ -7,7 +7,8 @@ A number of input controls to control the camera within the game like an fps
 */
 
 #define FPSMoveSpeed 5.0f
-#define FPSTurnSpeed 25.0f
+#define FPSHorizontalTurnSpeed 25.0f
+#define FPSVerticalTurnSpeed 17.5f
 
 class FPS_STRAFE_RIGHT : public InputComponent {
 
@@ -60,7 +61,7 @@ class FPS_TURN_LEFT : public InputComponent {
 public:
 	FPS_TURN_LEFT(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(FPSTurnSpeed * _timestep,  Vec3::BasisY() ));
+		owner->Rotate(Quat(FPSHorizontalTurnSpeed * _timestep, Vec3::BasisY()));
 	}
 };
 
@@ -71,7 +72,7 @@ class FPS_TURN_RIGHT : public InputComponent {
 public:
 	FPS_TURN_RIGHT(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(-FPSTurnSpeed * _timestep, Vec3::BasisY() ));
+		owner->Rotate(Quat(-FPSHorizontalTurnSpeed * _timestep, Vec3::BasisY()));
 	}
 };
 
@@ -82,7 +83,7 @@ class FPS_TURN_UP : public InputComponent {
 public:
 	FPS_TURN_UP(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(-FPSTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
+		owner->Rotate(Quat(-FPSVerticalTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
 	}
 };
 
@@ -94,6 +95,6 @@ class FPS_TURN_DOWN : public InputComponent {
 public:
 	FPS_TURN_DOWN(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
-		owner->Rotate(Quat(FPSTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
+		owner->Rotate(Quat(FPSVerticalTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
 	}
 };

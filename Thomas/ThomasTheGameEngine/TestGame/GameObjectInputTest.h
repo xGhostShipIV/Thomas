@@ -58,9 +58,9 @@ public:
 	void whenPressed(float _timestep){
 		*color -= Vec4(0, 0.25f, 0.25f, 0.25f) * _timestep;
 
-		(*color).x = (*color).x < 0.1f ? 0.1f : (*color).x;
-		(*color).y = (*color).y < 0.1f ? 0.1f : (*color).y;
-		(*color).z = (*color).z < 0.1f ? 0.1f : (*color).z;
+		(*color).x = (*color).x < 0 ? 0 : (*color).x;
+		(*color).y = (*color).y < 0 ? 0 : (*color).y;
+		(*color).z = (*color).z < 0 ? 0 : (*color).z;
 		//(*color).w = (*color).w < 0 ? 0 : (*color).w;
 
 	}
