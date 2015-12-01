@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <string>
 #include "Material.h"
+#include <vector>
 
 /*
 	A component that contains all the graphical information that can be
@@ -14,7 +15,8 @@ class RenderableComponent : public Component {
 public:
 	//An identifier string that will be used to find
 	//the model information from the modelManager
-	std::string modelName, textureName;
+	std::string modelName;
+	std::vector<std::string> textureName;
 
 	Material * mat;
 

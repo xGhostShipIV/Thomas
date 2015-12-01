@@ -5,7 +5,7 @@
 
 RenderableComponent::RenderableComponent(std::string _modelID, std::string _textureID, GameObject* _parent, Material * _mat) : Component(_parent, Component::ComponentType::Renderable){
 	modelName = _modelID;
-	textureName = _textureID;
+	textureName.push_back(_textureID);
 	mat = _mat;
 }
 
@@ -15,7 +15,7 @@ void RenderableComponent::DrawModel()
 	{
 		//something about uniforms
 
-		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(modelName))->Draw(parentObject->GetTransform(), mat, ModelManager::getInstance()->getTexture(textureName));
+		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(modelName))->Draw(parentObject->GetTransform(), mat, textureName);
 	}
 }
 

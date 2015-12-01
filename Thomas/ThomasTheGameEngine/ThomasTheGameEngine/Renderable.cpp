@@ -5,8 +5,12 @@
 #include "Texture.h"
 #include "Material.h"
 
-void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Texture *_texture)
+void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::vector<std::string> _textureNames)
 {
+	//Get textures
+	std::vector<Texture*> _textures;
+	for (int i = 0; i < _textureNames.size(); i++)
+		_textures.push_back(ModelManager::getInstance()->getTexture(_textureNames[i]));
 
 	//Switch Face Culling Mode
 	switch (drawMode)
@@ -28,35 +32,41 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Textu
 	float mat[] {_mat->ambient, _mat->diffuse, _mat->specular};
 	glUniform3fv(ModelManager::getInstance()->materialLocation, 1, mat);
 
-	//Get Texture
-	if (_texture)
+	for (int m = 0; m < meshes.size(); m++)
 	{
-		glBindTexture(GL_TEXTURE_2D, _texture->address);
-	}
-	// else set texture to null??
-
-	int edgeIndex = 0;
-
-	for (int i = 0; i < face.size(); i++)
-	{
-		if (normal.size() != 0)
+		//Get Texture
+		if (m < _textures.size() && _textures[m])
 		{
-			Vec3 _normal = Quat::rotate(parentTransform.rotation, normal[i]);
-
-			float norm[] {_normal.x, _normal.y, _normal.z, 0};
-			glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+			glBindTexture(GL_TEXTURE_2D, _textures[m]->address);
 		}
+		else if (_textures[0])
+			glBindTexture(GL_TEXTURE_2D, _textures[0]->address);
 
-		//if (edgeIndex <= edge.size())
+
+		int edgeIndex = 0;
+
+		for (int i = 0; i < meshes[m].face.size(); i++)
 		{
-			if (face[i] == 4)
-				glDrawElements(GL_QUADS, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
-			else if (face[i] == 3)
-				glDrawElements(GL_TRIANGLES, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
+			if (meshes[m].normal.size() != 0)
+			{
+				Vec3 _normal = Quat::rotate(parentTransform.rotation, meshes[m].normal[i]);
 
-			edgeIndex += face[i];
+				float norm[] {_normal.x, _normal.y, _normal.z, 0};
+				glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+			}
+
+			//if (edgeIndex <= edge.size())
+			{
+				if (meshes[m].face[i] == 4)
+					glDrawElements(GL_QUADS, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
+				else if (meshes[m].face[i] == 3)
+					glDrawElements(GL_TRIANGLES, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
+
+				edgeIndex += meshes[m].face[i];
+			}
 		}
 	}
+
 }
 
 void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
@@ -67,18 +77,21 @@ void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
 	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};
 	glUniform4fv(ModelManager::getInstance()->translateLocation, 1, pos);
 
-	int edgeIndex = 0;
-
-	for (int i = 0; i < face.size(); i++)
+	for (int m = 0; m < meshes.size(); m++)
 	{
-		float norm[] {normal[i].x, normal[i].y, normal[i].z, 0};
-		glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+		int edgeIndex = 0;
 
-		if (face[i] == 4)
-			glDrawElements(GL_LINE_LOOP, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
-		else if (face[i] == 3)
-			glDrawElements(GL_LINE_LOOP, face[i], GL_UNSIGNED_INT, &edge[edgeIndex]);
+		for (int i = 0; i < meshes[m].face.size(); i++)
+		{
+			float norm[] {meshes[m].normal[i].x, meshes[m].normal[i].y, meshes[m].normal[i].z, 0};
+			glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
 
-		edgeIndex += face[i];
+			if (meshes[m].face[i] == 4)
+				glDrawElements(GL_LINE_LOOP, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
+			else if (meshes[m].face[i] == 3)
+				glDrawElements(GL_LINE_LOOP, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
+
+			edgeIndex += meshes[m].face[i];
+		}
 	}
 }

@@ -27,6 +27,7 @@ Game::Game()
 
 	///SDL stuff
 	SDL_Init(SDL_INIT_VIDEO);
+	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
 
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
@@ -100,6 +101,7 @@ Game::~Game()
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyRenderer(gameRenderer);
 	SDL_DestroyWindow(gameWindow);
+	IMG_Quit();
 	SDL_Quit();
 }
 

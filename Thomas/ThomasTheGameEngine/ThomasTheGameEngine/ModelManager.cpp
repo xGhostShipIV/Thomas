@@ -65,7 +65,7 @@ ModelManager::~ModelManager()
 	models.clear();
 }
 
-void ModelManager::loadModel(string _id, string _fileName, Draw_Mode _mode)
+void ModelManager::loadModel(string _id, string _fileName, bool _useModelTextureMap, Draw_Mode _mode)
 {
 	//Checks what our current render mode is and will create the appropriate
 	//Renderable based on such. For example, will create an OpenGL_Renderable
@@ -86,31 +86,53 @@ void ModelManager::loadModel(string _id, string _fileName, Draw_Mode _mode)
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
+			Renderable::Mesh mesh;/* = Renderable::Mesh();*/
+
 			for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
 			{
 				Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
-				model->vertex.push_back(vertex);
+				mesh.vertex.push_back(vertex);
 
 				if (scene->mMeshes[i]->HasNormals())
 				{
 					Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
-					model->normal.push_back(normal);
+					mesh.normal.push_back(normal);
+				}
+
+				if (_useModelTextureMap && scene->mMeshes[i]->HasTextureCoords(0))
+				{
+					Vec2 texture = Vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, scene->mMeshes[i]->mTextureCoords[0][j].y);
+					mesh.textureMap.push_back(texture);
 				}
 			}
+
+			model->meshes.push_back(mesh);
 		}
 
-		for (unsigned int i = 0; i < model->vertex.size(); i++)
-			model->edge.push_back(i);
+		for (int m = 0; m < model->meshes.size(); m++)
+		for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
+				model->meshes[m].edge.push_back(i);
 
+		
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
 			for (int j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
 			{
-				model->face.push_back(scene->mMeshes[i]->mFaces[j].mNumIndices);
+				model->meshes[i].face.push_back(scene->mMeshes[i]->mFaces[j].mNumIndices);
 			}
 		}
 
-		GenerateTextureMap(model);
+		if (!_useModelTextureMap)
+			GenerateTextureMap(model);
+		else
+		{
+			for (int m = 0; m < model->meshes.size(); m++)
+			for (auto it = model->meshes[m].textureMap.begin(); it != model->meshes[m].textureMap.end(); it++)
+			{
+				masterTextureCoords.push_back(*it);
+			}
+		}
+
 
 		/*if (model->normal.size() == 0)
 		GenerateNormals(model);*/
@@ -150,47 +172,50 @@ void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
 	render_mode = _rm;
 }
 
-void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
+void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _useCubeMap, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * cube;
+	Renderable::Mesh mesh;
 
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
 
 		cube = new OpenGL_Renderable();
+		
+		cube->meshes.push_back(mesh);
 
 		/* Face Back */
-		cube->vertex.push_back(Vec3(-_w, _h, _l));
-		cube->vertex.push_back(Vec3(_w, _h, _l));
-		cube->vertex.push_back(Vec3(_w, -_h, _l));
-		cube->vertex.push_back(Vec3(-_w, -_h, _l));
+		cube->meshes[0].vertex.push_back(Vec3(-_w, _h, _l));
+		cube->meshes[0].vertex.push_back(Vec3(_w, _h, _l));
+		cube->meshes[0].vertex.push_back(Vec3(_w, -_h, _l));
+		cube->meshes[0].vertex.push_back(Vec3(-_w, -_h, _l));
 
 		/* Face Front */
-		cube->vertex.push_back(Vec3(-_w, -_h, -_l));
-		cube->vertex.push_back(Vec3(_w, -_h, -_l));
-		cube->vertex.push_back(Vec3(_w, _h, -_l));
-		cube->vertex.push_back(Vec3(-_w, _h, -_l));
+		cube->meshes[0].vertex.push_back(Vec3(-_w, -_h, -_l));
+		cube->meshes[0].vertex.push_back(Vec3(_w, -_h, -_l));
+		cube->meshes[0].vertex.push_back(Vec3(_w, _h, -_l));
+		cube->meshes[0].vertex.push_back(Vec3(-_w, _h, -_l));
 		/* Face Left */
-		cube->vertex.push_back(cube->vertex[0]);
-		cube->vertex.push_back(cube->vertex[3]);
-		cube->vertex.push_back(cube->vertex[4]);
-		cube->vertex.push_back(cube->vertex[7]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[0]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[3]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[4]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[7]);
 		/* Face Right */
-		cube->vertex.push_back(cube->vertex[6]);
-		cube->vertex.push_back(cube->vertex[5]);
-		cube->vertex.push_back(cube->vertex[2]);
-		cube->vertex.push_back(cube->vertex[1]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[6]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[5]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[2]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[1]);
 		/* Face Top */
-		cube->vertex.push_back(cube->vertex[7]);
-		cube->vertex.push_back(cube->vertex[6]);
-		cube->vertex.push_back(cube->vertex[1]);
-		cube->vertex.push_back(cube->vertex[0]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[7]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[6]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[1]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[0]);
 		/* Face Bottom */
-		cube->vertex.push_back(cube->vertex[3]);
-		cube->vertex.push_back(cube->vertex[2]);
-		cube->vertex.push_back(cube->vertex[5]);
-		cube->vertex.push_back(cube->vertex[4]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[3]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[2]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[5]);
+		cube->meshes[0].vertex.push_back(cube->meshes[0].vertex[4]);
 
 
 		///* Face Back */		cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
@@ -200,14 +225,18 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, float 
 		///* Face Top */		cube->edge.push_back(7);	cube->edge.push_back(6);	cube->edge.push_back(1);	cube->edge.push_back(0);
 		///* Face Bottom */		cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(5);	cube->edge.push_back(4);
 
-		for (unsigned int i = 0; i < cube->vertex.size(); i++)
-			cube->edge.push_back(i);
+		for (unsigned int i = 0; i < cube->meshes[0].vertex.size(); i++)
+			cube->meshes[0].edge.push_back(i);
 
 		for (int i = 0; i < 6; i++)
-			cube->face.push_back(4);
+			cube->meshes[0].face.push_back(4);
 
 		GenerateNormals(cube);
-		GenerateTextureMap(cube, _uvRepeatX, _uvRepeatY);
+
+		if (!_useCubeMap)
+			GenerateTextureMap(cube, _uvRepeatX, _uvRepeatY);
+		else
+			GenerateCubeMap(cube);
 
 		InsertModel(cube, _id);
 
@@ -222,96 +251,55 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, float 
 void ModelManager::CreateSkybox(string _id, float _size)
 {
 	Renderable * skybox;
+	Renderable::Mesh mesh;
 
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
 
 		skybox = new OpenGL_Renderable();
+		skybox->meshes.push_back(mesh);
 
 		/* Face Front */
-		skybox->vertex.push_back(Vec3(-_size, -_size, _size)); //3
-		skybox->vertex.push_back(Vec3(_size, -_size, _size)); //2
-		skybox->vertex.push_back(Vec3(_size, _size, _size)); //1
-		skybox->vertex.push_back(Vec3(-_size, _size, _size)); //0
+		skybox->meshes[0].vertex.push_back(Vec3(-_size, -_size, _size)); //3
+		skybox->meshes[0].vertex.push_back(Vec3(_size, -_size, _size)); //2
+		skybox->meshes[0].vertex.push_back(Vec3(_size, _size, _size)); //1
+		skybox->meshes[0].vertex.push_back(Vec3(-_size, _size, _size)); //0
 
 		/* Face Back */
-		skybox->vertex.push_back(Vec3(-_size, _size, -_size)); //7
-		skybox->vertex.push_back(Vec3(_size, _size, -_size)); //6
-		skybox->vertex.push_back(Vec3(_size, -_size, -_size)); //5
-		skybox->vertex.push_back(Vec3(-_size, -_size, -_size)); //4
+		skybox->meshes[0].vertex.push_back(Vec3(-_size, _size, -_size)); //7
+		skybox->meshes[0].vertex.push_back(Vec3(_size, _size, -_size)); //6
+		skybox->meshes[0].vertex.push_back(Vec3(_size, -_size, -_size)); //5
+		skybox->meshes[0].vertex.push_back(Vec3(-_size, -_size, -_size)); //4
 		/* Face Left */
-		skybox->vertex.push_back(skybox->vertex[0]);
-		skybox->vertex.push_back(skybox->vertex[3]);
-		skybox->vertex.push_back(skybox->vertex[4]);
-		skybox->vertex.push_back(skybox->vertex[7]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[0]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[3]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[4]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[7]);
 		/* Face Right */
-		skybox->vertex.push_back(skybox->vertex[6]);
-		skybox->vertex.push_back(skybox->vertex[5]);
-		skybox->vertex.push_back(skybox->vertex[2]);
-		skybox->vertex.push_back(skybox->vertex[1]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[6]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[5]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[2]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[1]);
 		/* Face Top */
-		skybox->vertex.push_back(skybox->vertex[7]);
-		skybox->vertex.push_back(skybox->vertex[6]);
-		skybox->vertex.push_back(skybox->vertex[1]);
-		skybox->vertex.push_back(skybox->vertex[0]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[7]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[6]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[1]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[0]);
 		/* Face Bottom */
-		skybox->vertex.push_back(skybox->vertex[3]);
-		skybox->vertex.push_back(skybox->vertex[2]);
-		skybox->vertex.push_back(skybox->vertex[5]);
-		skybox->vertex.push_back(skybox->vertex[4]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[3]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[2]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[5]);
+		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[4]);
 
-		for (unsigned int i = 0; i < skybox->vertex.size(); i++)
-			skybox->edge.push_back(i);
+		for (unsigned int i = 0; i < skybox->meshes[0].vertex.size(); i++)
+			skybox->meshes[0].edge.push_back(i);
 
 		for (int i = 0; i < 6; i++)
-			skybox->face.push_back(4);
+			skybox->meshes[0].face.push_back(4);
 
 		GenerateNormals(skybox);
-
-		//Generate Cubemap 
-		{
-			//Front
-			skybox->textureMap.push_back(Vec2(1, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.75f, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.75f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(1, 1/3.0f));
-
-			//Back
-			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.5f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.5f, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
-
-			//Left  !
-			skybox->textureMap.push_back(Vec2(0, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
-
-			//Right  !
-			skybox->textureMap.push_back(Vec2(0.50f, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.50f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.75f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.75f, 2/3.0f));
-
-			//Bottom  ?
-			skybox->textureMap.push_back(Vec2(0.25f, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.50f, 2/3.0f));
-			skybox->textureMap.push_back(Vec2(0.50f, 1));
-			skybox->textureMap.push_back(Vec2(0.25f, 1));
-
-			//Top  ?
-			skybox->textureMap.push_back(Vec2(0.25f, 0));
-			skybox->textureMap.push_back(Vec2(0.50f, 0));
-			skybox->textureMap.push_back(Vec2(0.50f, 1/3.0f));
-			skybox->textureMap.push_back(Vec2(0.25f, 1/3.0f));
-		}
-
-		for (auto it = skybox->textureMap.begin(); it != skybox->textureMap.end(); it++)
-		{
-			masterTextureCoords.push_back(*it);
-		}
+		GenerateCubeMap(skybox);
 
 		InsertModel(skybox, _id);
 
@@ -326,33 +314,35 @@ void ModelManager::CreateSkybox(string _id, float _size)
 void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * pyramid;
+	Renderable::Mesh mesh;
 
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
 
 		pyramid = new OpenGL_Renderable();
+		pyramid->meshes.push_back(mesh);
 
-		pyramid->vertex.push_back(Vec3(_w, 0.0f, -_l));
-		pyramid->vertex.push_back(Vec3(-_w, 0.0f, -_l));
-		pyramid->vertex.push_back(Vec3(-_w, 0.0f, _l));
-		pyramid->vertex.push_back(Vec3(_w, 0.0f, _l));
+		pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, -_l));
+		pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, -_l));
+		pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, _l));
+		pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, _l));
 
-		pyramid->vertex.push_back(Vec3(0.0f, _h, 0.0f));
-		pyramid->vertex.push_back(pyramid->vertex[3]);
-		pyramid->vertex.push_back(pyramid->vertex[2]);
+		pyramid->meshes[0].vertex.push_back(Vec3(0.0f, _h, 0.0f));
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
 
-		pyramid->vertex.push_back(pyramid->vertex[4]);
-		pyramid->vertex.push_back(pyramid->vertex[2]);
-		pyramid->vertex.push_back(pyramid->vertex[1]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
 
-		pyramid->vertex.push_back(pyramid->vertex[4]);
-		pyramid->vertex.push_back(pyramid->vertex[1]);
-		pyramid->vertex.push_back(pyramid->vertex[0]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
 
-		pyramid->vertex.push_back(pyramid->vertex[4]);
-		pyramid->vertex.push_back(pyramid->vertex[0]);
-		pyramid->vertex.push_back(pyramid->vertex[3]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
+		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
 
 		////	/* Bottom */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(2);		pyramid->edge.push_back(3);
 		////	/* Face 1 */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(4);
@@ -360,12 +350,11 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float
 		////	/* Face 3 */pyramid->edge.push_back(2);	 pyramid->edge.push_back(3);	pyramid->edge.push_back(4);
 		////	/* Face 4 */pyramid->edge.push_back(3);	 pyramid->edge.push_back(0);	pyramid->edge.push_back(4);
 
-		for (unsigned int i = 0; i < pyramid->vertex.size(); i++)
-			pyramid->edge.push_back(i);
+		for (unsigned int i = 0; i < pyramid->meshes[0].vertex.size(); i++)
+			pyramid->meshes[0].edge.push_back(i);
 
-		pyramid->face.push_back(4);
-
-		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
+		pyramid->meshes[0].face.push_back(4);
+		for (int i = 1; i < 5; i++)pyramid->meshes[0].face.push_back(3);
 
 		GenerateNormals(pyramid);
 		GenerateTextureMap(pyramid, _uvRepeatX, _uvRepeatY);
@@ -385,26 +374,28 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float
 void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * plane;
+	Renderable::Mesh mesh;
 
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
 
 		plane = new OpenGL_Renderable();
+		plane->meshes.push_back(mesh);
 
 		_h /= 2.0f;
 		_w /= 2.0f;
 
-		plane->vertex.push_back(Vec3(-_w, _h, 0.0f));
-		plane->vertex.push_back(Vec3(_w, _h, 0.0f));
-		plane->vertex.push_back(Vec3(_w, -_h, 0.0f));
-		plane->vertex.push_back(Vec3(-_w, -_h, 0.0f));
+		plane->meshes[0].vertex.push_back(Vec3(-_w, _h, 0.0f));
+		plane->meshes[0].vertex.push_back(Vec3(_w, _h, 0.0f));
+		plane->meshes[0].vertex.push_back(Vec3(_w, -_h, 0.0f));
+		plane->meshes[0].vertex.push_back(Vec3(-_w, -_h, 0.0f));
 
-		for (unsigned int i = 0; i < plane->vertex.size(); i++)
-			plane->edge.push_back(i);
+		for (unsigned int i = 0; i < plane->meshes[0].vertex.size(); i++)
+			plane->meshes[0].edge.push_back(i);
 
 		for (int i = 0; i < 1; i++)
-			plane->face.push_back(4);
+			plane->meshes[0].face.push_back(4);
 
 		GenerateNormals(plane);
 		GenerateTextureMap(plane, _uvRepeatX, _uvRepeatY);
@@ -423,32 +414,86 @@ void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX,
 
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
 {
-	_renderable->offsetVertex = masterVectorList.size();
 	models.insert(std::pair<string, Renderable *>(_id, _renderable));
 
-	for (auto it = _renderable->vertex.begin(); it != _renderable->vertex.end(); it++)
+	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
-		masterVectorList.push_back(*it);
-	}
+		_renderable->meshes[m].offsetVertex = masterVectorList.size();
 
-	for (int i = 0; i < _renderable->edge.size(); i++)
-		_renderable->edge[i] += _renderable->offsetVertex;
+		for (auto it = _renderable->meshes[m].vertex.begin(); it != _renderable->meshes[m].vertex.end(); it++)
+		{
+			masterVectorList.push_back(*it);
+		}
+
+		for (int i = 0; i < _renderable->meshes[m].edge.size(); i++)
+			_renderable->meshes[m].edge[i] += _renderable->meshes[m].offsetVertex;
+	}
 }
 
 void ModelManager::GenerateTextureMap(Renderable* _renderable, float _uvRepeatX, float _uvRepeatY)
 {
-	for (int i = 0; i < _renderable->face.size(); i++)
+	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
-		if (_renderable->face[i] == 4)
+		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
 		{
-			_renderable->textureMap.push_back(Vec2(0, _uvRepeatY));
+			if (_renderable->meshes[m].face[i] == 4)
+			{
+				_renderable->meshes[m].textureMap.push_back(Vec2(0, _uvRepeatY));
+			}
+			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
+			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, 0));
+			_renderable->meshes[m].textureMap.push_back(Vec2(0, 0));
 		}
-		_renderable->textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
-		_renderable->textureMap.push_back(Vec2(_uvRepeatX, 0));
-		_renderable->textureMap.push_back(Vec2(0, 0));
+
+		for (auto it = _renderable->meshes[m].textureMap.begin(); it != _renderable->meshes[m].textureMap.end(); it++)
+		{
+			masterTextureCoords.push_back(*it);
+		}
+	}
+}
+
+void  ModelManager::GenerateCubeMap(Renderable* _renderable)
+{
+	//Generate Cubemap 
+	{
+		//Front
+		_renderable->meshes[0].textureMap.push_back(Vec2(1, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(1, 1 / 3.0f));
+
+		//Back
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.5f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.5f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
+
+		//Left  !
+		_renderable->meshes[0].textureMap.push_back(Vec2(0, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
+
+		//Right  !
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 2 / 3.0f));
+
+		//Bottom  ?
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1));
+
+		//Top  ?
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 0));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 0));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
 	}
 
-	for (auto it = _renderable->textureMap.begin(); it != _renderable->textureMap.end(); it++)
+	for (auto it = _renderable->meshes[0].textureMap.begin(); it != _renderable->meshes[0].textureMap.end(); it++)
 	{
 		masterTextureCoords.push_back(*it);
 	}
@@ -456,27 +501,30 @@ void ModelManager::GenerateTextureMap(Renderable* _renderable, float _uvRepeatX,
 
 void ModelManager::GenerateNormals(Renderable* _renderable)
 {
-	int offset = 0;
-
-	for (int i = 0; i < _renderable->face.size(); i++)
+	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
-		Vec3 p1 = _renderable->vertex[_renderable->edge[offset]];
-		Vec3 p2 = _renderable->vertex[_renderable->edge[offset + 1]];
-		Vec3 p3 = _renderable->vertex[_renderable->edge[offset + 2]];
+		int offset = 0;
 
-		Vec3 A = p1 - p2;
-		Vec3 B = p2 - p3;
+		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
+		{
+			Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
+			Vec3 p2 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 1]];
+			Vec3 p3 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 2]];
 
-		Vec3 normal = Vec3::cross(A, B).Normalized();
+			Vec3 A = p1 - p2;
+			Vec3 B = p2 - p3;
 
-		float dotP = Vec3::dot(p1, normal);
+			Vec3 normal = Vec3::cross(A, B).Normalized();
 
-		if (Vec3::dot(p1, normal) > 0)
-			normal *= -1;
+			float dotP = Vec3::dot(p1, normal);
 
-		_renderable->normal.push_back(normal);
+			if (Vec3::dot(p1, normal) > 0)
+				normal *= -1;
 
-		offset += _renderable->face[i];
+			_renderable->meshes[m].normal.push_back(normal);
+
+			offset += _renderable->meshes[m].face[i];
+		}
 	}
 }
 

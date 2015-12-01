@@ -18,20 +18,27 @@ class Renderable
 public:
 	~Renderable(){};
 
-	//Lists of all vertecies, edges, faces and normals
-	std::vector<Vec3> vertex;
-	std::vector<unsigned int> edge;
-	std::vector<unsigned int> face;
-	std::vector<Vec3> normal;
-	std::vector<Vec2> textureMap;
+	struct Mesh
+	{
+		//Lists of all vertecies, edges, faces and normals
+		std::vector<Vec3> vertex;
+		std::vector<unsigned int> edge;
+		std::vector<unsigned int> face;
+		std::vector<Vec3> normal;
+		std::vector<Vec2> textureMap;
+		
+		unsigned int offsetVertex;
+	};
 
-	virtual void Draw(GameObject&, Material *, Texture *) = 0;
+	std::vector<Mesh> meshes;
+
+	virtual void Draw(GameObject&, Material *, std::vector<std::string> _textureNames) = 0;
 	virtual void DrawWireFrame(GameObject&) = 0;
 
 private:
 
 protected:
-	unsigned int offsetVertex;
+	
 	ModelManager::Draw_Mode drawMode;
 
 	Renderable()
@@ -46,6 +53,6 @@ protected:
 	*/
 class OpenGL_Renderable : public Renderable {
 public:
-	void Draw(GameObject& parentTransform, Material * _mat, Texture *_texture = nullptr) override;
+	void Draw(GameObject& parentTransform, Material * _mat, std::vector<std::string> _textureNames) override;
 	void DrawWireFrame(GameObject& parentTransform) override;
 };

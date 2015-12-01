@@ -21,6 +21,7 @@ typedef unsigned int UINT32;
 class ModelManager
 {
 	friend class RenderableComponent;
+	friend class OpenGL_Renderable;
 	friend class Camera;
 
 	//An enumeration to set which graphics engine is being used
@@ -59,7 +60,7 @@ public:
 
 	//Creates a renderable based on the given COLLADA file and inserts
 	//it into the map of models with the _id as its string
-	void loadModel(string _id, string _fileName, Draw_Mode _mode = Draw_Mode::CCW);
+	void loadModel(string _id, string _fileName, bool _useModelTextureMap = false, Draw_Mode _mode = Draw_Mode::CW);
 
 	//called to delete all models in memory and clear the model map
 	void unloadModels();
@@ -74,7 +75,7 @@ public:
 	void loadTexture(string _id, string _fileName);
 
 	/* PRIMITIVE FACTORY METHODS */
-	void CreateCuboid(string _id, float _h, float _w, float _l, float _uvRepeatX = 1, float _uvRepeatY = 1);
+	void CreateCuboid(string _id, float _h, float _w, float _l, bool _useCubeMap = false, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreateSkybox(string _id, float _size);
 	void CreateSphere(string _id, float _r, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 	void CreatePlane(string _id, float _h, float _w, float _uvRepeatX = 1, float _uvRepeatY = 1);
@@ -123,6 +124,9 @@ private:
 
 	//Generates the TextureMap for the model
 	void GenerateTextureMap(Renderable* _renderable, float _uvRepeatX = 1, float _uvRepeatY = 1);
+
+	//Generates a CubeMap for textures
+	void GenerateCubeMap(Renderable* _renderable);
 
 	//Generates the normals for the model
 	void GenerateNormals(Renderable* _renderable);
