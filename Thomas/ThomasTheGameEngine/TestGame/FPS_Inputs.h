@@ -6,7 +6,7 @@
 A number of input controls to control the camera within the game like an fps
 */
 
-#define FPSMoveSpeed 5.0f
+#define FPSMoveSpeed 10.0f
 #define FPSHorizontalTurnSpeed 5.0f
 #define FPSVerticalTurnSpeed 2.5f
 

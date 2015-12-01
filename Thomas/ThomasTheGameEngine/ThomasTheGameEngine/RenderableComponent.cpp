@@ -24,3 +24,8 @@ void RenderableComponent::DrawWireframe()
 	if (ModelManager::getInstance()->render_mode == RENDER_MODE_OPENGL)
 		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(modelName))->DrawWireFrame(parentObject->GetTransform());
 }
+
+void RenderableComponent::SetEffecctedByLight(bool _directional, bool _point, bool _spot)
+{
+	ModelManager::getInstance()->getModel(modelName)->isEffectedByLight = Vec3(_directional, _point, _spot);
+}

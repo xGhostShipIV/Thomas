@@ -25,6 +25,8 @@ GLuint ModelManager::lightPosition_Spot_Location;
 GLuint ModelManager::lightDirection_Spot_Location;
 GLuint ModelManager::lightAngle_Spot_Location;
 
+GLuint ModelManager::isEffectedByLight_Location;
+
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -50,6 +52,8 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		lightPosition_Spot_Location = glGetUniformLocation(program, "LightPosition_Spot");
 		lightDirection_Spot_Location = glGetUniformLocation(program, "LightDirection_Spot");
 		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
+
+		isEffectedByLight_Location = glGetUniformLocation(program, "isEffectedByLight");
 	}
 }
 
@@ -250,7 +254,7 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _
 	}
 }
 
-void ModelManager::CreateSkybox(string _id, float _size)
+void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 {
 	Renderable * skybox;
 	Renderable::Mesh mesh;
@@ -300,7 +304,7 @@ void ModelManager::CreateSkybox(string _id, float _size)
 		for (int i = 0; i < 6; i++)
 			skybox->meshes[0].face.push_back(4);
 
-		GenerateNormals(skybox);
+		GenerateNormals(skybox, true, _normalsOnBottom);
 		GenerateCubeMap(skybox);
 
 		InsertModel(skybox, _id);
@@ -501,7 +505,7 @@ void  ModelManager::GenerateCubeMap(Renderable* _renderable)
 	}
 }
 
-void ModelManager::GenerateNormals(Renderable* _renderable)
+void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool _normalsOnBottom)
 {
 	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
@@ -509,18 +513,29 @@ void ModelManager::GenerateNormals(Renderable* _renderable)
 
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
 		{
-			Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
-			Vec3 p2 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 1]];
-			Vec3 p3 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 2]];
+			Vec3 normal;
 
-			Vec3 A = p1 - p2;
-			Vec3 B = p2 - p3;
+			if (!_normalsOnBottom)
+			{
 
-			Vec3 normal = Vec3::cross(A, B).Normalized();
+				Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
+				Vec3 p2 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 1]];
+				Vec3 p3 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 2]];
 
-			float dotP = Vec3::dot(p1, normal);
+				Vec3 A = p1 - p2;
+				Vec3 B = p2 - p3;
 
-			if (Vec3::dot(p1, normal) > 0)
+				normal = Vec3::cross(A, B).Normalized();
+
+				float dotP = Vec3::dot(p1, normal);
+
+				if (Vec3::dot(p1, normal) > 0)
+					normal *= -1;
+			}
+			else
+				normal = Vec3(0, 1, 0);
+
+			if (_reverse)
 				normal *= -1;
 
 			_renderable->meshes[m].normal.push_back(normal);

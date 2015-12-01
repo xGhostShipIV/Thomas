@@ -44,6 +44,7 @@ public:
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 	static GLuint lightColor_Point_Location, lightPosition_Point_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
+	static GLuint isEffectedByLight_Location;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;
@@ -76,7 +77,7 @@ public:
 
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _h, float _w, float _l, bool _useCubeMap = false, float _uvRepeatX = 1, float _uvRepeatY = 1);
-	void CreateSkybox(string _id, float _size);
+	void CreateSkybox(string _id, float _size, bool _normalsOnBottom = true);
 	void CreateSphere(string _id, float _r, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 	void CreatePlane(string _id, float _h, float _w, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreatePyramid(string _id, float _w, float _l, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
@@ -129,6 +130,6 @@ private:
 	void GenerateCubeMap(Renderable* _renderable);
 
 	//Generates the normals for the model
-	void GenerateNormals(Renderable* _renderable);
+	void GenerateNormals(Renderable* _renderable, bool _reverse = false, bool _normalsOnBottom = false);
 };
 

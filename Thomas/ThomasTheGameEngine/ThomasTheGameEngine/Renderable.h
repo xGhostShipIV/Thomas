@@ -31,6 +31,7 @@ public:
 	};
 
 	std::vector<Mesh> meshes;
+	Vec3 isEffectedByLight;
 
 	virtual void Draw(GameObject&, Material *, std::vector<std::string> _textureNames) = 0;
 	virtual void DrawWireFrame(GameObject&) = 0;
@@ -44,6 +45,7 @@ protected:
 	Renderable()
 	{
 		drawMode = ModelManager::Draw_Mode::CCW;
+		isEffectedByLight = Vec3::One();
 	};
 };
 

@@ -26,7 +26,7 @@ public:
 	~TestLevel();
 
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
-	GameObject *teddy, *bear, *lilbear;
+	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube;
 
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;

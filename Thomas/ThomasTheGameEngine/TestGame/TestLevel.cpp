@@ -37,15 +37,19 @@ TestLevel::TestLevel()
 	teddy = new GameObject(this, Vec3(2, 2, 2));
 	bear = new GameObject(this, Vec3(-3, 0, 2));
 	lilbear = new GameObject(this, Vec3(-4.5f, 0, 2));
+	InsideCube = new GameObject(this, Vec3(12, 5, 0));
+	OutsideCube = new GameObject(this, InsideCube->position);
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
 	ground->LookAt(Vec3(0, 1, 0));
-	flashLight->LookAt(Vec3());
+	flashLight->LookAt(Vec3(0, 1, 0));
 
 	cube->addChild(soBright);
 	lightAnchor->addChild(light);
 	currentCamera->addChild(flashLight);
+	InsideCube->addChild(OutsideCube);
+
 
 	flashLight->Rotate(Quat(20 * 3.14159f / 180.0f, Vec3::BasisX()));
 	teddy->Scale(Vec3::One() * 0.1f);
@@ -59,6 +63,8 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadModel("teddy", "Models/teddy.obj", false, ModelManager::Draw_Mode::CW);
 	ModelManager::getInstance()->loadModel("bear", "Models/bear-obj.obj", true, ModelManager::Draw_Mode::CW);
 	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f, true);
+	ModelManager::getInstance()->CreateCuboid("InCubeO", 5, 5, 5, true);
+	ModelManager::getInstance()->CreateSkybox("InCubeI", 5, false);
 	ModelManager::getInstance()->CreatePlane("plane", .5f, .5f);
 	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
 	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
@@ -86,7 +92,7 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadTexture("grass", "Images/grass.png");
 	ModelManager::getInstance()->loadTexture("skybox", "Images/Day_Skybox.png");
 	ModelManager::getInstance()->loadTexture("bear", "Images/bear.tif");
-	ModelManager::getInstance()->loadTexture("bearTeeth", "Images/bear teeth.tif");
+	ModelManager::getInstance()->loadTexture("bearTeeth", "Images/bear_teeth_transparent.tif");
 	ModelManager::getInstance()->loadTexture("teddyFur", "Images/brown-fur-texture.png");
 	ModelManager::getInstance()->loadTexture("dice", "Images/dice_texture.png");
 
@@ -95,8 +101,12 @@ TestLevel::TestLevel()
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
-	new RenderableComponent("skybox", "skybox", skybox);
+	 new RenderableComponent("skybox", "skybox", skybox);
 	new RenderableComponent("teddy", "teddyFur", teddy);
+	new RenderableComponent("InCubeO", "dice", OutsideCube);
+	RenderableComponent *inRC = new RenderableComponent("InCubeI", "dice", InsideCube);
+	inRC->SetEffecctedByLight(false, true, true);
+
 	RenderableComponent *bearRC = new RenderableComponent("bear", "bear", bear);
 	bearRC->textureName.push_back("bearTeeth");
 	bearRC->textureName.push_back("bearTeeth");
@@ -107,7 +117,7 @@ TestLevel::TestLevel()
 
 	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 
-	//new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
+	new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
 	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 120 * 3.14159f / 180.0f);
 
 	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);

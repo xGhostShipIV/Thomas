@@ -21,6 +21,8 @@ out vec4[2]  vLightPosition_Spot;
 out vec4[2]  vLightDirection_Spot;
 out float[2] vLightAngle_Spot;
 
+out vec3 fIsEffectedByLight;
+
 uniform vec4 Normal;
 
 uniform mat4 cameraMatrix;
@@ -38,6 +40,8 @@ uniform vec4[2] LightColor_Spot;
 uniform vec4[2] LightPosition_Spot;
 uniform vec4[2] LightDirection_Spot;
 uniform float[2] LightAngle_Spot;
+
+uniform vec3 isEffectedByLight;
 
 void main()
 {
@@ -62,4 +66,6 @@ void main()
 
 	vMaterial = Material;
 	vNormal = Normal;
+
+	fIsEffectedByLight = isEffectedByLight;
 }

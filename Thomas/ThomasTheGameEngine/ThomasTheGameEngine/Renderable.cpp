@@ -23,6 +23,10 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 			break;
 	}
 
+	//Effected by light?
+	float effected[3] = { isEffectedByLight.x, isEffectedByLight.y, isEffectedByLight .z};
+	glUniform3fv(ModelManager::getInstance()->isEffectedByLight_Location, 1, effected);
+
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};

@@ -27,4 +27,6 @@ public:
 
 	//Draws the wireframe of the model
 	void DrawWireframe();
+
+	void SetEffecctedByLight(bool _directional = true, bool _point = true, bool _spot = true);
 };
