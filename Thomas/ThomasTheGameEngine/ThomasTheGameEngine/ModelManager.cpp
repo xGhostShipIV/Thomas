@@ -86,18 +86,18 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
-			Renderable::Mesh mesh;/* = Renderable::Mesh();*/
+			Renderable::Mesh mesh;
 
 			for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
 			{
 				Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
 				mesh.vertex.push_back(vertex);
 
-				if (scene->mMeshes[i]->HasNormals())
+				/*if (scene->mMeshes[i]->HasNormals())
 				{
 					Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
 					mesh.normal.push_back(normal);
-				}
+				}*/
 
 				if (_useModelTextureMap && scene->mMeshes[i]->HasTextureCoords(0))
 				{
@@ -108,6 +108,8 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 			model->meshes.push_back(mesh);
 		}
+
+		GenerateNormals(model);
 
 		for (int m = 0; m < model->meshes.size(); m++)
 		for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)

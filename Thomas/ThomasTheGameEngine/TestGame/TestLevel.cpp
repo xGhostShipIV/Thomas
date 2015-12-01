@@ -32,7 +32,7 @@ TestLevel::TestLevel()
 	lightAnchor = new GameObject(this, Vec3());
 	soBright = new GameObject(this, Vec3(0, 5.25f, -3));
 	ground = new GameObject(this, Vec3(0, 0, 0));
-	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
+	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 1, -1));
 	skybox = new GameObject(this, currentCamera->position);
 	teddy = new GameObject(this, Vec3(2, 2, 2));
 	bear = new GameObject(this, Vec3(-3, 0, 2));
@@ -41,7 +41,7 @@ TestLevel::TestLevel()
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
 	ground->LookAt(Vec3(0, 1, 0));
-
+	flashLight->LookAt(Vec3());
 
 	cube->addChild(soBright);
 	lightAnchor->addChild(light);
