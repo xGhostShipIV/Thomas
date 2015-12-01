@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include <vector>
 #include "../Math/four_dimensions.hpp"
+#include "ModelManager.h"
 
 class Texture;
 class Material;
@@ -31,8 +32,12 @@ private:
 
 protected:
 	unsigned int offsetVertex;
+	ModelManager::Draw_Mode drawMode;
 
-	Renderable(){};
+	Renderable()
+	{
+		drawMode = ModelManager::Draw_Mode::CCW;
+	};
 };
 
 /*

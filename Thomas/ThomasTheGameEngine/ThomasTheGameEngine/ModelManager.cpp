@@ -65,7 +65,7 @@ ModelManager::~ModelManager()
 	models.clear();
 }
 
-void ModelManager::loadModel(string _id, string _fileName)
+void ModelManager::loadModel(string _id, string _fileName, Draw_Mode _mode)
 {
 	//Checks what our current render mode is and will create the appropriate
 	//Renderable based on such. For example, will create an OpenGL_Renderable
@@ -115,6 +115,8 @@ void ModelManager::loadModel(string _id, string _fileName)
 		/*if (model->normal.size() == 0)
 		GenerateNormals(model);*/
 
+		model->drawMode = _mode;
+
 		InsertModel(model, _id);
 
 		break;
@@ -148,7 +150,7 @@ void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
 	render_mode = _rm;
 }
 
-void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l)
+void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * cube;
 
@@ -205,7 +207,7 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l)
 			cube->face.push_back(4);
 
 		GenerateNormals(cube);
-		GenerateTextureMap(cube);
+		GenerateTextureMap(cube, _uvRepeatX, _uvRepeatY);
 
 		InsertModel(cube, _id);
 
@@ -321,7 +323,7 @@ void ModelManager::CreateSkybox(string _id, float _size)
 	}
 }
 
-void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
+void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
 {
 	Renderable * pyramid;
 
@@ -366,7 +368,7 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l)
 		for (int i = 1; i < 5; i++)pyramid->face.push_back(3);
 
 		GenerateNormals(pyramid);
-		GenerateTextureMap(pyramid);
+		GenerateTextureMap(pyramid, _uvRepeatX, _uvRepeatY);
 
 		InsertModel(pyramid, _id);
 

@@ -7,8 +7,8 @@ A number of input controls to control the camera within the game like an fps
 */
 
 #define FPSMoveSpeed 5.0f
-#define FPSHorizontalTurnSpeed 7.5f
-#define FPSVerticalTurnSpeed 7.5f
+#define FPSHorizontalTurnSpeed 5.0f
+#define FPSVerticalTurnSpeed 2.5f
 
 class FPS_STRAFE_RIGHT : public InputComponent {
 

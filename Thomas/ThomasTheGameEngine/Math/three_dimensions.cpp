@@ -21,6 +21,10 @@ Vec3 Vec3::Zero() {
 	return Vec3(0, 0, 0);
 }
 
+Vec3 Vec3::One() {
+	return Vec3(1, 1, 1);
+}
+
 Vec3 Vec3::BasisX() {
 	return Vec3(1, 0, 0);
 }

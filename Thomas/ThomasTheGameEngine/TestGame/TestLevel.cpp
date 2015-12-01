@@ -34,6 +34,7 @@ TestLevel::TestLevel()
 	ground = new GameObject(this, Vec3(0, 0, 0));
 	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
 	skybox = new GameObject(this, currentCamera->position);
+	teddy = new GameObject(this, Vec3(2, 2, 2));
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
@@ -45,10 +46,12 @@ TestLevel::TestLevel()
 	currentCamera->addChild(flashLight);
 
 	flashLight->Rotate(Quat(20 * 3.14159f / 180.0f, Vec3::BasisX()));
+	teddy->Scale(Vec3::One() * 0.1f);
+	teddy->Rotate(Quat(3.14159f, Vec3::BasisY()));
 
 	/* CREATE MODELS */
-	//ModelManager::getInstance()->loadModel("barrel", "Images/barrel.obj");
-	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f);
+	ModelManager::getInstance()->loadModel("teddy", "Models/teddy.obj", ModelManager::Draw_Mode::CW);
+	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f, 5, 5);
 	ModelManager::getInstance()->CreatePlane("plane", .5f, .5f);
 	ModelManager::getInstance()->CreateCuboid("light", 0.25f, 0.25f, 0.25f);
 	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
@@ -82,6 +85,7 @@ TestLevel::TestLevel()
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
 	new RenderableComponent("skybox", "skybox", skybox);
+	new RenderableComponent("teddy", "greenCheckers", teddy);
 
 	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 

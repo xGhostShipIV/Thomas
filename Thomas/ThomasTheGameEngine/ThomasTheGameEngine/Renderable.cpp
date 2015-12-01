@@ -7,6 +7,18 @@
 
 void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, Texture *_texture)
 {
+
+	//Switch Face Culling Mode
+	switch (drawMode)
+	{
+		case ModelManager::Draw_Mode::CCW:
+			glFrontFace(GL_CCW);
+			break;
+		case ModelManager::Draw_Mode::CW:
+			glFrontFace(GL_CW);
+			break;
+	}
+
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
 	float pos[] {parentTransform.position.x, parentTransform.position.y, parentTransform.position.z, 0};

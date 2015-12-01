@@ -31,6 +31,12 @@ class ModelManager
 	};
 
 public:
+	
+	enum Draw_Mode
+	{
+		CW, CCW
+	};
+
 	~ModelManager();
 
 	static GLuint transformLocation, translateLocation, normalLocation, materialLocation;
@@ -53,7 +59,7 @@ public:
 
 	//Creates a renderable based on the given COLLADA file and inserts
 	//it into the map of models with the _id as its string
-	void loadModel(string _id, string _fileName);
+	void loadModel(string _id, string _fileName, Draw_Mode _mode = Draw_Mode::CCW);
 
 	//called to delete all models in memory and clear the model map
 	void unloadModels();
@@ -68,13 +74,13 @@ public:
 	void loadTexture(string _id, string _fileName);
 
 	/* PRIMITIVE FACTORY METHODS */
-	void CreateCuboid(string _id, float _h, float _w, float _l);
+	void CreateCuboid(string _id, float _h, float _w, float _l, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreateSkybox(string _id, float _size);
-	void CreateSphere(string _id, float _r){}
+	void CreateSphere(string _id, float _r, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 	void CreatePlane(string _id, float _h, float _w, float _uvRepeatX = 1, float _uvRepeatY = 1);
-	void CreatePyramid(string _id, float _w, float _l, float _h);
-	void CreateCone(string _id, float _r, float _h){}
-	void CreateCylinder(string _id, float _r, float _h){}
+	void CreatePyramid(string _id, float _w, float _l, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
+	void CreateCone(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
+	void CreateCylinder(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 
 	GLuint GetProgramID()
 	{ 

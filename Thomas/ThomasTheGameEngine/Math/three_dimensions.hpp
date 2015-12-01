@@ -10,6 +10,7 @@ public:
 	Vec3(void);
 	Vec3(float, float, float);
 	static Vec3 Zero();
+	static Vec3 One();
 	static Vec3 BasisX();
 	static Vec3 BasisY();
 	static Vec3 BasisZ();
