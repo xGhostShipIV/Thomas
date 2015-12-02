@@ -22,6 +22,7 @@ Billboard::Billboard(Level * _level, Vec3 _position) : GameObject(_level)
 
 void Billboard::Update(float _deltaTime)
 {
-	std::cout << "Rotation: " << rotation.w << " " << rotation.vector.x << " " << rotation.vector.y << " " << rotation.vector.z << std::endl;
+	GameObject::Update(_deltaTime);
+
 	LookAt(level->currentCamera->position);
 }

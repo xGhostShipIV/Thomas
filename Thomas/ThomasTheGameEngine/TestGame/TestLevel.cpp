@@ -8,6 +8,7 @@
 #include "GameObjectInputTest.h"
 #include "FPS_Inputs.h"
 #include <SDL.h>
+#include <Flipbook.h>
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -39,6 +40,7 @@ TestLevel::TestLevel()
 	lilbear = new GameObject(this, Vec3(-4.5f, 0, 2));
 	InsideCube = new GameObject(this, Vec3(12, 5, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
+	animationGuy = new Billboard(this, Vec3(4, 4, 4));
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
@@ -121,6 +123,9 @@ TestLevel::TestLevel()
 	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 120 * 3.14159f / 180.0f);
 
 	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
+
+	Flipbook * fb = new Flipbook(animationGuy, 27, "Images/Animation/slice0.png", 1.5f, true, Flipbook::PNG);
+	fb->Play();
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();

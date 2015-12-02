@@ -20,6 +20,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
+    <ClInclude Include="Flipbook.h" />
     <ClInclude Include="Frustrum.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
@@ -56,6 +57,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="Frustrum.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />

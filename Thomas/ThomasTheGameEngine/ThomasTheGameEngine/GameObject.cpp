@@ -10,6 +10,7 @@
 #include "LightManager.h"
 #include "Level.h"
 #include "ParticleSystem.h"
+#include "Flipbook.h"
 
 void GameObject::Translate(Vec3 _translate){
 	position += _translate;
@@ -181,6 +182,17 @@ RenderableComponent* GameObject::getComponent()
 }
 
 template<>
+Flipbook* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::Flipbook)
+			return (Flipbook*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
 ParticleSystem* GameObject::getComponent()
 {
 	for (int i = 0; i < components.size(); i++)
@@ -230,6 +242,11 @@ void GameObject::Update(float _deltaTime)
 
 	if (particles)
 		particles->UpdateParticles(_deltaTime);
+
+	Flipbook * flipbook = getComponent<Flipbook>();
+
+	if (flipbook)
+		flipbook->UpdateFlipbook(_deltaTime);
 }
 
 void GameObject::Render()

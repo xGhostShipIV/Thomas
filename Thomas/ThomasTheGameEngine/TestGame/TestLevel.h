@@ -28,6 +28,8 @@ public:
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
 	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube;
 
+	Billboard * animationGuy;
+
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 
