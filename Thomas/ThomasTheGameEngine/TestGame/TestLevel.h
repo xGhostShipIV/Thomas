@@ -13,6 +13,7 @@
 #include <ParticleSystem.h>
 
 #include "TestGame.h"
+#include "Torch.h"
 
 /*
 A class that inherits from Level so the user can specify the behaviour of
@@ -28,7 +29,8 @@ public:
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
 	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube;
 
-	Billboard * animationGuy;
+	//Billboard * animationGuy;
+	Torch * torch;
 
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;

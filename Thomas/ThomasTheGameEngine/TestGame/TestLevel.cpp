@@ -35,12 +35,12 @@ TestLevel::TestLevel()
 	ground = new GameObject(this, Vec3(0, 0, 0));
 	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 1, -1));
 	skybox = new GameObject(this, currentCamera->position);
-	teddy = new GameObject(this, Vec3(2, 2, 2));
+	//teddy = new GameObject(this, Vec3(2, -10, 2));
 	bear = new GameObject(this, Vec3(-3, 0, 2));
 	lilbear = new GameObject(this, Vec3(-4.5f, 0, 2));
 	InsideCube = new GameObject(this, Vec3(12, 5, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
-	animationGuy = new Billboard(this, Vec3(4, 4, 4));
+	//animationGuy = new Billboard(this, Vec3(4, 4, 4));
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
@@ -54,8 +54,8 @@ TestLevel::TestLevel()
 
 
 	flashLight->Rotate(Quat(20 * 3.14159f / 180.0f, Vec3::BasisX()));
-	teddy->Scale(Vec3::One() * 0.1f);
-	teddy->Rotate(Quat(3.14159f, Vec3::BasisY()));
+	//teddy->Scale(Vec3::One() * 0.1f);
+	//teddy->Rotate(Quat(3.14159f, Vec3::BasisY()));
 	bear->Scale(Vec3::One() * 0.2f);
 	bear->Rotate(Quat(3.14159f, Vec3::BasisY()));
 	lilbear->Scale(Vec3::One() * 0.1f);
@@ -64,6 +64,7 @@ TestLevel::TestLevel()
 	/* CREATE MODELS */
 	ModelManager::getInstance()->loadModel("teddy", "Models/teddy.obj", false, ModelManager::Draw_Mode::CW);
 	ModelManager::getInstance()->loadModel("bear", "Models/bear-obj.obj", true, ModelManager::Draw_Mode::CW);
+	ModelManager::getInstance()->loadModel("torch", "Models/torch.obj", true);
 	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f, true);
 	ModelManager::getInstance()->CreateCuboid("InCubeO", 5, 5, 5, true);
 	ModelManager::getInstance()->CreateSkybox("InCubeI", 5, false);
@@ -95,16 +96,17 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadTexture("skybox", "Images/Day_Skybox.png");
 	ModelManager::getInstance()->loadTexture("bear", "Images/bear.tif");
 	ModelManager::getInstance()->loadTexture("bearTeeth", "Images/bear_teeth_transparent.tif");
-	ModelManager::getInstance()->loadTexture("teddyFur", "Images/brown-fur-texture.png");
+	//ModelManager::getInstance()->loadTexture("teddyFur", "Images/brown-fur-texture.png");
 	ModelManager::getInstance()->loadTexture("dice", "Images/dice_texture.png");
+	ModelManager::getInstance()->loadTexture("torchTexture", "Images/torch_DIF.tif");
 
 	/* Add Components */
 	new RenderableComponent("cube", "dice", cube);
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
-	 new RenderableComponent("skybox", "skybox", skybox);
-	new RenderableComponent("teddy", "teddyFur", teddy);
+	new RenderableComponent("skybox", "skybox", skybox);
+	//new RenderableComponent("torch", "torchTexture", teddy);
 	new RenderableComponent("InCubeO", "dice", OutsideCube);
 	RenderableComponent *inRC = new RenderableComponent("InCubeI", "dice", InsideCube);
 	inRC->SetEffecctedByLight(false, true, true);
@@ -124,8 +126,10 @@ TestLevel::TestLevel()
 
 	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
 
-	Flipbook * fb = new Flipbook(animationGuy, 27, "Images/Animation/slice0.png", 1.5f, true, Flipbook::PNG);
-	fb->Play();
+	/*Flipbook * fb = new Flipbook(animationGuy, 16, "Images/Animation/Fire/slice0.png", 1.5f, true, Flipbook::PNG);
+	fb->Play();*/
+
+	torch = new Torch(this, Vec3(4,-5, 4));
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
