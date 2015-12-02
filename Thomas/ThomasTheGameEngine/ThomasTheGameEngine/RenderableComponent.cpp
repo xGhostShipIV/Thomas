@@ -45,3 +45,8 @@ void RenderableComponent::SetEffecctedByLight(bool _directional, bool _point, bo
 {
 	ModelManager::getInstance()->getModel(modelName)->isEffectedByLight = Vec3(_directional, _point, _spot);
 }
+
+void RenderableComponent::SetTextureID(std::string _newId, int _index)
+{
+	textureName[_index] = _newId;
+}

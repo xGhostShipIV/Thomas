@@ -126,9 +126,6 @@
     <ClInclude Include="Light.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
@@ -167,6 +164,12 @@
     </ClInclude>
     <ClInclude Include="TextSprite.h">
       <Filter>Header Files\GUI</Filter>
+	</ClInclude>
+    <ClInclude Include="Flipbook.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +242,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>Source Files\Resource</Filter>
     </ClCompile>
@@ -280,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="GuiElement.cpp">
       <Filter>Source Files\GUI</Filter>
+	</ClCompile>
+    <ClCompile Include="Flipbook.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

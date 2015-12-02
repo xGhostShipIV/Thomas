@@ -89,12 +89,14 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestLevel.h" />
+    <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioTester.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testGame.frag" />

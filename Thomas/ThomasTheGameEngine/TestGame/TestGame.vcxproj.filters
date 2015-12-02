@@ -51,6 +51,9 @@
     <ClInclude Include="FPS_Inputs.h">
       <Filter>Header Files\Inputs</Filter>
     </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioTester.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

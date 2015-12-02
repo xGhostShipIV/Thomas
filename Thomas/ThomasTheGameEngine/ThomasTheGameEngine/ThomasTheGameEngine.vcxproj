@@ -22,6 +22,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="Flipbook.h" />
     <ClInclude Include="Frustrum.h" />
     <ClInclude Include="GuiElement.h" />
     <ClInclude Include="Label.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="Frustrum.cpp" />
     <ClCompile Include="GuiElement.cpp" />
     <ClCompile Include="Label.cpp" />

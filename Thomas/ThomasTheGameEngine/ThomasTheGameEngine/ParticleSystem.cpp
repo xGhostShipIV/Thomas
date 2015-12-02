@@ -15,6 +15,11 @@ ParticleSystem::ParticleSystem(GameObject * _owner, Emitter_Type _emitterType, s
 	emitter_type = _emitterType;
 }
 
+ParticleSystem::~ParticleSystem()
+{
+
+}
+
 void ParticleSystem::UpdateParticles(float _deltaTime)
 {
 	if (elapsedTime >= emissionRate)
