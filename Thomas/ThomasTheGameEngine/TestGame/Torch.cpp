@@ -2,6 +2,7 @@
 #include <Level.h>
 #include <ModelManager.h>
 #include <Flipbook.h>
+#include <Light.h>
 
 Torch::Torch(Level * _level, Vec3 _position) : GameObject(_level, _position)
 {
@@ -17,8 +18,11 @@ Torch::Torch(Level * _level, Vec3 _position) : GameObject(_level, _position)
 	flame = new Billboard(_level, _position + Vec3(0, 8.8f, 2.7f));
 	flame->Scale(Vec3(1.8, 1.8, 1.5));
 
+	new Light(flame, Colour(10.0f, 10.0f, 10.0f), Light::Point);
+
 	Flipbook * fb = new Flipbook(flame, 16, "Images/Animation/Fire/slice0.png", 1.5f, true, Flipbook::PNG);
 	fb->Play();
+	fb->SetEffecctedByLight(false, false, false);
 
 	addChild(flame);
 

@@ -7,6 +7,7 @@
 #include <vector>
 
 class RenderableComponent;
+typedef unsigned int UINT32;
 
 class Flipbook : public Component
 {
@@ -16,7 +17,7 @@ public:
 		PNG, JPG, JPEG, TIF
 	};
 
-	Flipbook(GameObject *, unsigned int _numImages, std::string _filePath, float _playTime, bool _isLooped, Image_Extension _ext);
+	Flipbook(GameObject *, UINT32 _numImages, std::string _filePath, float _playTime, bool _isLooped, Image_Extension _ext);
 	~Flipbook();
 
 	void Play();
@@ -24,6 +25,8 @@ public:
 	void Stop();
 
 	void UpdateFlipbook(float _deltaTime);
+
+	void SetEffecctedByLight(bool _directional = true, bool _point = true, bool _spot = true);
 
 private:
 	bool isRunning;
@@ -40,5 +43,5 @@ private:
 
 	RenderableComponent * ownerRenderer;
 
-	std::vector<std::string> textureNames;
+	std::vector<UINT32> textureNames;
 };

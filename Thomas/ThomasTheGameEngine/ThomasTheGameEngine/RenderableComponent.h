@@ -36,5 +36,5 @@ public:
 
 	void SetEffecctedByLight(bool _directional = true, bool _point = true, bool _spot = true);
 
-	void SetTextureID(std::string _id, int _index);
+	void SetTextureID(UINT32 _id, int _index);
 };

@@ -8,7 +8,7 @@
 
 /* _filePath should be the path to the first image of the 2D animation, and all files should be named in the format of
 	"imageNamei.extension", where i is the index of the image in the animation. */
-Flipbook::Flipbook(GameObject * _owner, unsigned int _numImages, std::string _filePath, float _playTime, bool _isLooped, Image_Extension _ext) : Component(_owner, ComponentType::Flipbook)
+Flipbook::Flipbook(GameObject * _owner, UINT32 _numImages, std::string _filePath, float _playTime, bool _isLooped, Image_Extension _ext) : Component(_owner, ComponentType::Flipbook)
 {
 	numFrames = _numImages;
 	totalPlayTime = _playTime;
@@ -39,25 +39,25 @@ Flipbook::Flipbook(GameObject * _owner, unsigned int _numImages, std::string _fi
 			subString += std::to_string(i) + ".png";
 
 			mm->loadTexture(subString, subString);
-			textureNames.push_back(subString);
+			textureNames.push_back(ModelManager::getInstance()->GetTextureID(subString));
 			break;
 		case Flipbook::JPG:
 			subString += std::to_string(i) + ".jpg";
 
 			mm->loadTexture(subString, subString);
-			textureNames.push_back(subString);
+			textureNames.push_back(ModelManager::getInstance()->GetTextureID(subString));
 			break;
 		case Flipbook::JPEG:
 			subString += std::to_string(i) + ".jpeg";
 
 			mm->loadTexture(subString, subString);
-			textureNames.push_back(subString);
+			textureNames.push_back(ModelManager::getInstance()->GetTextureID(subString));
 			break;
 		case Flipbook::TIF:
 			subString += std::to_string(i) + ".tif";
 
 			mm->loadTexture(subString, subString);
-			textureNames.push_back(subString);
+			textureNames.push_back(ModelManager::getInstance()->GetTextureID(subString));
 			break;
 		default:
 			break;
@@ -109,4 +109,9 @@ void Flipbook::UpdateFlipbook(float _deltaTime)
 			else timeSinceLastFrame += _deltaTime;
 		}
 	}
+}
+
+void Flipbook::SetEffecctedByLight(bool _directional, bool _point, bool _spot)
+{
+	ownerRenderer->SetEffecctedByLight(_directional, _point, _spot);
 }

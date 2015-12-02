@@ -115,7 +115,7 @@ TestLevel::TestLevel()
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
 	new RenderableComponent("skybox", "skybox", skybox);
-	new RenderableComponent("teddy", "teddyFur", teddy);
+	//new RenderableComponent("teddy", "teddyFur", teddy);
 	//new RenderableComponent("torch", "torchTexture", teddy);
 
 	new RenderableComponent("InCubeO", "dice", OutsideCube);
@@ -140,7 +140,8 @@ TestLevel::TestLevel()
 	/*Flipbook * fb = new Flipbook(animationGuy, 16, "Images/Animation/Fire/slice0.png", 1.5f, true, Flipbook::PNG);
 	fb->Play();*/
 
-	torch = new Torch(this, Vec3(4,-5, 4));
+	torch = new Torch(this, Vec3(10, -5, -8));
+	torch->Rotate(Quat(180 * 3.14159f / 180.0f, Vec3::BasisY()));
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
