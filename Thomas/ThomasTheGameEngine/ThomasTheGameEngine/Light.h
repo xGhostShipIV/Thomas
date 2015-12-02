@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Component.h"
 #include "../Math/four_dimensions.hpp"
+#include "Colour.h"
 
 class Light :
 	public Component
@@ -14,13 +15,12 @@ public:
 		Directional
 	};
 
-	//Colour is entered as (Alpha, Red, Green, Blue);
-	Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _coneAngle = 0.5f);
+	Light(GameObject * _g, Colour _colourIntensity, Light_Type _type, float _coneAngle = 0.5f);
 
 	~Light();
 
 	Light_Type lightType;
-	Vec4 colourIntensity;
+	Colour colourIntensity;
 	float ConeAngle;
 
 	void PushLight();

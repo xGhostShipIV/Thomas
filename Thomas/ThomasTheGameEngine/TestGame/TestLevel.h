@@ -11,6 +11,8 @@
 #include <Light.h>
 #include <Billboard.h>
 #include <ParticleSystem.h>
+#include <Label.h>
+#include <FontManager.h>
 
 #include "TestGame.h"
 
@@ -27,6 +29,7 @@ public:
 
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
 	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube;
+	Label *label, *fpsLabel;
 
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;

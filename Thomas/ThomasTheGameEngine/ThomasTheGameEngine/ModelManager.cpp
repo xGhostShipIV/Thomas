@@ -8,8 +8,11 @@
 #include <assimp\postprocess.h>
 
 ModelManager * ModelManager::instance;
+
+UINT32 ModelManager::nextTextureID = 0;
+UINT32 ModelManager::nextModelID = 0;
+
 GLuint ModelManager::transformLocation;
-GLuint ModelManager::translateLocation;
 GLuint ModelManager::ambientLocation;
 GLuint ModelManager::normalLocation;
 GLuint ModelManager::materialLocation;
@@ -26,6 +29,7 @@ GLuint ModelManager::lightDirection_Spot_Location;
 GLuint ModelManager::lightAngle_Spot_Location;
 
 GLuint ModelManager::isEffectedByLight_Location;
+GLuint ModelManager::UI_DRAW_Location;
 
 
 ModelManager::ModelManager(Render_Mode _render_mode)
@@ -37,7 +41,6 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		program = GLU::UseShaders("testGame.vert", "testGame.frag");
 
 		transformLocation = glGetUniformLocation(program, "Transform");
-		translateLocation = glGetUniformLocation(program, "vTranslate");
 		normalLocation = glGetUniformLocation(program, "Normal");
 		ambientLocation = glGetUniformLocation(program, "AmbientColor");
 		materialLocation = glGetUniformLocation(program, "Material");
@@ -54,6 +57,7 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "isEffectedByLight");
+		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
 	}
 }
 
@@ -158,6 +162,11 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 }
 
 Renderable * ModelManager::getModel(string _id)
+{
+	return models.find(GetModelID(_id))->second;
+}
+
+Renderable * ModelManager::getModel(UINT32 _id)
 {
 	return models.find(_id)->second;
 }
@@ -266,17 +275,18 @@ void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 		skybox = new OpenGL_Renderable();
 		skybox->meshes.push_back(mesh);
 
-		/* Face Front */
+		/* Face Back  */
 		skybox->meshes[0].vertex.push_back(Vec3(-_size, -_size, _size)); //3
 		skybox->meshes[0].vertex.push_back(Vec3(_size, -_size, _size)); //2
 		skybox->meshes[0].vertex.push_back(Vec3(_size, _size, _size)); //1
 		skybox->meshes[0].vertex.push_back(Vec3(-_size, _size, _size)); //0
 
-		/* Face Back */
+		/* Face Front */
 		skybox->meshes[0].vertex.push_back(Vec3(-_size, _size, -_size)); //7
 		skybox->meshes[0].vertex.push_back(Vec3(_size, _size, -_size)); //6
 		skybox->meshes[0].vertex.push_back(Vec3(_size, -_size, -_size)); //5
 		skybox->meshes[0].vertex.push_back(Vec3(-_size, -_size, -_size)); //4
+
 		/* Face Left */
 		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[0]);
 		skybox->meshes[0].vertex.push_back(skybox->meshes[0].vertex[3]);
@@ -418,9 +428,49 @@ void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX,
 	}
 }
 
+void ModelManager::CreateSquare(string _id, float _w, float _h, float _uvRepeatX, float _uvRepeatY)
+{
+	Renderable * square;
+	Renderable::Mesh mesh;
+
+	switch (render_mode)
+	{
+	case ModelManager::Render_OpenGL:
+
+		square = new OpenGL_Renderable();
+		square->meshes.push_back(mesh);
+
+		square->meshes[0].vertex.push_back(Vec3(_w / 2.0f, _h / 2.0f, 0));
+		square->meshes[0].vertex.push_back(Vec3(-_w / 2.0f, _h / 2.0f, 0));
+		square->meshes[0].vertex.push_back(Vec3(-_w / 2.0f, -_h / 2.0f, 0));
+		square->meshes[0].vertex.push_back(Vec3(_w / 2.0f, -_h / 2.0f, 0));
+
+		for (unsigned int i = 0; i < square->meshes[0].vertex.size(); i++)
+			square->meshes[0].edge.push_back(i);
+
+		square->meshes[0].face.push_back(4);
+
+		GenerateNormals(square);
+		GenerateTextureMap(square, _uvRepeatX, _uvRepeatY);
+
+		InsertModel(square, _id);
+
+		break;
+	case ModelManager::Render_DirectX:
+		break;
+	case ModelManager::Render_Ogre:
+		break;
+	default:
+		break;
+	}
+}
+
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
 {
-	models.insert(std::pair<string, Renderable *>(_id, _renderable));
+
+	models.insert(std::pair<UINT32, Renderable *>(nextModelID, _renderable));
+	modelMap.insert(std::pair<string, int>(_id, nextModelID));
+	nextModelID++;
 
 	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
@@ -441,14 +491,14 @@ void ModelManager::GenerateTextureMap(Renderable* _renderable, float _uvRepeatX,
 	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
-		{
+		{						
 			if (_renderable->meshes[m].face[i] == 4)
-			{
-				_renderable->meshes[m].textureMap.push_back(Vec2(0, _uvRepeatY));
-			}
-			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
+				_renderable->meshes[m].textureMap.push_back(Vec2(0, 0));
+
 			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, 0));
-			_renderable->meshes[m].textureMap.push_back(Vec2(0, 0));
+			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
+			_renderable->meshes[m].textureMap.push_back(Vec2(0, _uvRepeatY));
+			
 		}
 
 		for (auto it = _renderable->meshes[m].textureMap.begin(); it != _renderable->meshes[m].textureMap.end(); it++)
@@ -462,41 +512,41 @@ void  ModelManager::GenerateCubeMap(Renderable* _renderable)
 {
 	//Generate Cubemap 
 	{
-		//Front
-		_renderable->meshes[0].textureMap.push_back(Vec2(1, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(1, 1 / 3.0f));
-
 		//Back
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.5f, 1 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.5f, 2 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
 
-		//Left  !
-		_renderable->meshes[0].textureMap.push_back(Vec2(0, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0, 1 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
-
-		//Right  !
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));
+		//Front
+		_renderable->meshes[0].textureMap.push_back(Vec2(1, 2 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(1, 1 / 3.0f));
 
-		//Bottom  ?
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1));
-		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1));
+		//Right
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));//3
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));//4
+		_renderable->meshes[0].textureMap.push_back(Vec2(0, 2 / 3.0f));//1
+		_renderable->meshes[0].textureMap.push_back(Vec2(0, 1 / 3.0f));//2
+
+		//Left
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 1 / 3.0f));//3
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.75f, 2 / 3.0f));//4
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));//1
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));//2
 
 		//Top  ?
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 0));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 0));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
+		
+		//Bottom  ?
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1));
+		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1));
 	}
 
 	for (auto it = _renderable->meshes[0].textureMap.begin(); it != _renderable->meshes[0].textureMap.end(); it++)
@@ -608,8 +658,6 @@ void ModelManager::PushModels()
 	}
 	delete textureArray;
 
-	SDL_FreeSurface(texture);
-
 	if (masterTextureCoords.size() > 0)
 	{
 		float * newMasterTextureList = new float[masterTextureCoords.size() * 2];
@@ -631,12 +679,15 @@ void ModelManager::PushModels()
 
 void ModelManager::createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight)
 {
-	textures.insert(std::pair<string, Texture*>(_id, new Texture(_pixelData, _textureWidth, _textureHeight)));
+	textures.insert(std::pair<int, Texture*>(nextTextureID, new Texture(_pixelData, _textureWidth, _textureHeight)));
+	textureMap.insert(std::pair<string, int>(_id, nextTextureID));
+
+	nextTextureID++;
 }
 
 void ModelManager::loadTexture(string _id, string _fileName)
 {
-	texture = IMG_Load(_fileName.c_str());
+	SDL_Surface *texture = IMG_Load(_fileName.c_str());
 
 	if (texture == NULL)		{
 		printf("Image failed to load! SDL_image Error: %s\n", IMG_GetError());
@@ -644,10 +695,28 @@ void ModelManager::loadTexture(string _id, string _fileName)
 	}
 
 	Texture * t = new Texture(texture);
-	textures.insert(std::pair<string, Texture*>(_id, t));
+	textures.insert(std::pair<UINT32, Texture*>(nextTextureID, t));
+	textureMap.insert(std::pair<string, UINT32>(_id, nextTextureID));
+
+	nextTextureID++;
 }
 
 Texture* ModelManager::getTexture(string _id)
 {
+	return textures.find(GetTextureID(_id))->second;
+}
+
+Texture* ModelManager::getTexture(UINT32 _id)
+{
 	return textures.find(_id)->second;
+}
+
+UINT32 ModelManager::GetModelID(string _name)
+{
+	return modelMap.find(_name)->second;
+}
+
+UINT32 ModelManager::GetTextureID(string _name)
+{
+	return textureMap.find(_name)->second;
 }

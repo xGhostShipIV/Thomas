@@ -23,6 +23,7 @@ class ModelManager
 	friend class RenderableComponent;
 	friend class OpenGL_Renderable;
 	friend class Camera;
+	friend class TextSprite;
 
 	//An enumeration to set which graphics engine is being used
 	enum Render_Mode{
@@ -40,11 +41,11 @@ public:
 
 	~ModelManager();
 
-	static GLuint transformLocation, translateLocation, normalLocation, materialLocation;
+	static GLuint transformLocation, normalLocation, materialLocation;
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 	static GLuint lightColor_Point_Location, lightPosition_Point_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
-	static GLuint isEffectedByLight_Location;
+	static GLuint isEffectedByLight_Location, UI_DRAW_Location;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;
@@ -71,46 +72,56 @@ public:
 
 	//creates a texture using the pixel data and loads it into the texture map using the string _id
 	void createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);
-	
+
 	//loads a texture with the fileName and loads it into the texture map using the string _id
 	void loadTexture(string _id, string _fileName);
 
 	/* PRIMITIVE FACTORY METHODS */
-	void CreateCuboid(string _id, float _h, float _w, float _l, bool _useCubeMap = false, float _uvRepeatX = 1, float _uvRepeatY = 1);
+	void CreateCuboid(string _id, float _w, float _h, float _l, bool _useCubeMap = false, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreateSkybox(string _id, float _size, bool _normalsOnBottom = true);
 	void CreateSphere(string _id, float _r, float _uvRepeatX = 1, float _uvRepeatY = 1){}
-	void CreatePlane(string _id, float _h, float _w, float _uvRepeatX = 1, float _uvRepeatY = 1);
-	void CreatePyramid(string _id, float _w, float _l, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
+	void CreatePlane(string _id, float _w, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
+	void CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreateCone(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 	void CreateCylinder(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
+
+	/* 2D PRIMITIVE FACTORY METHODS */
+	void CreateSquare(string _id, float _w, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
 
 	GLuint GetProgramID()
 	{ 
 		return program; 
 	}
 
-	SDL_Surface * texture;
+	UINT32 GetModelID(string _name);
+	UINT32 GetTextureID(string _name);
 
 private:
 	ModelManager(Render_Mode = Render_OpenGL);
 
 	//Goes into the model map and returns a pointer to the renderable with the given tag
 	Renderable * getModel(string _id);
+	Renderable * getModel(UINT32 _id);
 
 	//Goes into the texture map and returns a pointer to the texture with the given tag
 	Texture* getTexture(string _id);
+	Texture* getTexture(UINT32 _id);
 
 	//stores the current render mode for initialization of renderables
 	Render_Mode render_mode;
 
 	//The map to store all models
-	std::map<string, Renderable *> models;
+	std::map<UINT32, Renderable *> models;
+	std::map<string, UINT32> modelMap;
+	static UINT32 nextModelID;
 
 	//The master Vector list that will ultimately be pushed to the GPU
 	std::vector<Vec3> masterVectorList;
 
 	//The map to store all textures
-	std::map<string, Texture *> textures;
+	std::map<UINT32, Texture *> textures;
+	std::map<string, UINT32> textureMap;
+	static UINT32 nextTextureID;
 
 	//The master Texture coordinates list that will ultimately be pushed to the GPU
 	std::vector<Vec2> masterTextureCoords;

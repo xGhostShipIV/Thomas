@@ -1,6 +1,9 @@
 #pragma once
 #include "Camera.h"
 #include <vector>
+#include "Colour.h"
+
+class GuiElement;
 
 /*
 	A level acts as a scene in the game. All game objects are specific to a level
@@ -24,6 +27,8 @@ public:
 	std::vector<GameObject *> gameObjects;
 	std::vector<GameObject *> gameObjectsToBeDeleted;
 
+	std::vector<GuiElement *> guiElements;
+
 	//Renders and updates all gameObjects in the game
 	void LevelRender();
 	virtual void LevelUpdate(float _timeStep);
@@ -34,10 +39,10 @@ public:
 	//Will delete all gameObjects that have been flagged for deletion
 	void LevelCleanUp();
 
-	void SetAmbientColor(Vec4 _color);
+	void SetAmbientColor(Colour _color);
 protected:
 	virtual void DebugRender(){};
 
-	Vec4 ambientLightColor;
+	Colour ambientLightColor;
 };
 

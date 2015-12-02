@@ -1,21 +1,25 @@
 #include "../Math/four_dimensions.hpp"
+#include "Colour.h"
 
 class LightManager
 {
 public:
 	struct DirectionalLight
 	{
-		Vec4 color, direction;
+		Colour colour;
+		Vec4 direction;
 	};
 
 	struct PointLight
 	{
-		Vec4 color, position;
+		Colour colour;
+		Vec4 position;
 	};
 
 	struct SpotLight
 	{
-		Vec4 color, position, direction;
+		Colour colour;
+		Vec4 position, direction;
 		float coneAngle;
 	};
 	
@@ -31,13 +35,13 @@ public:
 	}
 
 	//Input a Directional Light into Light array
-	void InputDirectionalLight(Vec4 _color, Vec4 _direction);
+	void InputDirectionalLight(Colour _color, Vec4 _direction);
 
 	//Input a Point Light into Light array
-	void InputPointLight(Vec4 _color, Vec4 _position);
+	void InputPointLight(Colour _color, Vec4 _position);
 
 	//Input a Spot Light into Light array
-	void InputSpotLight(Vec4 _color, Vec4 _position, Vec4 _direction, float _coneAngle);
+	void InputSpotLight(Colour _color, Vec4 _position, Vec4 _direction, float _coneAngle);
 
 	//Pushes Lights to Shaders. Should be called After lighting arrays have been built and before draw calls.
 	void PushLights();

@@ -2,22 +2,49 @@
 #include <iostream>
 
 Texture::Texture(SDL_Surface* _surface)
-	: width(_surface->w), height(_surface->h)
+	: width(_surface->w), height(_surface->h), surface(_surface)
 {
 	dataType = TextureDataType::UnsignedByte;
+
+	SDL_PixelFormat *fmt;	
+	fmt = _surface->format;
+
+	if ((int)fmt->BitsPerPixel == 8)
+	{
+		SDL_Surface* _formattedSurf = SDL_ConvertSurfaceFormat(_surface, SDL_PIXELFORMAT_RGBA8888, 0);
+		SDL_Surface* temp = _surface;
+		_surface = _formattedSurf;
+		
+		SDL_FreeSurface(temp);
+	}
+
 	pixelData = _surface->pixels;
+	
+	//fmt = _surface->format; 	std::cout << (int)fmt->BitsPerPixel << "\n";
+
+	//////Flip Pixels Around Vertically... for some reason our textures are flipped
+	////unsigned char *pixelz = new unsigned char[width * height * 4];
+
+	////for (int i = 0; i < width * height; i++)
+	////{
+	////	pixelz[((width * height) - i) * 4 + 0] = ((unsigned char*)_surface->pixels)[i * 4 + 0];
+	////	pixelz[((width * height) - i) * 4 + 1] = ((unsigned char*)_surface->pixels)[i * 4 + 1];
+	////	pixelz[((width * height) - i) * 4 + 2] = ((unsigned char*)_surface->pixels)[i * 4 + 2];
+	////	pixelz[((width * height) - i) * 4 + 3] = ((unsigned char*)_surface->pixels)[i * 4 + 3];
+	////}
+
+	////pixelData = pixelz;
+
+
+	//Uint32 temp, pixel;
+	//Uint8 red, green, blue, alpha;
 
 	////Get Pixel Data
 	//pixelData = new float[width * height * 4];
 
-	//SDL_PixelFormat *fmt;
-	//Uint32 temp, pixel;
-	//Uint8 red, green, blue, alpha;
-
-	//fmt = _surface->format;
+	
 	//SDL_LockSurface(_surface);
 	//
-	//std::cout << (int)fmt->BitsPerPixel << "\n\n";
 
 	//for (int i = 0; i < width * height; i++)
 	//{
@@ -56,7 +83,6 @@ Texture::Texture(SDL_Surface* _surface)
 	//	pixelData[i + 1 * 4] = (int)blue /  255.0f;
 	//	pixelData[i + 0 * 4] = (int)alpha / 255.0f;
 	//}
-
 	//SDL_UnlockSurface(_surface);
 }
 
@@ -66,13 +92,11 @@ Texture::Texture(float *_pixelData, UINT32 _width, UINT32 _height)
 	dataType = TextureDataType::Float;
 }
 
-Texture::Texture(std::string _fileName)
-{
-
-}
-
 Texture::~Texture()
 {
-	delete pixelData;
+	if (surface)
+		SDL_FreeSurface(surface);
+	else
+		delete pixelData;
 }
 

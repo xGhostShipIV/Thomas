@@ -18,9 +18,13 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Billboard.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Colour.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="Frustrum.h" />
+    <ClInclude Include="GuiElement.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Logs.h" />
@@ -41,6 +45,7 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="TextSprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Thomas.h" />
     <ClInclude Include="Time.h" />
@@ -54,9 +59,13 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Billboard.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Colour.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Frustrum.cpp" />
+    <ClCompile Include="GuiElement.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Logs.cpp" />
@@ -76,6 +85,7 @@
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -109,8 +119,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,7 +132,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>

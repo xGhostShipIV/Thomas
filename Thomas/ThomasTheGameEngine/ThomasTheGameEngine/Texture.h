@@ -6,7 +6,6 @@
 #include <string>
 typedef unsigned int UINT32;
 
-
 class Texture
 {
 public:
@@ -17,11 +16,12 @@ public:
 
 	Texture(SDL_Surface* _surface);
 	Texture(float* _pixelData, UINT32 _width, UINT32 _height);
-	Texture(std::string _fileName);
 	~Texture();
 
 	//Index in texture array
 	UINT32 address;
+
+	SDL_Surface* surface;
 
 	//texture dimensions in pixels
 	UINT32 width, height;

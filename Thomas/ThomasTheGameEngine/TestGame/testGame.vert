@@ -22,6 +22,9 @@ out vec4[2]  vLightDirection_Spot;
 out float[2] vLightAngle_Spot;
 
 out vec3 fIsEffectedByLight;
+out float fUiDraw;
+
+uniform float uiDraw;
 
 uniform vec4 Normal;
 
@@ -45,11 +48,19 @@ uniform vec3 isEffectedByLight;
 
 void main()
 {
-	gl_Position = cameraMatrix * (Transform * vPosition);
+	if (uiDraw > 0)
+	{
+		gl_Position = (Transform * vPosition);
+	}
+	else
+	{
+		gl_Position = cameraMatrix * (Transform * vPosition);
+	}
+
 	fPosition = Transform * vPosition;
 
-	/* Textures */
-	texCoord = vTexCoord;
+	/* Textures -- FLIP THEM TO FIX WIERDNESS */
+	texCoord = vTexCoord * vec2(1.0, -1.0);
 
 	/* Light */
 	vAmbientColor = AmbientColor;
@@ -68,4 +79,6 @@ void main()
 	vNormal = Normal;
 
 	fIsEffectedByLight = isEffectedByLight;
+
+	fUiDraw = uiDraw;
 }

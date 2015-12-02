@@ -10,6 +10,7 @@
 #include "ModelManager.h"
 #include "Camera.h"
 #include "OpenGLUtilities.h"
+#include "FontManager.h"
 
 Game* Game::instance = nullptr;
 
@@ -28,6 +29,8 @@ Game::Game()
 	///SDL stuff
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+	TTF_Init();
+	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 
 	//Creates the audio manager which additionally initializes SDL audio
 	audioManager = AudioManager::getInstance();
@@ -93,6 +96,9 @@ Game::Game()
 
 Game::~Game()
 {
+	/* delete managers */
+	delete FontManager::getInstance();
+
 	/* delete SDL stuff */
 	delete audioManager;
 	delete modelManager;
@@ -101,6 +107,9 @@ Game::~Game()
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyRenderer(gameRenderer);
 	SDL_DestroyWindow(gameWindow);
+
+	Mix_Quit();
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -225,4 +234,9 @@ void Game::LoadLevel(Level * _level)
 
 void Game::setRunning(bool _isRunning) {
 	isRunning = _isRunning;
+}
+
+float Game::GetFPS()
+{
+	return FPS;
 }

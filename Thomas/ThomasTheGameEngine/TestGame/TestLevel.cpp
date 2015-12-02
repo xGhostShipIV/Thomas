@@ -8,6 +8,7 @@
 #include "GameObjectInputTest.h"
 #include "FPS_Inputs.h"
 #include <SDL.h>
+#include <sstream>
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -22,7 +23,7 @@ TestLevel::TestLevel()
 {
 	currentCamera->position = Vec3(0, 3, -8);
 
-	ambientLightColor = Vec4(1, 0.1, 0.1, 0.1);
+	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 
 	new AudioTester(this);
 
@@ -37,8 +38,16 @@ TestLevel::TestLevel()
 	teddy = new GameObject(this, Vec3(2, 2, 2));
 	bear = new GameObject(this, Vec3(-3, 0, 2));
 	lilbear = new GameObject(this, Vec3(-4.5f, 0, 2));
-	InsideCube = new GameObject(this, Vec3(12, 5, 0));
+	InsideCube = new GameObject(this, Vec3(12, 5.1f, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
+
+	FontManager::getInstance()->GenerateFont("font", 72, "Font/DroidSans.ttf");
+	FontManager::getInstance()->GenerateFont("lazyfont", 50, "Font/ostrich-black.ttf");
+
+	Label *label2 = new Label(this, "HELLO WORLD", Vec2(0, 0.9f), FontManager::getInstance()->GetFont("font"), Colour::Blue());
+	label = new Label(this, "WOW!", Vec2(-0.8f, -0.8f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Pink());
+	fpsLabel = new Label(this, "MUCH LABELS!", Vec2(0.68f, -0.68f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Lime());
+	fpsLabel->Rotate(Quat(45 * 3.141592654f / 180.0f, Vec3::BasisZ()));
 
 	light->LookAt(Vec3());
 	soBright->LookAt(Vec3());
@@ -101,26 +110,26 @@ TestLevel::TestLevel()
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground);
 	new RenderableComponent("directional", "greenCheckers", light);
-	 new RenderableComponent("skybox", "skybox", skybox);
+	new RenderableComponent("skybox", "skybox", skybox);
 	new RenderableComponent("teddy", "teddyFur", teddy);
 	new RenderableComponent("InCubeO", "dice", OutsideCube);
 	RenderableComponent *inRC = new RenderableComponent("InCubeI", "dice", InsideCube);
 	inRC->SetEffecctedByLight(false, true, true);
 
 	RenderableComponent *bearRC = new RenderableComponent("bear", "bear", bear);
-	bearRC->textureName.push_back("bearTeeth");
-	bearRC->textureName.push_back("bearTeeth");
+	bearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
+	bearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
 
 	RenderableComponent *lilbearRC = new RenderableComponent("bear", "bear", lilbear);
-	lilbearRC->textureName.push_back("bearTeeth");
-	lilbearRC->textureName.push_back("bearTeeth");
+	lilbearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
+	lilbearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
 
 	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
 
-	new Light(light, Vec4(0, 1.0f, 1.0f, 1.0f), Light::Directional);
-	new Light(soBright, Vec4(1, 80, 80, 0), Light::Spot, 120 * 3.14159f / 180.0f);
+	new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
+	new Light(soBright, Colour(80, 80, 0), Light::Spot, 120 * 3.14159f / 180.0f);
 
-	new Light(flashLight, Vec4(1, 200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
+	new Light(flashLight, Colour(200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
@@ -171,6 +180,13 @@ void TestLevel::LevelUpdate(float _timeStep)
 	cube->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(0, 1, 0)));
 	lightAnchor->GetTransform().Rotate(Quat(-0.6f * _timeStep, Vec3(1, 1, 0)));
 	light->LookAt(Vec3());
+
+	//LOL
+	label->Rotate(Quat(90 * 3.141592654f / 180.0f * _timeStep, Vec3::BasisZ()));
+	
+	/*std::stringstream ss;
+	ss << "FPS: " << Game::GetInstance()->GetFPS();
+	fpsLabel->SetText(ss.str());*/
 
 	skybox->position = currentCamera->position;
 }

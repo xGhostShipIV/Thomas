@@ -3,8 +3,9 @@
 #include "OpenGLUtilities.h"
 #include "LightManager.h"
 #include "GameObject.h"
+#include "Colour.h"
 
-Light::Light(GameObject * _g, Vec4 _colourIntensity, Light_Type _type, float _coneAngle) : Component(_g, Component::Light)
+Light::Light(GameObject * _g, Colour _colourIntensity, Light_Type _type, float _coneAngle) : Component(_g, Component::Light)
 {
 	colourIntensity = _colourIntensity;
 	lightType = _type;

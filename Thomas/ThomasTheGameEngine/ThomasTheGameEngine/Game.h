@@ -11,6 +11,11 @@
 #define _GAME_H_
 
 #include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
+#include <SDL_net.h>
+
 #undef main
 #include <glew.h>
 #include <stdio.h>
@@ -84,6 +89,8 @@ public:
 	void LoadLevel(Level * _level);
 
 	void setRunning(bool);
+
+	float GetFPS();
 };
 
 #endif
