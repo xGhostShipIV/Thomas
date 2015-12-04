@@ -12,6 +12,7 @@ public:
 	float mass;
 	Vec3 centreOfMass;
 	bool isKinematic;
+	bool gravitas;
 	Matrix3 inertiaTensor;
 	float CollisionRadius;
 

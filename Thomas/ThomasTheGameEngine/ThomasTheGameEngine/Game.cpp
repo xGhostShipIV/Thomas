@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "OpenGLUtilities.h"
 #include "FontManager.h"
+#include "PhysicsWorld.h"
 
 Game* Game::instance = nullptr;
 
@@ -158,6 +159,7 @@ void Game::StartGame()
 			SDL_PumpEvents();
 
 			EngineUpdate(timeSincelastUpdate / 1000.0f);
+			PhysicsWorld::getInstance()->Update(timeSincelastUpdate / 1000.0f);
 
 			timeSinceLastRender += timeSincelastUpdate;
 
