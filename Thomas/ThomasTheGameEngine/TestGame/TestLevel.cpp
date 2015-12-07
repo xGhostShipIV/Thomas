@@ -40,7 +40,7 @@ TestLevel::TestLevel()
 	skybox = new GameObject(this, currentCamera->position);
 	//teddy = new GameObject(this, Vec3(2, -10, 2));
 	bear = new GameObject(this, Vec3(-3, 15, 2));
-	lilbear = new GameObject(this, Vec3(-3.01, 5, 2));
+	lilbear = new GameObject(this, Vec3(-8, 5, 2));
 	InsideCube = new GameObject(this, Vec3(12, 5.1f, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
 	//animationGuy = new Billboard(this, Vec3(4, 4, 4));
@@ -209,7 +209,7 @@ void TestLevel::LevelUpdate(float _timeStep)
 	skybox->position = currentCamera->position;
 
 	//Orbit small bear around large bear
-	//PhysicsWorld::getInstance()->Orbit(bear->position, Vec3::BasisY(), lilbear, M_PI / 100);
+	PhysicsWorld::getInstance()->Orbit(bear->position, Vec3::BasisY(), lilbear, M_PI / 100);
 	
 }
 

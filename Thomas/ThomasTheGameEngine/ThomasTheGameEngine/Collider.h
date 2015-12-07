@@ -33,7 +33,7 @@ public:
 	static bool isColliding(CubeCollider*, PlaneCollider*);
 	static bool isColliding(CubeCollider*, CubeCollider*);
 
-	virtual void OnColliding(Collider* other);
+	virtual void OnColliding(Collider* other){}
 
 	Collider(GameObject*);
 	~Collider(){}

@@ -20,7 +20,7 @@ void Rigidbody::Init(){
 		0, 0, tensorValue);
 
 	//More on this later, for now is percectly ok.
-	drag = 0.0001f;
+	drag = 0.5f;
 	angularDrag = 0.000002f;
 	sleepThreshold = 0.003f;
 
