@@ -3,8 +3,7 @@
 #include "PhysicsWorld.h"
 #include "Component.h"
 
-Rigidbody::Rigidbody(GameObject* _parent) : Component(_parent,Component::ComponentType::Rigidbody)
-{
+void Rigidbody::Init(){
 	mass = 1;
 	centreOfMass = Vec3::Zero();
 	isKinematic = true;
@@ -12,28 +11,42 @@ Rigidbody::Rigidbody(GameObject* _parent) : Component(_parent,Component::Compone
 	accel = Vec3::Zero();
 	CollisionRadius = 0.5f;
 	gravitas = true;
-	//AngularVelocity = Quat(0, Vec3::Zero());
-	//AngularAccel = Quat(0, Vec3::Zero());
 
-	//Build the intertia tensor, they are always spheres right now:
+	//Always a sphere for now
 	float tensorValue = 2.0f / 5.0f * mass * CollisionRadius * CollisionRadius;
 	inertiaTensor = Matrix3(
 		tensorValue, 0, 0,
 		0, tensorValue, 0,
 		0, 0, tensorValue);
 
-	//To be fixed when we get the rest of our math implemented.
+	//More on this later, for now is percectly ok.
 	drag = 0.0001f;
 	angularDrag = 0.000002f;
 	sleepThreshold = 0.003f;
 
+	//AngularVelocity = Quat(0, Vec3::Zero());
+	//AngularAccel = Quat(0, Vec3::Zero());
+
 	PhysicsWorld::getInstance()->PhysicalObjects.push_back(this);
 }
 
-
-Rigidbody::~Rigidbody()
-{
+Rigidbody::Rigidbody(GameObject* _parent) : Component(_parent,Component::ComponentType::Rigidbody) {
+	if (_parent->getComponent<Collider>() == nullptr){
+		col = new SphereCollider(_parent);
+	}
+	else {
+		col = _parent->getComponent<Collider>();
+	}
+	Init();
 }
+
+Rigidbody::Rigidbody(GameObject* _parent, Collider* _Collider) : Component(_parent, Component::ComponentType::Rigidbody){
+	col = _Collider;
+	Init();
+}
+
+
+Rigidbody::~Rigidbody(){}
 
 void Rigidbody::AddForce(Vec3 _force){
 	accel += _force / mass;
@@ -41,12 +54,4 @@ void Rigidbody::AddForce(Vec3 _force){
 
 void Rigidbody::AddTorque(Vec3 _torque){
 	AngularAccel += _torque;
-}
-
-bool Rigidbody::isColliding(GameObject* other){
-	if (Vec3::length(parentObject->position - other->position) < (CollisionRadius + other->getComponent<Rigidbody>()->CollisionRadius)){
-		return true;
-	}else{
-		return false;
-	}
 }

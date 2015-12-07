@@ -1,12 +1,15 @@
 #pragma once
-#include "Component.h"
 #include "../Math/four_dimensions.hpp"
+#include "Collider.h"
 
 class Rigidbody :
 	public Component
 {
+private:
+	void Init();
 public:
 	Rigidbody(GameObject*);
+	Rigidbody(GameObject* _parent, Collider* _collider);
 	~Rigidbody();
 
 	float mass;
@@ -24,10 +27,13 @@ public:
 	Vec3 velocity;
 	Vec3 AngularAccel;
 	Vec3 accel;
+	
+	Collider* col;
 
 	//Functions
 	void AddForce(Vec3);
+
+	//Not implemented!
 	void AddTorque(Vec3); //torque in local space
-	bool isColliding(GameObject*);
 };
 

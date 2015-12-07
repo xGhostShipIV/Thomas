@@ -209,6 +209,17 @@ Rigidbody* GameObject::getComponent()
 }
 
 template<>
+Collider* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::Collision)
+			return (Collider*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
 ParticleSystem* GameObject::getComponent()
 {
 	for (int i = 0; i < components.size(); i++)
