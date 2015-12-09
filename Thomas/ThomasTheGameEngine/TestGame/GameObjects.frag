@@ -1,4 +1,4 @@
-﻿#version 430 core
+#version 430 core
 
 out vec4 fColor;
 in vec2 texCoord;
@@ -27,7 +27,16 @@ in float fUiDraw;
 
 void main()
 {
-	if (fUiDraw > 0)
+
+	//Normals Debug View
+	bool normalsDebug = false;
+	if (normalsDebug)
+	{
+		if (fUiDraw > 0)
+			discard;
+		fColor = 0.5 * vNormal + 0.5;
+	}
+	else if (fUiDraw > 0)
 		fColor = texture2D(texture, texCoord);
 	else
 	{
@@ -81,7 +90,6 @@ void main()
 					diffuse += pointDiffuse;
 				}
 
-				//r=d−2(d⋅n)n
 				vec4 lightDirection = fPosition - vLightPosition_Point[i];
 				vec4 reflection =  reflect(normalize(lightDirection), vNormal);
 				float sp_brightness = max(dot(reflection, toCameraVector), 0.0);
@@ -110,8 +118,6 @@ void main()
 						vec4 spotDiffuse = brightness * vLightColor_Spot[i] * vMaterial.y;
 						diffuse += spotDiffuse;
 
-
-						//r=d−2(d⋅n)n
 						vec4 reflection =  reflect(normalize(vLightDirection_Spot[i]), vNormal);
 						float sp_brightness = max(dot(reflection, toCameraVector), 0.0);
 						vec4 spotSpecular = (pow(sp_brightness, 80) / (pow(length(distanceToFrag), 2) )) * vMaterial.z * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f)) * vLightColor_Spot[i];
@@ -135,8 +141,6 @@ void main()
 		fColor = specular + texture2D(texture, texCoord) * (ambientLight + diffuse);
 	}
 
-	//Normals Debug View
-	//fColor = 0.5 * vNormal + 0.5;
 
 	//if Alpha == 0, don't draw
 	if (fColor.w == 0)

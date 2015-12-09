@@ -38,7 +38,7 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 	if (_render_mode == RENDER_MODE_OPENGL)
 	{
-		program = GLU::UseShaders("testGame.vert", "testGame.frag");
+		program = GLU::UseShaders("GameObjects.vert", "GameObjects.frag");
 
 		transformLocation = glGetUniformLocation(program, "Transform");
 		normalLocation = glGetUniformLocation(program, "Normal");

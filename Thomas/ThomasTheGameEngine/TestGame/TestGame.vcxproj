@@ -99,6 +99,8 @@
     <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GameObjects.frag" />
+    <None Include="GameObjects.vert" />
     <None Include="testGame.frag" />
     <None Include="testGame.vert" />
   </ItemGroup>

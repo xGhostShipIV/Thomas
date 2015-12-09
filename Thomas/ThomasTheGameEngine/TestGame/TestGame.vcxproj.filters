@@ -75,6 +75,8 @@
   <ItemGroup>
     <None Include="testGame.frag" />
     <None Include="testGame.vert" />
+    <None Include="GameObjects.vert" />
+    <None Include="GameObjects.frag" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestGame.rc">
