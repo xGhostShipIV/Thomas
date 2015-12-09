@@ -10,6 +10,31 @@ A number of input controls to control the camera within the game like an fps
 #define FPSHorizontalTurnSpeed 5.0f
 #define FPSVerticalTurnSpeed 2.5f
 
+
+class FPS_MOVE_UP : public InputComponent {
+
+	GameObject* owner;
+
+public:
+	FPS_MOVE_UP(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+
+	void whenPressed(float _timestep){
+		owner->Translate(Vec3(0, FPSMoveSpeed, 0) * _timestep);
+	}
+};
+
+class FPS_MOVE_DOWN : public InputComponent {
+
+	GameObject* owner;
+
+public:
+	FPS_MOVE_DOWN(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+
+	void whenPressed(float _timestep){
+		owner->Translate(Vec3(0, -FPSMoveSpeed, 0) * _timestep);
+	}
+};
+
 class FPS_STRAFE_RIGHT : public InputComponent {
 
 	Camera* owner;

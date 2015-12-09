@@ -7,12 +7,11 @@
 #include <iostream>
 #include "ModelManager.h"
 
-glm::mat4 glmCameraMatrix;
-
 Camera::Camera(Level * _level) : GameObject(_level, Vec3(0, 0, -2))
 {
 	CalculateCameraMatrix();	
-	cameraMatrixLocation = glGetUniformLocation(ModelManager::getInstance()->program, "cameraMatrix");
+	viewLocation = glGetUniformLocation(ModelManager::getInstance()->program, "view");
+	projectionLocation = glGetUniformLocation(ModelManager::getInstance()->program, "projection");
 }
 
 void Camera::CalculateCameraMatrix()
@@ -34,28 +33,33 @@ void Camera::CalculateCameraMatrix()
 	for (int i = 0; i < 16; i++)
 	{
 		projectionMatrix.values[i] = mSource[i];
-		modelViewMatrix.values[i] = m2Source[i];
+		viewMatrix.values[i] = m2Source[i];
 	}
 	
-	//Note: To get the same results as GLM we must transpose both before AND after multiplication.	
-	projectionMatrix = projectionMatrix.transpose();
-	modelViewMatrix = modelViewMatrix.transpose();
-	
-	cameraMatrix = projectionMatrix * modelViewMatrix;
-	cameraMatrix = cameraMatrix.transpose();
-
-	glmCameraMatrix = m * m2;
+	////Note: To get the same results as GLM we must transpose both before AND after multiplication.	
+	//projectionMatrix = projectionMatrix.transpose();
+	//viewMatrix = viewMatrix.transpose();
+	//
+	//cameraMatrix = projectionMatrix * viewMatrix;
+	//cameraMatrix = cameraMatrix.transpose();
 }
 
 Matrix4 Camera::getMatrix() const
 {
-	return cameraMatrix;
+	Matrix4 vp = projectionMatrix;
+	Matrix4 mv = viewMatrix;
+
+	return (vp.transpose() * mv.transpose()).transpose();
 }
 
 void Camera::Update(float _deltaTime)
 {
 	CalculateCameraMatrix();
-	glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, cameraMatrix.values);
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projectionMatrix.values);
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, viewMatrix.values);
+
+	float pos[] = { position.x, position.y, position.z };
+	glUniform3fv(ModelManager::getInstance()->cameraPosition_Location, 1, pos);
 }
 
 void Camera::Render()

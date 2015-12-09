@@ -43,7 +43,7 @@ public:
 
 	static GLuint transformLocation, normalLocation, materialLocation;
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
-	static GLuint lightColor_Point_Location, lightPosition_Point_Location;
+	static GLuint lightColor_Point_Location, lightPosition_Point_Location, cameraPosition_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
 	static GLuint isEffectedByLight_Location, UI_DRAW_Location;
 
@@ -84,9 +84,6 @@ public:
 	void CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX = 1, float _uvRepeatY = 1);
 	void CreateCone(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
 	void CreateCylinder(string _id, float _r, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1){}
-
-	/* 2D PRIMITIVE FACTORY METHODS */
-	void CreateSquare(string _id, float _w, float _h, float _uvRepeatX = 1, float _uvRepeatY = 1);
 
 	GLuint GetProgramID()
 	{ 

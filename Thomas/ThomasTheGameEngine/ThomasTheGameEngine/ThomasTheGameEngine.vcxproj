@@ -25,6 +25,7 @@
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="Frustrum.h" />
     <ClInclude Include="GuiElement.h" />
+    <ClInclude Include="GuiImage.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
@@ -67,6 +68,7 @@
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="Frustrum.cpp" />
     <ClCompile Include="GuiElement.cpp" />
+    <ClCompile Include="GuiImage.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />

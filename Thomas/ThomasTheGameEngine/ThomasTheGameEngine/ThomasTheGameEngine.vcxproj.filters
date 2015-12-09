@@ -164,12 +164,15 @@
     </ClInclude>
     <ClInclude Include="TextSprite.h">
       <Filter>Header Files\GUI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Flipbook.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiImage.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,12 +283,15 @@
     </ClCompile>
     <ClCompile Include="GuiElement.cpp">
       <Filter>Source Files\GUI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Flipbook.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiImage.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

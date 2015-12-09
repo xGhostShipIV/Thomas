@@ -24,12 +24,18 @@ out float[2] vLightAngle_Spot;
 out vec3 fIsEffectedByLight;
 out float fUiDraw;
 
+out vec3 vCamPosition;
+uniform vec3 CamPosition;
+
+
 uniform float uiDraw;
 
 uniform vec4 Normal;
 
-uniform mat4 cameraMatrix;
-uniform mat4 Transform;
+uniform mat4 view;
+uniform mat4 projection;
+
+uniform mat4 Transform; //model
 uniform vec3 Material;
 
 uniform vec4 AmbientColor;
@@ -54,9 +60,11 @@ void main()
 	}
 	else
 	{
-		gl_Position = cameraMatrix * (Transform * vPosition);
+		//				Projection	View	Model
+		gl_Position = projection * view * (Transform * vPosition);
 	}
 
+	//World Position
 	fPosition = Transform * vPosition;
 
 	/* Textures -- FLIP THEM TO FIX WIERDNESS */
@@ -65,18 +73,21 @@ void main()
 	/* Light */
 	vAmbientColor = AmbientColor;
 	vLightColor_Directional = LightColor_Directional;
-	vLightDirection_Directional = LightDirection_Directional;
-	
-	vLightColor_Point = LightColor_Point;
-	vLightPosition_Point = LightPosition_Point;
+	vLightDirection_Directional = LightDirection_Directional;	
 
+	vLightColor_Point = LightColor_Point;
+
+	vLightPosition_Point = LightPosition_Point;
 	vLightColor_Spot = LightColor_Spot;
+	
 	vLightPosition_Spot = LightPosition_Spot;
 	vLightDirection_Spot = LightDirection_Spot;
 	vLightAngle_Spot = LightAngle_Spot;
 
+	vCamPosition = CamPosition;
+
 	vMaterial = Material;
-	vNormal = Normal;
+	vNormal =  normalize(Normal);
 
 	fIsEffectedByLight = isEffectedByLight;
 

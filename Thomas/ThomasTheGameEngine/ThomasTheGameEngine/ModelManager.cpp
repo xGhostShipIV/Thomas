@@ -30,7 +30,7 @@ GLuint ModelManager::lightAngle_Spot_Location;
 
 GLuint ModelManager::isEffectedByLight_Location;
 GLuint ModelManager::UI_DRAW_Location;
-
+GLuint ModelManager::cameraPosition_Location;
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -58,6 +58,8 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "isEffectedByLight");
 		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
+
+		cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
 	}
 }
 
@@ -117,7 +119,6 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 			model->meshes.push_back(mesh);
 		}
 
-		GenerateNormals(model);
 
 		for (int m = 0; m < model->meshes.size(); m++)
 		for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
@@ -143,9 +144,7 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 			}
 		}
 
-
-		/*if (model->normal.size() == 0)
-		GenerateNormals(model);*/
+		GenerateNormals(model);
 
 		model->drawMode = _mode;
 
@@ -428,43 +427,6 @@ void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX,
 	}
 }
 
-void ModelManager::CreateSquare(string _id, float _w, float _h, float _uvRepeatX, float _uvRepeatY)
-{
-	Renderable * square;
-	Renderable::Mesh mesh;
-
-	switch (render_mode)
-	{
-	case ModelManager::Render_OpenGL:
-
-		square = new OpenGL_Renderable();
-		square->meshes.push_back(mesh);
-
-		square->meshes[0].vertex.push_back(Vec3(_w / 2.0f, _h / 2.0f, 0));
-		square->meshes[0].vertex.push_back(Vec3(-_w / 2.0f, _h / 2.0f, 0));
-		square->meshes[0].vertex.push_back(Vec3(-_w / 2.0f, -_h / 2.0f, 0));
-		square->meshes[0].vertex.push_back(Vec3(_w / 2.0f, -_h / 2.0f, 0));
-
-		for (unsigned int i = 0; i < square->meshes[0].vertex.size(); i++)
-			square->meshes[0].edge.push_back(i);
-
-		square->meshes[0].face.push_back(4);
-
-		GenerateNormals(square);
-		GenerateTextureMap(square, _uvRepeatX, _uvRepeatY);
-
-		InsertModel(square, _id);
-
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	default:
-		break;
-	}
-}
-
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
 {
 
@@ -565,9 +527,8 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 		{
 			Vec3 normal;
 
-			if (!_normalsOnBottom)
+			
 			{
-
 				Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
 				Vec3 p2 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 1]];
 				Vec3 p3 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 2]];
@@ -582,10 +543,11 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 				if (Vec3::dot(p1, normal) > 0)
 					normal *= -1;
 			}
-			else
+			
+			if (_normalsOnBottom)
 				normal = Vec3(0, 1, 0);
 
-			if (_reverse)
+			if (!_reverse)
 				normal *= -1;
 
 			_renderable->meshes[m].normal.push_back(normal);

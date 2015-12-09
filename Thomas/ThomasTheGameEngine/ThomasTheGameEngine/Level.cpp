@@ -68,8 +68,6 @@ void Level::LevelRender()
 			guiElements[i]->Draw();
 	}
 
-	//printf("\n");
-
 	DebugRender();
 	LevelCleanUp();
 }

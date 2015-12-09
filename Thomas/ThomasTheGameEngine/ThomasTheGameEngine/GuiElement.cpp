@@ -11,6 +11,7 @@ GuiElement::GuiElement(Level* _level, Vec2 _screenPosition) : GameObject(nullptr
 
 	//For some reason Text is upside down...
 	Rotate(Quat(3.141592654f, Vec3::BasisZ()));
+	Rotate(Quat(3.141592654f, Vec3::BasisY()));
 };
 
 GuiElement::~GuiElement()

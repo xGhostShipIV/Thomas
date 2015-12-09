@@ -10,10 +10,10 @@
 
 class CameraUp : public InputComponent {
 	
-	Camera* owner;
+	GameObject* owner;
 	
 public:
-	CameraUp(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraUp(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, CameraSpeed, 0) * _timestep));
@@ -22,10 +22,10 @@ public:
 
 class CameraDown : public InputComponent {
 	
-	Camera* owner;
+	GameObject* owner;
 	
 public:
-	CameraDown(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraDown(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, -CameraSpeed, 0) * _timestep));
@@ -34,10 +34,10 @@ public:
 
 class CameraRight : public InputComponent {
 	
-	Camera* owner;
+	GameObject* owner;
 	
 public:
-	CameraRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key){};
+	CameraRight(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key){};
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(-CameraSpeed, 0, 0) * _timestep));
 	}
@@ -45,10 +45,10 @@ public:
 
 class CameraLeft : public InputComponent {
 	
-	Camera* owner;
+	GameObject* owner;
 	
 public:
-	CameraLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraLeft(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(CameraSpeed, 0, 0) * _timestep));
 	}
@@ -56,10 +56,10 @@ public:
 
 class CameraForward : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraForward(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraForward(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, 0, CameraSpeed) * _timestep));
 	}
@@ -67,10 +67,10 @@ public:
 
 class CameraBackward : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraBackward(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraBackward(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Translate(Quat::rotate(owner->rotation, Vec3(0, 0, -CameraSpeed) * _timestep));
 	}
@@ -78,10 +78,10 @@ public:
 
 class CameraTurnLeft : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraTurnLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraTurnLeft(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(CameraSpeed * _timestep, owner->up()));
 	}
@@ -89,10 +89,10 @@ public:
 
 class CameraTurnRight : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraTurnRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraTurnRight(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(-CameraSpeed * _timestep, owner->up()));
 	}
@@ -100,10 +100,10 @@ public:
 
 class CameraTurnDown : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraTurnDown(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraTurnDown(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(-CameraSpeed * _timestep, Vec3::cross(owner->forward(), owner->up())));
 	}
@@ -111,10 +111,10 @@ public:
 
 class CameraTurnUp : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraTurnUp(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraTurnUp(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(CameraSpeed * _timestep, Vec3::cross(owner->forward(),owner->up())));
 	}
@@ -122,10 +122,10 @@ public:
 
 class CameraRollLeft : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraRollLeft(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraRollLeft(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(-CameraSpeed * _timestep, owner->forward()));
 	}
@@ -133,10 +133,10 @@ public:
 
 class CameraRollRight : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraRollRight(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraRollRight(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(CameraSpeed * _timestep, owner->forward()));
 	}
@@ -144,10 +144,10 @@ public:
 
 class CameraResetOrientation : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
-	CameraResetOrientation(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
+	CameraResetOrientation(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
 		//owner->Rotate(owner->rotation.inverse().vector);
 		owner->LookAt(Vec3(0, 0, 0));

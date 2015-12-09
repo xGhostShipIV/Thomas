@@ -13,6 +13,8 @@
 #include <ParticleSystem.h>
 #include <Label.h>
 #include <FontManager.h>
+#include <Flipbook.h>
+#include <GuiImage.h>
 
 #include "TestGame.h"
 #include "Torch.h"
@@ -29,7 +31,7 @@ public:
 	~TestLevel();
 
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
-	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube;
+	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube, *dragon, *dragonLight;
 	Label *label, *fpsLabel;
 
 	//Billboard * animationGuy;

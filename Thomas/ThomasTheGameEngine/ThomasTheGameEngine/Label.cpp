@@ -16,7 +16,7 @@ Label::Label(Level *_level, std::string _text, Vec2 _screenPosition, TTF_Font* _
 	scale = Vec3(txtSprite->width * 0.35f, txtSprite->height * 0.35f, 1);
 
 	//create square model to draw on
-	ModelManager::getInstance()->CreateSquare("label", 0.01f, 0.01f);
+	ModelManager::getInstance()->CreatePlane("label", 0.01f, 0.01f);
 	renderable = new RenderableComponent(ModelManager::getInstance()->GetModelID("label"), texture, this, new Material(0, 0, 0));
 }
 
