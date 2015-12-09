@@ -11,6 +11,7 @@
 #include "Level.h"
 #include "ParticleSystem.h"
 #include "Flipbook.h"
+#include "Rigidbody.h"
 
 void GameObject::Translate(Vec3 _translate){
 	position += _translate;
@@ -192,6 +193,28 @@ Flipbook* GameObject::getComponent()
 	{
 		if ((*components[i]).type == Component::ComponentType::Flipbook)
 			return (Flipbook*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
+Rigidbody* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::Rigidbody)
+			return (Rigidbody*)components[i];
+	}
+	return nullptr;
+}
+
+template<>
+Collider* GameObject::getComponent()
+{
+	for (int i = 0; i < components.size(); i++)
+	{
+		if ((*components[i]).type == Component::ComponentType::Collision)
+			return (Collider*)components[i];
 	}
 	return nullptr;
 }

@@ -9,7 +9,9 @@
 #include "FPS_Inputs.h"
 #include <SDL.h>
 #include <sstream>
-
+#include <Flipbook.h>
+#include <Rigidbody.h>
+#include <PhysicsWorld.h>
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -35,9 +37,10 @@ TestLevel::TestLevel()
 	ground = new GameObject(this, Vec3(0, 0 , 0));
 	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
 	skybox = new GameObject(this, currentCamera->position);
-	bear = new GameObject(this, Vec3(-3, 0 , 2));
-	lilbear = new GameObject(this, Vec3(-4.5f, 0 , 2));
-	InsideCube = new GameObject(this, Vec3(12, 5.1f , 0));
+	//teddy = new GameObject(this, Vec3(2, -10, 2));
+	bear = new GameObject(this, Vec3(-3, 15, 2));
+	lilbear = new GameObject(this, Vec3(-8, 5, 2));
+	InsideCube = new GameObject(this, Vec3(12, 5.1f, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
 	//animationGuy = new Billboard(this, Vec3(4, 4, 4));
 	
@@ -45,6 +48,10 @@ TestLevel::TestLevel()
 	dragonLight = new GameObject(this, dragon->position + Vec3(-10, 3, 0));
 	soBright = new GameObject(this, dragon->position + Vec3(0, 3, 7.25f));
 	cube = new GameObject(this, soBright->position + Vec3(0, 0, 0.25f));
+
+	new Rigidbody(bear);
+	bear->getComponent<Rigidbody>()->mass = 88;
+	new Rigidbody(lilbear);
 
 	FontManager::getInstance()->GenerateFont("font", 72, "Font/DroidSans.ttf");
 	FontManager::getInstance()->GenerateFont("lazyfont", 50, "Font/ostrich-black.ttf");
@@ -56,7 +63,7 @@ TestLevel::TestLevel()
 	Label *label2 = new Label(this, "So Font", Vec2(0, 0.9f), FontManager::getInstance()->GetFont("font"), Colour::Orange());
 	label = new Label(this, "WOW!", Vec2(-0.8f, -0.8f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Pink());
 	fpsLabel = new Label(this, "MUCH LABELS!", Vec2(0.68f, -0.68f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Lime());
-	fpsLabel->Rotate(Quat(45 * 3.141592654f / 180.0f, Vec3::BasisZ()));
+	fpsLabel->Rotate(Quat(45 * M_PI / 180.0f, Vec3::BasisZ()));
 
 	cube->Scale(Vec3::One() * 0.25f);
 	soBright->addChild(cube);
@@ -226,13 +233,17 @@ void TestLevel::LevelUpdate(float _timeStep)
 	light->LookAt(Vec3());
 
 	//LOL
-	label->Rotate(Quat(90 * 3.141592654f / 180.0f * _timeStep, Vec3::BasisZ()));
+	label->Rotate(Quat(90 * M_PI / 180.0f * _timeStep, Vec3::BasisZ()));
 	
 	/*std::stringstream ss;
 	ss << "FPS: " << Game::GetInstance()->GetFPS();
 	fpsLabel->SetText(ss.str());*/
 
 	skybox->position = currentCamera->position;
+
+	//Orbit small bear around large bear
+	PhysicsWorld::getInstance()->Orbit(bear->position, Vec3::BasisY(), lilbear, M_PI / 100);
+	
 }
 
 void TestLevel::DebugRender()

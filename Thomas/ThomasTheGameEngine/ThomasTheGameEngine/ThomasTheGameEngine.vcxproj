@@ -18,6 +18,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Billboard.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Colour.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="dependencies\TinyXML\tinyxml2.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsWorld.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderableComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -61,6 +63,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Billboard.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Colour.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="dependencies\TinyXML\tinyxml2.cpp" />
@@ -77,6 +80,7 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PhysicsWorld.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderableComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />

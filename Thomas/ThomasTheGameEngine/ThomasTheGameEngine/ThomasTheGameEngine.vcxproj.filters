@@ -49,6 +49,12 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{3afa44f9-835b-4d92-bec0-a78f6359f1ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Colliders">
+      <UniqueIdentifier>{aebb0995-677d-44b4-b2cb-d7d9ed8df95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Colliders">
+      <UniqueIdentifier>{2e8c7e33-ee50-4d62-aef8-dc9810bdc303}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderableComponent.h">
@@ -173,6 +179,12 @@
     </ClInclude>
     <ClInclude Include="GuiImage.h">
       <Filter>Header Files\GUI</Filter>
+	</ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Components\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +304,12 @@
     </ClCompile>
     <ClCompile Include="GuiImage.cpp">
       <Filter>Source Files\GUI</Filter>
+	</ClInclude>
+    <ClCompile Include="Ray.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Components\Colliders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
