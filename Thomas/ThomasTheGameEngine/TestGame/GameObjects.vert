@@ -37,6 +37,7 @@ uniform mat4 view;
 uniform mat4 projection;
 
 uniform mat4 Transform; //model
+uniform mat4 Rotation; //for normals
 uniform vec3 Material;
 
 uniform vec4 AmbientColor;
@@ -88,7 +89,9 @@ void main()
 	vCamPosition = CamPosition;
 
 	vMaterial = Material;
-	vNormal =  normalize(Normal);
+
+	//Need to rotate normals
+	vNormal =  normalize(Rotation * Normal);
 
 	fIsEffectedByLight = isEffectedByLight;
 

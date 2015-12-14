@@ -36,6 +36,7 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
+	glUniformMatrix4fv(ModelManager::getInstance()->rotateLocation, 1, GL_FALSE, Matrix4(parentTransform.rotation).transpose().values);
 
 	//MATERIAL UNIFORM JUNK
 	float mat[] {_mat->ambient, _mat->diffuse, _mat->specular};
@@ -109,6 +110,7 @@ void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std
 
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
+	glUniformMatrix4fv(ModelManager::getInstance()->rotateLocation, 1, GL_FALSE, Matrix4(parentTransform.rotation).transpose().values);
 
 	//MATERIAL UNIFORM JUNK
 	float mat[] {_mat->ambient, _mat->diffuse, _mat->specular};
@@ -133,8 +135,8 @@ void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std
 			{
 				Vec3 _normal = Quat::rotate(parentTransform.rotation, meshes[m].normal[i]);
 
-				float norm[] {_normal.x, _normal.y, _normal.z, 0};
-				glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+				/*float norm[] {_normal.x, _normal.y, _normal.z, 0};
+				glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);*/
 			}
 
 			//if (edgeIndex <= edge.size())
@@ -154,6 +156,7 @@ void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
 {
 	//Get Transform Stuff
 	glUniformMatrix4fv(ModelManager::getInstance()->transformLocation, 1, GL_FALSE, parentTransform.toMat4().transpose().values);
+	glUniformMatrix4fv(ModelManager::getInstance()->rotateLocation, 1, GL_FALSE, Matrix4(parentTransform.rotation).transpose().values);
 
 	for (int m = 0; m < meshes.size(); m++)
 	{
@@ -161,8 +164,8 @@ void OpenGL_Renderable::DrawWireFrame(GameObject& parentTransform)
 
 		for (int i = 0; i < meshes[m].face.size(); i++)
 		{
-			float norm[] {meshes[m].normal[i].x, meshes[m].normal[i].y, meshes[m].normal[i].z, 0};
-			glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
+			/*float norm[] {meshes[m].normal[i].x, meshes[m].normal[i].y, meshes[m].normal[i].z, 0};
+			glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);*/
 
 			if (meshes[m].face[i] == 4)
 				glDrawElements(GL_LINE_LOOP, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);

@@ -254,6 +254,29 @@ Matrix4::Matrix4(
 	values[12] = _12; values[13] = _13; values[14] = _14; values[15] = _15;
 }
 
+Matrix4::Matrix4(Quat _quaternion)
+{
+	values[0] = 1 - 2 * _quaternion.vector.y * _quaternion.vector.y - 2 * _quaternion.vector.z * _quaternion.vector.z;
+	values[1] = 2 * _quaternion.vector.x * _quaternion.vector.y - 2 * _quaternion.w * _quaternion.vector.z;
+	values[2] = 2 * _quaternion.vector.x * _quaternion.vector.z + 2 * _quaternion.w * _quaternion.vector.y;
+	values[3] = 0;
+
+	values[4] = 2 * _quaternion.vector.x * _quaternion.vector.y + 2 * _quaternion.w * _quaternion.vector.z;
+	values[5] = 1 - 2 * _quaternion.vector.x * _quaternion.vector.x - 2 * _quaternion.vector.z * _quaternion.vector.z;
+	values[6] = 2 * _quaternion.vector.y * _quaternion.vector.z - 2 * _quaternion.w * _quaternion.vector.x;
+	values[7] = 0;
+
+	values[8] = 2 * _quaternion.vector.x * _quaternion.vector.z - 2 * _quaternion.w * _quaternion.vector.y;
+	values[9] = 2 * _quaternion.vector.y * _quaternion.vector.z + 2 * _quaternion.w * _quaternion.vector.x;
+	values[10] = 1 - 2 * _quaternion.vector.x * _quaternion.vector.x - 2 * _quaternion.vector.y * _quaternion.vector.y;
+	values[11] = 0;
+
+	values[12] = 0;
+	values[13] = 0;
+	values[14] = 0;
+	values[15] = 1;
+}
+
 //Angles in radians.
 Matrix4 Matrix4::Rotate(float angle_x, float angle_y, float angle_z)
 {

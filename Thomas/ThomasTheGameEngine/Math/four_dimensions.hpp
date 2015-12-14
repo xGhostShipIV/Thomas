@@ -88,6 +88,8 @@ public:
 		float = 0, float = 0, float = 1, float = 0,
 		float = 0, float = 0, float = 0, float = 1);
 
+	Matrix4(Quat _quaternion);
+
 	static Matrix4 Rotate(Quat); //TODO -- Take other stuff??
 	static Matrix4 Rotate(float angle_x, float angle_y, float angle_z); //Rotation matrix (from my code -- Mat)
 	static Matrix4 Translate(float, float, float); //x,y,z

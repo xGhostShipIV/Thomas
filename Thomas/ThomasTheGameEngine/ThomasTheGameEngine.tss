@@ -2,15 +2,11 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\Camera.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\Camera.h</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\GameObject.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\GameObject.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\Light.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.frag</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.vert</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\ModelManager.cpp</string>
@@ -20,19 +16,8 @@
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\Renderable.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\RenderableComponent.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\RenderableComponent.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\FPS_Inputs.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\testGame.frag</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\testGame.vert</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.h</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.hpp</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

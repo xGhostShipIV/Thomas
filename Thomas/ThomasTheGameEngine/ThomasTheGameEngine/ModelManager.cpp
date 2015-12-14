@@ -14,7 +14,7 @@ UINT32 ModelManager::nextModelID = 0;
 
 GLuint ModelManager::transformLocation;
 GLuint ModelManager::ambientLocation;
-GLuint ModelManager::normalLocation;
+GLuint ModelManager::rotateLocation;
 GLuint ModelManager::materialLocation;
 
 GLuint ModelManager::lightColor_Directional_Location;
@@ -41,7 +41,7 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		program = GLU::UseShaders("GameObjects.vert", "GameObjects.frag");
 
 		transformLocation = glGetUniformLocation(program, "Transform");
-		normalLocation = glGetUniformLocation(program, "Normal");
+		rotateLocation = glGetUniformLocation(program, "Rotation");
 		ambientLocation = glGetUniformLocation(program, "AmbientColor");
 		materialLocation = glGetUniformLocation(program, "Material");
 
