@@ -56,13 +56,13 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 
 		for (int i = 0; i < meshes[m].face.size(); i++)
 		{
-			if (meshes[m].normal.size() != 0)
+			/*if (meshes[m].normal.size() != 0)
 			{
 				Vec3 _normal = Quat::rotate(parentTransform.rotation, meshes[m].normal[i]);
 				float norm[] {_normal.x, _normal.y, _normal.z, 0};
 
 				glUniform4fv(ModelManager::getInstance()->normalLocation, 1, norm);
-			}
+			}*/
 
 			//if (edgeIndex <= edge.size())
 			{

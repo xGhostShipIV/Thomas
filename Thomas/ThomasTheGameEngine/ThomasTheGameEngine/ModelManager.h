@@ -6,6 +6,7 @@
 #include <glew.h>
 #include "OpenGLUtilities.h"
 #include <SDL_image.h>
+#include "Colour.h"
 
 #define RENDER_MODE_OPENGL ModelManager::Render_OpenGL
 #define RENDER_MODE_DIRECTX ModelManager::Render_DirectX
@@ -113,7 +114,9 @@ private:
 	static UINT32 nextModelID;
 
 	//The master Vector list that will ultimately be pushed to the GPU
-	std::vector<Vec3> masterVectorList;
+	std::vector<Vec3> masterVectorList, masterNormalList;
+
+	std::vector<Colour> masterColourList;
 
 	//The map to store all textures
 	std::map<UINT32, Texture *> textures;
@@ -126,7 +129,7 @@ private:
 	//Shaders Location
 	GLuint program;
 	GLuint VAOs[1];
-	GLuint Buffers[2];
+	GLuint Buffers[3];
 
 	//Sets vertexOffset and inserts into model map. Used to finish model creation.
 	void InsertModel(Renderable* _renderable, string _id);

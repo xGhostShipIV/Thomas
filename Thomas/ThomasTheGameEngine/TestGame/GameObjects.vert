@@ -1,6 +1,7 @@
 #version 430 core
 
 layout(location = 0) in vec4 vPosition;
+layout(location = 2) in vec4 Normal;
 
 in vec2 vTexCoord;
 out vec2 texCoord;
@@ -30,7 +31,7 @@ uniform vec3 CamPosition;
 
 uniform float uiDraw;
 
-uniform vec4 Normal;
+//uniform vec4 Normal;
 
 uniform mat4 view;
 uniform mat4 projection;

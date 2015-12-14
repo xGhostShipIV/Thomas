@@ -93,7 +93,7 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadModel("bear", "Models/bear-obj.obj", true, ModelManager::Draw_Mode::CW);
 	ModelManager::getInstance()->loadModel("torch", "Models/torch.obj", true);
 	ModelManager::getInstance()->loadModel("sphere", "Models/sphere.obj", false, ModelManager::Draw_Mode::CW);
-	ModelManager::getInstance()->loadModel("turboSphere", "Models/turboSphere.obj", false, ModelManager::Draw_Mode::CW);
+	ModelManager::getInstance()->loadModel("turboSphere", "Models/Sphere.obj", false, ModelManager::Draw_Mode::CW);
 
 	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f, true);
 	ModelManager::getInstance()->CreateCuboid("InCubeO", 5, 5, 5, true);

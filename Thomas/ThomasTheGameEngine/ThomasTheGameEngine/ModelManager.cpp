@@ -438,9 +438,11 @@ void ModelManager::InsertModel(Renderable* _renderable, string _id)
 	{
 		_renderable->meshes[m].offsetVertex = masterVectorList.size();
 
-		for (auto it = _renderable->meshes[m].vertex.begin(); it != _renderable->meshes[m].vertex.end(); it++)
+		//for (auto it = _renderable->meshes[m].vertex.begin(); it != _renderable->meshes[m].vertex.end(); it++)
+		for (int i = 0; i < _renderable->meshes[m].vertex.size(); i++)
 		{
-			masterVectorList.push_back(*it);
+			masterVectorList.push_back(_renderable->meshes[m].vertex[i]);
+			masterNormalList.push_back(_renderable->meshes[m].normal[i]);
 		}
 
 		for (int i = 0; i < _renderable->meshes[m].edge.size(); i++)
@@ -526,7 +528,6 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
 		{
 			Vec3 normal;
-
 			
 			{
 				Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
@@ -550,7 +551,8 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 			if (!_reverse)
 				normal *= -1;
 
-			_renderable->meshes[m].normal.push_back(normal);
+			for (int iii = 0; iii < _renderable->meshes[m].face[i]; iii++)
+				_renderable->meshes[m].normal.push_back(normal);
 
 			offset += _renderable->meshes[m].face[i];
 		}
@@ -566,7 +568,7 @@ void ModelManager::PushModels()
 	glGenVertexArrays(1, VAOs);
 	glBindVertexArray(VAOs[0]);
 
-	glGenBuffers(2, Buffers);
+	glGenBuffers(3, Buffers);
 
 	if (masterVectorList.size() > 0)
 	{
@@ -636,6 +638,29 @@ void ModelManager::PushModels()
 		glEnableVertexAttribArray(1);
 
 		delete newMasterTextureList;
+	}
+
+	/* NORMALS */
+	if (masterNormalList.size() > 0)
+	{
+		int arraySize = masterNormalList.size() * 3 * 4; //Each vector contains 3 floats (which are 4 bytes)
+		float * newMasterList = new float[masterNormalList.size() * 3];
+
+		//populate vector list
+		for (int i = 0; i < masterNormalList.size(); i++)
+		{
+			newMasterList[i * 3] = masterNormalList[i].x;
+			newMasterList[3 * i + 1] = masterNormalList[i].y;
+			newMasterList[3 * i + 2] = masterNormalList[i].z;
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[2]);
+		glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
+		glBindAttribLocation(program, 2, "Normal");
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glEnableVertexAttribArray(2);
+
+		delete newMasterList;
 	}
 }
 
