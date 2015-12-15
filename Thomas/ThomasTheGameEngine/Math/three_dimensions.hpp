@@ -20,6 +20,7 @@ public:
 
 	 Vec3 operator+(const Vec3&) const;
 	 bool operator==(const Vec3&) const;
+	 bool operator!=(const Vec3&) const;
 	 Vec3 operator+=(const Vec3&);
 	 void operator=(const Vec3&);
 	 Vec3 operator-(const Vec3&) const;

@@ -19,6 +19,7 @@ TestGame::TestGame()
 	inputManager = InputController::getInstance();
 
 	LoadLevel(new Observatory());
+	//LoadLevel(new TestLevel());
 
 	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 
@@ -35,7 +36,7 @@ void TestGame::Update(float _timestep)
 	//FPS
 	{
 		std::stringstream ss;
-		ss << "Test Game | FPS: " << FPS;
+		ss << "Thomas Demo | FPS: " << FPS;
 		string _fps = ss.str();
 
 		SDL_SetWindowTitle(gameWindow, _fps.c_str());

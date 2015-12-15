@@ -20,6 +20,9 @@ public:
 	Camera * fpsCamera;
 	Light * flashLight;
 
+	float t;
+	Vec3 previousPosition;
+
 	ParticleSystem * feetMagic;
 };
 

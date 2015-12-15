@@ -8,9 +8,13 @@
 
 Player::Player(Level * _level, Camera * _camera) : GameObject(_level)
 {
-	position = _camera->position;
-
 	fpsCamera = _camera;
+
+	position = fpsCamera->position;
+	rotation = fpsCamera->rotation;
+	addChild(fpsCamera);
+
+	t = 0;
 
 	lightHolder = new GameObject(_level, position + Vec3(0, 1, -1.2));
 	lightHolder->LookAt(Vec3(0, 1, 0));
@@ -21,16 +25,17 @@ Player::Player(Level * _level, Camera * _camera) : GameObject(_level)
 	feetMagic = new ParticleSystem(this, ParticleSystem::Emitter_Type_None, "plane", "footprint", 50, 0.7f, 3.f, Particle::Object3D);
 	feetMagic->Stop();
 
+	FPS_SPEED::SetSpeed(1.0f, 5, 2.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-	new FPS_FORWARD(fpsCamera, SDLK_w);
-	new FPS_BACKWARD(fpsCamera, SDLK_s);
-	new FPS_STRAFE_LEFT(fpsCamera, SDLK_a);
-	new FPS_STRAFE_RIGHT(fpsCamera, SDLK_d);
+	new FPS_FORWARD(this, SDLK_w);
+	new FPS_BACKWARD(this, SDLK_s);
+	new FPS_STRAFE_LEFT(this, SDLK_a);
+	new FPS_STRAFE_RIGHT(this, SDLK_d);
 
-	new FPS_TURN_LEFT(fpsCamera, MouseMovement::Negative_X);
-	new FPS_TURN_RIGHT(fpsCamera, MouseMovement::Positive_X);
-	new FPS_TURN_UP(fpsCamera, MouseMovement::Positive_Y);
-	new FPS_TURN_DOWN(fpsCamera, MouseMovement::Negative_Y);
+	new FPS_TURN_LEFT(this, MouseMovement::Negative_X);
+	new FPS_TURN_RIGHT(this, MouseMovement::Positive_X);
+	new FPS_TURN_UP(this, MouseMovement::Positive_Y);
+	new FPS_TURN_DOWN(this, MouseMovement::Negative_Y);
 
 	/*Rigidbody * rb = new Rigidbody(fpsCamera);
 	rb->gravitas = false;
@@ -47,7 +52,13 @@ void Player::Update(float _deltaTime)
 {
 	GameObject::Update(_deltaTime);
 
-	position = fpsCamera->position;
+	if (previousPosition != position)
+	{
+		t += 6.0f * _deltaTime;
+		fpsCamera->position.y = position.y + sin(t) / 25.0f;
+
+		previousPosition = position;
+	}
 
 	GameObject * room = level->FindGameObjectWithTag("observatory");
 
@@ -58,9 +69,10 @@ void Player::Update(float _deltaTime)
 			feetMagic->Play();
 
 		feetMagic->SetPositionOffset(Vec3(0, -.49f, 0));
-		feetMagic->SetInitialRotation(Quat(fpsCamera->rotation.w, Vec3(0, 1, 0)) * Quat(-M_PI / 2.0f, Vec3(1, 0, 0)));
-		feetMagic->SetInitialScale(Vec3(0.15f, 0.2f, 0.2f));
+		Quat _feetRot = Quat(fpsCamera->rotation.w, 0, fpsCamera->rotation.vector.y, 0).NormalizeThis(); //Gets Y component of player
+		feetMagic->SetInitialRotation(_feetRot * Quat(-M_PI / 2.0f, Vec3(1, 0, 0)));
 		
+		feetMagic->SetInitialScale(Vec3(0.15f, 0.2f, 0.2f));		
 	}
 	else
 	{

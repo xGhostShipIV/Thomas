@@ -3,28 +3,32 @@
 //Example Level
 
 #include "TestLevel.h"
-#include "AudioTester.h"
-#include "CameraInputTest.h"
-#include "GameObjectInputTest.h"
-#include "FPS_Inputs.h"
+
 #include <SDL.h>
 #include <sstream>
 #include <Flipbook.h>
 #include <Rigidbody.h>
 #include <PhysicsWorld.h>
 
-#define BUFFER_OFFSET(i) ((void*)(i))
+#include "AudioTester.h"
+#include "CameraInputTest.h"
+#include "GameObjectInputTest.h"
+#include "FPS_Inputs.h"
+#include "HeadBob.h"
 
-enum VAO_IDs { Triangles, NumVAOs };
-enum Buffer_IDs { ArrayBuffer, NumBuffers };
-enum Attrib_IDs { vPosition = 0 };
-
-GLuint VAOs[NumVAOs];
-GLuint Buffers[NumBuffers];
+//#define BUFFER_OFFSET(i) ((void*)(i))
+//
+//enum VAO_IDs { Triangles, NumVAOs };
+//enum Buffer_IDs { ArrayBuffer, NumBuffers };
+//enum Attrib_IDs { vPosition = 0 };
+//
+//GLuint VAOs[NumVAOs];
+//GLuint Buffers[NumBuffers];
 
 TestLevel::TestLevel()
 {
 	currentCamera->position = Vec3(0, 3.5f , -8);
+	headbob = new HeadBob(this, currentCamera->position, currentCamera);
 
 	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 
@@ -205,19 +209,20 @@ TestLevel::TestLevel()
 	new FPS_MOVE_DOWN(ground, SDLK_h);*/
 
 	/* FPS CONTROLS */
+	FPS_SPEED::SetSpeed(10, 5, 2.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-	new FPS_FORWARD(currentCamera, SDLK_w);
-	new FPS_BACKWARD(currentCamera, SDLK_s);
-	new FPS_STRAFE_LEFT(currentCamera, SDLK_a);
-	new FPS_STRAFE_RIGHT(currentCamera, SDLK_d);
+	new FPS_FORWARD(headbob, SDLK_w);
+	new FPS_BACKWARD(headbob, SDLK_s);
+	new FPS_STRAFE_LEFT(headbob, SDLK_a);
+	new FPS_STRAFE_RIGHT(headbob, SDLK_d);
 
-	new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
-	new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
-	new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
-	new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
+	new FPS_TURN_LEFT(headbob, MouseMovement::Negative_X);
+	new FPS_TURN_RIGHT(headbob, MouseMovement::Positive_X);
+	new FPS_TURN_UP(headbob, MouseMovement::Positive_Y);
+	new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);
 
-	/*new FPS_MOVE_UP(currentCamera, SDLK_SPACE);
-	new FPS_MOVE_DOWN(currentCamera, SDLK_x);*/
+	new FPS_MOVE_UP(headbob, SDLK_SPACE);
+	new FPS_MOVE_DOWN(headbob, SDLK_x);
 }
 
 TestLevel::~TestLevel()

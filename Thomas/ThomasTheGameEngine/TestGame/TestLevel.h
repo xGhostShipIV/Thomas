@@ -32,6 +32,7 @@ public:
 
 	GameObject *cube, *lilCube, *light, *lightAnchor, *soBright, *ground, *flashLight, *skybox;
 	GameObject *teddy, *bear, *lilbear, *InsideCube, *OutsideCube, *dragon, *dragonLight;
+	GameObject *headbob;
 	Label *label, *fpsLabel;
 
 	//Billboard * animationGuy;

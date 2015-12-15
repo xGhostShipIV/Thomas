@@ -48,6 +48,11 @@ Vec3 Vec3::BasisZ() {
 	 return (x == other.x) && (y == other.y) && (z == other.z);
  }
 
+ bool Vec3::operator!=(const Vec3 &other) const
+ {
+	 return !((x == other.x) && (y == other.y) && (z == other.z));
+ }
+
  Vec3 Vec3::operator+=(const Vec3& value) {
 	x += value.x;
 	y += value.y;

@@ -2,32 +2,33 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestGame.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestGame.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Torch.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\FPS_Inputs.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.frag</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.vert</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\HeadBob.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\HeadBob.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\ModelManager.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\ModelManager.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\Renderable.cpp</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.hpp</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\InputComponent.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\GameObject.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\three_dimensions.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\three_dimensions.hpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Observatory.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Observatory.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Player.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Player.h</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
