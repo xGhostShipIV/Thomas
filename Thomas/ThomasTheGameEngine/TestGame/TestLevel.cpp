@@ -164,8 +164,8 @@ TestLevel::TestLevel()
 
 
 	//new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
-	new Light(soBright, Colour(80, 80, 80), Light::Spot, 120 * 3.14159f / 180.0f);
-	new Light(dragonLight, Colour(20, 10, 10), Light::Point);
+	new Light(soBright, Colour(80, 80, 80), Light::Point, 120 * 3.14159f / 180.0f);
+	//new Light(dragonLight, Colour(20, 10, 10), Light::Point);
 
 	//flashlight
 	new Light(flashLight, Colour(200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);

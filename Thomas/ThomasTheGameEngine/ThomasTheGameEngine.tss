@@ -5,6 +5,9 @@
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Torch.cpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.frag</string>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\GameObjects.vert</string>
     </ArrayOfString>
@@ -18,6 +21,13 @@
     <ArrayOfString>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.cpp</string>
       <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\four_dimensions.hpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\InputComponent.cpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\three_dimensions.cpp</string>
+      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\three_dimensions.hpp</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

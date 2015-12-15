@@ -31,8 +31,6 @@ uniform vec3 CamPosition;
 
 uniform float uiDraw;
 
-//uniform vec4 Normal;
-
 uniform mat4 view;
 uniform mat4 projection;
 

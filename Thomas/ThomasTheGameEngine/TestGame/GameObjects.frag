@@ -93,7 +93,7 @@ void main()
 				vec4 lightDirection = fPosition - vLightPosition_Point[i];
 				vec4 reflection =  reflect(normalize(lightDirection), vNormal);
 				float sp_brightness = max(dot(reflection, toCameraVector), 0.0);
-				vec4 pointSpecular = (pow(sp_brightness, 80) / (length(distanceToPoint) * length(distanceToPoint))) * vMaterial.z * vLightColor_Point[i];
+				vec4 pointSpecular = (pow(sp_brightness, 5) / (length(distanceToPoint) * length(distanceToPoint))) * vMaterial.z * vLightColor_Point[i];
 				specular += pointSpecular;
 			}
 		}
@@ -107,7 +107,6 @@ void main()
 				vec4 toSpotLight =  normalize(vLightPosition_Spot[i] - fPosition);
 
 				{
-
 					//Check if within cone
 					if ( dot(distanceToFrag, vLightDirection_Spot[i]) / (length(distanceToFrag) * length(vLightDirection_Spot[i])) > cos(vLightAngle_Spot[i]/2.0f) )
 					{
@@ -119,8 +118,8 @@ void main()
 						diffuse += spotDiffuse;
 
 						vec4 reflection =  reflect(normalize(vLightDirection_Spot[i]), vNormal);
-						float sp_brightness = max(dot(reflection, toCameraVector), 0.0);
-						vec4 spotSpecular = (pow(sp_brightness, 80) / (pow(length(distanceToFrag), 2) )) * vMaterial.z * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f)) * vLightColor_Spot[i];
+						float sp_brightness = max(dot(toCameraVector, reflection), 0.0);
+						vec4 spotSpecular = (pow(sp_brightness, 5) / (pow(length(distanceToFrag), 2) )) * vMaterial.z * (distanceOfAngle / (vLightAngle_Spot[i]/2.0f)) * vLightColor_Spot[i];
 						specular += spotSpecular;
 					}
 				}

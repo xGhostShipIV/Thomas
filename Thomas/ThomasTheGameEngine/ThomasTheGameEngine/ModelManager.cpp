@@ -86,6 +86,8 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 	Renderable * model;
 
+	bool hasNormals;
+
 	switch (render_mode)
 	{
 	case ModelManager::Render_OpenGL:
@@ -93,6 +95,8 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 		model = new OpenGL_Renderable();
 
 		scene = import.ReadFile(_fileName, NULL);
+
+		hasNormals = false;
 
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
@@ -103,11 +107,12 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 				Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
 				mesh.vertex.push_back(vertex);
 
-				/*if (scene->mMeshes[i]->HasNormals())
+				if (scene->mMeshes[i]->HasNormals())
 				{
 					Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
 					mesh.normal.push_back(normal);
-				}*/
+					hasNormals = true;
+				}
 
 				if (_useModelTextureMap && scene->mMeshes[i]->HasTextureCoords(0))
 				{
@@ -144,7 +149,8 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 			}
 		}
 
-		GenerateNormals(model);
+		if (!hasNormals)
+			GenerateNormals(model);
 
 		model->drawMode = _mode;
 
@@ -525,6 +531,8 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 	{
 		int offset = 0;
 
+		std::vector<Vec3> normals;
+
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
 		{
 			Vec3 normal;
@@ -552,9 +560,62 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 				normal *= -1;
 
 			for (int iii = 0; iii < _renderable->meshes[m].face[i]; iii++)
+			{
+				normals.push_back(normal);
 				_renderable->meshes[m].normal.push_back(normal);
+			}
 
 			offset += _renderable->meshes[m].face[i];
+		}
+
+		//Change from face normals to vertex normals
+		{
+			struct VertexIndex
+			{
+				Vec3 vertex;
+				std::vector<int> indices;
+
+				VertexIndex(Vec3 _vertex, int _indices)
+					: vertex(_vertex){
+					indices.push_back(_indices);
+				}
+			};
+			
+			std::vector<VertexIndex> _vertexList;
+
+			//Populate with all unique vertex and their index
+			for (int i = 0; i < _renderable->meshes[m].vertex.size(); i++)
+			{
+				bool isInVector = false;
+
+				for (int j = 0; j < _vertexList.size(); j++)
+				{
+					if (_renderable->meshes[m].vertex[i] == _vertexList[j].vertex)
+					{
+						isInVector = true;
+						_vertexList[j].indices.push_back(i);
+					}
+				}
+
+				if (!isInVector)
+					_vertexList.push_back(VertexIndex(_renderable->meshes[m].vertex[i], i));
+			}			
+
+			//Calculate Vertex Normals
+			for (int i = 0; i < _vertexList.size(); i++)
+			{
+				Vec3 _normal = Vec3();
+
+				for (int j = 0; j < _vertexList[i].indices.size(); j++)
+				{
+					_normal += normals[_vertexList[i].indices[j]];
+				}
+
+				_normal.NormalizeThis();
+
+				for (int j = 0; j < _vertexList[i].indices.size(); j++)
+					_renderable->meshes[m].normal[_vertexList[i].indices[j]] = _normal;
+			}
 		}
 	}
 }
