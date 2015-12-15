@@ -26,7 +26,7 @@ Torch::Torch(Level * _level, Vec3 _position) : GameObject(_level, _position)
 
 	addChild(flame);
 
-	smokeEmitter = new ParticleSystem(flame, ParticleSystem::Emitter_Type_Cone, "plane", "smoke", 10, 0.5f, 2.0f);
+	smokeEmitter = new ParticleSystem(flame, ParticleSystem::Emitter_Type_Cone, "plane", "smoke", 10, 0.5f, 2.0f, Particle::Billboard);
 }
 
 

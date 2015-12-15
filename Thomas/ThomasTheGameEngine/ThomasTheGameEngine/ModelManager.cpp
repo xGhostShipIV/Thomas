@@ -60,6 +60,14 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
 
 		cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
+
+		float f[] =
+		{
+			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
+		};
+
+		createTexture("greenCheckers", f, 2, 2);
 	}
 }
 

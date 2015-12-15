@@ -33,6 +33,8 @@ public:
 	void LevelRender();
 	virtual void LevelUpdate(float _timeStep);
 
+	GameObject * FindGameObjectWithTag(Tag _tag);
+
 	//Sets the current camera
 	void SetCamera(Camera * _c);
 

@@ -81,19 +81,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientStar.h" />
+    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="AudioTester.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
     <ClInclude Include="FPS_Inputs.h" />
     <ClInclude Include="GameObjectInputTest.h" />
+    <ClInclude Include="Hallway.h" />
+    <ClInclude Include="MockSolarSystem.h" />
+    <ClInclude Include="Observatory.h" />
+    <ClInclude Include="ObservatoryRoom.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SlidingDoor.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientStar.cpp" />
+    <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="AudioTester.cpp" />
+    <ClCompile Include="Hallway.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MockSolarSystem.cpp" />
+    <ClCompile Include="Observatory.cpp" />
+    <ClCompile Include="ObservatoryRoom.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SlidingDoor.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Torch.cpp" />

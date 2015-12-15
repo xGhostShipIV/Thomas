@@ -38,6 +38,10 @@ public:
 
 	static bool isMusicPlaying();
 
+	//Private methods to change volume levels.
+	//Should only be accessed by GameProperties
+	void setSoundVolume(float _volume);
+	void setMusicVolume(float _volume);
 private:
 	AudioManager();
 
@@ -46,10 +50,7 @@ private:
 	std::map<std::string, Sound *> Sounds;
 	std::map<std::string, Music *> Musics;
 
-	//Private methods to change volume levels.
-	//Should only be accessed by GameProperties
-	void setSoundVolume(float _volume);
-	void setMusicVolume(float _volume);
+
 
 };
 

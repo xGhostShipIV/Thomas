@@ -10,6 +10,7 @@
 #include <Camera.h>
 #include "closeGameInput.h"
 #include <sstream>
+#include "Observatory.h"
 
 TestGame::TestGame()
 {
@@ -17,7 +18,7 @@ TestGame::TestGame()
 
 	inputManager = InputController::getInstance();
 
-	LoadLevel(new TestLevel());
+	LoadLevel(new Observatory());
 
 	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 

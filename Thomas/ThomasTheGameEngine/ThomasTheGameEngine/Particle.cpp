@@ -47,7 +47,7 @@ void Particle::Update(float _deltaTime)
 			LookAt(level->currentCamera->position);
 
 		currentLifeTime += _deltaTime;
-		Rotate(Quat(rotationAmount * _deltaTime, forward()));
+		//Rotate(Quat(rotationAmount * _deltaTime, forward()));
 
 		position += velocity * _deltaTime;
 

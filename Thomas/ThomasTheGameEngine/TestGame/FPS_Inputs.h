@@ -1,48 +1,29 @@
 #pragma once
 #include <InputComponent.h>
 #include <Camera.h>
-
+#include <cmath>
+#include <Rigidbody.h>
 /*
 A number of input controls to control the camera within the game like an fps
 */
 
-#define FPSMoveSpeed 10.0f
-#define FPSHorizontalTurnSpeed 5.0f
-#define FPSVerticalTurnSpeed 2.5f
+#define FPSMoveSpeed 1.0f
+#define FPSHorizontalTurnSpeed 2.5f
+#define FPSVerticalTurnSpeed 1.5f
 
-
-class FPS_MOVE_UP : public InputComponent {
-
-	GameObject* owner;
-
-public:
-	FPS_MOVE_UP(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
-
-	void whenPressed(float _timestep){
-		owner->Translate(Vec3(0, FPSMoveSpeed, 0) * _timestep);
-	}
-};
-
-class FPS_MOVE_DOWN : public InputComponent {
-
-	GameObject* owner;
-
-public:
-	FPS_MOVE_DOWN(GameObject* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
-
-	void whenPressed(float _timestep){
-		owner->Translate(Vec3(0, -FPSMoveSpeed, 0) * _timestep);
-	}
-};
+static float t = 0;
 
 class FPS_STRAFE_RIGHT : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
 	FPS_STRAFE_RIGHT(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key){};
 	void whenPressed(float _timestep){
+		t += .1f;
 		owner->Translate(Quat::rotate(Quat(owner->rotation.w, 0, owner->rotation.vector.y, 0).NormalizeThis(), Vec3(-FPSMoveSpeed, 0, 0) * _timestep));
+		owner->position.y = sin(t) / 25.0f;
+
 	}
 };
 
@@ -53,18 +34,23 @@ class FPS_STRAFE_LEFT : public InputComponent {
 public:
 	FPS_STRAFE_LEFT(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
+		t += .1f;
 		owner->Translate(Quat::rotate(Quat(owner->rotation.w, 0, owner->rotation.vector.y, 0).NormalizeThis(), Vec3(FPSMoveSpeed, 0, 0) * _timestep));
+		owner->position.y = sin(t) / 25.0f;
+
 	}
 };
 
 class FPS_FORWARD : public InputComponent {
 
-	Camera* owner;
+	GameObject* owner;
 
 public:
 	FPS_FORWARD(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
+		t += .1f;
 		owner->Translate(Quat::rotate(Quat(owner->rotation.w, 0, owner->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, FPSMoveSpeed) * _timestep));
+		owner->position.y = sin(t) / 25.0f;
 	}
 };
 
@@ -75,7 +61,10 @@ class FPS_BACKWARD : public InputComponent {
 public:
 	FPS_BACKWARD(Camera* _owner, SDL_Keycode key) : owner(_owner), InputComponent(_owner, key) {};
 	void whenPressed(float _timestep){
+		t += .1f;
 		owner->Translate(Quat::rotate(Quat(owner->rotation.w, 0, owner->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, -FPSMoveSpeed) * _timestep));
+		owner->position.y = sin(t) / 25.0f;
+
 	}
 };
 
@@ -109,13 +98,6 @@ public:
 	FPS_TURN_UP(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(-FPSVerticalTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
-
-		/*float yRotation = owner->rotation.vector.y / (sin(acos(owner->rotation.w) * 2) / 2.0f);
-
-		if (yRotation > 180 * 3.141592654f / 180.0f)
-		{
-			owner->Rotate(Quat(yRotation - 180 * 3.141592654f / 180.0f, Vec3::cross(owner->forward(), owner->up())));
-		}*/
 	}
 };
 
@@ -128,13 +110,5 @@ public:
 	FPS_TURN_DOWN(Camera* _owner, MouseMovement _event) : owner(_owner), InputComponent(_owner, _event) {};
 	void whenPressed(float _timestep){
 		owner->Rotate(Quat(FPSVerticalTurnSpeed * _timestep * Vec3::cross(owner->forward(), owner->up()).length(), Vec3::cross(owner->forward(), owner->up())));
-
-
-		/*float yRotation = owner->rotation.vector.y / (sin(acos(owner->rotation.w) * 2) / 2.0f);
-
-		if (yRotation < 0 * 3.141592654f / 180.0f)
-		{
-			owner->Rotate(Quat(0 - yRotation, Vec3::cross(owner->forward(), owner->up())));
-		}*/
 	}
 };

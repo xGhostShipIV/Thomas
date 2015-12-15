@@ -160,7 +160,7 @@ TestLevel::TestLevel()
 	lilbearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
 	lilbearRC->textureName.push_back(ModelManager::getInstance()->GetTextureID("bearTeeth"));
 
-	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5);
+	new ParticleSystem(lilCube, ParticleSystem::Emitter_Type_Sphere, "plane", "smoke", 10, 1, 5, Particle::Billboard);
 
 
 	//new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
@@ -201,8 +201,8 @@ TestLevel::TestLevel()
 	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
 	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 
-	new FPS_MOVE_UP(ground, SDLK_y);
-	new FPS_MOVE_DOWN(ground, SDLK_h);
+	/*new FPS_MOVE_UP(ground, SDLK_y);
+	new FPS_MOVE_DOWN(ground, SDLK_h);*/
 
 	/* FPS CONTROLS */
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
@@ -216,8 +216,8 @@ TestLevel::TestLevel()
 	new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
 	new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
 
-	new FPS_MOVE_UP(currentCamera, SDLK_SPACE);
-	new FPS_MOVE_DOWN(currentCamera, SDLK_x);
+	/*new FPS_MOVE_UP(currentCamera, SDLK_SPACE);
+	new FPS_MOVE_DOWN(currentCamera, SDLK_x);*/
 }
 
 TestLevel::~TestLevel()

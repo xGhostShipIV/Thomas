@@ -98,6 +98,19 @@ void Level::LevelCleanUp()
 	gameObjects.shrink_to_fit();
 }
 
+GameObject * Level::FindGameObjectWithTag(Tag _tag)
+{
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i]->hasTag(_tag))return gameObjects[i];
+	}
+}
+
+void Level::SetAmbientColor(Colour _c)
+{
+	ambientLightColor = _c;
+}
+
 void Level::SetCamera(Camera * _c)
 {
 	currentCamera = _c;
