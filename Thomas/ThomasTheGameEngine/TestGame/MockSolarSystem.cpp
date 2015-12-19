@@ -47,6 +47,7 @@ MockSolarSystem::MockSolarSystem(Level * _level, Vec3 _position) : GameObject(_l
 	Rim->Scale(Vec3(0.1f, 0.1f, 0.1f));
 
 	aruba->addChild(Rim);
+	miner->addChild(aruba);
 
 }
 
@@ -59,14 +60,14 @@ void MockSolarSystem::Update(float _deltaTime)
 {
 	GameObject::Update(_deltaTime);
 
-	f->Rotate(Quat(0.5f  * _deltaTime, Vec3(0, 1, 0)));
+	f->Rotate(Quat(0.2f  * _deltaTime, Vec3(0, 1, 0)));
 	f2->Rotate(Quat(0.8f * _deltaTime, Vec3(0, 1, 0)));
 	PhysicsWorld::Orbit(f->position, Vec3(0, 1, 0), f2, 0.25 * _deltaTime);
 
-	miner->Rotate(Quat(0.15f * _deltaTime, Vec3(0, 0.4f, 0.4f)));
+	miner->Rotate(Quat(1.2f * _deltaTime, Vec3(0, 0.4f, 0.4f)));
 	aruba->Rotate(Quat(0.2f * _deltaTime, Vec3(0.8, 0, 0.2)));
 	Rim->Rotate(Quat(0.3f * _deltaTime, Vec3(0, 0.1, 0.6)));
 
-	PhysicsWorld::Orbit(miner->position, Vec3(0.2f, 0.4f, 0), aruba, 0.22f * _deltaTime);
+	PhysicsWorld::Orbit(miner->position, Vec3(0.0f, 0.4f, 0), aruba, 0.22f * _deltaTime);
 	PhysicsWorld::Orbit(aruba->position, Vec3(0, 0.8, 0), Rim, 0.85f * _deltaTime);
 }

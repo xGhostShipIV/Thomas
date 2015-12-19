@@ -5,6 +5,8 @@
 #include "Player.h"
 #include <Light.h>
 #include <cmath>
+#include <PhysicsWorld.h>
+#include <Flipbook.h>
 
 ObservatoryRoom::ObservatoryRoom(Level * _level, Vec3 _position, Player * _player) : GameObject(_level, _position)
 {
@@ -29,6 +31,9 @@ ObservatoryRoom::ObservatoryRoom(Level * _level, Vec3 _position, Player * _playe
 	RenderableComponent * r = new RenderableComponent("planet2", "sunTex", sun);
 	r->SetEffecctedByLight(false, false, false);
 	new Light(sun, Colour(100,100,100), Light::Point);
+	/*Flipbook * fb = new Flipbook(sun, 27, "Images/Animation/slice0.png", 0.5f, true, Flipbook::PNG);
+	fb->SetEffecctedByLight(false, false, false);
+	fb->Play();*/
 
 	solarSystem = new MockSolarSystem(_level, position);
 }
@@ -51,4 +56,6 @@ void ObservatoryRoom::Update(float _deltaTime)
 	AudioManager::getInstance()->setMusicVolume(volumeScale);
 
 	sun->Rotate(Quat(0.08f * _deltaTime, Vec3(0, 1, 0)));
+
+	PhysicsWorld::Orbit(sun->position, Vec3(1, 1, 1), solarSystem->miner, 0.0008f);
 }

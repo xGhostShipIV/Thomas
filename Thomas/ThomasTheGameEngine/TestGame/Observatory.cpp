@@ -20,7 +20,7 @@ Observatory::Observatory()
 	ModelManager::getInstance()->loadModel("meteor3", "Models/meteor_03.obj", true);
 	ModelManager::getInstance()->loadModel("planet", "Models/planet.obj", true);
 	ModelManager::getInstance()->loadModel("planet2", "Models/planet.obj", true);
-
+	ModelManager::getInstance()->loadModel("torch", "Models/torch.obj", true);
 
 	ModelManager::getInstance()->loadTexture("floor", "Images/dungeonFloor.tif");
 	ModelManager::getInstance()->loadTexture("wall", "Images/dungeonWall.tif");
@@ -38,15 +38,20 @@ Observatory::Observatory()
 	ModelManager::getInstance()->loadTexture("Rim", "Images/planet_Rim.tif");
 	ModelManager::getInstance()->loadTexture("minerMoon", "Images/minersMoon.tif");
 	ModelManager::getInstance()->loadTexture("8ball", "Images/Ball8.tif");
-
-
+	ModelManager::getInstance()->loadTexture("torchTexture", "Images/torch_DIF.tif");
+	ModelManager::getInstance()->loadTexture("smoke", "Images/Smoke.png");
 
 	AudioManager::getInstance()->loadMusic("observatory", "Sounds/observatory-loop.wav");
 	AudioManager::getInstance()->setMusicVolume(0.0f);
 
 
-	FontManager::getInstance()->GenerateFont("font", 14, "Font/DroidSans.ttf");
-	new Label(this, "Project: Thomas Engine Demo", Vec2(0.6, -0.9), FontManager::getInstance()->GetFont("font"), Colour::White());
+	FontManager::getInstance()->GenerateFont("font", 72, "Font/DroidSans.ttf");
+
+	Label *shadow = new Label(this, "Project: Thomas Engine Demo", Vec2(0.595, -0.895), FontManager::getInstance()->GetFont("font"), Colour::Black());
+	shadow->Scale(Vec3::One() * 0.2f);
+
+	Label *label = new Label(this, "Project: Thomas Engine Demo", Vec2(0.6, -0.9), FontManager::getInstance()->GetFont("font"), Colour::Yellow());
+	label->Scale(Vec3::One() * 0.2f);
 
 	player = new Player(this, currentCamera);
 	hallway = new Hallway(this, Vec3::Zero());

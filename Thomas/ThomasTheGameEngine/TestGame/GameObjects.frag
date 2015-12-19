@@ -10,17 +10,17 @@ in vec4 fPosition;
 
 in vec3 vCamPosition;
 
-in vec4 vAmbientColor;
-in vec4[1] vLightColor_Directional;
-in vec4[1] vLightDirection_Directional;
+uniform vec4	 vAmbientColor;
+uniform vec4[1]  vLightColor_Directional;
+uniform vec4[1]  vLightDirection_Directional;
 
-in vec4[2]  vLightColor_Point;
-in vec4[2]  vLightPosition_Point;
+uniform vec4[2]  vLightColor_Point;
+uniform vec4[2]  vLightPosition_Point;
 
-in vec4[2]	vLightColor_Spot;
-in vec4[2]  vLightPosition_Spot;
-in vec4[2]  vLightDirection_Spot;
-in float[2] vLightAngle_Spot;
+uniform vec4[2]	 vLightColor_Spot;
+uniform vec4[2]  vLightPosition_Spot;
+uniform vec4[2]  vLightDirection_Spot;
+uniform float[2] vLightAngle_Spot;
 
 in vec3 fIsEffectedByLight;
 in float fUiDraw;
@@ -93,7 +93,7 @@ void main()
 				vec4 lightDirection = fPosition - vLightPosition_Point[i];
 				vec4 reflection =  reflect(normalize(lightDirection), vNormal);
 				float sp_brightness = max(dot(reflection, toCameraVector), 0.0);
-				vec4 pointSpecular = (pow(sp_brightness, 5) / (length(distanceToPoint) * length(distanceToPoint))) * vMaterial.z * vLightColor_Point[i];
+				vec4 pointSpecular = (pow(sp_brightness, 10) / (length(distanceToPoint) * length(distanceToPoint))) * vMaterial.z * vLightColor_Point[i];
 				specular += pointSpecular;
 			}
 		}

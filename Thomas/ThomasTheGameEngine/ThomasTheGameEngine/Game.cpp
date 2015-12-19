@@ -42,7 +42,8 @@ Game::Game()
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
 		SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
 
-	if (properties->getVideoProperties()->isFullscreen) SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
+	
+		SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
 
 	SDL_GetRendererInfo(gameRenderer, &displayRendererInfo);
 

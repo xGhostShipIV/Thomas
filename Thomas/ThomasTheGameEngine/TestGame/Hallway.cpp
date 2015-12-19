@@ -1,9 +1,12 @@
 #include "Hallway.h"
 #include <Level.h>
 #include <RenderableComponent.h>
+#include "Torch.h"
 
 Hallway::Hallway(Level * _level, Vec3 _position) : GameObject(_level, _position)
 {
+	//new Torch(_level, position + Vec3(0, -10, 0));
+
 	Tags.push_back("hallway");
 
 	floor = new GameObject(_level);

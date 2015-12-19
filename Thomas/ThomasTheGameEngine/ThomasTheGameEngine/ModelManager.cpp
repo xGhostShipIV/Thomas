@@ -42,19 +42,19 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		transformLocation = glGetUniformLocation(program, "Transform");
 		rotateLocation = glGetUniformLocation(program, "Rotation");
-		ambientLocation = glGetUniformLocation(program, "AmbientColor");
+		ambientLocation = glGetUniformLocation(program, "vAmbientColor");
 		materialLocation = glGetUniformLocation(program, "Material");
 
-		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
-		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
+		lightColor_Directional_Location = glGetUniformLocation(program, "vLightColor_Directional");
+		lightDirection_Directional_Location = glGetUniformLocation(program, "vLightDirection_Directional");
 
-		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
-		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
+		lightColor_Point_Location = glGetUniformLocation(program, "vLightColor_Point");
+		lightPosition_Point_Location = glGetUniformLocation(program, "vLightPosition_Point");
 
-		lightColor_Spot_Location = glGetUniformLocation(program, "LightColor_Spot");
-		lightPosition_Spot_Location = glGetUniformLocation(program, "LightPosition_Spot");
-		lightDirection_Spot_Location = glGetUniformLocation(program, "LightDirection_Spot");
-		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
+		lightColor_Spot_Location = glGetUniformLocation(program, "vLightColor_Spot");
+		lightPosition_Spot_Location = glGetUniformLocation(program, "vLightPosition_Spot");
+		lightDirection_Spot_Location = glGetUniformLocation(program, "vLightDirection_Spot");
+		lightAngle_Spot_Location = glGetUniformLocation(program, "vLightAngle_Spot");
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "isEffectedByLight");
 		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");

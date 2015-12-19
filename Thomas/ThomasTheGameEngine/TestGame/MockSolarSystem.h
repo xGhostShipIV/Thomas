@@ -13,7 +13,7 @@ public:
 
 	void Update(float _deltaTime) override;
 
-private:
+//private:
 	std::vector<GameObject *> layers;
 
 	AsteroidField * af;

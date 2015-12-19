@@ -25,7 +25,7 @@ Player::Player(Level * _level, Camera * _camera) : GameObject(_level)
 	feetMagic = new ParticleSystem(this, ParticleSystem::Emitter_Type_None, "plane", "footprint", 50, 0.7f, 3.f, Particle::Object3D);
 	feetMagic->Stop();
 
-	FPS_SPEED::SetSpeed(1.0f, 5, 2.5f);
+	FPS_SPEED::SetSpeed(1.0f, 1.5f, 1.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
 	new FPS_FORWARD(this, SDLK_w);
 	new FPS_BACKWARD(this, SDLK_s);
