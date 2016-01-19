@@ -9,7 +9,7 @@ Observatory::Observatory()
 {
 	currentCamera->position = Vec3(0, 0, -5);
 
-	SetAmbientColor(Colour(0.2,0.2,0.2));
+	SetAmbientColor(Colour(0.2, 0.2, 0.2));
 
 	ModelManager::getInstance()->CreatePlane("plane", 1, 1);
 	ModelManager::getInstance()->CreatePlane("surface", 1, 1, 3, 1);

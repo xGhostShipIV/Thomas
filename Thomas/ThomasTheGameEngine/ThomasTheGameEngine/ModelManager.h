@@ -42,7 +42,7 @@ public:
 
 	~ModelManager();
 
-	static GLuint transformLocation, rotateLocation, materialLocation;
+	static GLuint transformLocation, rotateLocation, materialLocation, faceNormalLocation;
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 	static GLuint lightColor_Point_Location, lightPosition_Point_Location, cameraPosition_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
@@ -141,6 +141,6 @@ private:
 	void GenerateCubeMap(Renderable* _renderable);
 
 	//Generates the normals for the model
-	void GenerateNormals(Renderable* _renderable, bool _reverse = false, bool _normalsOnBottom = false);
+	void GenerateNormals(Renderable* _renderable, bool _reverse = false, bool _normalsOnBottom = false, bool _onlyFaceNormals = false);
 };
 

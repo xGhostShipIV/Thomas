@@ -168,16 +168,16 @@ TestLevel::TestLevel()
 
 
 	//new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
-	new Light(soBright, Colour(80, 80, 80), Light::Point, 120 * 3.14159f / 180.0f);
+	new Light(soBright, Colour(80, 80, 80), Light::Spot, 180 * 3.14159f / 180.0f);
 	//new Light(dragonLight, Colour(20, 10, 10), Light::Point);
 
 	//flashlight
-	new Light(flashLight, Colour(200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
+	//new Light(flashLight, Colour(200, 200, 200), Light::Spot, 60 * 3.14159f / 180.0f);
 
 	/*Flipbook * fb = new Flipbook(animationGuy, 16, "Images/Animation/Fire/slice0.png", 1.5f, true, Flipbook::PNG);
 	fb->Play();*/
 
-	torch = new Torch(this, Vec3(10, -5 , -8));
+	torch = new Torch(this, InsideCube->position + Vec3(0, -10, 2.5));  //Vec3(10, -5, -8));
 	torch->Rotate(Quat(180 * 3.14159f / 180.0f, Vec3::BasisY()));
 
 	/* PUSH MODELS */
@@ -216,13 +216,13 @@ TestLevel::TestLevel()
 	new FPS_STRAFE_LEFT(headbob, SDLK_a);
 	new FPS_STRAFE_RIGHT(headbob, SDLK_d);
 
+	new FPS_MOVE_UP(headbob, SDLK_SPACE);
+	new FPS_MOVE_DOWN(headbob, SDLK_x);
+
 	new FPS_TURN_LEFT(headbob, MouseMovement::Negative_X);
 	new FPS_TURN_RIGHT(headbob, MouseMovement::Positive_X);
 	new FPS_TURN_UP(headbob, MouseMovement::Positive_Y);
 	new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);
-
-	new FPS_MOVE_UP(headbob, SDLK_SPACE);
-	new FPS_MOVE_DOWN(headbob, SDLK_x);
 }
 
 TestLevel::~TestLevel()
@@ -240,10 +240,10 @@ void TestLevel::LevelUpdate(float _timeStep)
 	//LOL
 	label->Rotate(Quat(90 * M_PI / 180.0f * _timeStep, Vec3::BasisZ()));
 	
-	/*std::stringstream ss;
+	std::stringstream ss;
 	ss << "FPS: " << Game::GetInstance()->GetFPS();
-	fpsLabel->SetText(ss.str());*/
-
+	fpsLabel->SetText(ss.str());
+	
 	skybox->position = currentCamera->position;
 
 	//Orbit small bear around large bear

@@ -2,33 +2,38 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestGame.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestGame.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\TestGame\TestGame.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\TestLevel.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\TestGame\GameObjects.frag</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\TestGame\GameObjects.vert</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\FPS_Inputs.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\Renderable.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\HeadBob.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\HeadBob.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\ModelManager.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\ThomasTheGameEngine\GameObject.cpp</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\TestGame\TestLevel.cpp</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\Math\three_dimensions.cpp</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\Label.cpp</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\Label.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Observatory.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Observatory.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\TextSprite.cpp</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\TextSprite.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Player.cpp</string>
-      <string>C:\Users\Mat\Documents\GitHub\Thomas\Thomas\ThomasTheGameEngine\TestGame\Player.h</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\Game.cpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\GuiElement.cpp</string>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\GuiElement.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>S:\Dropbox\College\Humber\_CAPSTONE\ThomasTheGameEngine\ThomasTheGameEngine\Texture.cpp</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

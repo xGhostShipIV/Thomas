@@ -67,6 +67,9 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 
 			//if (edgeIndex <= edge.size())
 			{
+				float faceNorm[] = { meshes[m].faceNormal[edgeIndex].x, meshes[m].faceNormal[edgeIndex].y, meshes[m].faceNormal[edgeIndex].z, 0 };
+				glUniform4fv(ModelManager::getInstance()->faceNormalLocation, 1, faceNorm);
+
 				if (meshes[m].face[i] == 4)
 					glDrawElements(GL_QUADS, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
 				else if (meshes[m].face[i] == 3)
@@ -76,6 +79,7 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 			}
 		}
 	}
+
 
 }
 
@@ -141,6 +145,9 @@ void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std
 
 			//if (edgeIndex <= edge.size())
 			{
+				float faceNorm[] = { meshes[m].faceNormal[edgeIndex].x, meshes[m].faceNormal[edgeIndex].y, meshes[m].faceNormal[edgeIndex].z, 0 };
+				glUniform4fv(ModelManager::getInstance()->faceNormalLocation, 1, faceNorm);
+
 				if (meshes[m].face[i] == 4)
 					glDrawElements(GL_QUADS, meshes[m].face[i], GL_UNSIGNED_INT, &meshes[m].edge[edgeIndex]);
 				else if (meshes[m].face[i] == 3)

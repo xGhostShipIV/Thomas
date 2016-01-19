@@ -86,6 +86,7 @@
     <ClInclude Include="AudioTester.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
+    <ClInclude Include="DrScottLevel.h" />
     <ClInclude Include="FPS_Inputs.h" />
     <ClInclude Include="GameObjectInputTest.h" />
     <ClInclude Include="Hallway.h" />
@@ -98,12 +99,14 @@
     <ClInclude Include="SlidingDoor.h" />
     <ClInclude Include="TestGame.h" />
     <ClInclude Include="TestLevel.h" />
+    <ClInclude Include="TestNetLevel.h" />
     <ClInclude Include="Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientStar.cpp" />
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="AudioTester.cpp" />
+    <ClCompile Include="DrScottLevel.cpp" />
     <ClCompile Include="Hallway.cpp" />
     <ClCompile Include="HeadBob.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -114,13 +117,12 @@
     <ClCompile Include="SlidingDoor.cpp" />
     <ClCompile Include="TestGame.cpp" />
     <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="TestNetLevel.cpp" />
     <ClCompile Include="Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />
     <None Include="GameObjects.vert" />
-    <None Include="testGame.frag" />
-    <None Include="testGame.vert" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestGame.rc" />

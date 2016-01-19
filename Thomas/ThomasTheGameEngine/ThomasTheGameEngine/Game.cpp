@@ -30,6 +30,7 @@ Game::Game()
 	///SDL stuff
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+	SDLNet_Init();
 	TTF_Init();
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 
@@ -42,8 +43,7 @@ Game::Game()
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
 		SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
 
-	
-		SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
+	if (properties->getVideoProperties()->isFullscreen) SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
 
 	SDL_GetRendererInfo(gameRenderer, &displayRendererInfo);
 
@@ -112,6 +112,7 @@ Game::~Game()
 
 	Mix_Quit();
 	TTF_Quit();
+	SDLNet_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -184,8 +185,6 @@ void Game::EngineUpdate(float _timeStep)
 	Update(_timeStep);
 }
 
-
-
 void Game::EngineRender()
 {
 	//FPS
@@ -208,7 +207,7 @@ void Game::EngineRender()
 	/* Clear The Screen And The Depth Buffer */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 	
-	//Call the update for the current level
+	//Call the render for the current level
 	if (currentLevel)
 		currentLevel->LevelRender();
 

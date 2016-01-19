@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Level">
       <UniqueIdentifier>{3f7d51d7-79d6-4b30-b473-69eace42dfb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{5875bb2e-946d-4048-b6ee-27fe2d215c2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioTester.h">
@@ -81,12 +84,15 @@
     <ClInclude Include="Observatory.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
+    <ClInclude Include="DrScottLevel.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TestNetLevel.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -125,10 +131,17 @@
     <ClCompile Include="Observatory.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>
+    <ClCompile Include="DrScottLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestNetLevel.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TestGame.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testGame.frag" />
-    <None Include="testGame.vert" />
     <None Include="GameObjects.vert" />
     <None Include="GameObjects.frag" />
   </ItemGroup>

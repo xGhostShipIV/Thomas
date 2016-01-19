@@ -30,7 +30,7 @@ ObservatoryRoom::ObservatoryRoom(Level * _level, Vec3 _position, Player * _playe
 	sun->Scale(Vec3(4, 4, 4));
 	RenderableComponent * r = new RenderableComponent("planet2", "sunTex", sun);
 	r->SetEffecctedByLight(false, false, false);
-	new Light(sun, Colour(100,100,100), Light::Point);
+	new Light(sun, Colour(100, 100, 100), Light::Point);
 	/*Flipbook * fb = new Flipbook(sun, 27, "Images/Animation/slice0.png", 0.5f, true, Flipbook::PNG);
 	fb->SetEffecctedByLight(false, false, false);
 	fb->Play();*/

@@ -1,5 +1,7 @@
 #include "InputComponent.h"
 #include "Game.h"
+#include <sstream>
+#include <iostream>
 
 InputController * InputController::instance;
 
@@ -110,11 +112,19 @@ void InputController::mouseMovement(SDL_MouseMotionEvent _event, float _timestep
 
 	for (auto it = motionMap.begin(); it != motionMap.end(); it++)
 	{
-		if (it->first == _movementTypeY || it->first == _movementTypeX)
+		if (it->first == _movementTypeY)
 		{
 			if (!it->second->hasBeenPressed)
 			{
-				it->second->whenPressed(_timestep);
+				it->second->whenPressed(abs(_motion.y) * _timestep);
+				it->second->hasBeenPressed = true;
+			}
+		}
+		else if (it->first == _movementTypeX)
+		{
+			if (!it->second->hasBeenPressed)
+			{
+				it->second->whenPressed(abs(_motion.x) * _timestep);
 				it->second->hasBeenPressed = true;
 			}
 		}

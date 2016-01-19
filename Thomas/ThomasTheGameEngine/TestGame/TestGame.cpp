@@ -11,6 +11,8 @@
 #include "closeGameInput.h"
 #include <sstream>
 #include "Observatory.h"
+#include "DrScottLevel.h"
+#include "TestNetLevel.h"
 
 TestGame::TestGame()
 {
@@ -20,6 +22,8 @@ TestGame::TestGame()
 
 	LoadLevel(new Observatory());
 	//LoadLevel(new TestLevel());
+	//LoadLevel(new DrScottLevel());
+	//LoadLevel(new TestNetLevel());
 
 	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 

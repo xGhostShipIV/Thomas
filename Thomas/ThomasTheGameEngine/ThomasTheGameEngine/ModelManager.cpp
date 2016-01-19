@@ -32,6 +32,8 @@ GLuint ModelManager::isEffectedByLight_Location;
 GLuint ModelManager::UI_DRAW_Location;
 GLuint ModelManager::cameraPosition_Location;
 
+GLuint ModelManager::faceNormalLocation;
+
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
 	render_mode = _render_mode;
@@ -40,27 +42,29 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 	{
 		program = GLU::UseShaders("GameObjects.vert", "GameObjects.frag");
 
+		faceNormalLocation = glGetUniformLocation(program, "faceNormal");
+		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
 		transformLocation = glGetUniformLocation(program, "Transform");
 		rotateLocation = glGetUniformLocation(program, "Rotation");
-		ambientLocation = glGetUniformLocation(program, "vAmbientColor");
-		materialLocation = glGetUniformLocation(program, "Material");
-
-		lightColor_Directional_Location = glGetUniformLocation(program, "vLightColor_Directional");
-		lightDirection_Directional_Location = glGetUniformLocation(program, "vLightDirection_Directional");
-
-		lightColor_Point_Location = glGetUniformLocation(program, "vLightColor_Point");
-		lightPosition_Point_Location = glGetUniformLocation(program, "vLightPosition_Point");
-
-		lightColor_Spot_Location = glGetUniformLocation(program, "vLightColor_Spot");
-		lightPosition_Spot_Location = glGetUniformLocation(program, "vLightPosition_Spot");
-		lightDirection_Spot_Location = glGetUniformLocation(program, "vLightDirection_Spot");
-		lightAngle_Spot_Location = glGetUniformLocation(program, "vLightAngle_Spot");
-
-		isEffectedByLight_Location = glGetUniformLocation(program, "isEffectedByLight");
-		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
 
 		cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
+		
+		ambientLocation = glGetUniformLocation(program, "AmbientColor");
+		
+		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
+		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
 
+		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
+		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
+
+		lightColor_Spot_Location = glGetUniformLocation(program, "LightColor_Spot");
+		lightPosition_Spot_Location = glGetUniformLocation(program, "LightPosition_Spot");
+		lightDirection_Spot_Location = glGetUniformLocation(program, "LightDirection_Spot");
+		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
+
+		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
+		materialLocation = glGetUniformLocation(program, "Material");
+		
 		float f[] =
 		{
 			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
@@ -159,6 +163,8 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 		if (!hasNormals)
 			GenerateNormals(model);
+		else
+			GenerateNormals(model, false, false, true);
 
 		model->drawMode = _mode;
 
@@ -202,6 +208,11 @@ void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
 
 void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _useCubeMap, float _uvRepeatX, float _uvRepeatY)
 {
+	//If id is already on model list then do nothing.
+	auto search = modelMap.find(_id);
+	if (search != modelMap.end())
+		return;
+
 	Renderable * cube;
 	Renderable::Mesh mesh;
 
@@ -278,6 +289,11 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _
 
 void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 {
+	//If id is already on model list then do nothing.
+	auto search = modelMap.find(_id);
+	if (search != modelMap.end())
+		return;
+
 	Renderable * skybox;
 	Renderable::Mesh mesh;
 
@@ -342,6 +358,11 @@ void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 
 void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
 {
+	//If id is already on model list then do nothing.
+	auto search = modelMap.find(_id);
+	if (search != modelMap.end())
+		return;
+
 	Renderable * pyramid;
 	Renderable::Mesh mesh;
 
@@ -402,6 +423,11 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float
 
 void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX, float _uvRepeatY)
 {
+	//If id is already on model list then do nothing.
+	auto search = modelMap.find(_id);
+	if (search != modelMap.end())
+		return;
+
 	Renderable * plane;
 	Renderable::Mesh mesh;
 
@@ -443,7 +469,6 @@ void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX,
 
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
 {
-
 	models.insert(std::pair<UINT32, Renderable *>(nextModelID, _renderable));
 	modelMap.insert(std::pair<string, int>(_id, nextModelID));
 	nextModelID++;
@@ -533,7 +558,7 @@ void  ModelManager::GenerateCubeMap(Renderable* _renderable)
 	}
 }
 
-void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool _normalsOnBottom)
+void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool _normalsOnBottom, bool _onlyFaceNormals)
 {
 	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
@@ -570,13 +595,17 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 			for (int iii = 0; iii < _renderable->meshes[m].face[i]; iii++)
 			{
 				normals.push_back(normal);
-				_renderable->meshes[m].normal.push_back(normal);
+				_renderable->meshes[m].faceNormal.push_back(normal);
+
+				if (!_onlyFaceNormals)
+					_renderable->meshes[m].normal.push_back(normal);
 			}
 
 			offset += _renderable->meshes[m].face[i];
 		}
 
 		//Change from face normals to vertex normals
+		if (!_onlyFaceNormals)
 		{
 			struct VertexIndex
 			{

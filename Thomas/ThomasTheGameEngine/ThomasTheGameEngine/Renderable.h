@@ -25,6 +25,7 @@ public:
 		std::vector<unsigned int> edge;
 		std::vector<unsigned int> face;
 		std::vector<Vec3> normal;
+		std::vector<Vec3> faceNormal;
 		std::vector<Vec2> textureMap;
 		
 		unsigned int offsetVertex;

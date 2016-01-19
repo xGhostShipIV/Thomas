@@ -112,7 +112,7 @@ public:
 	}
 };
 
-class FPS_MOVE_UP : public InputComponent 
+class FPS_MOVE_UP : public InputComponent
 {
 
 	GameObject* owner;
@@ -125,7 +125,7 @@ public:
 	}
 };
 
-class FPS_MOVE_DOWN : public InputComponent 
+class FPS_MOVE_DOWN : public InputComponent
 {
 	GameObject* owner;
 
