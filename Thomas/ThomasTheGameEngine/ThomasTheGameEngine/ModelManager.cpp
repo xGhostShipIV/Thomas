@@ -72,6 +72,8 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		};
 
 		createTexture("greenCheckers", f, 2, 2);
+		CreatePlane("plane", 1.0f, 1.0f);
+		CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
 	}
 }
 

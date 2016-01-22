@@ -88,9 +88,11 @@
     <ClInclude Include="closeGameInput.h" />
     <ClInclude Include="DrScottLevel.h" />
     <ClInclude Include="FPS_Inputs.h" />
+    <ClInclude Include="GameLevel.h" />
     <ClInclude Include="GameObjectInputTest.h" />
     <ClInclude Include="Hallway.h" />
     <ClInclude Include="HeadBob.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="MockSolarSystem.h" />
     <ClInclude Include="Observatory.h" />
     <ClInclude Include="ObservatoryRoom.h" />
@@ -107,8 +109,10 @@
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="AudioTester.cpp" />
     <ClCompile Include="DrScottLevel.cpp" />
+    <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="Hallway.cpp" />
     <ClCompile Include="HeadBob.cpp" />
+    <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MockSolarSystem.cpp" />
     <ClCompile Include="Observatory.cpp" />

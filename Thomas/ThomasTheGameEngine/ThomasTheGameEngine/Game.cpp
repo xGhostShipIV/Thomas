@@ -98,6 +98,9 @@ Game::Game()
 
 Game::~Game()
 {
+	if (currentLevel)
+		delete currentLevel;
+
 	/* delete managers */
 	delete FontManager::getInstance();
 

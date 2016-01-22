@@ -13,6 +13,7 @@
 #include "Observatory.h"
 #include "DrScottLevel.h"
 #include "TestNetLevel.h"
+#include "GameLevel.h"
 
 TestGame::TestGame()
 {
@@ -20,7 +21,8 @@ TestGame::TestGame()
 
 	inputManager = InputController::getInstance();
 
-	LoadLevel(new Observatory());
+	LoadLevel(new GameLevel("testLevel.xml"));
+	//LoadLevel(new Observatory());
 	//LoadLevel(new TestLevel());
 	//LoadLevel(new DrScottLevel());
 	//LoadLevel(new TestNetLevel());
