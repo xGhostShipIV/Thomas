@@ -94,6 +94,12 @@
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="CounterButton.h">
+		<Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLevel.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,6 +156,12 @@
       <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="CounterButton.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLevel.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

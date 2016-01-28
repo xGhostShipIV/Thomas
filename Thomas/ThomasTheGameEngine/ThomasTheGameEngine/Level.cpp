@@ -10,25 +10,20 @@ Level::Level()
 	currentCamera = mainCamera;
 
 	ambientLightColor = Colour(0.5f, 0.5f, 0.5f, 1);
-	gameObjects.push_back(currentCamera);
 }
 
 Level::~Level()
 {
 	for (auto it = gameObjects.begin(); it != gameObjects.end(); it++)
 	{
-		gameObjects.erase(it);
-
-		delete it._Ptr;
+		delete *it;
 	}
 	gameObjects.clear();
 	gameObjectsToBeDeleted.clear();
 
 	for (auto it = guiElements.begin(); it != guiElements.end(); it++)
 	{
-		guiElements.erase(it);
-
-		delete it._Ptr;
+		delete *it;
 	}
 	guiElements.clear();
 }

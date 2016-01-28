@@ -21,7 +21,7 @@ void Rigidbody::Init(){
 
 	//More on this later, for now is percectly ok.
 	drag = 0.5f;
-	angularDrag = 0.000002f;
+	angularDrag = 0.02f;
 	sleepThreshold = 0.003f;
 
 	//AngularVelocity = Quat(0, Vec3::Zero());
@@ -52,6 +52,6 @@ void Rigidbody::AddForce(Vec3 _force){
 	accel += _force / mass;
 }
 
-void Rigidbody::AddTorque(Vec3 _torque){
-	AngularAccel += _torque;
+void Rigidbody::AddTorque(Quat _torque){
+	AngularAccel = AngularAccel * _torque;
 }
