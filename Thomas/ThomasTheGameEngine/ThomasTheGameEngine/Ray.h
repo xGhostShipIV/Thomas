@@ -1,5 +1,6 @@
 #pragma once
 #include "../Math/four_dimensions.hpp"
+#include "../Math/Plane.h"
 
 class Ray
 {
@@ -10,5 +11,6 @@ public:
 
 	Vec3 point;
 	Vec3 dir;
+	bool castTo(Plane target_, Vec3 &output_);
 };
 

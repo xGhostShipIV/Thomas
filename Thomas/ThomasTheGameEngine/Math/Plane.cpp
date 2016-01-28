@@ -36,3 +36,33 @@ float Plane::getDistance()
 {
 	return D;
 }
+
+Vec3 Plane::projectPoint(Vec3 point_){
+	return (point_ + normal * DistanceToPoint(point_));
+}
+
+void Plane::addBoundingPoints(Vec3 point_){
+	//project point into plane, then add to list
+	bounds.push_back(projectPoint(point_));
+}
+
+void Plane::sortBounds(Vec3 planeCentre_){
+	//start with [0], compare to [1]
+	//insertion sort compare each to the next for positive/negative
+
+	for (int i = 1; i < bounds.size(); i++){
+		int r = i;
+		Vec3 lineA = bounds[i - 1] - planeCentre_;
+		Vec3 lineB = bounds[i] - planeCentre_;
+		while (r >= 1 && Vec3::dot(lineA, lineB) < 0){
+			Vec3 tempBound = bounds[r];
+			bounds[r] = bounds[r - 1];
+			bounds[r - 1] = bounds[r];
+
+			r--;
+			lineA = bounds[r - 1] - planeCentre_;
+			lineB = bounds[r] - planeCentre_;
+		}
+	}
+
+}

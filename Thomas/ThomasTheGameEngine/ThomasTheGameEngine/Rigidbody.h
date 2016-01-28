@@ -23,9 +23,9 @@ public:
 	float angularDrag;
 	float sleepThreshold;
 	float angularSleep;
-	Vec3 AngularVelocity;
+	Quat AngularVelocity;
+	Quat AngularAccel;
 	Vec3 velocity;
-	Vec3 AngularAccel;
 	Vec3 accel;
 	
 	Collider* col;
@@ -34,6 +34,6 @@ public:
 	void AddForce(Vec3);
 
 	//Not implemented!
-	void AddTorque(Vec3); //torque in local space
+	void AddTorque(Quat); //torque in local space
 };
 
