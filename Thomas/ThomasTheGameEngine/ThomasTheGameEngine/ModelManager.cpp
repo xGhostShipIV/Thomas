@@ -64,7 +64,7 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
 		materialLocation = glGetUniformLocation(program, "Material");
-		
+
 		float f[] =
 		{
 			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
@@ -804,4 +804,43 @@ UINT32 ModelManager::GetModelID(string _name)
 UINT32 ModelManager::GetTextureID(string _name)
 {
 	return textureMap.find(_name)->second;
+}
+
+int ModelManager::GetTextureWidth(string _name)
+{
+	Texture* tex = getTexture(_name);
+
+	if (tex != nullptr)
+		return tex->width;
+	else
+		return -1;
+}
+
+int ModelManager::GetTextureWidth(UINT32 _id)
+{
+	Texture* tex = getTexture(_id);
+
+	if (tex != nullptr)
+		return tex->width;
+	else
+		return -1;
+}
+
+
+int ModelManager::GetTextureHeight(string _name)
+{
+	Texture* tex = getTexture(_name);
+	if (tex != nullptr)
+		return tex->height;
+	else
+		return -1;
+}
+
+int ModelManager::GetTextureHeight(UINT32 _id)
+{
+	Texture* tex = getTexture(_id);
+	if (tex != nullptr)
+		return tex->height;
+	else
+		return -1;
 }

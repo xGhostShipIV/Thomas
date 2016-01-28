@@ -5,6 +5,7 @@
 #include <vector>
 
 typedef unsigned int UINT32;
+enum ScreenAnchor;
 
 /*
 	A component that contains all the graphical information that can be
@@ -29,7 +30,7 @@ public:
 	void DrawModel();
 
 	//Draw UI to the screen
-	void DrawUI();
+	void DrawUI(ScreenAnchor anchor_);
 
 	//Draws the wireframe of the model
 	void DrawWireframe();

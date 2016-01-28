@@ -5,6 +5,7 @@
 
 class Texture;
 class Material;
+enum ScreenAnchor;
 
 /*
 	An abstract class that contains all information a renderable object
@@ -35,7 +36,7 @@ public:
 	Vec3 isEffectedByLight;
 
 	virtual void Draw(GameObject&, Material *, std::vector<UINT32> _textureNames) = 0;
-	virtual void DrawUI(GameObject&, Material *, std::vector<UINT32> _textureNames) = 0;
+	virtual void DrawUI(GameObject&, Material *, std::vector<UINT32> _textureNames, ScreenAnchor anchor_) = 0;
 	virtual void DrawWireFrame(GameObject&) = 0;
 
 private:
@@ -58,6 +59,6 @@ protected:
 class OpenGL_Renderable : public Renderable {
 public:
 	void Draw(GameObject& parentTransform, Material * _mat, std::vector<UINT32> _textureNames) override;
-	void DrawUI(GameObject&, Material *, std::vector<UINT32> _textureNames) override;
+	void DrawUI(GameObject&, Material *, std::vector<UINT32> _textureNames, ScreenAnchor anchor_) override;
 	void DrawWireFrame(GameObject& parentTransform) override;
 };

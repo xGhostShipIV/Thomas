@@ -106,17 +106,62 @@ TestNetLevel::TestNetLevel()
 
 	/* NET STUFF */
 
-	SDLNet_ResolveHost(&serverIP, NULL, 27888);
-
-	serverSocket = SDLNet_TCP_Open(&serverIP);
-	connected = false;
-
 	std::cout << "\n";
+
+	std::cout << "Server or Client? : S / C\n";
+	char c = ' ';
+
+	while (!(c == 'S' || c == 's' || c == 'C' || c == 'c'))
+	{
+		std::cin >> c;
+	}
+
+	if (c == 'S' || c == 's')
+	{
+		isServer = true;
+		connected = false;
+
+		SDLNet_ResolveHost(&serverIP, NULL, 27888);
+		serverSocket = SDLNet_TCP_Open(&serverIP);
+
+		std::cout << "\nServer Started on Port " << _byteswap_ushort(serverIP.port) << ".\n\n";
+	}
+	else
+	{
+		isServer = false;
+		std::cout << "\nEnter Server IP Address:\n";
+		std::string ip, port;
+		std::cin >> ip;
+		std::cout << "\nEnter Server Port:\n";
+		std::cin >> port;
+
+		int iPort = atoi(port.c_str());
+
+		std::cout << "\nLooking for Host...\n";
+
+		bool hostFound = false;
+		while (!hostFound)
+		{
+			if (SDLNet_ResolveHost(&serverIP, ip.c_str(), iPort) == 0)
+			{
+				do
+				{
+					serverSocket = SDLNet_TCP_Open(&serverIP);
+				} while (serverSocket == NULL);
+
+				hostFound = true;
+			}
+		}
+				
+		std::cout << "Host Found.\n";
+	}
 }
 
 TestNetLevel::~TestNetLevel()
 {
-	SDLNet_TCP_Close(clientSocket);
+	if (isServer)
+		SDLNet_TCP_Close(clientSocket);
+
 	SDLNet_TCP_Close(serverSocket);
 	SDLNet_Quit();
 }
@@ -133,37 +178,68 @@ void TestNetLevel::LevelUpdate(float _timeStep)
 
 	skybox->position = currentCamera->position;
 
-	if ((clientSocket = SDLNet_TCP_Accept(serverSocket)))
+	if (isServer)
 	{
-		/* Now we can communicate with the client using csd socket
-		* sd will remain opened waiting other connections */
-
-		/* Get the remote address */
-		if (!connected)
-		if ((clientIP = SDLNet_TCP_GetPeerAddress(clientSocket)))
 		{
-			/* Print the address, converting in the host format */
-			printf("Client connected: %x %d\n", SDLNet_Read32(&clientIP->host), SDLNet_Read16(&clientIP->port));
+			/* Now we can communicate with the client using csd socket
+			* sd will remain opened waiting other connections */
 
-			connected = true;
+			/* Get the remote address */
+			if (!connected &&
+			(clientSocket = SDLNet_TCP_Accept(serverSocket)) &&
+			(clientIP = SDLNet_TCP_GetPeerAddress(clientSocket)))
+			{
+				/* Print the address, converting in the host format */
+				printf("Client connected: %x %d\n", SDLNet_Read32(&clientIP->host), SDLNet_Read16(&clientIP->port));
+
+				connected = true;
+			}
+
+			if (connected && SDLNet_TCP_Recv(clientSocket, buffer, 512) > 0)
+			{
+				SDLEventxfer x;
+				
+				for (int i = 0; i < sizeof(SDL_Event); i++)
+					x.c[i] = buffer[i];
+
+				printf("Client says: X:%d, Y:%d\n", x.e.motion.x, x.e.motion.y);
+				//printf("Client says: %s\n", buffer);
+
+				//if (strcmp(buffer, "exit") == 0)	/* Terminate this connection */
+				//{
+				//	printf("Terminate connection\n");
+				//}
+				//if (strcmp(buffer, "quit") == 0)	/* Quit the program */
+				//{
+				//	printf("Quit program\n");
+				//}				
+			}
 		}
-
-		if (connected)
-		if (SDLNet_TCP_Recv(clientSocket, buffer, 512) > 0)
-		{
-			printf("Client says: %s\n", buffer);
-
-			//if (strcmp(buffer, "exit") == 0)	/* Terminate this connection */
-			//{
-			//	printf("Terminate connection\n");
-			//}
-			//if (strcmp(buffer, "quit") == 0)	/* Quit the program */
-			//{
-			//	printf("Quit program\n");
-			//}
-		}
-		
 	}
+	else //isClient
+	{
+		printf("Write something:\n>");
+		std::cin.getline(buffer, 512);
+
+		/*SDLEventxfer x;
+		x.e = SDL_Event();
+		x.e.motion = InputController::getInstance()->MoEvent;*/
+
+		{
+
+			/*for (int i = 0; i < sizeof(SDL_Event); i++)
+				buffer[i] = x.c[i];*/
+
+			len = strlen(buffer) + 1;
+			//len = 56;
+
+			if (SDLNet_TCP_Send(serverSocket, (void *)buffer, len) < len)
+			{
+				std::cout << "SDLNet_TCP_Send: " << SDLNet_GetError() << "\n";
+			}
+		}
+	}
+
 }
 
 void TestNetLevel::DebugRender()

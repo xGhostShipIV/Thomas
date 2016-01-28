@@ -40,7 +40,7 @@ public:
 	//Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 	void Rotate(Vec3);
 	void Translate(Vec3);
-	void Scale(Vec3);
+	virtual void Scale(Vec3);
 
 	//Returns all components of the transform as a single matrix4
 	//More or less only used for the GPU

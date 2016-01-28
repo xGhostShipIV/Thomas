@@ -15,21 +15,19 @@ class Level;
 class Label : public GuiElement
 {
 protected:
-	UINT32 texture;
+	TextSprite* txtSprite;
 	std::string text;
 	TTF_Font* font;
 	Colour textColour;
 public:
 	
-	Label(Level* _level, std::string _text, Vec2 _screenPosition, TTF_Font* _font, Colour _textColour = Colour::Black());
+	Label(Level* _level, std::string _text, TTF_Font* _font, Vec2 _screenPosition, ScreenAnchor anchor_ = ScreenAnchor::BOTTOM_LEFT, Colour _textColour = Colour::Black());
 	~Label();
 	virtual void Update(float _deltaTime) override;
 	//virtual void Draw() override;
 
 	virtual void OnClick();
 	virtual void OnHover();
-
-	virtual bool CheckMouseCollision(int _x, int _y);
 
 	void SetTextColor(Colour _colour);
 

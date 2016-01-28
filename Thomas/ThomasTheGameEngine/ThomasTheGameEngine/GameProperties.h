@@ -24,8 +24,8 @@ public:
 	//A struct containing all relavant video properties
 	struct VideoProperties{
 		float drawDistance;
-		float screenWidth;
-		float screenHeight;
+		int screenWidth;
+		int screenHeight;
 		bool isFullscreen;
 
 		//Reads video property values from the xml and assigns

@@ -27,11 +27,11 @@ void RenderableComponent::DrawModel()
 	}
 }
 
-void RenderableComponent::DrawUI()
+void RenderableComponent::DrawUI(ScreenAnchor anchor_)
 {
 	if (ModelManager::getInstance()->render_mode == RENDER_MODE_OPENGL)
 	{
-		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(modelName))->DrawUI(*parentObject, mat, textureName);
+		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(modelName))->DrawUI(*parentObject, mat, textureName, anchor_);
 	}
 }
 

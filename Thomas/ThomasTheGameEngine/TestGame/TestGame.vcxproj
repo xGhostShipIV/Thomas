@@ -86,6 +86,7 @@
     <ClInclude Include="AudioTester.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
+    <ClInclude Include="CounterButton.h" />
     <ClInclude Include="DrScottLevel.h" />
     <ClInclude Include="FPS_Inputs.h" />
     <ClInclude Include="GameObjectInputTest.h" />
@@ -101,11 +102,13 @@
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="TestNetLevel.h" />
     <ClInclude Include="Torch.h" />
+    <ClInclude Include="UITestLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientStar.cpp" />
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="AudioTester.cpp" />
+    <ClCompile Include="CounterButton.cpp" />
     <ClCompile Include="DrScottLevel.cpp" />
     <ClCompile Include="Hallway.cpp" />
     <ClCompile Include="HeadBob.cpp" />
@@ -119,6 +122,7 @@
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="TestNetLevel.cpp" />
     <ClCompile Include="Torch.cpp" />
+    <ClCompile Include="UITestLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />

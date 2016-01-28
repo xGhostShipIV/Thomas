@@ -25,6 +25,12 @@ their game and create their own gameObjects
 class TestNetLevel : public Level
 {
 public:
+	union SDLEventxfer
+	{
+		SDL_Event e;
+		char c[sizeof(SDL_Event)];
+	};
+
 	TestNetLevel();
 	~TestNetLevel();
 
@@ -33,8 +39,9 @@ public:
 
 	IPaddress serverIP, *clientIP;
 	TCPsocket serverSocket, clientSocket;
+	int quit, len;
 	char buffer[512];
-	bool connected;
+	bool connected, isServer;
 
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;

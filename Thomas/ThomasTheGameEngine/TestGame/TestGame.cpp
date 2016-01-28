@@ -13,6 +13,7 @@
 #include "Observatory.h"
 #include "DrScottLevel.h"
 #include "TestNetLevel.h"
+#include "UITestLevel.h"
 
 TestGame::TestGame()
 {
@@ -20,10 +21,13 @@ TestGame::TestGame()
 
 	inputManager = InputController::getInstance();
 
-	LoadLevel(new Observatory());
+	//LoadLevel(new Observatory());
 	//LoadLevel(new TestLevel());
 	//LoadLevel(new DrScottLevel());
+	
 	//LoadLevel(new TestNetLevel());
+
+	LoadLevel(new UITestLevel());
 
 	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 

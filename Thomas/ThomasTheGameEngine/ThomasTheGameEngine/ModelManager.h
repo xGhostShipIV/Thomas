@@ -94,6 +94,12 @@ public:
 	UINT32 GetModelID(string _name);
 	UINT32 GetTextureID(string _name);
 
+	int GetTextureWidth(string _name);
+	int GetTextureWidth(UINT32 _id);
+
+	int GetTextureHeight(string _name);
+	int GetTextureHeight(UINT32 _id);
+
 private:
 	ModelManager(Render_Mode = Render_OpenGL);
 

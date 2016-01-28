@@ -37,6 +37,8 @@ public:
 //A static class that acts as a message hub for all input
 class InputController{
 public:
+	/* TESTING PURPOSES */
+	SDL_MouseMotionEvent MoEvent;
 
 	//singleton instance
 	static InputController * instance;
@@ -49,7 +51,11 @@ public:
 		return instance;
 	}
 
-	Vec2 mousePos;
+	void handleEvents(SDL_Event event_, float _timestep);
+
+	int MouseX, MouseY;
+	int PreviousMouseX, PreviousMouseY;
+	Uint32 MouseState, PreviousMouseState;
 
 	std::map<Uint8, SDL_Keycode> mouseButtonDict;
 

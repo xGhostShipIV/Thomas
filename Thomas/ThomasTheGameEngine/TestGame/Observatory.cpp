@@ -47,11 +47,11 @@ Observatory::Observatory()
 
 	FontManager::getInstance()->GenerateFont("font", 72, "Font/DroidSans.ttf");
 
-	Label *shadow = new Label(this, "Project: Thomas Engine Demo", Vec2(0.595, -0.895), FontManager::getInstance()->GetFont("font"), Colour::Black());
-	shadow->Scale(Vec3::One() * 0.2f);
+	Label *shadow = new Label(this, "Project: Thomas Engine Demo", FontManager::getInstance()->GetFont("font"), Vec2(-200, 37), ScreenAnchor::BOTTOM_RIGHT, Colour::Black());
+	shadow->Scale(Vec3::One() * 0.4f);
 
-	Label *label = new Label(this, "Project: Thomas Engine Demo", Vec2(0.6, -0.9), FontManager::getInstance()->GetFont("font"), Colour::Yellow());
-	label->Scale(Vec3::One() * 0.2f);
+	Label *label = new Label(this, "Project: Thomas Engine Demo", FontManager::getInstance()->GetFont("font"), Vec2(-202, 35), ScreenAnchor::BOTTOM_RIGHT, Colour::Yellow());
+	label->Scale(Vec3::One() * 0.4f);
 
 	player = new Player(this, currentCamera);
 	hallway = new Hallway(this, Vec3::Zero());

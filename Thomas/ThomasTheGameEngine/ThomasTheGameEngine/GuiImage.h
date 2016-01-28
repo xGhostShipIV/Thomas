@@ -13,17 +13,14 @@ class Level;
 class GuiImage : public GuiElement
 {
 protected:
-	UINT32 texture;
 public:
 
-	GuiImage(Level* _level, std::string _textureName, Vec2 _screenPosition);
+	GuiImage(Level* _level, std::string _textureName, Vec2 _screenPosition, ScreenAnchor anchor_ = ScreenAnchor::BOTTOM_LEFT);
 	~GuiImage();
 	virtual void Update(float _deltaTime) override;
 
 	virtual void OnClick();
 	virtual void OnHover();
-
-	virtual bool CheckMouseCollision(int _x, int _y);
 };
 
 #endif

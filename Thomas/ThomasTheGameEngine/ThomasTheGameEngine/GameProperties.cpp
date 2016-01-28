@@ -88,5 +88,5 @@ void GameProperties::VideoProperties::writeValues()
 
 float GameProperties::VideoProperties::aspectRatio()
 {
-	return screenWidth / screenHeight;
+	return screenWidth / (float)screenHeight;
 }

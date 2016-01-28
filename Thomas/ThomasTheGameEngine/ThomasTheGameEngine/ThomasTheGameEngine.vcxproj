@@ -17,6 +17,7 @@
     <ClInclude Include="..\Math\two_dimensions.hpp" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Billboard.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Colour.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="Flipbook.h" />
     <ClInclude Include="Frustrum.h" />
     <ClInclude Include="GuiElement.h" />
+    <ClInclude Include="GuiHandler.h" />
     <ClInclude Include="GuiImage.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Light.h" />
@@ -62,6 +64,7 @@
     <ClCompile Include="..\Math\two_dimensions.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Billboard.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Colour.cpp" />
@@ -71,6 +74,7 @@
     <ClCompile Include="Flipbook.cpp" />
     <ClCompile Include="Frustrum.cpp" />
     <ClCompile Include="GuiElement.cpp" />
+    <ClCompile Include="GuiHandler.cpp" />
     <ClCompile Include="GuiImage.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Light.cpp" />

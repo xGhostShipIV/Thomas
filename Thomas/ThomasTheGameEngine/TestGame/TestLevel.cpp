@@ -61,12 +61,12 @@ TestLevel::TestLevel()
 	FontManager::getInstance()->GenerateFont("lazyfont", 50, "Font/ostrich-black.ttf");
 
 	ModelManager::getInstance()->loadTexture("doge", "Images/doge.png");
-	GuiImage *gi = new GuiImage(this, "doge", Vec2(0.8f, 0.5f));
-	gi->Scale(Vec3::One() * 0.8f);
+	GuiImage *gi = new GuiImage(this, "doge", Vec2(-150, -150), ScreenAnchor::TOP_RIGHT);
+	gi->Scale(Vec3::One() * 0.6f);
 
-	Label *label2 = new Label(this, "So Font", Vec2(0, 0.9f), FontManager::getInstance()->GetFont("font"), Colour::Orange());
-	label = new Label(this, "WOW!", Vec2(-0.8f, -0.8f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Pink());
-	fpsLabel = new Label(this, "MUCH LABELS!", Vec2(0.68f, -0.68f), FontManager::getInstance()->GetFont("lazyfont"), Colour::Lime());
+	Label *label2 = new Label(this, "So Font", FontManager::getInstance()->GetFont("font"), Vec2(0, -50.0f), ScreenAnchor::TOP_CENTER, Colour::Orange());
+	label = new Label(this, "WOW!", FontManager::getInstance()->GetFont("lazyfont"), Vec2(-100, 60), ScreenAnchor::BOTTOM_RIGHT, Colour::Pink());
+	fpsLabel = new Label(this, "MUCH LABELS!", FontManager::getInstance()->GetFont("lazyfont"), Vec2(160, 120), ScreenAnchor::BOTTOM_LEFT, Colour::Lime());
 	fpsLabel->Rotate(Quat(45 * M_PI / 180.0f, Vec3::BasisZ()));
 
 	cube->Scale(Vec3::One() * 0.25f);
