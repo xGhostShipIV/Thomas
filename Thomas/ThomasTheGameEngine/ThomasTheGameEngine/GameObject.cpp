@@ -85,7 +85,7 @@ Vec3 GameObject::up() {
 
 void GameObject::LookAt(Vec3 _target){
 	Vec3 pointToTarget = (_target - position).Normalized();
-	if (acos(Vec3::dot(forward(), pointToTarget)) < 0.002f || acos(Vec3::dot(forward(), pointToTarget) > 0.998f)){
+	if (acos(Vec3::dot(forward(), pointToTarget)) < 0.00002f || acos(Vec3::dot(forward(), pointToTarget) > 0.99998f)){
 		Rotate(Quat(acos(Vec3::dot(forward(), pointToTarget)), Vec3::cross(forward(), pointToTarget)));
 	}
 }

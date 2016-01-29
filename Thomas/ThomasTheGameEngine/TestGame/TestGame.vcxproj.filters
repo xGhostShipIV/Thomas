@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{6e28722a-b5a8-4436-9892-9a17c02737e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameFiles">
+      <UniqueIdentifier>{2376575f-87af-457d-8941-eaebf58a1270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files">
+      <UniqueIdentifier>{79227c7a-15ca-478b-94e7-4f17ef5b3a8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioTester.h">
@@ -94,13 +100,19 @@
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="CounterButton.h">
-		<Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLevel.h">
-      <Filter>Header Files\Level</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLevel.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControls.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -156,13 +168,19 @@
       <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="CounterButton.cpp">
-		<Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLevel.cpp">
-      <Filter>Source Files\Level</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLevel.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControls.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>Source Files\Game Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

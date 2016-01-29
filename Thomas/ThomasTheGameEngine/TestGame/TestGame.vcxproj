@@ -84,11 +84,13 @@
     <ClInclude Include="AmbientStar.h" />
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="AudioTester.h" />
+    <ClInclude Include="CameraControls.h" />
     <ClInclude Include="CameraInputTest.h" />
     <ClInclude Include="closeGameInput.h" />
     <ClInclude Include="CounterButton.h" />
     <ClInclude Include="DrScottLevel.h" />
     <ClInclude Include="FPS_Inputs.h" />
+    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="GameObjectInputTest.h" />
     <ClInclude Include="Hallway.h" />
@@ -110,8 +112,10 @@
     <ClCompile Include="AmbientStar.cpp" />
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="AudioTester.cpp" />
+    <ClCompile Include="CameraControls.cpp" />
     <ClCompile Include="CounterButton.cpp" />
     <ClCompile Include="DrScottLevel.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="Hallway.cpp" />
     <ClCompile Include="HeadBob.cpp" />

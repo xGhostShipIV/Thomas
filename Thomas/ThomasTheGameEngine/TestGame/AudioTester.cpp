@@ -12,8 +12,8 @@ AudioTester::AudioTester(Level * _level) : GameObject(_level)
 	am->loadMusic("music", "Sounds/music.wav");
 	m = am->getMusic("music");
 
-	new PlaySound(this, SDLK_n);
-	new PlayMusic(this, SDLK_m);
+	/*new PlaySound(this, SDLK_n);
+	new PlayMusic(this, SDLK_m);*/
 }
 
 

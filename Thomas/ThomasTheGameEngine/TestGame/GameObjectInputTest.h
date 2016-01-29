@@ -64,6 +64,7 @@ public:
 		(*color).b = (*color).b < 0 ? 0 : (*color).b;
 		//(*color).a = (*color).a < 0 ? 0 : (*color).a;
 	}
+	void whenReleased(){}
 };
 
 class AmbientBrightnessUp : public InputComponent {
@@ -80,4 +81,5 @@ public:
 		(*color).b = (*color).b < 0 ? 0 : (*color).b;
 		//(*color).a = (*color).a > 1 ? 1 : (*color).a;
 	}
+	void whenReleased(){}
 };

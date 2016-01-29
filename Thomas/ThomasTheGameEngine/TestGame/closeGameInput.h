@@ -18,4 +18,5 @@ public:
 		Game::GetInstance()->setRunning(false);
 		printf("\nExit\n");
 	}
+	void whenReleased(){}
 };

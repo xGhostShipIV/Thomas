@@ -29,6 +29,7 @@ public:
 	//Abstract method that defines the action to be taken when the associated
 	//Key has been pressed.
 	virtual void whenPressed(float _timestep) = 0;
+	virtual void whenReleased() = 0;
 
 	bool hasBeenPressed;
 };

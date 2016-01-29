@@ -135,6 +135,7 @@ void InputController::releaseKey(SDL_Keycode key)
 	{
 		if ((*it) == key)
 		{
+			inputMap.find(*it)->second->whenReleased();
 			keysDown.erase(it);
 			return;
 		}
@@ -195,20 +196,20 @@ void InputController::Update(float _timestep)
 		}
 	}
 
-	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
-	{
-		if (inputMap.find(*it) != inputMap.end())
-		{
-			inputMap.find(*it)->second->hasBeenPressed = false;
-		}		
-	}
-
 	for (auto it = motionMap.begin(); it != motionMap.end(); it++)
 	{
 		if (it->second->hasBeenPressed)
 		{
 			it->second->hasBeenPressed = false;
 		}
+	}
+
+	for (auto it = keysDown.begin(); it != keysDown.end(); it++)
+	{
+		if (inputMap.find(*it) != inputMap.end())
+		{
+			inputMap.find(*it)->second->hasBeenPressed = false;
+		}		
 	}
 }
 

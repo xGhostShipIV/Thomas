@@ -5,9 +5,14 @@
 #include <RenderableComponent.h>
 
 #include "FPS_Inputs.h"
+#include "CameraControls.h"
+
+#include "GameCamera.h"
 
 GameLevel::GameLevel(std::string fileName_)
 {
+	currentCamera = new GameCamera(this, Vec3(0, 0, 0), Vec3(0, 0, 1));
+
 	ModelManager::getInstance()->CreateSkybox("skybox", 1000.0f);
 	ModelManager::getInstance()->loadTexture("skybox1", "Images/spaceSkybox.tif");
 	ModelManager::getInstance()->loadTexture("layerGrid", "Images/grid.png");
@@ -25,6 +30,7 @@ GameLevel::GameLevel(std::string fileName_)
 	strokeCount = 0;
 
 	int numLayers = 0;
+
 	//grab size element and reserve memory for the layers
 	//Possibly determine scale of them?
 	if (element->Attribute("size") == "SMALL"){
@@ -96,10 +102,13 @@ GameLevel::GameLevel(std::string fileName_)
 
 	ModelManager::getInstance()->PushModels();
 
-	new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
-	new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
-	new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
-	new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
+	//new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
+	//new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
+	//new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
+	//new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
+	//new Camera_Forward(currentCamera, SDLK_w);
+	//new Camera_Right(currentCamera, SDLK_d);
+	//new Camera_Back(currentCamera, SDLK_s);
 
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
