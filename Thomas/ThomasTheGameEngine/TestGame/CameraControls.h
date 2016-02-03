@@ -3,6 +3,7 @@
 #include <GameObject.h>
 
 class GameCamera;
+class GameLevel;
 
 class CameraControls
 {
@@ -67,6 +68,17 @@ public:
 	void whenReleased();
 };
 
+class RightClick : public InputComponent
+{
+	GameLevel * gl;
+
+public:
+	RightClick(GameObject * owner_, SDL_Keycode key_);
+
+	void whenPressed(float timeStep_);
+	void whenReleased();
+};
+
 class Look_Up : public InputComponent
 {
 	GameCamera * owner;
@@ -90,6 +102,7 @@ public:
 class Look_Right : public InputComponent
 {
 	GameCamera * owner;
+	GameLevel * gl;
 
 public:
 	Look_Right(GameObject * owner_, MouseMovement e_);
@@ -100,6 +113,7 @@ public:
 class Look_Left : public InputComponent
 {
 	GameCamera * owner;
+	GameLevel * gl;
 
 public:
 	Look_Left(GameObject * owner_, MouseMovement e_);

@@ -17,6 +17,9 @@ public:
 
 	bool HasObjectives();
 
+	GameObject * layerContainer;
+
+	bool rotateLevel;
 private:
 	GameObject * skybox;
 };

@@ -8,14 +8,25 @@
 #include "CameraControls.h"
 
 #include "GameCamera.h"
+#include "PlanetHorizontal.h"
+#include "AsteroidField.h"
 
 GameLevel::GameLevel(std::string fileName_)
 {
-	currentCamera = new GameCamera(this, Vec3(0, 0, 0), Vec3(0, 0, 1));
+	currentCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
 
 	ModelManager::getInstance()->CreateSkybox("skybox", 1000.0f);
 	ModelManager::getInstance()->loadTexture("skybox1", "Images/spaceSkybox.tif");
 	ModelManager::getInstance()->loadTexture("layerGrid", "Images/grid.png");
+	ModelManager::getInstance()->loadTexture("planet1", "Images/aruba.tif");
+	ModelManager::getInstance()->loadTexture("meteorTex1", "Images/meteor_texture.tif");
+	ModelManager::getInstance()->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
+	ModelManager::getInstance()->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+
+	ModelManager::getInstance()->loadModel("sphere", "Models/planet.obj", true);
+	ModelManager::getInstance()->loadModel("meteor1", "Models/meteor_01.obj", true);
+	ModelManager::getInstance()->loadModel("meteor2", "Models/meteor_02.obj", true);
+	ModelManager::getInstance()->loadModel("meteor3", "Models/meteor_03.obj", true);
 
 	tinyxml2::XMLDocument doc;
 
@@ -31,6 +42,8 @@ GameLevel::GameLevel(std::string fileName_)
 
 	int numLayers = 0;
 
+	rotateLevel = false;
+
 	//grab size element and reserve memory for the layers
 	//Possibly determine scale of them?
 	if (element->Attribute("size") == "SMALL"){
@@ -45,6 +58,7 @@ GameLevel::GameLevel(std::string fileName_)
 
 	//set up skybox
 	skybox = new GameObject(this, currentCamera->position);
+	layerContainer = new GameObject(this, Vec3(0, 0, 0));
 
 	RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
 	r->SetEffecctedByLight(false, false, false);
@@ -63,14 +77,20 @@ GameLevel::GameLevel(std::string fileName_)
 			{
 				GameObject * object;
 
+				float x = objectElement->FloatAttribute("x");
+				float z = objectElement->FloatAttribute("z");
+
 				if (objectElement->Attribute("type", "PlanetHorizontal")){
 
+					std::string textureName = objectElement->Attribute("texture");
+
+					object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "PlanetVertical")){
 
 				}
 				else if (objectElement->Attribute("type", "Asteroids")){
-
+					new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
 				}
 				else if (objectElement->Attribute("type", "Wormhole")){
 
@@ -99,6 +119,8 @@ GameLevel::GameLevel(std::string fileName_)
 		objectElement = element->FirstChildElement("Object");
 	}
 
+	for (int i = 0; i < layers.size(); i++) 
+		layerContainer->addChild(layers[i]);
 
 	ModelManager::getInstance()->PushModels();
 

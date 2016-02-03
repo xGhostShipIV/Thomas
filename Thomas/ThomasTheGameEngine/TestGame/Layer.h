@@ -1,6 +1,8 @@
 #pragma once
 #include <GameObject.h>
 #include <RenderableComponent.h>
+#include <InputComponent.h>
+
 
 class Layer :
 	public GameObject
@@ -15,4 +17,5 @@ public:
 private:
 	RenderableComponent * r;
 };
+
 

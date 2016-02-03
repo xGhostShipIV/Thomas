@@ -102,9 +102,6 @@
     <ClInclude Include="CounterButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameLevel.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
@@ -112,6 +109,12 @@
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="GameCamera.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetHorizontal.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,9 +173,6 @@
     <ClCompile Include="CounterButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameLevel.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
@@ -180,6 +180,12 @@
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetHorizontal.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
   </ItemGroup>

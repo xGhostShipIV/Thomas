@@ -15,6 +15,7 @@ public:
 	//Will store the forward vector when you begin rotating. Will be the reference to return to its
 	//original look at position when the mouse is released
 	Vec3 originalLookat;
+	Quat originalRotation;
 
 	GameCamera(Level * level_, Vec3 position_, Vec3 lookAt_);
 	~GameCamera();

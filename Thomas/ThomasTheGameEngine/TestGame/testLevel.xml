@@ -7,11 +7,11 @@
   </Layer>
 
   <Layer>
-    
+    <Object type="Asteroids" x="-3" z="-2"></Object>
   </Layer>
 
   <Layer>
-    
+    <Object type="PlanetHorizontal" x="0" z="-2" texture="planet1"></Object>
   </Layer>
   
   <Layer>

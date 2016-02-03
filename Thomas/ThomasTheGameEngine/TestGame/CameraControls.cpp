@@ -1,5 +1,6 @@
 #include "CameraControls.h"
 #include "GameCamera.h"
+#include "GameLevel.h"
 
 CameraControls::CameraControls()
 {
@@ -73,6 +74,7 @@ void LeftClick::whenPressed(float timeStep_)
 	if (!isSet)
 	{
 		owner->originalLookat = owner->forward() + owner->position;
+		owner->originalRotation = owner->rotation;
 		isSet = true;
 	}
 	owner->mouseDown = true;
@@ -82,6 +84,21 @@ void LeftClick::whenReleased()
 {
 	isSet = false;
 	owner->mouseDown = false;
+}
+
+RightClick::RightClick(GameObject * owner_, SDL_Keycode key_) : InputComponent(owner_, key_)
+{
+	gl = static_cast<GameLevel *>(owner_->level);
+}
+
+void RightClick::whenPressed(float timeStep_)
+{
+	gl->rotateLevel = true;
+}
+
+void RightClick::whenReleased()
+{
+	gl->rotateLevel = false;
 }
 
 Look_Up::Look_Up(GameObject * owner_, MouseMovement e_) : InputComponent(owner_, e_)
@@ -109,21 +126,27 @@ void Look_Down::whenPressed(float timeStep_)
 Look_Right::Look_Right(GameObject * owner_, MouseMovement e_) : InputComponent(owner_, e_)
 {
 	owner = static_cast<GameCamera *>(owner_);
+	gl = static_cast<GameLevel *>(owner_->level);
 }
 
 void Look_Right::whenPressed(float timeStep_)
 {
 	if (owner->mouseDown)
 		owner->Rotate(Quat(2 * timeStep_, Vec3(0, 1, 0)));
+	else if (gl->rotateLevel)
+		gl->layerContainer->Rotate(Quat(1 * timeStep_, Vec3(0, 1, 0)));
 }
 
 Look_Left::Look_Left(GameObject * owner_, MouseMovement e_) : InputComponent(owner_, e_)
 {
 	owner = static_cast<GameCamera *>(owner_);
+	gl = static_cast<GameLevel *>(owner_->level);
 }
 
 void Look_Left::whenPressed(float timeStep_)
 {
 	if (owner->mouseDown)
 		owner->Rotate(Quat(-2 * timeStep_, Vec3(0, 1, 0)));
+	else if (gl->rotateLevel)
+		gl->layerContainer->Rotate(Quat(-1 * timeStep_, Vec3(0, 1, 0)));
 }

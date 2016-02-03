@@ -14,6 +14,7 @@ GameCamera::GameCamera(Level * level_, Vec3 position_, Vec3 lookAt_) : Camera(le
 	cr = new Camera_Right(this, SDLK_d);
 
 	lc = new LeftClick(this, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
+	new RightClick(this, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 
 	lu = new Look_Up(this, MouseMovement::Negative_Y);
 	ld = new Look_Down(this, MouseMovement::Positive_Y);
@@ -33,6 +34,13 @@ void GameCamera::Update(float deltaTime_)
 		if (forward() != originalLookat)
 		{
 			LookAt(originalLookat);
+
+			if (((forward() + position) - originalLookat).magnitude() < 0.25f)
+			{
+				//LookAt(originalLookat);
+				rotation = originalRotation;
+				originalLookat = forward();
+			}
 			//originalLookat = forward();
 		}
 

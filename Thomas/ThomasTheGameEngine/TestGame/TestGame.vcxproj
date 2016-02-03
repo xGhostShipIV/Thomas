@@ -99,6 +99,7 @@
     <ClInclude Include="MockSolarSystem.h" />
     <ClInclude Include="Observatory.h" />
     <ClInclude Include="ObservatoryRoom.h" />
+    <ClInclude Include="PlanetHorizontal.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SlidingDoor.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="MockSolarSystem.cpp" />
     <ClCompile Include="Observatory.cpp" />
     <ClCompile Include="ObservatoryRoom.cpp" />
+    <ClCompile Include="PlanetHorizontal.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SlidingDoor.cpp" />
     <ClCompile Include="TestGame.cpp" />
