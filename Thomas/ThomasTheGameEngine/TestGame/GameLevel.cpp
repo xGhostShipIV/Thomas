@@ -12,6 +12,7 @@
 #include "PlanetVertical.h"
 #include "AsteroidField.h"
 #include "Wormhole.h"
+#include "WarpGate.h"
 
 GameLevel::GameLevel(std::string fileName_)
 {
@@ -24,11 +25,13 @@ GameLevel::GameLevel(std::string fileName_)
 	ModelManager::getInstance()->loadTexture("meteorTex1", "Images/meteor_texture.tif");
 	ModelManager::getInstance()->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
 	ModelManager::getInstance()->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+	ModelManager::getInstance()->loadTexture("gateTexture", "Images/rosary.png");
 
 	ModelManager::getInstance()->loadModel("sphere", "Models/planet.obj", true);
 	ModelManager::getInstance()->loadModel("meteor1", "Models/meteor_01.obj", true);
 	ModelManager::getInstance()->loadModel("meteor2", "Models/meteor_02.obj", true);
 	ModelManager::getInstance()->loadModel("meteor3", "Models/meteor_03.obj", true);
+	ModelManager::getInstance()->loadModel("warpGate", "Models/space_station.obj", true);
 
 	tinyxml2::XMLDocument doc;
 
@@ -94,13 +97,13 @@ GameLevel::GameLevel(std::string fileName_)
 					object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "Asteroids")){
-					new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
+					object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
 				}
 				else if (objectElement->Attribute("type", "Wormhole")){
-					new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
+					object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
 				}
 				else if (objectElement->Attribute("type", "WarpGate")){
-
+					object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
 				}
 				else if (objectElement->Attribute("type", "Player1Start")){
 

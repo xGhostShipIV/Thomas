@@ -7,8 +7,7 @@
   </Layer>
 
   <Layer>
-    <Object type="Asteroids" x="-3" z="-2"></Object>
-    <Object type="Wormhole" x="0" z="0"></Object>
+    <Object type="WarpGate" x="0" z="0"></Object>
   </Layer>
 
   <Layer>
