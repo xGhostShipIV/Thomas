@@ -9,7 +9,9 @@
 
 #include "GameCamera.h"
 #include "PlanetHorizontal.h"
+#include "PlanetVertical.h"
 #include "AsteroidField.h"
+#include "Wormhole.h"
 
 GameLevel::GameLevel(std::string fileName_)
 {
@@ -87,12 +89,20 @@ GameLevel::GameLevel(std::string fileName_)
 					object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "PlanetVertical")){
+					std::string textureName = objectElement->Attribute("texture");
 
+					object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "Asteroids")){
 					new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
 				}
 				else if (objectElement->Attribute("type", "Wormhole")){
+					new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
+				}
+				else if (objectElement->Attribute("type", "WarpGate")){
+
+				}
+				else if (objectElement->Attribute("type", "Player1Start")){
 
 				}
 				else{

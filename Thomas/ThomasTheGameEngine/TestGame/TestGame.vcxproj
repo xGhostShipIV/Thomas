@@ -100,6 +100,7 @@
     <ClInclude Include="Observatory.h" />
     <ClInclude Include="ObservatoryRoom.h" />
     <ClInclude Include="PlanetHorizontal.h" />
+    <ClInclude Include="PlanetVertical.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SlidingDoor.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="TestNetLevel.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="UITestLevel.h" />
+    <ClInclude Include="Wormhole.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientStar.cpp" />
@@ -126,6 +128,7 @@
     <ClCompile Include="Observatory.cpp" />
     <ClCompile Include="ObservatoryRoom.cpp" />
     <ClCompile Include="PlanetHorizontal.cpp" />
+    <ClCompile Include="PlanetVertical.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SlidingDoor.cpp" />
     <ClCompile Include="TestGame.cpp" />
@@ -133,6 +136,7 @@
     <ClCompile Include="TestNetLevel.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="UITestLevel.cpp" />
+    <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />

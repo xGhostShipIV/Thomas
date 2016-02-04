@@ -66,9 +66,6 @@
     <ClInclude Include="AmbientStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AsteroidField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Hallway.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +114,15 @@
     <ClInclude Include="PlanetHorizontal.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
+    <ClInclude Include="AsteroidField.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetVertical.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Wormhole.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioTester.cpp">
@@ -132,9 +138,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AmbientStar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AsteroidField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hallway.cpp">
@@ -186,6 +189,15 @@
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
     <ClCompile Include="PlanetHorizontal.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsteroidField.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetVertical.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wormhole.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
   </ItemGroup>

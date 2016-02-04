@@ -3,11 +3,12 @@
 <Level size="MEDIUM" par="3" skybox="skybox1">
   
   <Layer>
-    
+    <Object type="PlanetVertical" x="0" z="-2" texture="planet1"></Object>
   </Layer>
 
   <Layer>
     <Object type="Asteroids" x="-3" z="-2"></Object>
+    <Object type="Wormhole" x="0" z="0"></Object>
   </Layer>
 
   <Layer>
