@@ -21,10 +21,11 @@ void PhysicsWorld::Orbit(Vec3 _point,Vec3 _axis, GameObject* _rotator, float _an
 }
 
 //Not tested, will be tested in testing area with actual planet movements
-//This is the cheaty way of doing it, adding proper force still to come
+//Velocity is not changed, will experience strange behaviour
 void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre){
 	Orbit(centre->position, Vec3::cross(mover_->velocity, mover_->parentObject->position - centre->position), mover_->parentObject, Vec3::length(mover_->velocity) / Vec3::length(mover_->parentObject->position - centre->position));
 	//rotate velocity vector to match new heading
+	//mover_->velocity = Quat::rotate(, mover_->velocity);
 
 }
 
@@ -57,13 +58,13 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 	firstBody->accel += normal * J / firstBody->mass;
 	secondBody->accel += normal * -J / secondBody->mass;
 
-	firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0, Vec3::cross(r1, normal).Normalized());
-	secondBody->AngularAccel = secondBody->AngularAccel * Quat(J / 1000.0, Vec3::cross(r2, normal).Normalized());
+	/*firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0f, Vec3::cross(r1, normal).Normalized());
+	secondBody->AngularAccel = secondBody->AngularAccel * Quat(J / 1000.0f, Vec3::cross(r2, normal).Normalized());*/
 
 }
 
 void PhysicsWorld::Update(float _deltaTime){
-
+	 
 	//Collision Response
 	for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
 		for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
@@ -87,7 +88,7 @@ void PhysicsWorld::Update(float _deltaTime){
 		//pi r ^ 3 w v rho
 		float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
 		Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
-		(*it)->AddForce(lifeDir * liftForce * _deltaTime);
+		//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
 
 		//Ground collision, currently exit trajectory is same as incident trajectory
 		if ((*it)->parentObject->position.y <= 0){

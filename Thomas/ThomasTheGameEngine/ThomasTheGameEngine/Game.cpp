@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "Level.h"
 #include "GameObject.h"
-#include "InputComponent.h"
 #include "GameProperties.h"
 #include "AudioManager.h"
 #include "ModelManager.h"
@@ -12,6 +11,7 @@
 #include "OpenGLUtilities.h"
 #include "FontManager.h"
 #include "PhysicsWorld.h"
+#include "InputHandler.h"
 
 Game* Game::instance = nullptr;
 
@@ -138,7 +138,7 @@ void Game::StartGame()
 			while (SDL_PollEvent(&evt))
 			{
 				//Pass events to Input Controller
-				InputController::getInstance()->handleEvents(evt, timeSincelastUpdate / 1000.0f);
+				InputController::getInstance()->takeEvent(evt);
 
 				if (evt.type == SDL_QUIT)
 				{
@@ -165,7 +165,7 @@ void Game::StartGame()
 
 void Game::EngineUpdate(float _timeStep)
 {
-	InputController::getInstance()->Update(_timeStep);
+	InputController::getInstance()->Update();
 
 	if (currentLevel)
 		currentLevel->LevelUpdate(_timeStep);

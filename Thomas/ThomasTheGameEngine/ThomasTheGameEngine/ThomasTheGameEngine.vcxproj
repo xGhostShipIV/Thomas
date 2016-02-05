@@ -29,6 +29,7 @@
     <ClInclude Include="GuiElement.h" />
     <ClInclude Include="GuiHandler.h" />
     <ClInclude Include="GuiImage.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
@@ -42,7 +43,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameProperties.h" />
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="ModelManager.h" />
@@ -76,6 +76,7 @@
     <ClCompile Include="GuiElement.cpp" />
     <ClCompile Include="GuiHandler.cpp" />
     <ClCompile Include="GuiImage.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />
@@ -89,7 +90,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameProperties.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="ModelManager.cpp" />

@@ -5,13 +5,13 @@
 class PhysicsWorld
 {
 	PhysicsWorld();
-	~PhysicsWorld();
 public:
 	static PhysicsWorld * instance;
 	static PhysicsWorld * getInstance(){
 		if (!instance)instance = new PhysicsWorld();
 		return instance;
 	}
+	~PhysicsWorld();
 	
 	std::vector<Rigidbody*> PhysicalObjects;
 
