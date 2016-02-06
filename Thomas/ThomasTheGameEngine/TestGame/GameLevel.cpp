@@ -3,9 +3,9 @@
 
 #include <ModelManager.h>
 #include <RenderableComponent.h>
+#include <InputHandler.h>
+#include <Game.h>
 
-#include "FPS_Inputs.h"
-#include "CameraControls.h"
 
 #include "GameCamera.h"
 #include "PlanetHorizontal.h"
@@ -136,16 +136,6 @@ GameLevel::GameLevel(std::string fileName_)
 		layerContainer->addChild(layers[i]);
 
 	ModelManager::getInstance()->PushModels();
-
-	//new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
-	//new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
-	//new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
-	//new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
-	//new Camera_Forward(currentCamera, SDLK_w);
-	//new Camera_Right(currentCamera, SDLK_d);
-	//new Camera_Back(currentCamera, SDLK_s);
-
-	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 
@@ -156,4 +146,17 @@ GameLevel::~GameLevel()
 bool GameLevel::HasObjectives()
 {
 	return true;
+}
+
+void GameLevel::LevelUpdate(float timeStep_)
+{
+	Level::LevelUpdate(timeStep_);
+
+	if (Input->isMouseDown(SDL_BUTTON_RIGHT))
+	{
+		layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+	}
+	
+	if (Input->isKeyDown(SDLK_ESCAPE))
+		GAME->setRunning(false);
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include <GameObject.h>
 #include <RenderableComponent.h>
-#include <InputComponent.h>
 
 
 class Layer :

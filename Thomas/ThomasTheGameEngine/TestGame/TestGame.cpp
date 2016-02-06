@@ -4,11 +4,9 @@
 #include "TestGame.h"
 #include "TestLevel.h"
 #include <GameObject.h>
-#include <InputComponent.h>
 #include <GameProperties.h>
 #include <AudioManager.h>
 #include <Camera.h>
-#include "closeGameInput.h"
 #include <sstream>
 #include "Observatory.h"
 #include "DrScottLevel.h"
@@ -20,7 +18,6 @@ TestGame::TestGame()
 {
 	instance = this;
 
-	inputManager = InputController::getInstance();
 
 	LoadLevel(new GameLevel("testLevel.xml"));
 
@@ -30,7 +27,6 @@ TestGame::TestGame()
 	//LoadLevel(new TestNetLevel());
 	//LoadLevel(new UITestLevel());
 
-	new CloseGame(new GameObject(GAME->currentLevel), SDLK_ESCAPE);
 
 	GLU::OutputOpenGLVersion();
 }

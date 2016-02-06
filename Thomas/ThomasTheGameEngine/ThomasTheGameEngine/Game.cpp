@@ -165,12 +165,12 @@ void Game::StartGame()
 
 void Game::EngineUpdate(float _timeStep)
 {
-	InputController::getInstance()->Update();
-
 	if (currentLevel)
 		currentLevel->LevelUpdate(_timeStep);
 
 	Update(_timeStep);
+
+	InputController::getInstance()->Update();
 }
 
 void Game::EngineRender()

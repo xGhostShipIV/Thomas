@@ -20,6 +20,8 @@ public:
 	GameObject * layerContainer;
 
 	bool rotateLevel;
+
+	void LevelUpdate(float timeStep_) override;
 private:
 	GameObject * skybox;
 };

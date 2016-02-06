@@ -36,29 +36,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioTester.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="TestLevel.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="TestGame.h">
       <Filter>Header Files\Games</Filter>
     </ClInclude>
-    <ClInclude Include="CameraInputTest.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="closeGameInput.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectInputTest.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
-    <ClInclude Include="FPS_Inputs.h">
-      <Filter>Header Files\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="Torch.h">
       <Filter>Header Files</Filter>
@@ -102,9 +87,6 @@
     <ClInclude Include="GameLevel.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControls.h">
-      <Filter>Header Files\GameFiles</Filter>
-    </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
@@ -128,9 +110,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AudioTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,9 +159,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameLevel.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraControls.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">

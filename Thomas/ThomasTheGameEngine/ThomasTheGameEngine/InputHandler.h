@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include "../Math/two_dimensions.hpp"
 
+#define Input InputController::getInstance()
+
 class InputController {
 	std::map < SDL_Keycode, bool > curKeyboardMap;
 	std::map < SDL_Keycode, bool > oldKeyboardMap;

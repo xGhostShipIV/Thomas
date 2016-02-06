@@ -10,10 +10,6 @@
 #include <Rigidbody.h>
 #include <PhysicsWorld.h>
 
-#include "AudioTester.h"
-#include "CameraInputTest.h"
-#include "GameObjectInputTest.h"
-#include "FPS_Inputs.h"
 #include "HeadBob.h"
 
 //#define BUFFER_OFFSET(i) ((void*)(i))
@@ -32,7 +28,6 @@ TestLevel::TestLevel()
 
 	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 
-	new AudioTester(this);
 	
 	lilCube = new GameObject(this, Vec3(2, 0.5f , 0));
 	light = new GameObject(this, Vec3(0, 60 , 0));
@@ -209,7 +204,6 @@ TestLevel::TestLevel()
 	new FPS_MOVE_DOWN(ground, SDLK_h);*/
 
 	/* FPS CONTROLS */
-	FPS_SPEED::SetSpeed(10, 5, 2.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
 	//new FPS_FORWARD(headbob, SDLK_w);
 	//new FPS_BACKWARD(headbob, SDLK_s);

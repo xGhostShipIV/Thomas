@@ -3,7 +3,6 @@
 #include <Camera.h>
 #include <Light.h>
 #include <ParticleSystem.h>
-#include "FPS_Inputs.h"
 #include <PhysicsWorld.h>
 
 Player::Player(Level * _level, Camera * _camera) : GameObject(_level)
@@ -25,17 +24,7 @@ Player::Player(Level * _level, Camera * _camera) : GameObject(_level)
 	feetMagic = new ParticleSystem(this, ParticleSystem::Emitter_Type_None, "plane", "footprint", 50, 0.7f, 3.f, Particle::Object3D);
 	feetMagic->Stop();
 
-	FPS_SPEED::SetSpeed(1.0f, 5, 2.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-	new FPS_FORWARD(this, SDLK_w);
-	new FPS_BACKWARD(this, SDLK_s);
-	new FPS_STRAFE_LEFT(this, SDLK_a);
-	new FPS_STRAFE_RIGHT(this, SDLK_d);
-
-	new FPS_TURN_LEFT(this, MouseMovement::Negative_X);
-	new FPS_TURN_RIGHT(this, MouseMovement::Positive_X);
-	new FPS_TURN_UP(this, MouseMovement::Positive_Y);
-	new FPS_TURN_DOWN(this, MouseMovement::Negative_Y);
 
 	/*Rigidbody * rb = new Rigidbody(fpsCamera);
 	rb->gravitas = false;
