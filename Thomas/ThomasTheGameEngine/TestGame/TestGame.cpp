@@ -22,10 +22,10 @@ TestGame::TestGame()
 
 	inputManager = InputController::getInstance();
 
-	LoadLevel(new GameLevel("testLevel.xml"));
+	//LoadLevel(new GameLevel("testLevel.xml"));
 
 	//LoadLevel(new Observatory());
-	//LoadLevel(new TestLevel());
+	LoadLevel(new TestLevel());
 	//LoadLevel(new DrScottLevel());
 	//LoadLevel(new TestNetLevel());
 	//LoadLevel(new UITestLevel());

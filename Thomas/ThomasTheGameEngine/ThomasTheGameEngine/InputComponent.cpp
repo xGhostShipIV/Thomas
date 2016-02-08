@@ -135,7 +135,9 @@ void InputController::releaseKey(SDL_Keycode key)
 	{
 		if ((*it) == key)
 		{
-			inputMap.find(*it)->second->whenReleased();
+			if (inputMap.find(key) != inputMap.end()){
+				inputMap.find(*it)->second->whenReleased();
+			}
 			keysDown.erase(it);
 			return;
 		}

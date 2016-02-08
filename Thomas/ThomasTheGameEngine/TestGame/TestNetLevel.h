@@ -29,6 +29,7 @@ public:
 	{
 		SDL_Event e;
 		char c[sizeof(SDL_Event)];
+		Uint8 ui8[sizeof(SDL_Event)/8];
 	};
 
 	TestNetLevel();
@@ -39,12 +40,18 @@ public:
 
 	IPaddress serverIP, *clientIP;
 	TCPsocket serverSocket, clientSocket;
+	UDPsocket serverSocketUDP, clientSocketUDP;
+	UDPpacket *packetUDP;
+
 	int quit, len;
 	char buffer[512];
-	bool connected, isServer;
+	bool connected, isServer, TCPConnection;
 
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 
-   //possible thread needed
+	void RotateFrosty(GameObject *frosty_, SDL_Event e_, float timeStep_);
+	float timeSinceLastPacket;
+	const float PACKET_COOLDOWN = 1 / 18.0f;
+	bool leftClick;
 };

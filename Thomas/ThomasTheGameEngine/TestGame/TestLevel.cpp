@@ -97,7 +97,7 @@ TestLevel::TestLevel()
 	ModelManager::getInstance()->loadModel("bear", "Models/bear-obj.obj", true, ModelManager::Draw_Mode::CW);
 	ModelManager::getInstance()->loadModel("torch", "Models/torch.obj", true);
 	ModelManager::getInstance()->loadModel("sphere", "Models/sphere.obj", false, ModelManager::Draw_Mode::CW);
-	ModelManager::getInstance()->loadModel("turboSphere", "Models/Sphere.obj", false, ModelManager::Draw_Mode::CW);
+	ModelManager::getInstance()->loadModel("turboSphere", "Models/turboSphere.obj", false, ModelManager::Draw_Mode::CW);
 
 	ModelManager::getInstance()->CreateCuboid("cube", 0.5f, 0.5f, 0.5f, true);
 	ModelManager::getInstance()->CreateCuboid("InCubeO", 5, 5, 5, true);
@@ -149,7 +149,7 @@ TestLevel::TestLevel()
 	RenderableComponent *skyRC = new RenderableComponent("skybox", "skybox", skybox);
 	skyRC->SetEffecctedByLight(1, 0, 0);
 
-	new RenderableComponent("turboSphere", "white", dragon, new Material(1, 1, 0.6f));
+	new RenderableComponent("turboSphere", "white", dragon, new Material(1, 1, 1));
 	new RenderableComponent("sphere", "greenCheckers", dragonLight, new Material(1, 1, 1));
 
 	new RenderableComponent("InCubeO", "dice", OutsideCube);
@@ -202,8 +202,8 @@ TestLevel::TestLevel()
 	new CameraTurnRight(currentCamera, SDLK_RIGHT);
 	new CameraTurnLeft(currentCamera, SDLK_LEFT);*/
 
-	//new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
-	//new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
+	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
+	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 
 	/*new FPS_MOVE_UP(ground, SDLK_y);
 	new FPS_MOVE_DOWN(ground, SDLK_h);*/
@@ -211,18 +211,18 @@ TestLevel::TestLevel()
 	/* FPS CONTROLS */
 	FPS_SPEED::SetSpeed(10, 5, 2.5f);
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-	//new FPS_FORWARD(headbob, SDLK_w);
-	//new FPS_BACKWARD(headbob, SDLK_s);
-	//new FPS_STRAFE_LEFT(headbob, SDLK_a);
-	//new FPS_STRAFE_RIGHT(headbob, SDLK_d);
+	new FPS_FORWARD(headbob, SDLK_w);
+	new FPS_BACKWARD(headbob, SDLK_s);
+	new FPS_STRAFE_LEFT(headbob, SDLK_a);
+	new FPS_STRAFE_RIGHT(headbob, SDLK_d);
 
-	//new FPS_MOVE_UP(headbob, SDLK_SPACE);
-	//new FPS_MOVE_DOWN(headbob, SDLK_x);
+	new FPS_MOVE_UP(headbob, SDLK_SPACE);
+	new FPS_MOVE_DOWN(headbob, SDLK_x);
 
-	//new FPS_TURN_LEFT(headbob, MouseMovement::Negative_X);
-	//new FPS_TURN_RIGHT(headbob, MouseMovement::Positive_X);
-	//new FPS_TURN_UP(headbob, MouseMovement::Positive_Y);
-	//new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);
+	new FPS_TURN_LEFT(headbob, MouseMovement::Negative_X);
+	new FPS_TURN_RIGHT(headbob, MouseMovement::Positive_X);
+	new FPS_TURN_UP(headbob, MouseMovement::Positive_Y);
+	new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);
 }
 
 TestLevel::~TestLevel()

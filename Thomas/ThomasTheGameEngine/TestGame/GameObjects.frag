@@ -84,20 +84,31 @@ void main()
 				vec4 distanceToPoint =  fPosition - LightPosition_Point[i];
 				vec4 toPointLight =  normalize(LightPosition_Point[i] - fPosition);
 
-				{
-					float brightness = dot(vNormal, toPointLight);
-					brightness = clamp(brightness, 0.0f, 1.0f) / ( length(toPointLight) * length(vNormal) * pow(length(distanceToPoint), 2) );
-					vec4 pointDiffuse = brightness * LightColor_Point[i] * Material.y;
-					diffuse += pointDiffuse;
-				}
+				float lambertian = max(dot(toPointLight, vNormal), 0.0);
 
-				vec4 lightDirection = normalize(fPosition - LightPosition_Point[i]);
-				//if (dot(lightDirection, vNormal) < 0)
+				if(lambertian > 0.0)
 				{
-					vec4 reflection = normalize(reflect(lightDirection, vNormal));
-					float sp_brightness =  max(dot(reflection, toCameraVector), 0) * max(dot(lightDirection, vNormal), 0);
-					vec4 pointSpecular = (pow(sp_brightness, 1) / (length(distanceToPoint) * length(distanceToPoint))) * Material.z * LightColor_Point[i];
-					specular += pointSpecular;
+					{
+						float brightness = dot(vNormal, toPointLight);
+						brightness = clamp(brightness, 0.0f, 1.0f) / ( length(toPointLight) * length(vNormal) * pow(length(distanceToPoint), 2) );
+						vec4 pointDiffuse = brightness * LightColor_Point[i] * Material.y;
+						diffuse += pointDiffuse;
+					}
+
+					vec3 viewDir = normalize(toCameraVector.xyz);
+					vec3 halfDir = normalize(toPointLight.xyz + viewDir);
+					float specAngle = max(dot(halfDir, vNormal.xyz), 0.0);
+					//specular += (pow(specAngle, 3.0) / (pow(length(distanceToPoint), 2) )) * Material.z * LightColor_Point[i];
+					specular += pow(specAngle, 16.0) * Material.z * LightColor_Point[i];
+
+					//vec4 lightDirection = normalize(fPosition - LightPosition_Point[i]);
+					//if (dot(lightDirection, vNormal) < 0)
+					//{
+					//	vec4 reflection = normalize(reflect(lightDirection, vNormal));
+					//	float sp_brightness =  max(dot(reflection, toCameraVector), 0) * max(dot(lightDirection, vNormal), 0);
+					//	vec4 pointSpecular = (pow(sp_brightness, 1) / (length(distanceToPoint) * length(distanceToPoint))) * Material.z * LightColor_Point[i];
+					//	specular += pointSpecular;
+					//}
 				}
 			}
 		}
@@ -107,6 +118,9 @@ void main()
 			/* SPOT */
 			for (int i = 0; i < LightPosition_Spot.length(); i++)
 			{
+
+				//vec3 lightDir = normalize(LightPosition_Spot[i] - fPosition);
+				
 				vec4 distanceToFrag =  fPosition - LightPosition_Spot[i];
 				vec4 toSpotLight =  normalize(LightPosition_Spot[i] - fPosition);
 
@@ -114,22 +128,35 @@ void main()
 					//Check if within cone
 					if ( dot(distanceToFrag, LightDirection_Spot[i]) / (length(distanceToFrag) * length(LightDirection_Spot[i])) > cos(LightAngle_Spot[i]/2.0f) )
 					{
-						float distanceOfAngle = (LightAngle_Spot[i]/2.0f) - acos(dot(distanceToFrag, LightDirection_Spot[i]) / (length(distanceToFrag) * length(LightDirection_Spot[i])));
+						float lambertian = max(dot(toSpotLight, vNormal), 0.0);
 
-						float brightness = dot(vNormal, toSpotLight) / (pow(length(distanceToFrag),2) * length(toSpotLight) * length(vNormal)) * (distanceOfAngle / (LightAngle_Spot[i]/2.0f));
-						brightness = clamp(brightness, 0, 1);
-						vec4 spotDiffuse = brightness * LightColor_Spot[i] * Material.y;
-						diffuse += spotDiffuse;
-
-						
-						//if (dot(LightDirection_Spot[i], fNormal) < 0)
+						if(lambertian > 0.0)
 						{
-							vec4 reflection =  reflect(normalize(LightDirection_Spot[i]), vNormal);
-							float sp_brightness = max(dot(toCameraVector, reflection), 0.0) ;
-							vec4 spotSpecular = (pow(sp_brightness, 1) / (pow(length(distanceToFrag), 2) )) * Material.z * (distanceOfAngle / (LightAngle_Spot[i]/2.0f)) * LightColor_Spot[i];
-							specular += spotSpecular;
+							float distanceOfAngle = (LightAngle_Spot[i]/2.0f) - acos(dot(distanceToFrag, LightDirection_Spot[i]) / (length(distanceToFrag) * length(LightDirection_Spot[i])));
+
+							float brightness = dot(vNormal, toSpotLight) / (pow(length(distanceToFrag),2) * length(toSpotLight) * length(vNormal)) * (distanceOfAngle / (LightAngle_Spot[i]/2.0f));
+							brightness = clamp(brightness, 0, 1);
+							vec4 spotDiffuse = brightness * LightColor_Spot[i] * Material.y;
+							diffuse += lambertian * spotDiffuse;
+
+							
+							// this is blinn phong
+							vec3 viewDir = normalize(toCameraVector.xyz);
+							vec3 halfDir = normalize(toSpotLight.xyz + viewDir);
+							float specAngle = max(dot(halfDir, vNormal.xyz), 0.0);
+							specular += (pow(specAngle, 4.0) / (pow(length(distanceToFrag), 2) )) * Material.z * (distanceOfAngle / (LightAngle_Spot[i]/2.0f)) * LightColor_Spot[i];
+							//specular += pow(specAngle, 16.0) * Material.z * LightColor_Spot[i];
+
+
+							//crappy phong
+							////if (dot(LightDirection_Spot[i], fNormal) < 0)
+							//{
+							//	vec4 reflection =  reflect(normalize(LightDirection_Spot[i]), vNormal);
+							//	float sp_brightness = max(dot(toCameraVector, reflection), 0.0) ;
+							//	vec4 spotSpecular = (pow(sp_brightness, 1) / (pow(length(distanceToFrag), 2) )) * Material.z * (distanceOfAngle / (LightAngle_Spot[i]/2.0f)) * LightColor_Spot[i];
+							//	specular += spotSpecular;
+							//}
 						}
-						
 					}
 				}
 			}
@@ -147,6 +174,8 @@ void main()
 
 
 		fColor = specular + texture2D(texture, texCoord) * (ambientLight + diffuse);
+
+		//vec3 colorGammaCorrected = pow(fColor, vec3(1.0/screenGamma));
 	}
 
 
