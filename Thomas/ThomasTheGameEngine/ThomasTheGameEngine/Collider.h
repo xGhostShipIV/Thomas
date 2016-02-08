@@ -11,10 +11,10 @@ class CubeCollider;
 class Collider :
 	public Component{
 protected:
+public:
 	enum ColliderType{
 		Sphere, BoundedPlane, Cube
 	};
-public:
 	std::vector<Collider> nestedColliders;
 	Vec3 colliderCentre;
 	ColliderType type;
@@ -56,5 +56,6 @@ public:
 class CubeCollider :
 	public Collider{
 public:
-	//
+	//Just a thick plane?
+	float depth;
 };

@@ -36,37 +36,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioTester.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="TestLevel.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="TestGame.h">
       <Filter>Header Files\Games</Filter>
     </ClInclude>
-    <ClInclude Include="CameraInputTest.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="closeGameInput.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectInputTest.h">
-      <Filter>Header Files\Inputs</Filter>
-    </ClInclude>
-    <ClInclude Include="FPS_Inputs.h">
-      <Filter>Header Files\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="Torch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AmbientStar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AsteroidField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hallway.h">
@@ -102,23 +84,32 @@
     <ClInclude Include="CounterButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameLevel.h">
-      <Filter>Header Files\GameFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraControls.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\GameFiles</Filter>
     </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetHorizontal.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="AsteroidField.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetVertical.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Wormhole.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="WarpGate.h">
+      <Filter>Header Files\GameFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AudioTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -129,9 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AmbientStar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AsteroidField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hallway.cpp">
@@ -170,16 +158,28 @@
     <ClCompile Include="CounterButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameLevel.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControls.cpp">
+    <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
+    <ClCompile Include="Layer.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetHorizontal.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AsteroidField.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetVertical.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wormhole.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WarpGate.cpp">
       <Filter>Source Files\Game Files</Filter>
     </ClCompile>
   </ItemGroup>

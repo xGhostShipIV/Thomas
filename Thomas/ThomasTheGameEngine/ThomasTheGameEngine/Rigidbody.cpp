@@ -14,10 +14,13 @@ void Rigidbody::Init(){
 
 	//Always a sphere for now
 	float tensorValue = 2.0f / 5.0f * mass * CollisionRadius * CollisionRadius;
+	//For a plane
+	//tensorValue = m * (h*h + w*w) / 12;
 	inertiaTensor = Matrix3(
 		tensorValue, 0, 0,
 		0, tensorValue, 0,
 		0, 0, tensorValue);
+
 
 	//More on this later, for now is percectly ok.
 	drag = 0.5f;
@@ -54,4 +57,24 @@ void Rigidbody::AddForce(Vec3 _force){
 
 void Rigidbody::AddTorque(Quat _torque){
 	AngularAccel = AngularAccel * _torque;
+}
+
+void Rigidbody::setTensorShape(Collider::ColliderType type_, Vec3 dims_){
+	float tensorValue;
+	switch (type_){
+	case(Collider::ColliderType::Sphere):
+		tensorValue = 2.0f / 5.0f * mass * CollisionRadius * CollisionRadius;
+		break;
+	case(Collider::ColliderType::BoundedPlane) :
+		tensorValue = mass * (dims_.x * dims_.x + dims_.y * dims_.y) / 12.0f;
+		break;
+	default:
+		tensorValue = 1.0f;
+		break;
+	}
+
+	inertiaTensor = Matrix3(
+		tensorValue, 0, 0,
+		0, tensorValue, 0,
+		0, 0, tensorValue);
 }

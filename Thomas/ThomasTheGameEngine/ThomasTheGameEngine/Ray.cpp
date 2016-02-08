@@ -1,4 +1,7 @@
 #include "Ray.h"
+#include "Game.h"
+#include "Level.h"
+#include "InputHandler.h"
 
 
 Ray::Ray()
@@ -10,6 +13,13 @@ Ray::Ray()
 Ray::Ray(Vec3 _point, Vec3 _dir){
 	point = _point;
 	dir = _dir;
+}
+
+Ray Ray::fromScreen(){
+	Camera view_ = *(Game::GetInstance()->currentLevel->currentCamera);
+	point = view_.position;
+	dir = Quat::rotate(view_.rotation, Vec3(InputController::getInstance()->mousePos().x, InputController::getInstance()->mousePos().y, view_.frustrum.nearBottomRight.z));
+	return Ray(point, dir);
 }
 
 

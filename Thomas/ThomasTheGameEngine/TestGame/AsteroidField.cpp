@@ -16,8 +16,9 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 		int model = rand() % 4;
 
 		asteroids.push_back(new GameObject(_level, _position));
-		asteroids[asteroids.size() - 1]->position = Vec3(asteroids[asteroids.size() - 1]->position.x + r * cos(theta), _position.y, asteroids[asteroids.size() - 1]->position.z + r * sin(theta));
-		asteroids[asteroids.size() - 1]->Scale(Vec3(0.0015, 0.0015, 0.0015));
+		asteroids[asteroids.size() - 1]->position = Vec3(asteroids[asteroids.size() - 1]->position.x + r * cos(theta), _position.y + 0.2f, asteroids[asteroids.size() - 1]->position.z + r * sin(theta));
+		asteroids[asteroids.size() - 1]->Scale(Vec3(0.001, 0.001, 0.001));
+		addChild(asteroids[asteroids.size() - 1]);
 
 		switch (model)
 		{

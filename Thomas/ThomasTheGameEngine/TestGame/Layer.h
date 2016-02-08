@@ -2,6 +2,7 @@
 #include <GameObject.h>
 #include <RenderableComponent.h>
 
+
 class Layer :
 	public GameObject
 {
@@ -15,4 +16,5 @@ public:
 private:
 	RenderableComponent * r;
 };
+
 

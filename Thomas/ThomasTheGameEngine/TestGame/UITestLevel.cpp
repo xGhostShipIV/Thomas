@@ -9,10 +9,6 @@
 #include <Rigidbody.h>
 #include <PhysicsWorld.h>
 
-#include "AudioTester.h"
-#include "CameraInputTest.h"
-#include "GameObjectInputTest.h"
-#include "FPS_Inputs.h"
 #include "HeadBob.h"
 #include "CounterButton.h"
 

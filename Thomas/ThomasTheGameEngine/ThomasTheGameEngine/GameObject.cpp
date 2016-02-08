@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "RenderableComponent.h"
-#include "InputComponent.h"
 #include "Light.h"
 #include <iostream>
 #include "LightManager.h"
@@ -226,17 +225,6 @@ ParticleSystem* GameObject::getComponent()
 	{
 		if ((*components[i]).type == Component::ComponentType::ParticleSystem)
 			return (ParticleSystem*)components[i];
-	}
-	return nullptr;
-}
-
-template<>
-InputComponent* GameObject::getComponent()
-{
-	for (int i = 0; i < components.size(); i++)
-	{
-		if ((*components[i]).type == Component::ComponentType::Input)
-			return (InputComponent*)components[i];
 	}
 	return nullptr;
 }

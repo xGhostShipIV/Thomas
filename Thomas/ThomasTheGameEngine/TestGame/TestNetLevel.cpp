@@ -9,10 +9,6 @@
 #include <Rigidbody.h>
 #include <PhysicsWorld.h>
 
-#include "AudioTester.h"
-#include "CameraInputTest.h"
-#include "GameObjectInputTest.h"
-#include "FPS_Inputs.h"
 #include "HeadBob.h"
 
 
@@ -79,30 +75,6 @@ TestNetLevel::TestNetLevel()
 
 	/* PUSH MODELS */
 	ModelManager::getInstance()->PushModels();
-
-	{
-		/*new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
-		new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);*/
-
-		/*new FPS_MOVE_UP(ground, SDLK_y);
-		new FPS_MOVE_DOWN(ground, SDLK_h);*/
-
-		/* FPS CONTROLS */
-		FPS_SPEED::SetSpeed(10, 2, 1.0f);
-		//SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-		/*new FPS_FORWARD(currentCamera, SDLK_w);
-		new FPS_BACKWARD(currentCamera, SDLK_s);
-		new FPS_STRAFE_LEFT(currentCamera, SDLK_a);
-		new FPS_STRAFE_RIGHT(currentCamera, SDLK_d);
-
-		new FPS_MOVE_UP(currentCamera, SDLK_SPACE);
-		new FPS_MOVE_DOWN(currentCamera, SDLK_x);*/
-
-		/*new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
-		new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
-		new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
-		new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);*/
-	}
 
 	/* NET STUFF */
 
