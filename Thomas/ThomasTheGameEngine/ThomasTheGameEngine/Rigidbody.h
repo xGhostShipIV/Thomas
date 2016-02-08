@@ -17,6 +17,8 @@ public:
 	bool isKinematic;
 	bool gravitas;
 	Matrix3 inertiaTensor;
+
+	//Note--Move this, should be at the collider level and not the rigidbody level.
 	float CollisionRadius;
 
 	float drag;
@@ -32,6 +34,7 @@ public:
 
 	//Functions
 	void AddForce(Vec3);
+	void setTensorShape(Collider::ColliderType, Vec3);
 
 	//Not implemented!
 	void AddTorque(Quat); //torque in local space

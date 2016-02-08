@@ -20,11 +20,11 @@ bool Collider::isColliding(SphereCollider* _first, SphereCollider* _second){
 }
 
 bool Collider::isColliding(SphereCollider* _sphere, PlaneCollider* _plane){
-	//if the distance to the plane from the position of the parent is greater than the radius &&
 	//Sum of interior angles is 2 * PI
-	if (abs(_plane->plane.DistanceToPoint(_sphere->parentObject->position)) < _sphere->collisionRadius)// &&
-		//_plane.plane.normal * _plane.plane.DistanceToPoint(_sphere.parentObject->position) + _sphere.parentObject->position) 
-	return false;
+	if (abs(_plane->plane.DistanceToPoint(_sphere->parentObject->position)) < _sphere->collisionRadius)
+		return true;
+	else
+		return false;
 }
 
 bool Collider::isColliding(SphereCollider* _sphere, CubeCollider* _cube){ return false; }
