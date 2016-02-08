@@ -43,6 +43,8 @@ public:
 	Vec2 deltaMouse();
 	Vec2 mousePos();
 
+	SDL_Event previousEvent;
+
 	//Just throw any input event here, will handle inside the input controller
 	void takeEvent(SDL_Event event_);
 

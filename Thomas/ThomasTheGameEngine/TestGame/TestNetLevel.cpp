@@ -10,7 +10,7 @@
 #include <PhysicsWorld.h>
 
 #include "HeadBob.h"
-
+#include <InputHandler.h>
 
 TestNetLevel::TestNetLevel()
 {
@@ -254,7 +254,7 @@ void TestNetLevel::LevelUpdate(float _timeStep)
 
 			/*SDLEventxfer x;
 			x.e = SDL_Event();
-			x.e.motion = InputController::getInstance()->MoEvent;*/
+			x.e = InputController::getInstance()->previousEvent;*/
 
 			{
 
@@ -309,8 +309,7 @@ void TestNetLevel::LevelUpdate(float _timeStep)
 			if (timeSinceLastPacket >= PACKET_COOLDOWN)
 			{
 				SDLEventxfer x;
-				x.e = SDL_Event();
-				x.e.motion = InputController::getInstance()->MoEvent;
+				x.e = InputController::getInstance()->previousEvent;
 
 				if (!(x.e.motion.x < 0 || x.e.motion.y < 0))
 				{

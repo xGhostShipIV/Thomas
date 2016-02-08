@@ -212,5 +212,6 @@ void InputController::takeEvent(SDL_Event e_){
 	else if (e_.type == SDL_MOUSEMOTION)
 		GuiHandler::getInstance()->HandleEventMouseHover(curMousePos.x, curMousePos.y);
 
+	previousEvent = e_;
 	//Gui events may need to be re-checked
 }

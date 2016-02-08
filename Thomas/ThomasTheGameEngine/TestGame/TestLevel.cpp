@@ -197,15 +197,15 @@ TestLevel::TestLevel()
 	new CameraTurnRight(currentCamera, SDLK_RIGHT);
 	new CameraTurnLeft(currentCamera, SDLK_LEFT);*/
 
-	new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
-	new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
+	//new AmbientBrightnessUp(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_LEFT]);
+	//new AmbientBrightnessDown(&ambientLightColor, Game::GetInstance()->inputManager->mouseButtonDict[SDL_BUTTON_RIGHT]);
 
 	/*new FPS_MOVE_UP(ground, SDLK_y);
 	new FPS_MOVE_DOWN(ground, SDLK_h);*/
 
 	/* FPS CONTROLS */
 	SDL_SetRelativeMouseMode(SDL_TRUE); //Traps Mouse in Window (centre)
-	new FPS_FORWARD(headbob, SDLK_w);
+	/*new FPS_FORWARD(headbob, SDLK_w);
 	new FPS_BACKWARD(headbob, SDLK_s);
 	new FPS_STRAFE_LEFT(headbob, SDLK_a);
 	new FPS_STRAFE_RIGHT(headbob, SDLK_d);
@@ -216,7 +216,7 @@ TestLevel::TestLevel()
 	new FPS_TURN_LEFT(headbob, MouseMovement::Negative_X);
 	new FPS_TURN_RIGHT(headbob, MouseMovement::Positive_X);
 	new FPS_TURN_UP(headbob, MouseMovement::Positive_Y);
-	new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);
+	new FPS_TURN_DOWN(headbob, MouseMovement::Negative_Y);*/
 }
 
 TestLevel::~TestLevel()
