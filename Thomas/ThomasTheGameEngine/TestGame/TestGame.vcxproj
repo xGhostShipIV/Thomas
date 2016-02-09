@@ -82,19 +82,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AmbientStar.h" />
-    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="CounterButton.h" />
     <ClInclude Include="DrScottLevel.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Hallway.h" />
     <ClInclude Include="HeadBob.h" />
-    <ClInclude Include="Layer.h" />
     <ClInclude Include="MockSolarSystem.h" />
     <ClInclude Include="Observatory.h" />
     <ClInclude Include="ObservatoryRoom.h" />
-    <ClInclude Include="PlanetHorizontal.h" />
-    <ClInclude Include="PlanetVertical.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SlidingDoor.h" />
@@ -103,12 +99,9 @@
     <ClInclude Include="TestNetLevel.h" />
     <ClInclude Include="Torch.h" />
     <ClInclude Include="UITestLevel.h" />
-    <ClInclude Include="WarpGate.h" />
-    <ClInclude Include="Wormhole.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmbientStar.cpp" />
-    <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="CounterButton.cpp" />
     <ClCompile Include="DrScottLevel.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -120,8 +113,6 @@
     <ClCompile Include="MockSolarSystem.cpp" />
     <ClCompile Include="Observatory.cpp" />
     <ClCompile Include="ObservatoryRoom.cpp" />
-    <ClCompile Include="PlanetHorizontal.cpp" />
-    <ClCompile Include="PlanetVertical.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SlidingDoor.cpp" />
     <ClCompile Include="TestGame.cpp" />
@@ -129,8 +120,6 @@
     <ClCompile Include="TestNetLevel.cpp" />
     <ClCompile Include="Torch.cpp" />
     <ClCompile Include="UITestLevel.cpp" />
-    <ClCompile Include="WarpGate.cpp" />
-    <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />

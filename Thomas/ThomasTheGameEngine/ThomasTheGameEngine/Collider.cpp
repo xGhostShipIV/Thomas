@@ -9,6 +9,12 @@ SphereCollider::SphereCollider(GameObject* _parent) : Collider(_parent){
 	collisionRadius = 1;
 }
 
+PlaneCollider::PlaneCollider(GameObject * parent_, Vec3 normal_) : Collider(parent_)
+{
+	type = ColliderType::BoundedPlane;
+	plane = Plane(normal_, parent_->position);
+}
+
 bool Collider::isColliding(SphereCollider* _first, SphereCollider* _second){
 
 	//if the length of the vector between the 2 centres is less than the 2 collision radius' return true, else false
@@ -54,38 +60,42 @@ bool Collider::isColliding(Collider* _first, Collider* _second){
 	
 	//Delegate to the proper function call.
 	//Don't touch unless yo know what yo doin'
-	if (_first->type == ColliderType::Sphere){
-		if (_second->type == Collider::Sphere){
-			return isColliding(((SphereCollider*)_first), ((SphereCollider*)_second));
+	if (_first && _second)
+	{
+		if (_first->type == ColliderType::Sphere){
+			if (_second->type == Collider::Sphere){
+				return isColliding(((SphereCollider*)_first), ((SphereCollider*)_second));
+			}
+			else if (_second->type == ColliderType::BoundedPlane){
+				return isColliding(((SphereCollider*)_first), ((PlaneCollider*)_second));
+			}
+			else if (_second->type == ColliderType::Cube){
+				return isColliding(((SphereCollider*)_first), ((CubeCollider*)_second));
+			}
 		}
-		else if (_second->type == ColliderType::BoundedPlane){
-			return isColliding(((SphereCollider*)_first), ((PlaneCollider*)_second));
+		else if (_first->type == ColliderType::BoundedPlane){
+			if (_second->type == Collider::Sphere){
+				return isColliding(((SphereCollider*)_second), ((PlaneCollider*)_first));
+			}
+			else if (_second->type == ColliderType::BoundedPlane){
+				return isColliding(((PlaneCollider*)_first), ((PlaneCollider*)_second));
+			}
+			else if (_second->type == ColliderType::Cube){
+				return isColliding(((PlaneCollider*)_first), ((CubeCollider*)_second));
+			}
 		}
-		else if (_second->type == ColliderType::Cube){
-			return isColliding(((SphereCollider*)_first), ((CubeCollider*)_second));
+		else if (_first->type == ColliderType::Cube){
+			if (_second->type == Collider::Sphere){
+				return isColliding(((SphereCollider*)_second), ((CubeCollider*)_first));
+			}
+			else if (_second->type == ColliderType::BoundedPlane){
+				return isColliding(((PlaneCollider*)_second), ((CubeCollider*)_first));
+			}
+			else if (_second->type == ColliderType::Cube){
+				return isColliding(((CubeCollider*)_first), ((CubeCollider*)_second));
+			}
 		}
 	}
-	else if (_first->type == ColliderType::BoundedPlane){
-		if (_second->type == Collider::Sphere){
-			return isColliding(((SphereCollider*)_second), ((PlaneCollider*)_first));
-		}
-		else if (_second->type == ColliderType::BoundedPlane){
-			return isColliding(((PlaneCollider*)_first), ((PlaneCollider*)_second));
-		}
-		else if (_second->type == ColliderType::Cube){
-			return isColliding(((PlaneCollider*)_first), ((CubeCollider*)_second));
-		}
-	}
-	else if (_first->type == ColliderType::Cube){
-		if (_second->type == Collider::Sphere){
-			return isColliding(((SphereCollider*)_second), ((CubeCollider*)_first));
-		}
-		else if (_second->type == ColliderType::BoundedPlane){
-			return isColliding(((PlaneCollider*)_second), ((CubeCollider*)_first));
-		}
-		else if (_second->type == ColliderType::Cube){
-			return isColliding(((CubeCollider*)_first), ((CubeCollider*)_second));
-		}
-	}
+	else return false;
 
 }

@@ -33,7 +33,7 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 
 	Rigidbody* firstBody = _first->getComponent<Rigidbody>();
 	Rigidbody* secondBody = _second->getComponent<Rigidbody>();
-	float epsilon = 1.0f; //Perfectly elastic collisions for now
+	float epsilon = 0.9f; //Perfectly elastic collisions for now
 
 	//Need some way to determine which type of objects are colliding to change the way the normals and collision points are generated
 	Vec3 normal, ColPoint, r1, r2;
@@ -48,11 +48,11 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 		//Sphere-Plane
 		if ((_first->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)){
 			normal = static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal;
-			ColPoint = _second->position + static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
+			ColPoint = _second->position - static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
 		}
 		else if ((_second->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)) {
 			normal = static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal;
-			ColPoint = _first->position + static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
+			ColPoint = _first->position - static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.DistanceToPoint(_first->position);
 		}		
 	}
 
@@ -66,8 +66,25 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 		Vec3::dot(normal, Vec3::cross(secondBody->inertiaTensor.inverse() * Vec3::cross(r2, normal),r2))
 		);
 
-	firstBody->accel += normal * J / firstBody->mass;
-	secondBody->accel += normal * -J / secondBody->mass;
+	if (!firstBody->isKinematic || !secondBody->isKinematic){
+		if (firstBody->isKinematic){
+			firstBody->accel += normal * 2 * J / firstBody->mass;
+		}
+		else if (secondBody->isKinematic){
+			secondBody->accel += normal * 2 * J / secondBody->mass;
+		}
+	}
+	else {
+		firstBody->accel += normal * J / firstBody->mass;
+		secondBody->accel += normal * -J / secondBody->mass;
+	}
+
+	if (firstBody->isKinematic){
+		firstBody->parentObject->position = ColPoint - r1.Normalized() * static_cast<SphereCollider*>(_first->getComponent<Collider>())->collisionRadius;
+	}
+	if (secondBody->isKinematic){
+		secondBody->parentObject->position = ColPoint - r2.Normalized() * static_cast<SphereCollider*>(_second->getComponent<Collider>())->collisionRadius;
+	}
 
 	/*firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0f, Vec3::cross(r1, normal).Normalized());
 	secondBody->AngularAccel = secondBody->AngularAccel * Quat(J / 1000.0f, Vec3::cross(r2, normal).Normalized());*/
@@ -103,11 +120,11 @@ void PhysicsWorld::Update(float _deltaTime){
 			//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
 
 			//Ground collision, currently exit trajectory is same as incident trajectory
-			if ((*it)->parentObject->position.y <= 0){
+			/*if ((*it)->parentObject->position.y <= 0){
 				(*it)->velocity.y *= -(1 - (*it)->drag);
 				(*it)->velocity.y = abs((*it)->velocity.y);
 				(*it)->parentObject->position.y = 0;
-			}
+			}*/
 
 			(*it)->velocity += ((*it)->accel);
 			(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
@@ -119,9 +136,9 @@ void PhysicsWorld::Update(float _deltaTime){
 			(*it)->AngularAccel = Quat::Identity();
 
 			//Sleep velocities are here
-			/*if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
+			if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
 			(*it)->velocity = Vec3::Zero();
-			}*/
+			}
 		}
 	}
 }

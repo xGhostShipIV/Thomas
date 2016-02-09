@@ -13,13 +13,18 @@ Plane::Plane(Vec3 _Pa, Vec3 _Pb, Vec3 _Pc)
 	D = -Vec3::dot(normal, _Pa);
 }
 
+Plane::Plane(Vec3 normal_, Vec3 point_){
+	normal = normal_;
+	D = Vec3::dot(normal_, point_);
+}
+
 Plane::~Plane()
 {
 }
 
 float Plane::DistanceToPoint(Vec3 _point)
 {
-	return (Vec3::dot(normal, _point) + D);
+	return (Vec3::dot(normal, _point) - D);
 }
 
 Vec4 Plane::getPlane()

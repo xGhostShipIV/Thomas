@@ -12,6 +12,8 @@
 #define RENDER_MODE_DIRECTX ModelManager::Render_DirectX
 #define RENDER_MODE_OGRE ModelManager::Render_Ogre
 
+#define Models ModelManager::getInstance()
+
 class Renderable;
 class Texture;
 

@@ -82,20 +82,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CameraControls.cpp" />
+    <ClCompile Include="..\TestGame\AsteroidField.cpp" />
+    <ClCompile Include="..\TestGame\PlanetHorizontal.cpp" />
+    <ClCompile Include="..\TestGame\PlanetVertical.cpp" />
+    <ClCompile Include="..\TestGame\WarpGate.cpp" />
+    <ClCompile Include="..\TestGame\Wormhole.cpp" />
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlayerBall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraControls.h" />
+    <ClInclude Include="..\TestGame\AsteroidField.h" />
+    <ClInclude Include="..\TestGame\Layer.h" />
+    <ClInclude Include="..\TestGame\PlanetHorizontal.h" />
+    <ClInclude Include="..\TestGame\PlanetVertical.h" />
+    <ClInclude Include="..\TestGame\WarpGate.h" />
+    <ClInclude Include="..\TestGame\Wormhole.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
-    <ClInclude Include="FPS_Inputs.h" />
     <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="Layer.h" />
+    <ClInclude Include="PlayerBall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />

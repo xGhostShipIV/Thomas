@@ -3,19 +3,37 @@
 
 #include <ModelManager.h>
 #include <RenderableComponent.h>
+#include <InputHandler.h>
+#include <Game.h>
 
-#include "FPS_Inputs.h"
-#include "CameraControls.h"
 
 #include "GameCamera.h"
+#include "PlanetHorizontal.h"
+#include "PlanetVertical.h"
+#include "AsteroidField.h"
+#include "Wormhole.h"
+#include "WarpGate.h"
+#include "PlayerBall.h"
 
 DIY_Level::DIY_Level(std::string fileName_)
 {
-	currentCamera = new GameCamera(this, Vec3(0, 0, 0), Vec3(0, 0, 1));
+	currentCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
 
-	ModelManager::getInstance()->CreateSkybox("skybox", 1000.0f);
-	ModelManager::getInstance()->loadTexture("skybox1", "Images/spaceSkybox.tif");
-	ModelManager::getInstance()->loadTexture("layerGrid", "Images/grid.png");
+	Models->CreateSkybox("skybox", 1000.0f);
+	Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
+	Models->loadTexture("layerGrid", "Images/grid.png");
+	Models->loadTexture("planet1", "Images/aruba.tif");
+	Models->loadTexture("meteorTex1", "Images/meteor_texture.tif");
+	Models->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
+	Models->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+	Models->loadTexture("gateTexture", "Images/rosary.png");
+	Models->loadTexture("ballSkin", "Images/8ball.png");
+
+	Models->loadModel("sphere", "Models/planet.obj", true);
+	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
+	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
+	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
+	Models->loadModel("warpGate", "Models/space_station.obj", true);
 
 	tinyxml2::XMLDocument doc;
 
@@ -31,6 +49,10 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 	int numLayers = 0;
 
+	rotateLevel = false;
+
+	//layerPlane = PlaneCollider();
+
 	//grab size element and reserve memory for the layers
 	//Possibly determine scale of them?
 	if (element->Attribute("size") == "SMALL"){
@@ -45,6 +67,7 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 	//set up skybox
 	skybox = new GameObject(this, currentCamera->position);
+	layerContainer = new GameObject(this, Vec3(0, 0, 0));
 
 	RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
 	r->SetEffecctedByLight(false, false, false);
@@ -52,6 +75,8 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 	element = element->FirstChildElement("Layer");
 	tinyxml2::XMLElement * objectElement = element->FirstChildElement("Object");
+
+	bool setPlayerLayer = false;
 
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -63,17 +88,33 @@ DIY_Level::DIY_Level(std::string fileName_)
 		{
 			GameObject * object;
 
+			float x = objectElement->FloatAttribute("x");
+			float z = objectElement->FloatAttribute("z");
+
 			if (objectElement->Attribute("type", "PlanetHorizontal")){
 
+				std::string textureName = objectElement->Attribute("texture");
+
+				object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
 			}
 			else if (objectElement->Attribute("type", "PlanetVertical")){
+				std::string textureName = objectElement->Attribute("texture");
 
+				object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
 			}
 			else if (objectElement->Attribute("type", "Asteroids")){
-
+				object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
 			}
 			else if (objectElement->Attribute("type", "Wormhole")){
+				object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
+			}
+			else if (objectElement->Attribute("type", "WarpGate")){
+				object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
+			}
+			else if (objectElement->Attribute("type", "Player1Start")){
+				setPlayerLayer = true;
 
+				object = new PlayerBall(this, Vec3(x, -2 + i * 1.5f, z));
 			}
 			else{
 
@@ -90,6 +131,14 @@ DIY_Level::DIY_Level(std::string fileName_)
 		//create layer in the list
 		layers.push_back(new Layer(this, Vec3(0, -2 + i * 1.5, 0), gameObjects));
 
+		//Attaches the plane collider to last layer added if it contains the players start point
+		if (setPlayerLayer)
+		{
+			layerPlane = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
+			layers.back()->getComponent<Rigidbody>()->col = layerPlane;
+			setPlayerLayer = false;
+		}
+
 		//Sets element pointer to the next layer
 
 		element = element->NextSiblingElement("Layer");
@@ -99,18 +148,10 @@ DIY_Level::DIY_Level(std::string fileName_)
 		objectElement = element->FirstChildElement("Object");
 	}
 
+	for (int i = 0; i < layers.size(); i++)
+		layerContainer->addChild(layers[i]);
 
 	ModelManager::getInstance()->PushModels();
-
-	//new FPS_TURN_LEFT(currentCamera, MouseMovement::Negative_X);
-	//new FPS_TURN_RIGHT(currentCamera, MouseMovement::Positive_X);
-	//new FPS_TURN_UP(currentCamera, MouseMovement::Positive_Y);
-	//new FPS_TURN_DOWN(currentCamera, MouseMovement::Negative_Y);
-	//new Camera_Forward(currentCamera, SDLK_w);
-	//new Camera_Right(currentCamera, SDLK_d);
-	//new Camera_Back(currentCamera, SDLK_s);
-
-	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 
@@ -121,4 +162,17 @@ DIY_Level::~DIY_Level()
 bool DIY_Level::HasObjectives()
 {
 	return true;
+}
+
+void DIY_Level::LevelUpdate(float timeStep_)
+{
+	Level::LevelUpdate(timeStep_);
+
+	if (Input->isMouseDown(SDL_BUTTON_RIGHT))
+	{
+		layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+	}
+
+	if (Input->isKeyDown(SDLK_ESCAPE))
+		GAME->setRunning(false);
 }

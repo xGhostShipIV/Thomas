@@ -30,7 +30,22 @@
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControls.cpp">
+    <ClCompile Include="..\TestGame\Wormhole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestGame\PlanetHorizontal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestGame\PlanetVertical.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestGame\WarpGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestGame\AsteroidField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,16 +56,28 @@
     <ClInclude Include="DIY_Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControls.h">
+    <ClInclude Include="..\TestGame\Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FPS_Inputs.h">
+    <ClInclude Include="..\TestGame\PlanetHorizontal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TestGame\WarpGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TestGame\Wormhole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TestGame\PlanetVertical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TestGame\AsteroidField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

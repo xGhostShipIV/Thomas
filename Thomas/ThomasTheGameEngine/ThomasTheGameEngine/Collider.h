@@ -50,6 +50,7 @@ public:
 class PlaneCollider :
 	public Collider{
 public:
+	PlaneCollider(GameObject * parent_, Vec3 normal_);
 	Plane plane;
 };
 

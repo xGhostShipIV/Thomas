@@ -12,7 +12,9 @@ public:
 	float D;
 	std::vector<Vec3> bounds;
 
+	Plane(){}
 	Plane(Vec3 _normal, float _d);
+	Plane(Vec3 normal_, Vec3 point_);
 	Plane(Vec3 _Pa, Vec3 _Pb, Vec3 _Pc);
 	~Plane();
 

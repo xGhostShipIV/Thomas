@@ -3,19 +3,20 @@
 <Level size="MEDIUM" par="3" skybox="skybox1">
   
   <Layer>
-    
+    <Object type="PlanetVertical" x="0" z="-2" texture="planet1"></Object>
   </Layer>
 
   <Layer>
-    
+    <Object type="WarpGate" x="0" z="0"></Object>
   </Layer>
 
   <Layer>
-    
+    <Object type="PlanetHorizontal" x="0" z="-2" texture="planet1"></Object>
   </Layer>
   
   <Layer>
     
+    <Object type="Player1Start" x="0" z="0"></Object>
   </Layer>
 
   <Assets>

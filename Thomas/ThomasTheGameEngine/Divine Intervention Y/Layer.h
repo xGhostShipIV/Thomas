@@ -1,6 +1,7 @@
 #pragma once
 #include <GameObject.h>
 #include <RenderableComponent.h>
+#include <Rigidbody.h>
 
 class Layer :
 	public GameObject
@@ -14,5 +15,7 @@ public:
 	void Render() override;
 private:
 	RenderableComponent * r;
+	Rigidbody * rigidBody;
 };
+
 
