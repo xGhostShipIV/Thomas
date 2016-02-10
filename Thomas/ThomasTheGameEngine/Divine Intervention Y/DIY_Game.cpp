@@ -6,9 +6,15 @@
 #include <OpenGLUtilities.h>
 #include <Camera.h>
 #include <GameObject.h>
-#include <InputComponent.h>
+#include <InputHandler.h>
 #include <GameProperties.h>
 #include <AudioManager.h>
+
+#include <Component.h>
+#include <map>
+#include <vector>
+#include <../Math/four_dimensions.hpp>
+#include <SDL.h>
 
 #include "DIY_Level.h"
 
