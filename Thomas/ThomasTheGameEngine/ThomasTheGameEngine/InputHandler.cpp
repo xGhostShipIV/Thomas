@@ -206,9 +206,15 @@ void InputController::takeEvent(SDL_Event e_){
 	else if (e_.type == SDL_KEYUP)
 		releaseKey(e_.key.keysym.sym);
 	else if (e_.type == SDL_MOUSEBUTTONDOWN)
+	{
+		GuiHandler::getInstance()->HandleEventMouseDown(e_.motion.x, e_.motion.y);
 		hitMouse(e_.button.button);
+	}
 	else if (e_.type == SDL_MOUSEBUTTONUP)
+	{
+		GuiHandler::getInstance()->HandleEventMouseUp(e_.motion.x, e_.motion.y);
 		releaseMouse(e_.button.button);
+	}
 	else if (e_.type == SDL_MOUSEMOTION)
 		GuiHandler::getInstance()->HandleEventMouseHover(curMousePos.x, curMousePos.y);
 
