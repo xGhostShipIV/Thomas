@@ -17,6 +17,7 @@ InputController::InputController(){
 	//MousePosition
 	curMousePos = Vec2::Zero();
 	oldMousePos = Vec2::Zero();
+	motionEvent = SDL_MouseMotionEvent();
 
 	//Keyboard buttons
 	curKeyboardMap.insert(std::pair<SDL_Keycode, bool>(SDLK_0, false));
@@ -170,7 +171,7 @@ Vec2 InputController::mousePos(){
 }
 
 Vec2 InputController::deltaMouse(){
-	return (curMousePos - oldMousePos);
+	return Vec2(motionEvent.xrel, motionEvent.yrel);
 }
 
 void InputController::hitKey(SDL_Keycode key_){
@@ -201,6 +202,7 @@ void InputController::Update(){
 }
 
 void InputController::takeEvent(SDL_Event e_){
+
 	if (e_.type == SDL_KEYDOWN)
 		hitKey(e_.key.keysym.sym);
 	else if (e_.type == SDL_KEYUP)
@@ -216,8 +218,10 @@ void InputController::takeEvent(SDL_Event e_){
 		releaseMouse(e_.button.button);
 	}
 	else if (e_.type == SDL_MOUSEMOTION)
+	{
 		GuiHandler::getInstance()->HandleEventMouseHover(curMousePos.x, curMousePos.y);
+		motionEvent = e_.motion;
+	}
 
-	previousEvent = e_;
 	//Gui events may need to be re-checked
 }

@@ -41,4 +41,6 @@ public:
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 
+	void InputUpdate(float _timeStep);
+
 };

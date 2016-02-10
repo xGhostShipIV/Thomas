@@ -139,6 +139,8 @@ void Game::StartGame()
 		{
 			lastUpdateTime = SDL_GetTicks();
 
+			InputController::getInstance()->motionEvent = SDL_MouseMotionEvent();
+
 			while (SDL_PollEvent(&evt))
 			{
 				//Pass events to Input Controller

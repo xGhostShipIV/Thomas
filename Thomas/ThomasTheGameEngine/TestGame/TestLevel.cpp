@@ -9,8 +9,13 @@
 #include <Flipbook.h>
 #include <Rigidbody.h>
 #include <PhysicsWorld.h>
+#include <InputHandler.h>
 
 #include "HeadBob.h"
+
+static float FPSMoveSpeed = 10.0f;
+static float FPSHorizontalTurnSpeed = 2.5f;
+static float FPSVerticalTurnSpeed = 1.5f;
 
 //#define BUFFER_OFFSET(i) ((void*)(i))
 //
@@ -223,9 +228,49 @@ TestLevel::~TestLevel()
 {
 }
 
+void TestLevel::InputUpdate(float _timeStep)
+{
+	//FORWARD
+	if (InputController::getInstance()->isKeyDown(SDLK_w))
+	{
+		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, FPSMoveSpeed) * _timeStep));
+	}
+
+	//BACKWARDS
+	if (InputController::getInstance()->isKeyDown(SDLK_s))
+	{
+		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, -FPSMoveSpeed) * _timeStep));
+	}
+
+	//STRAFE LEFT
+	if (InputController::getInstance()->isKeyDown(SDLK_a))
+	{
+		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(FPSMoveSpeed, 0, 0) * _timeStep));
+	}
+
+	//STRAFE RIGHT
+	if (InputController::getInstance()->isKeyDown(SDLK_d))
+	{
+		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(-FPSMoveSpeed, 0, 0) * _timeStep));
+	}
+
+	//LOOK UP / DOWN
+	{
+		headbob->Rotate(Quat(InputController::getInstance()->deltaMouse().y  * -FPSVerticalTurnSpeed * _timeStep * Vec3::cross(headbob->forward(), headbob->up()).length(), Vec3::cross(headbob->forward(), headbob->up())));
+	}
+
+	//TURN LEFT / RIGHT
+	{
+		headbob->Rotate(Quat(InputController::getInstance()->deltaMouse().x * -FPSHorizontalTurnSpeed * _timeStep, Vec3::BasisY()));
+	}
+}
+
+
 void TestLevel::LevelUpdate(float _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
+
+	InputUpdate(_timeStep);
 
 	dragon->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(1, 0, 0)));
 	lightAnchor->GetTransform().Rotate(Quat(-1.2f * _timeStep, Vec3(1, 0, 0)));

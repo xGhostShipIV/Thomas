@@ -309,7 +309,7 @@ void TestNetLevel::LevelUpdate(float _timeStep)
 			if (timeSinceLastPacket >= PACKET_COOLDOWN)
 			{
 				SDLEventxfer x;
-				x.e = InputController::getInstance()->previousEvent;
+				x.e.motion = InputController::getInstance()->motionEvent;
 
 				if (!(x.e.motion.x < 0 || x.e.motion.y < 0))
 				{

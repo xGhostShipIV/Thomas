@@ -13,6 +13,7 @@
 #include "TestNetLevel.h"
 #include "UITestLevel.h"
 #include "GameLevel.h"
+#include <InputHandler.h>
 
 TestGame::TestGame()
 {
@@ -22,10 +23,10 @@ TestGame::TestGame()
 	//LoadLevel(new GameLevel("testLevel.xml"));
 
 	//LoadLevel(new Observatory());
-	//LoadLevel(new TestLevel());
+	LoadLevel(new TestLevel());
 	//LoadLevel(new DrScottLevel());
 	//LoadLevel(new TestNetLevel());
-	LoadLevel(new UITestLevel());
+	//LoadLevel(new UITestLevel());
 
 
 	GLU::OutputOpenGLVersion();
@@ -38,6 +39,12 @@ TestGame::~TestGame()
 
 void TestGame::Update(float _timestep)
 {
+	if (InputController::getInstance()->isKeyDown(SDLK_ESCAPE))
+	{
+		Game::GetInstance()->setRunning(false);
+		printf("\nExit\n");
+	}
+
 	//FPS
 	{
 		std::stringstream ss;
