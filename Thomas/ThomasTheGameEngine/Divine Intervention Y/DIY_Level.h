@@ -2,6 +2,7 @@
 #include <Level.h>
 #include "Layer.h"
 #include <Rigidbody.h>
+#include "Pointer.h"
 
 class DIY_Level :
 	public Level

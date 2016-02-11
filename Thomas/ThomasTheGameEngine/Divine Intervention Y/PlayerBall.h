@@ -4,6 +4,8 @@
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
 
+#include "Pointer.h"
+
 class PlayerBall : public GameObject
 {
 public:
@@ -15,4 +17,12 @@ public:
 private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
+	Pointer * hand;
+
+	bool chargingStrike;
+
+	const int MAX_FORCE = 50;
+
+	float chargePercent;
+	float modifier;
 };

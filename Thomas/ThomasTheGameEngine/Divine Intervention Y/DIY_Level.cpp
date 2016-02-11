@@ -29,11 +29,20 @@ DIY_Level::DIY_Level(std::string fileName_)
 	Models->loadTexture("gateTexture", "Images/rosary.png");
 	Models->loadTexture("ballSkin", "Images/8ball.png");
 
+	float f[] =
+	{
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f
+	};
+
+	Models->createTexture("white", f, 2, 2);
+
 	Models->loadModel("sphere", "Models/planet.obj", true);
 	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 	Models->loadModel("warpGate", "Models/space_station.obj", true);
+	Models->loadModel("pointer", "Models/pointer.obj", true);
 
 	tinyxml2::XMLDocument doc;
 
@@ -150,6 +159,7 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 	for (int i = 0; i < layers.size(); i++)
 		layerContainer->addChild(layers[i]);
+
 
 	ModelManager::getInstance()->PushModels();
 }

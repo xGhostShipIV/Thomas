@@ -48,6 +48,9 @@
     <ClCompile Include="PlayerBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DIY_Game.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
