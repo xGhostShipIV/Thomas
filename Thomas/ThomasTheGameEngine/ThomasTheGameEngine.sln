@@ -13,6 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Divine Intervention Y", "Divine Intervention Y\Divine Intervention Y.vcxproj", "{0DF7D2D3-6C2D-4023-94AF-A85A8ED0C00E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FBB68591-C2E9-433D-AFCB-D2FBAD16C953} = {FBB68591-C2E9-433D-AFCB-D2FBAD16C953}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

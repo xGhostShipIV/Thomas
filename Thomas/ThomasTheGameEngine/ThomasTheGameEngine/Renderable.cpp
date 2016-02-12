@@ -28,6 +28,8 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 	//Not UI
 	float _ui[1] = { 0 };
 	glUniform1fv(ModelManager::getInstance()->UI_DRAW_Location, 1, _ui);
+	float _UIdrawPercent[1] = { 1 };
+	glUniform1fv(ModelManager::getInstance()->UI_DrawPercent_Location, 1, _UIdrawPercent);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -102,10 +104,12 @@ void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std
 		glFrontFace(GL_CW);
 		break;
 	}
-
+	
 	//IS UI
-	float _ui[1] = { 1 };
+	float _ui[1] = { ((GuiElement*)&parentTransform)->drawType };
 	glUniform1fv(ModelManager::getInstance()->UI_DRAW_Location, 1, _ui);
+	float _UIdrawPercent[1] = { ((GuiElement*)&parentTransform)->drawPercent };
+	glUniform1fv(ModelManager::getInstance()->UI_DrawPercent_Location, 1, _UIdrawPercent);
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

@@ -8,6 +8,8 @@ GuiElement::GuiElement(Level* _level, Vec2 _screenPosition, ScreenAnchor anchor_
 	anchorPosition(anchor_)
 {
 	isVisible = true;
+	drawPercent = 1;
+	drawType = UI_DRAW_TYPE::NORMAL;
 
 	//Register with level
 	_level->guiElements.push_back(this);

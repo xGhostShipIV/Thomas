@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include <Rigidbody.h>
 #include "Pointer.h"
+#include "DIY_Level_GUI.h"
 
 class DIY_Level :
 	public Level
@@ -27,7 +28,10 @@ public:
 
 	void SetLayerPlane(Layer *);
 private:
-	GameObject * skybox;
+	GameObject * skybox, *playerBall;
 	PlaneCollider * layerPlane;
+	DIY_Level_GUI * gui;
+
+	bool isShooting;
 };
 

@@ -36,10 +36,13 @@ DIY_Game::~DIY_Game()
 
 void DIY_Game::Update(float _timestep)
 {
+	if (Input->isKeyDown(SDLK_ESCAPE))
+		GAME->setRunning(false);
+
 	//FPS
 	{
 		std::stringstream ss;
-		ss << "Thomas Demo | FPS: " << FPS;
+		ss << "Divine Intervention Y | FPS: " << FPS;
 		std::string _fps = ss.str();
 
 		SDL_SetWindowTitle(gameWindow, _fps.c_str());

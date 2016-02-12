@@ -32,7 +32,7 @@ void PlayerBall::Update(float timeStep_)
 
 			chargePercent += modifier;
 
-			std::cout << chargePercent << std::endl;
+			//std::cout << chargePercent << std::endl;
 
 			if (chargePercent >= 100)
 				modifier = -0.5f;
@@ -51,7 +51,15 @@ void PlayerBall::Update(float timeStep_)
 		chargePercent = 0;
 		modifier = 0.5f;
 	}
+	
+}
 
+float PlayerBall::GetChargePercent()
+{
+	return chargePercent;
+}
 
-
+bool PlayerBall::GetIsChargingStrike()
+{
+	return chargingStrike;
 }

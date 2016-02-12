@@ -48,7 +48,8 @@ public:
 	static GLuint ambientLocation, lightColor_Directional_Location, lightDirection_Directional_Location;
 	static GLuint lightColor_Point_Location, lightPosition_Point_Location, cameraPosition_Location;
 	static GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
-	static GLuint isEffectedByLight_Location, UI_DRAW_Location;
+	static GLuint isEffectedByLight_Location;
+	static GLuint UI_DRAW_Location, UI_DrawPercent_Location;
 
 	//A static pointer to an instance of the manager
 	static ModelManager * instance;

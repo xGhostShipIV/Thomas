@@ -17,6 +17,11 @@ enum ScreenAnchor
 	BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
 };
 
+enum UI_DRAW_TYPE
+{
+	NONE, NORMAL, RAINBOW
+};
+
 class GuiElement : public GameObject
 {
 protected:
@@ -39,6 +44,9 @@ public:
 	void Hide();
 	virtual bool CheckMouseCollision(int _x, int _y);
 	virtual void Scale(Vec3 scale_) override;
+
+	UI_DRAW_TYPE drawType;
+	float drawPercent;
 };
 
 #endif

@@ -89,6 +89,7 @@
     <ClCompile Include="..\TestGame\Wormhole.cpp" />
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
+    <ClCompile Include="DIY_Level_GUI.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="..\TestGame\Wormhole.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
+    <ClInclude Include="DIY_Level_GUI.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="PlayerBall.h" />
     <ClInclude Include="Pointer.h" />

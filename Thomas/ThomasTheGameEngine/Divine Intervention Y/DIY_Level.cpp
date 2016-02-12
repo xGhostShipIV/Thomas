@@ -17,7 +17,27 @@
 
 DIY_Level::DIY_Level(std::string fileName_)
 {
+	tinyxml2::XMLDocument doc;
+
+	//Tries to load the file, quits if it fails
+	if (doc.LoadFile(fileName_.c_str()) != tinyxml2::XML_NO_ERROR) return;
+
+	//Grabs first element
+	tinyxml2::XMLElement * element = doc.RootElement();
+
+	//set par
+	par = element->IntAttribute("par");
+	strokeCount = 0;
+
+	int numLayers = 0;
+
+	rotateLevel = false;
+	isShooting = false;
+
 	currentCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
+
+	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
+	gui = new DIY_Level_GUI(this, par, HasObjectives());
 
 	Models->CreateSkybox("skybox", 1000.0f);
 	Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
@@ -43,22 +63,6 @@ DIY_Level::DIY_Level(std::string fileName_)
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 	Models->loadModel("warpGate", "Models/space_station.obj", true);
 	Models->loadModel("pointer", "Models/pointer.obj", true);
-
-	tinyxml2::XMLDocument doc;
-
-	//Tries to load the file, quits if it fails
-	if (doc.LoadFile(fileName_.c_str()) != tinyxml2::XML_NO_ERROR) return;
-
-	//Grabs first element
-	tinyxml2::XMLElement * element = doc.RootElement();
-
-	//set par
-	par = element->IntAttribute("par");
-	strokeCount = 0;
-
-	int numLayers = 0;
-
-	rotateLevel = false;
 
 	//layerPlane = PlaneCollider();
 
@@ -124,6 +128,7 @@ DIY_Level::DIY_Level(std::string fileName_)
 				setPlayerLayer = true;
 
 				object = new PlayerBall(this, Vec3(x, -2 + i * 1.5f, z));
+				playerBall = object;
 			}
 			else{
 
@@ -167,6 +172,7 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 DIY_Level::~DIY_Level()
 {
+	delete gui;
 }
 
 bool DIY_Level::HasObjectives()
@@ -178,11 +184,20 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	Level::LevelUpdate(timeStep_);
 
+	if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
+		isShooting = true;
+	else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+	{
+		isShooting = false;
+		strokeCount++;
+		gui->PlayerTookAStroke();
+	}
+
+	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent()/100.0f;
+	gui->Update(timeStep_);
+
 	if (Input->isMouseDown(SDL_BUTTON_RIGHT))
 	{
 		layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
 	}
-
-	if (Input->isKeyDown(SDLK_ESCAPE))
-		GAME->setRunning(false);
 }

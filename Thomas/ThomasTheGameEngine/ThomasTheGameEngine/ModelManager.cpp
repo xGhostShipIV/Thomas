@@ -30,6 +30,7 @@ GLuint ModelManager::lightAngle_Spot_Location;
 
 GLuint ModelManager::isEffectedByLight_Location;
 GLuint ModelManager::UI_DRAW_Location;
+GLuint ModelManager::UI_DrawPercent_Location;
 GLuint ModelManager::cameraPosition_Location;
 
 GLuint ModelManager::faceNormalLocation;
@@ -44,6 +45,7 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		faceNormalLocation = glGetUniformLocation(program, "faceNormal");
 		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
+		UI_DrawPercent_Location = glGetUniformLocation(program, "drawPercent");
 		transformLocation = glGetUniformLocation(program, "Transform");
 		rotateLocation = glGetUniformLocation(program, "Rotation");
 

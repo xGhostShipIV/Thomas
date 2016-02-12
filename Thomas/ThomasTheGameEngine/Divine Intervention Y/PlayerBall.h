@@ -14,6 +14,9 @@ public:
 
 	void Update(float timeStep_) override;
 
+	float GetChargePercent();
+	bool GetIsChargingStrike();
+
 private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
