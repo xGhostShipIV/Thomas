@@ -17,6 +17,7 @@
 #include <SDL.h>
 
 #include "DIY_Level.h"
+#include "SplashScreen.h"
 
 DIY_Game::DIY_Game()
 {
@@ -24,7 +25,9 @@ DIY_Game::DIY_Game()
 
 	inputManager = InputController::getInstance();
 
-	LoadLevel(new DIY_Level("testLevel.xml"));
+	LoadLevel(new SplashScreen());
+
+	//LoadLevel(new DIY_Level("testLevel.xml"));
 
 	GLU::OutputOpenGLVersion();
 }

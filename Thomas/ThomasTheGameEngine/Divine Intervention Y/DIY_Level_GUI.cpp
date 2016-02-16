@@ -33,7 +33,7 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/ostrich-regular.ttf");
 		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_COUNT", 50, "Font/ostrich-black.ttf");
 
-		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
+		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow()); 
 		StrokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), StrokeLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		ObjectivesLabel = new Label(level_, "Objectives Remaining", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ObjectivesLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 

@@ -15,12 +15,17 @@
 #include "WarpGate.h"
 #include "PlayerBall.h"
 
-DIY_Level::DIY_Level(std::string fileName_)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_)
+{
+
+}
+
+void DIY_Level::LoadContent()
 {
 	tinyxml2::XMLDocument doc;
 
 	//Tries to load the file, quits if it fails
-	if (doc.LoadFile(fileName_.c_str()) != tinyxml2::XML_NO_ERROR) return;
+	if (doc.LoadFile(fileName.c_str()) != tinyxml2::XML_NO_ERROR) return;
 
 	//Grabs first element
 	tinyxml2::XMLElement * element = doc.RootElement();
@@ -34,7 +39,10 @@ DIY_Level::DIY_Level(std::string fileName_)
 	rotateLevel = false;
 	isShooting = false;
 
-	currentCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
+	//Delete old main camera and set currentCamera to it.
+	mainCamera->isFlagged = true;
+	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
+	currentCamera = mainCamera;
 
 	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
 	gui = new DIY_Level_GUI(this, par, HasObjectives());
@@ -164,11 +172,7 @@ DIY_Level::DIY_Level(std::string fileName_)
 
 	for (int i = 0; i < layers.size(); i++)
 		layerContainer->addChild(layers[i]);
-
-
-	ModelManager::getInstance()->PushModels();
 }
-
 
 DIY_Level::~DIY_Level()
 {

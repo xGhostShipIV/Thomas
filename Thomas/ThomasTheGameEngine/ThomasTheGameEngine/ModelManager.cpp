@@ -66,16 +66,6 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
 		materialLocation = glGetUniformLocation(program, "Material");
-
-		float f[] =
-		{
-			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-			1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
-		};
-
-		createTexture("greenCheckers", f, 2, 2);
-		CreatePlane("plane", 1.0f, 1.0f);
-		CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
 	}
 }
 
@@ -85,10 +75,19 @@ ModelManager::~ModelManager()
 	//deletes all models still in memory
 	for (auto it = models.begin(); it != models.end(); it++)
 	{
-		delete it->second;
+		if (it->second)
+			delete it->second;
 	}
 
 	models.clear();
+
+	/*for (auto it = textures.begin(); it != textures.end(); it++)
+	{
+		if (it->second)
+			delete it->second;
+	}*/
+
+	textures.clear();
 }
 
 void ModelManager::loadModel(string _id, string _fileName, bool _useModelTextureMap, Draw_Mode _mode)
@@ -194,16 +193,16 @@ Renderable * ModelManager::getModel(UINT32 _id)
 	return models.find(_id)->second;
 }
 
-void ModelManager::unloadModels()
-{
-	//deletes all models still in memory
-	for (auto it = models.begin(); it != models.end(); it++)
-	{
-		delete it->second;
-	}
-
-	models.clear();
-}
+//void ModelManager::unloadModels()
+//{
+//	//deletes all models still in memory
+//	for (auto it = models.begin(); it != models.end(); it++)
+//	{
+//		delete it->second;
+//	}
+//
+//	models.clear();
+//}
 
 void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
 {
@@ -764,6 +763,47 @@ void ModelManager::PushModels()
 
 		delete newMasterList;
 	}
+}
+
+void ModelManager::UnloadModels()
+{
+	//Models
+	for (auto it = models.begin(); it != models.end(); it++)
+	{
+		if (it->second)
+			delete it->second;
+	}
+
+	models.clear();
+	modelMap.clear();
+	nextModelID = 0;
+
+	masterVectorList.clear();
+	masterNormalList.clear();
+	masterColourList.clear();
+	masterTextureCoords.clear();
+
+	////Textures
+	//for (auto it = textures.begin(); it != textures.end(); it++)
+	//{
+	//	if (it->second)
+	//		delete it->second;
+	//}
+
+	textures.clear();
+	textureMap.clear();
+	nextTextureID = 0;
+
+	//Create Defaults
+	float f[] =
+	{
+		0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
+	};
+
+	createTexture("greenCheckers", f, 2, 2);
+	CreatePlane("plane", 1.0f, 1.0f);
+	CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
 }
 
 void ModelManager::createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight)

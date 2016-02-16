@@ -166,6 +166,17 @@ bool InputController::isMouseReleased(Uint8 button_){
 	return (oldMouseMap[button_] && !curMouseMap[button_]);
 }
 
+bool InputController::isAnyKeyPressed()
+{
+	for (auto it = curKeyboardMap.begin(); it != curKeyboardMap.end(); it++)
+	{
+		if (it->second)
+			return true;
+	}
+
+	return false;
+}
+
 Vec2 InputController::mousePos(){
 	return curMousePos;
 }

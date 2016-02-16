@@ -40,6 +40,7 @@ public:
 	bool isMouseDown(Uint8);
 	bool isMousePressed(Uint8);
 	bool isMouseReleased(Uint8);
+	bool isAnyKeyPressed();
 	Vec2 deltaMouse();
 	Vec2 mousePos();
 

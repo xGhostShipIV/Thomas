@@ -35,6 +35,8 @@ private:
 	//Flag boolean that keeps the mainloop running or exits it
 	bool isRunning;
 
+	bool callInitOnNextUpdate;
+
 	//variables to track gameTime
 	Uint32 lastUpdateTime, timeSincelastUpdate;
 protected:	

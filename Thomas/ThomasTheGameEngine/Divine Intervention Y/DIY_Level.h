@@ -12,6 +12,8 @@ public:
 	DIY_Level(std::string fileName_);
 	~DIY_Level();
 
+	void LoadContent() override;
+
 	int par;
 	int strokeCount;
 	int levelBounds;
@@ -31,6 +33,8 @@ private:
 	GameObject * skybox, *playerBall;
 	PlaneCollider * layerPlane;
 	DIY_Level_GUI * gui;
+
+	std::string fileName;
 
 	bool isShooting;
 };

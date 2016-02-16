@@ -68,11 +68,14 @@ public:
 	//it into the map of models with the _id as its string
 	void loadModel(string _id, string _fileName, bool _useModelTextureMap = false, Draw_Mode _mode = Draw_Mode::CW);
 
-	//called to delete all models in memory and clear the model map
-	void unloadModels();
+	////called to delete all models in memory and clear the model map
+	//void unloadModels();
 
 	//Pushed all model information to the GPU
 	void PushModels();
+
+	//Clears all Models / Textures from ModelManager.
+	void UnloadModels();
 
 	//creates a texture using the pixel data and loads it into the texture map using the string _id
 	void createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);

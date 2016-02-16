@@ -10,6 +10,8 @@ Level::Level()
 	currentCamera = mainCamera;
 
 	ambientLightColor = Colour(0.5f, 0.5f, 0.5f, 1);
+
+	hasCalledInit = false;
 }
 
 Level::~Level()
@@ -19,7 +21,6 @@ Level::~Level()
 		delete *it;
 	}
 	gameObjects.clear();
-	gameObjectsToBeDeleted.clear();
 
 	for (auto it = guiElements.begin(); it != guiElements.end(); it++)
 	{
@@ -27,6 +28,20 @@ Level::~Level()
 	}
 	guiElements.clear();
 }
+
+void Level::init()
+{
+	//Will only load models/textures of a level once
+	if (!hasCalledInit)
+	{
+		LoadContent();
+		hasCalledInit = true;
+
+		Models->PushModels();
+	}
+}
+
+void Level::LoadContent(){}
 
 void Level::LevelRender()
 {
@@ -52,8 +67,6 @@ void Level::LevelRender()
 
 		if (!gameObjects[i]->isFlagged)
 			gameObjects[i]->Render();
-		else
-			gameObjectsToBeDeleted.push_back(gameObjects[i]);
 	}
 
 	//UI
@@ -83,13 +96,15 @@ void Level::LevelUpdate(float _timeStep)
 
 void Level::LevelCleanUp()
 {
-	for (auto it = gameObjectsToBeDeleted.begin(); it != gameObjectsToBeDeleted.end(); it++)
+	for (int i = gameObjects.size() - 1; i >= 0; i--)
 	{
-		gameObjects.erase(it);
-
-		delete it._Ptr;
+		if (gameObjects[i]->isFlagged)
+		{
+			auto it = (gameObjects.begin() + i);
+			gameObjects.erase(it);
+		}
 	}
-	gameObjectsToBeDeleted.clear();
+
 	gameObjects.shrink_to_fit();
 }
 

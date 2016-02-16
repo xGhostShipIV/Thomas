@@ -16,6 +16,13 @@ public:
 	Level();
 	~Level();
 
+	//Used to initialize all the models / textures in a level.
+	void init();
+
+	//Virtual function child classes use to load models / textures.
+	//init() will call this function. 
+	virtual void LoadContent();
+
 	GLuint cameraLocation;
 
 	//A camera is a default gameObject in a level
@@ -25,7 +32,6 @@ public:
 	//Lists that call all updates/renders for gameObjects in the game
 	//As well as a list that will collect all flagged gameObjects and delete them
 	std::vector<GameObject *> gameObjects;
-	std::vector<GameObject *> gameObjectsToBeDeleted;
 
 	std::vector<GuiElement *> guiElements;
 
@@ -44,7 +50,8 @@ public:
 	void SetAmbientColor(Colour _color);
 protected:
 	virtual void DebugRender(){};
-
 	Colour ambientLightColor;
+private:
+	bool hasCalledInit;
 };
 
