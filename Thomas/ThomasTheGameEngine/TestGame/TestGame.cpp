@@ -23,11 +23,10 @@ TestGame::TestGame()
 	//LoadLevel(new GameLevel("testLevel.xml"));
 
 	//LoadLevel(new Observatory());
-	LoadLevel(new TestLevel());
-	//LoadLevel(new DrScottLevel());
+	//LoadLevel(new TestLevel());
+	LoadLevel(new DrScottLevel());
 	//LoadLevel(new TestNetLevel());
 	//LoadLevel(new UITestLevel());
-
 
 	GLU::OutputOpenGLVersion();
 }

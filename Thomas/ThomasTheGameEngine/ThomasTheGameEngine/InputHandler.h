@@ -1,3 +1,5 @@
+#pragma once
+
 #include <map>
 #include <SDL.h>
 #include "../Math/two_dimensions.hpp"

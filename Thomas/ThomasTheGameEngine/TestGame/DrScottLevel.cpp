@@ -10,13 +10,18 @@
 #include <PhysicsWorld.h>
 
 #include "HeadBob.h"
-
+#include "FPS_Controls.h"
 
 DrScottLevel::DrScottLevel()
 {
+	updates = 0;
+}
+
+void DrScottLevel::LoadContent()
+{
 	currentCamera->position = Vec3(0, 3.5f, -8);
 	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
-	
+
 	Frosty = new GameObject(this, Vec3(0, 1, 0));
 	frosty_face = new GameObject(this, Frosty->position);
 	frosty_nose = new GameObject(this, Frosty->position);
@@ -24,7 +29,7 @@ DrScottLevel::DrScottLevel()
 	light = new GameObject(this, Vec3(0, 60, -60));
 	skybox = new GameObject(this, currentCamera->position);
 	ground = new GameObject(this, Vec3(0, 0, 0));
-		
+
 	ground->LookAt(ground->position + Vec3(0, 1, 0));
 	light->LookAt(Vec3(0, 0, 0));
 
@@ -39,31 +44,41 @@ DrScottLevel::DrScottLevel()
 
 	ModelManager::getInstance()->CreateSkybox("skybox", 200);
 	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
+
+	/* TEXTURES */
 	
-	/* CREATE TEXTURES */
-	float pixelDataWhite[]
+	const int texSize = 13 * 13 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
 	{
-		1.0f, 1.0f, 1.0f, 1.0f
+		pixelDataWhite[i] = 1.0f;
+	}
+	Models->createTexture("white", pixelDataWhite, 1, 1);
+
+	float GC[]
+	{
+		1, 1, 1, 1,		0, 1, 0, 1,
+		0, 1, 0, 1,		1, 1, 1, 1
 	};
-	ModelManager::getInstance()->createTexture("white", pixelDataWhite, 1, 1);
+	Models->createTexture("greenCheckerz", GC, 2, 2);
 
 	float pixelDataBlack[]
 	{
 		0.1f, 0.1f, 0.1f, 1.0f
 	};
-	ModelManager::getInstance()->createTexture("black", pixelDataBlack, 1, 1);
+	Models->createTexture("black", pixelDataBlack, 1, 1);
 
 	float pixelDataOrange[]
 	{
 		1, 0.5f, 0, 1
 	};
-	ModelManager::getInstance()->createTexture("orange", pixelDataOrange, 1, 1);
+	Models->createTexture("orange", pixelDataOrange, 1, 1);
 
-	ModelManager::getInstance()->loadTexture("grass", "Images/grass.png");		
-	ModelManager::getInstance()->loadTexture("skybox", "Images/Day_Skybox.png");
+	Models->loadTexture("grass", "Images/grass.png");
+	Models->loadTexture("skybox", "Images/Day_Skybox.png");
 
-	/* Add Components */
-	new RenderableComponent("frostBody", "white", Frosty, new Material(1, 1, 1));
+		/* Add Components */
+	new RenderableComponent("frostBody", "greenCheckerz", Frosty, new Material(1, 1, 1));
 	new RenderableComponent("frostFace", "black", frosty_face, new Material(1, 1, 1));
 	new RenderableComponent("frostNose", "orange", frosty_nose, new Material(1, 1, 1));
 
@@ -72,9 +87,6 @@ DrScottLevel::DrScottLevel()
 	skyRC->SetEffecctedByLight(1, 0, 0);
 
 	new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
-
-	/* PUSH MODELS */
-	ModelManager::getInstance()->PushModels();
 
 	{
 		/* Space Controls */
@@ -112,6 +124,11 @@ void DrScottLevel::LevelUpdate(float _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
+	if (updates > 10)
+		FPS_Controls::Update(currentCamera, _timeStep);
+	else
+		updates++;
+
 	Frosty->Rotate(Quat(90 * _timeStep * 3.14159f / 180.0f, Vec3(0, 1, 0)));
 
 	//std::stringstream ss;
@@ -119,6 +136,7 @@ void DrScottLevel::LevelUpdate(float _timeStep)
 	//fpsLabel->SetText(ss.str());
 
 	skybox->position = currentCamera->position;
+
 }
 
 void DrScottLevel::DebugRender()

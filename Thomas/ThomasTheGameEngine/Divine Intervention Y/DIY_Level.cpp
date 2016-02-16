@@ -57,13 +57,16 @@ void DIY_Level::LoadContent()
 	Models->loadTexture("gateTexture", "Images/rosary.png");
 	Models->loadTexture("ballSkin", "Images/8ball.png");
 
-	float f[] =
+	//Needs at least a 13x13 texture in order to show up
+	//don't know why 
+	const int texSize = 13 * 13 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
 	{
-		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f
-	};
+		pixelDataWhite[i] = 1.0f;
+	}
+	Models->createTexture("white", pixelDataWhite, 1, 1);
 
-	Models->createTexture("white", f, 2, 2);
 
 	Models->loadModel("sphere", "Models/planet.obj", true);
 	Models->loadModel("meteor1", "Models/meteor_01.obj", true);

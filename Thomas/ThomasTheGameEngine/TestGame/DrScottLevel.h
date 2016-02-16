@@ -24,6 +24,8 @@ their game and create their own gameObjects
 
 class DrScottLevel : public Level
 {
+private:
+	int updates;
 public:
 	DrScottLevel();
 	~DrScottLevel();
@@ -31,6 +33,7 @@ public:
 	GameObject *skybox, *ground, *Frosty, *frosty_face, *frosty_nose;
 	GameObject *light;
 
+	void LoadContent() override;
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 

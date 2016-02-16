@@ -50,9 +50,9 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 		rotateLocation = glGetUniformLocation(program, "Rotation");
 
 		cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
-		
+
 		ambientLocation = glGetUniformLocation(program, "AmbientColor");
-		
+
 		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
 		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
 
@@ -66,9 +66,14 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
 		materialLocation = glGetUniformLocation(program, "Material");
+
+		areBuffersInitialized = false;
+		textureArray = nullptr;
+		numberOfTextures = 0;
+
+		GenerateDefaultContent();
 	}
 }
-
 
 ModelManager::~ModelManager()
 {
@@ -88,6 +93,12 @@ ModelManager::~ModelManager()
 	}*/
 
 	textures.clear();
+}
+
+void ModelManager::GenerateDefaultContent()
+{
+	CreatePlane("plane", 1.0f, 1.0f);
+	CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
 }
 
 void ModelManager::loadModel(string _id, string _fileName, bool _useModelTextureMap, Draw_Mode _mode)
@@ -663,14 +674,28 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 #define BUFFER_OFFSET(i) ((void*)(i))
 void ModelManager::PushModels()
 {
+	//Clear Buffers
+	if (areBuffersInitialized)
+	{
+		GLuint zero = 0;
+		
+		glClearNamedBufferData(Buffers[0], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		glClearNamedBufferData(Buffers[1], GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
+		glClearNamedBufferData(Buffers[2], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+
+		glDeleteTextures(numberOfTextures, textureArray);
+	}
+	else
+	{
+		//Init Buffers
+		glGenVertexArrays(1, VAOs);
+		glBindVertexArray(VAOs[0]);
+
+		glGenBuffers(3, Buffers);
+		areBuffersInitialized = true;
+	}
+
 	/*  VERTICES  */
-
-	//Push vertex to GPU
-	glGenVertexArrays(1, VAOs);
-	glBindVertexArray(VAOs[0]);
-
-	glGenBuffers(3, Buffers);
-
 	if (masterVectorList.size() > 0)
 	{
 		int arraySize = masterVectorList.size() * 3 * 4; //Each vector contains 3 floats (which are 4 bytes)
@@ -689,12 +714,19 @@ void ModelManager::PushModels()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(0);
 
-		delete newMasterList;
+		delete[] newMasterList;
 	}
 
 	/*  TEXTURES  */
-	GLuint* textureArray = new GLuint[textures.size()];
-	glGenTextures(textures.size(), textureArray);
+	if (textureArray)
+	{
+		delete[] textureArray;
+		textureArray = nullptr;
+	}
+
+	numberOfTextures = textures.size();
+	textureArray = new GLuint[numberOfTextures];
+	glGenTextures(numberOfTextures, textureArray);
 
 	//Pass texture id to textures
 	int i = 0;
@@ -707,10 +739,10 @@ void ModelManager::PushModels()
 		switch (it->second->dataType)
 		{
 		case Texture::TextureDataType::Float:
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, it->second->width, it->second->height, 0, GL_RGBA, GL_FLOAT, it->second->pixelData);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, it->second->width, it->second->height, 0, GL_RGBA, GL_FLOAT, it->second->pixelData);
 			break;
 		case Texture::TextureDataType::UnsignedByte:
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, it->second->width, it->second->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, it->second->pixelData);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, it->second->width, it->second->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, it->second->pixelData);
 			break;
 		}
 
@@ -721,7 +753,6 @@ void ModelManager::PushModels()
 
 		i++;
 	}
-	delete textureArray;
 
 	if (masterTextureCoords.size() > 0)
 	{
@@ -738,7 +769,7 @@ void ModelManager::PushModels()
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(1);
 
-		delete newMasterTextureList;
+		delete[] newMasterTextureList;
 	}
 
 	/* NORMALS */
@@ -761,7 +792,7 @@ void ModelManager::PushModels()
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glEnableVertexAttribArray(2);
 
-		delete newMasterList;
+		delete[] newMasterList;
 	}
 }
 
@@ -794,19 +825,11 @@ void ModelManager::UnloadModels()
 	textureMap.clear();
 	nextTextureID = 0;
 
-	//Create Defaults
-	float f[] =
-	{
-		0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
-	};
-
-	createTexture("greenCheckers", f, 2, 2);
-	CreatePlane("plane", 1.0f, 1.0f);
-	CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
+	//Repopulate default models / textures
+	GenerateDefaultContent();
 }
 
-void ModelManager::createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight)
+void ModelManager::createTexture(string _id, void* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight)
 {
 	textures.insert(std::pair<int, Texture*>(nextTextureID, new Texture(_pixelData, _textureWidth, _textureHeight)));
 	textureMap.insert(std::pair<string, int>(_id, nextTextureID));

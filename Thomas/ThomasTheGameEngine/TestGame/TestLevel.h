@@ -38,9 +38,8 @@ public:
 	//Billboard * animationGuy;
 	Torch * torch;
 
+	void LoadContent() override;
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
-
-	void InputUpdate(float _timeStep);
 
 };

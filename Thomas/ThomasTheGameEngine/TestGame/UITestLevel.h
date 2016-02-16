@@ -37,6 +37,7 @@ public:
 
 	int buttonCounter;
 
+	void LoadContent() override;
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 

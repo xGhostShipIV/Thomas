@@ -47,6 +47,7 @@ public:
 	char buffer[512];
 	bool connected, isServer, TCPConnection;
 
+	void LoadContent() override;
 	void DebugRender() override;
 	void LevelUpdate(float _timeStep) override;
 

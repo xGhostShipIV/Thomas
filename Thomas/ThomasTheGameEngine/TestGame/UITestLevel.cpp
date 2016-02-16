@@ -14,6 +14,10 @@
 
 UITestLevel::UITestLevel()
 {
+}
+
+void UITestLevel::LoadContent()
+{
 	buttonCounter = 0;
 
 	currentCamera->position = Vec3(0, 3.5f, -8);
@@ -78,7 +82,7 @@ UITestLevel::UITestLevel()
 	image->Scale(Vec3(0.25f, 0.25f, 1));
 
 	button = new CounterButton(&buttonCounter, this, Vec2(), "unpressed", "pressed", "hover", ScreenAnchor::CENTER);
-	
+
 
 	/* Add Components */
 	new RenderableComponent("frostBody", "white", Frosty, new Material(1, 1, 1));
@@ -90,14 +94,6 @@ UITestLevel::UITestLevel()
 	skyRC->SetEffecctedByLight(1, 0, 0);
 
 	new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
-
-
-
-
-	/* PUSH MODELS */
-	ModelManager::getInstance()->PushModels();
-
-
 }
 
 UITestLevel::~UITestLevel()

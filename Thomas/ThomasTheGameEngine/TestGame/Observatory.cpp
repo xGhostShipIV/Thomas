@@ -3,9 +3,13 @@
 #include <AudioManager.h>
 #include <FontManager.h>
 #include <Label.h>
-
+#include "FPS_Controls.h"
 
 Observatory::Observatory()
+{
+}
+
+void Observatory::LoadContent()
 {
 	currentCamera->position = Vec3(0, 0, -5);
 
@@ -58,9 +62,16 @@ Observatory::Observatory()
 	obr = new ObservatoryRoom(this, Vec3(0, 0, 15), player);
 	door = new SlidingDoor(this, Vec3(0, 0, 4.9f), player);
 
-	ModelManager::getInstance()->PushModels();
+	FPS_Controls::FPSMoveSpeed = 1.5f;
 }
 
 Observatory::~Observatory()
 {
+}
+
+void Observatory::LevelUpdate(float timeStep_)
+{
+	Level::LevelUpdate(timeStep_);
+
+	FPS_Controls::Update(player, timeStep_);
 }

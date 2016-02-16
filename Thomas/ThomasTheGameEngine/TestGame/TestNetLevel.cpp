@@ -14,6 +14,10 @@
 
 TestNetLevel::TestNetLevel()
 {
+}
+
+void TestNetLevel::LoadContent()
+{
 	currentCamera->position = Vec3(0, 3.5f, -8);
 	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 
@@ -41,11 +45,13 @@ TestNetLevel::TestNetLevel()
 	ModelManager::getInstance()->CreatePlane("ground", 100, 100, 32, 32);
 
 	/* CREATE TEXTURES */
-	float pixelDataWhite[]
+	const int texSize = 13 * 13 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
 	{
-		1.0f, 1.0f, 1.0f, 1.0f
-	};
-	ModelManager::getInstance()->createTexture("white", pixelDataWhite, 1, 1);
+		pixelDataWhite[i] = 1.0f;
+	}
+	Models->createTexture("white", pixelDataWhite, 1, 1);
 
 	float pixelDataBlack[]
 	{
@@ -73,8 +79,6 @@ TestNetLevel::TestNetLevel()
 
 	new Light(light, Colour(1.0f, 1.0f, 1.0f), Light::Directional);
 
-	/* PUSH MODELS */
-	ModelManager::getInstance()->PushModels();
 
 	/* NET STUFF */
 
@@ -96,7 +100,7 @@ TestNetLevel::TestNetLevel()
 
 	std::cout << "\n";
 	std::cout << "Server or Client? : S / C\n";
-	
+
 	while (!(c == 'S' || c == 's' || c == 'C' || c == 'c'))
 	{
 		std::cin >> c;

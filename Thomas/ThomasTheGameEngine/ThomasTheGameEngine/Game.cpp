@@ -40,7 +40,7 @@ Game::Game()
 	properties = GameProperties::getInstance();
 
 	SDL_RendererInfo displayRendererInfo;
-	
+
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
 		SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
 
@@ -133,7 +133,7 @@ void Game::StartGame()
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
 
-		if (timeSincelastUpdate > 300.f) 
+		if (timeSincelastUpdate > 300.f)
 			timeSincelastUpdate = 300.f;
 
 		//if (timeSincelastUpdate >= 1000 / 1000.0f)
@@ -165,8 +165,8 @@ void Game::StartGame()
 				timeSinceLastRender = 0;
 				EngineRender();
 			}
-			
-		}		
+
+		}
 	}
 }
 
@@ -209,7 +209,7 @@ void Game::EngineRender()
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		/* Clear The Screen And The Depth Buffer */
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	//Call the render for the current level

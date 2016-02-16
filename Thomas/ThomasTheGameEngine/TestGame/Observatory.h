@@ -17,4 +17,6 @@ public:
 	SlidingDoor * door;
 	ObservatoryRoom * obr;
 
+	void LoadContent() override;
+	void LevelUpdate(float timeStep_) override;
 };

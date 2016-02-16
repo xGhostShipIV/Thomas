@@ -21,8 +21,10 @@ public:
 
 	bool rotateLevel;
 
+	void LoadContent() override;
 	void LevelUpdate(float timeStep_) override;
 private:
 	GameObject * skybox;
+	std::string fileName;
 };
 

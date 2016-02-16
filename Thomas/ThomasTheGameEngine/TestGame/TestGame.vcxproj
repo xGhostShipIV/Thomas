@@ -85,6 +85,7 @@
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="CounterButton.h" />
     <ClInclude Include="DrScottLevel.h" />
+    <ClInclude Include="FPS_Controls.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Hallway.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="CounterButton.cpp" />
     <ClCompile Include="DrScottLevel.cpp" />
+    <ClCompile Include="FPS_Controls.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="Hallway.cpp" />

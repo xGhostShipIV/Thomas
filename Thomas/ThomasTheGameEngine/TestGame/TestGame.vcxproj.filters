@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Game Files">
       <UniqueIdentifier>{79227c7a-15ca-478b-94e7-4f17ef5b3a8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{f1311275-b847-4eb4-be5b-1a9e4996fb0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestLevel.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="AsteroidField.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS_Controls.h">
+      <Filter>Header Files\Inputs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="AsteroidField.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPS_Controls.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

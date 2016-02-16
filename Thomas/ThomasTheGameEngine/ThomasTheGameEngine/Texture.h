@@ -15,7 +15,7 @@ public:
 	};
 
 	Texture(SDL_Surface* _surface);
-	Texture(float* _pixelData, UINT32 _width, UINT32 _height);
+	Texture(void* _pixelData, UINT32 _width, UINT32 _height);
 	~Texture();
 
 	//Index in texture array

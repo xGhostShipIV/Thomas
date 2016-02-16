@@ -12,10 +12,7 @@
 #include <InputHandler.h>
 
 #include "HeadBob.h"
-
-static float FPSMoveSpeed = 10.0f;
-static float FPSHorizontalTurnSpeed = 2.5f;
-static float FPSVerticalTurnSpeed = 1.5f;
+#include "FPS_Controls.h"
 
 //#define BUFFER_OFFSET(i) ((void*)(i))
 //
@@ -28,17 +25,21 @@ static float FPSVerticalTurnSpeed = 1.5f;
 
 TestLevel::TestLevel()
 {
-	currentCamera->position = Vec3(0, 3.5f , -8);
+}
+
+void TestLevel::LoadContent()
+{
+	currentCamera->position = Vec3(0, 3.5f, -8);
 	headbob = new HeadBob(this, currentCamera->position, currentCamera);
 
 	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 
-	
-	lilCube = new GameObject(this, Vec3(2, 0.5f , 0));
-	light = new GameObject(this, Vec3(0, 60 , 0));
+
+	lilCube = new GameObject(this, Vec3(2, 0.5f, 0));
+	light = new GameObject(this, Vec3(0, 60, 0));
 	lightAnchor = new GameObject(this, Vec3());
-	
-	ground = new GameObject(this, Vec3(0, 0 , 0));
+
+	ground = new GameObject(this, Vec3(0, 0, 0));
 	flashLight = new GameObject(this, currentCamera->position + Vec3(0, 0, -1));
 	skybox = new GameObject(this, currentCamera->position);
 	//teddy = new GameObject(this, Vec3(2, -10, 2));
@@ -47,8 +48,8 @@ TestLevel::TestLevel()
 	InsideCube = new GameObject(this, Vec3(12, 5.1f, 0));
 	OutsideCube = new GameObject(this, InsideCube->position);
 	//animationGuy = new Billboard(this, Vec3(4, 4, 4));
-	
-	dragon = new GameObject(this, Vec3(-8, 3 , 4));
+
+	dragon = new GameObject(this, Vec3(-8, 3, 4));
 	dragonLight = new GameObject(this, dragon->position + Vec3(-10, 3, 0));
 	soBright = new GameObject(this, dragon->position + Vec3(0, 3, 7.25f));
 	cube = new GameObject(this, soBright->position + Vec3(0, 0, 0.25f));
@@ -110,18 +111,25 @@ TestLevel::TestLevel()
 
 
 	/* CREATE TEXTURES */
+	const int texSize = 13 * 13 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
+	{
+		pixelDataWhite[i] = 1.0f;
+	}
+	Models->createTexture("white", pixelDataWhite, 1, 1);
 
 	float pixelData[]
 	{
-		0.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f
+		0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
 	};
 	ModelManager::getInstance()->createTexture("greenCheckers", pixelData, 2, 2);
 
 	float pixelDataRed[]
 	{
-		1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f, 0.0f, 1.0f
+		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
 	ModelManager::getInstance()->createTexture("redCheckers", pixelDataRed, 2, 2);
 
@@ -145,7 +153,7 @@ TestLevel::TestLevel()
 	new RenderableComponent("light", "star", soBright);
 	new RenderableComponent("ground", "grass", ground, new Material(1, 1, 1));
 	new RenderableComponent("sphere", "greenCheckers", light);
-	
+
 	RenderableComponent *skyRC = new RenderableComponent("skybox", "skybox", skybox);
 	skyRC->SetEffecctedByLight(1, 0, 0);
 
@@ -180,22 +188,20 @@ TestLevel::TestLevel()
 	torch = new Torch(this, InsideCube->position + Vec3(0, -10, 2.5));  //Vec3(10, -5, -8));
 	torch->Rotate(Quat(180 * 3.14159f / 180.0f, Vec3::BasisY()));
 
-	/* PUSH MODELS */
-	ModelManager::getInstance()->PushModels();
 
 	/* Space Controls */
 	/*BindKey(SDLK_b, BindKey(SDLK_v, new CameraUp(currentCamera, SDLK_SPACE)));
 	new CameraDown(currentCamera, SDLK_x);
-	
+
 	new CameraForward(currentCamera, SDLK_w);
 	new CameraBackward(currentCamera, SDLK_s);
 
 	new CameraTurnLeft(currentCamera, SDLK_a);
 	new CameraTurnRight(currentCamera, SDLK_d);
-	
+
 	new CameraTurnDown(currentCamera, SDLK_c);
 	new CameraTurnUp(currentCamera, SDLK_z);
-	
+
 	new CameraRollLeft(currentCamera, SDLK_q);
 	new CameraRollRight(currentCamera, SDLK_e);
 
@@ -228,49 +234,11 @@ TestLevel::~TestLevel()
 {
 }
 
-void TestLevel::InputUpdate(float _timeStep)
-{
-	//FORWARD
-	if (InputController::getInstance()->isKeyDown(SDLK_w))
-	{
-		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, FPSMoveSpeed) * _timeStep));
-	}
-
-	//BACKWARDS
-	if (InputController::getInstance()->isKeyDown(SDLK_s))
-	{
-		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(0, 0, -FPSMoveSpeed) * _timeStep));
-	}
-
-	//STRAFE LEFT
-	if (InputController::getInstance()->isKeyDown(SDLK_a))
-	{
-		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(FPSMoveSpeed, 0, 0) * _timeStep));
-	}
-
-	//STRAFE RIGHT
-	if (InputController::getInstance()->isKeyDown(SDLK_d))
-	{
-		headbob->Translate(Quat::rotate(Quat(headbob->rotation.w, 0, headbob->rotation.vector.y, 0).NormalizeThis(), Vec3(-FPSMoveSpeed, 0, 0) * _timeStep));
-	}
-
-	//LOOK UP / DOWN
-	{
-		headbob->Rotate(Quat(InputController::getInstance()->deltaMouse().y  * -FPSVerticalTurnSpeed * _timeStep * Vec3::cross(headbob->forward(), headbob->up()).length(), Vec3::cross(headbob->forward(), headbob->up())));
-	}
-
-	//TURN LEFT / RIGHT
-	{
-		headbob->Rotate(Quat(InputController::getInstance()->deltaMouse().x * -FPSHorizontalTurnSpeed * _timeStep, Vec3::BasisY()));
-	}
-}
-
-
 void TestLevel::LevelUpdate(float _timeStep)
 {
 	Level::LevelUpdate(_timeStep);
 
-	InputUpdate(_timeStep);
+	FPS_Controls::Update(headbob, _timeStep);
 
 	dragon->GetTransform().Rotate(Quat(0.6f * _timeStep, Vec3(1, 0, 0)));
 	lightAnchor->GetTransform().Rotate(Quat(-1.2f * _timeStep, Vec3(1, 0, 0)));

@@ -78,7 +78,7 @@ public:
 	void UnloadModels();
 
 	//creates a texture using the pixel data and loads it into the texture map using the string _id
-	void createTexture(string _id, float* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);
+	void createTexture(string _id, void* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);
 
 	//loads a texture with the fileName and loads it into the texture map using the string _id
 	void loadTexture(string _id, string _fileName);
@@ -142,6 +142,13 @@ private:
 	GLuint program;
 	GLuint VAOs[1];
 	GLuint Buffers[3];
+
+	bool areBuffersInitialized;
+	GLuint* textureArray;
+	GLuint numberOfTextures;
+
+	//Creates default models / textures
+	void GenerateDefaultContent();
 
 	//Sets vertexOffset and inserts into model map. Used to finish model creation.
 	void InsertModel(Renderable* _renderable, string _id);

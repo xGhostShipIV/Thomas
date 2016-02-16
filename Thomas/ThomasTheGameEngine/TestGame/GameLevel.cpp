@@ -14,7 +14,11 @@
 #include "Wormhole.h"
 #include "WarpGate.h"
 
-GameLevel::GameLevel(std::string fileName_)
+GameLevel::GameLevel(std::string fileName_) : fileName(fileName_)
+{
+}
+
+void GameLevel::LoadContent()
 {
 	currentCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
 
@@ -36,7 +40,7 @@ GameLevel::GameLevel(std::string fileName_)
 	tinyxml2::XMLDocument doc;
 
 	//Tries to load the file, quits if it fails
-	if (doc.LoadFile(fileName_.c_str()) != tinyxml2::XML_NO_ERROR) return;
+	if (doc.LoadFile(fileName.c_str()) != tinyxml2::XML_NO_ERROR) return;
 
 	//Grabs first element
 	tinyxml2::XMLElement * element = doc.RootElement();
@@ -78,47 +82,47 @@ GameLevel::GameLevel(std::string fileName_)
 		std::vector<GameObject *> gameObjects;
 
 		if (objectElement)
-			do
-			{
-				GameObject * object;
+		do
+		{
+			GameObject * object;
 
-				float x = objectElement->FloatAttribute("x");
-				float z = objectElement->FloatAttribute("z");
+			float x = objectElement->FloatAttribute("x");
+			float z = objectElement->FloatAttribute("z");
 
-				if (objectElement->Attribute("type", "PlanetHorizontal")){
+			if (objectElement->Attribute("type", "PlanetHorizontal")){
 
-					std::string textureName = objectElement->Attribute("texture");
+				std::string textureName = objectElement->Attribute("texture");
 
-					object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
-				}
-				else if (objectElement->Attribute("type", "PlanetVertical")){
-					std::string textureName = objectElement->Attribute("texture");
+				object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+			}
+			else if (objectElement->Attribute("type", "PlanetVertical")){
+				std::string textureName = objectElement->Attribute("texture");
 
-					object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
-				}
-				else if (objectElement->Attribute("type", "Asteroids")){
-					object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
-				}
-				else if (objectElement->Attribute("type", "Wormhole")){
-					object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
-				}
-				else if (objectElement->Attribute("type", "WarpGate")){
-					object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
-				}
-				else if (objectElement->Attribute("type", "Player1Start")){
+				object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+			}
+			else if (objectElement->Attribute("type", "Asteroids")){
+				object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
+			}
+			else if (objectElement->Attribute("type", "Wormhole")){
+				object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
+			}
+			else if (objectElement->Attribute("type", "WarpGate")){
+				object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
+			}
+			else if (objectElement->Attribute("type", "Player1Start")){
 
-				}
-				else{
+			}
+			else{
 
-				}
+			}
 
-				gameObjects.push_back(object);
+			gameObjects.push_back(object);
 
-				//point to next object element
-				objectElement = objectElement->NextSiblingElement("Object");
+			//point to next object element
+			objectElement = objectElement->NextSiblingElement("Object");
 
 
-			} while (objectElement);
+		} while (objectElement);
 
 		//create layer in the list
 		layers.push_back(new Layer(this, Vec3(0, -2 + i * 1.5, 0), gameObjects));
@@ -132,12 +136,10 @@ GameLevel::GameLevel(std::string fileName_)
 		objectElement = element->FirstChildElement("Object");
 	}
 
-	for (int i = 0; i < layers.size(); i++) 
+	for (int i = 0; i < layers.size(); i++)
 		layerContainer->addChild(layers[i]);
 
-	ModelManager::getInstance()->PushModels();
 }
-
 
 GameLevel::~GameLevel()
 {
