@@ -26,6 +26,7 @@ Game::Game()
 	/* Game Loop Flag */
 	isRunning = true;
 	callInitOnNextUpdate = false;
+	levelToLoad = nullptr;
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 	///SDL stuff
@@ -175,6 +176,14 @@ void Game::EngineUpdate(float _timeStep)
 	//Load content of the new level.
 	if (callInitOnNextUpdate)
 	{
+		if (currentLevel)
+			delete currentLevel;
+
+		Models->UnloadModels();
+
+		currentLevel = levelToLoad;
+		levelToLoad = nullptr;
+
 		currentLevel->init();
 		callInitOnNextUpdate = false;
 	}
@@ -209,19 +218,18 @@ void Game::EngineRender()
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		/* Clear The Screen And The Depth Buffer */
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+
+		//Call the render for the current level
+		if (currentLevel)
+			currentLevel->LevelRender();
+
+		//Call the game specific Render function
+		Render();
+
+		/* Render to screen */
+		SDL_GL_SwapWindow(gameWindow);
 	}
-
-	//Call the render for the current level
-	if (currentLevel)
-		currentLevel->LevelRender();
-
-	//Call the game specific Render function
-	Render();
-
-	/* Render to screen */
-	SDL_GL_SwapWindow(gameWindow);
-
 	PostRender();
 }
 
@@ -233,12 +241,10 @@ void Game::PostRender()
 
 void Game::LoadLevel(Level * _level)
 {
-	if (currentLevel)
-		delete currentLevel;
+	if (levelToLoad != nullptr)
+		delete levelToLoad;
 
-	Models->UnloadModels();
-
-	currentLevel = _level;
+	levelToLoad = _level;
 
 	callInitOnNextUpdate = true;
 }

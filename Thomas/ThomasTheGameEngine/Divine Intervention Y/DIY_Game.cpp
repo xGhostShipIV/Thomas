@@ -39,8 +39,8 @@ DIY_Game::~DIY_Game()
 
 void DIY_Game::Update(float _timestep)
 {
-	if (Input->isKeyDown(SDLK_ESCAPE))
-		GAME->setRunning(false);
+	/*if (Input->isKeyDown(SDLK_ESCAPE))
+		GAME->setRunning(false);*/
 
 	//FPS
 	{

@@ -10,6 +10,11 @@
 class Level;
 class RenderableComponent;
 
+enum GuiType
+{
+	LABEL, BUTTON, IMAGE, TEXTINPUT
+};
+
 enum ScreenAnchor
 {
 	TOP_LEFT, TOP_CENTER, TOP_RIGHT,
@@ -31,7 +36,7 @@ protected:
 	Vec2 guiScale;
 public:
 
-	GuiElement(Level* _level, Vec2 _screenPosition, ScreenAnchor anchor_ = ScreenAnchor::BOTTOM_LEFT);
+	GuiElement(Level* _level, Vec2 _screenPosition, GuiType type_, ScreenAnchor anchor_ = ScreenAnchor::BOTTOM_LEFT);
 	~GuiElement();
 
 	virtual void Update(float _deltaTime) = 0;
@@ -47,6 +52,8 @@ public:
 
 	UI_DRAW_TYPE drawType;
 	float drawPercent;
+
+	GuiType type;
 };
 
 #endif

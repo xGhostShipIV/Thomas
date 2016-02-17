@@ -7,7 +7,7 @@
 #include "GuiHandler.h"
 
 Button::Button(Level* _level, Vec2 _screenPosition, std::string textureUnpressed_, std::string texturePressed_, std::string textureHover_, ScreenAnchor anchor_)
-: GuiElement(_level, _screenPosition, anchor_)
+: GuiElement(_level, _screenPosition, GuiType::BUTTON, anchor_)
 {
 	textureUnpressed = ModelManager::getInstance()->GetTextureID(textureUnpressed_);
 	texturePressed = ModelManager::getInstance()->GetTextureID(texturePressed_);

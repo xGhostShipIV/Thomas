@@ -45,6 +45,7 @@ protected:
 	SDL_Renderer* gameRenderer;
 	SDL_GLContext glcontext;
 	float FPS;
+	Level *levelToLoad;
 
 	Game();	
 

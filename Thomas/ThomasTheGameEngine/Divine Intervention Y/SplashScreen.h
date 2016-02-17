@@ -5,6 +5,8 @@
 
 class SplashScreen : public Level
 {
+private:
+	float timeTilSwitchLevel;
 public:
 	SplashScreen();
 	~SplashScreen();

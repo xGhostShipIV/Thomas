@@ -191,6 +191,9 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	Level::LevelUpdate(timeStep_);
 
+	if (Input->isKeyDown(SDLK_ESCAPE))
+		GAME->setRunning(false);
+
 	if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
 		isShooting = true;
 	else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())

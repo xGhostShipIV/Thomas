@@ -6,7 +6,7 @@
 #include "GameProperties.h"
 
 Label::Label(Level* _level, std::string _text, TTF_Font* _font, Vec2 _screenPosition, ScreenAnchor anchor_, Colour _textColour)
-	: GuiElement(_level, _screenPosition, anchor_), font(_font), text(_text), textColour(_textColour)
+	: GuiElement(_level, _screenPosition, GuiType::LABEL, anchor_), font(_font), text(_text), textColour(_textColour)
 {
 	//create a texture based off text
 	txtSprite = new TextSprite(_text, _font, _textColour);

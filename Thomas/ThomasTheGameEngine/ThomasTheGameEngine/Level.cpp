@@ -4,6 +4,10 @@
 #include "LightManager.h"
 #include "GuiElement.h"
 
+#include "Button.h"
+#include "GuiImage.h"
+#include "Label.h"
+
 Level::Level()
 {
 	mainCamera = new Camera(this);
@@ -24,7 +28,18 @@ Level::~Level()
 
 	for (auto it = guiElements.begin(); it != guiElements.end(); it++)
 	{
-		delete *it;
+		switch ((*it)->type)
+		{
+		case GuiType::BUTTON:
+			delete (Button*) *it;
+			break;
+		case GuiType::IMAGE:
+			delete ((GuiImage*)*it);
+			break;
+		case GuiType::LABEL:
+			delete ((Label*)*it);
+			break;
+		}		
 	}
 	guiElements.clear();
 }

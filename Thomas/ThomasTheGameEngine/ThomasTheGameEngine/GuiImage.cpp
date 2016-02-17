@@ -5,7 +5,7 @@
 #include "GameProperties.h"
 
 GuiImage::GuiImage(Level* _level, std::string _textureName, Vec2 _screenPosition, ScreenAnchor anchor_)
-: GuiElement(_level, _screenPosition, anchor_)
+: GuiElement(_level, _screenPosition, GuiType::IMAGE, anchor_)
 {
 	texture = ModelManager::getInstance()->GetTextureID(_textureName);
 	renderable = new RenderableComponent(ModelManager::getInstance()->GetModelID("GUI"), texture, this, new Material(0, 0, 0));

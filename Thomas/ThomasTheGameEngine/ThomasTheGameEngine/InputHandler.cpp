@@ -1,6 +1,8 @@
 #include "InputHandler.h"
 #include "GuiHandler.h"
 
+#include <iostream>
+
 InputController * InputController::instance;
 
 InputController::InputController(){

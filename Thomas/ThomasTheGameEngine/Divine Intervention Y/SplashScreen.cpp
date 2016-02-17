@@ -4,9 +4,9 @@
 #include <InputHandler.h>
 
 #include <Game.h>
-#include "DIY_Level.h"
+#include "LandingScreen.h"
 
-SplashScreen::SplashScreen()
+SplashScreen::SplashScreen() : timeTilSwitchLevel(3.0f)
 {
 }
 
@@ -24,8 +24,12 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::LevelUpdate(float timeStep_)
 {
-	if (Input->isAnyKeyPressed())
+	Level::LevelUpdate(timeStep_);
+
+	timeTilSwitchLevel -= timeStep_;
+
+	if (timeTilSwitchLevel <= 0 || Input->isAnyKeyPressed())
 	{
-		GAME->LoadLevel(new DIY_Level("testLevel.xml"));
+		GAME->LoadLevel(new LandingScreen());
 	}
 }

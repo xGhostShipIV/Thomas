@@ -4,8 +4,8 @@
 #include "ModelManager.h"
 #include "GameProperties.h"
 
-GuiElement::GuiElement(Level* _level, Vec2 _screenPosition, ScreenAnchor anchor_) : GameObject(nullptr, Vec3(_screenPosition.x, _screenPosition.y, 0)),
-	anchorPosition(anchor_)
+GuiElement::GuiElement(Level* _level, Vec2 _screenPosition, GuiType type_, ScreenAnchor anchor_) : GameObject(nullptr, Vec3(_screenPosition.x, _screenPosition.y, 0)),
+anchorPosition(anchor_), type(type_)
 {
 	isVisible = true;
 	drawPercent = 1;
@@ -41,6 +41,12 @@ void GuiElement::Hide() { isVisible = false; }
 
 bool GuiElement::CheckMouseCollision(int _x, int _y)
 {
+	//Flip mouse Y to correct position
+	//SDL gives 0,0 in top left corner of the screen, 
+	//	while this function acts as if it's in the lower left corner
+	int halfScreenHeight = GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+	_y = ((_y - halfScreenHeight) * -1) + halfScreenHeight;
+
 	//Construct rectangle bounds of the button
 	int rX, rY, rW, rH;
 		
