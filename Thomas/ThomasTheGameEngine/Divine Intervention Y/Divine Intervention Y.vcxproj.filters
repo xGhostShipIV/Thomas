@@ -81,6 +81,9 @@
     <ClCompile Include="Landing_GUI.cpp">
       <Filter>Source Files\Levels\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Slingshot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Landing_GUI.h">
       <Filter>Header Files\Levels\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Slingshot.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

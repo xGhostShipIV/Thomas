@@ -12,20 +12,10 @@ void Rigidbody::Init(){
 	CollisionRadius = 0.5f;
 	gravitas = true;
 
-	//Always a sphere for now
-	float tensorValue = 2.0f / 5.0f * mass * CollisionRadius * CollisionRadius;
-	//For a plane
-	//tensorValue = m * (h*h + w*w) / 12;
-	inertiaTensor = Matrix3(
-		tensorValue, 0, 0,
-		0, tensorValue, 0,
-		0, 0, tensorValue);
-
-
 	//More on this later, for now is percectly ok.
 	drag = 0.5f;
 	angularDrag = 0.02f;
-	sleepThreshold = 0.003f;
+	sleepThreshold = 0.03f;
 
 	//AngularVelocity = Quat(0, Vec3::Zero());
 	//AngularAccel = Quat(0, Vec3::Zero());
@@ -34,13 +24,15 @@ void Rigidbody::Init(){
 }
 
 Rigidbody::Rigidbody(GameObject* _parent) : Component(_parent,Component::ComponentType::Rigidbody) {
+	Init();
 	if (_parent->getComponent<Collider>() == nullptr){
 		col = new SphereCollider(_parent);
+		setTensorShape(Collider::ColliderType::Sphere, Vec3(1, 0, 0));
 	}
 	else {
 		col = _parent->getComponent<Collider>();
+		setTensorShape(col->type, Vec3(1, 1, 0));
 	}
-	Init();
 }
 
 Rigidbody::Rigidbody(GameObject* _parent, Collider* _Collider) : Component(_parent, Component::ComponentType::Rigidbody){

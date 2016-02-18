@@ -11,6 +11,9 @@ PhysicsWorld::PhysicsWorld()
 	worldGravity = Vec3(0, -3.f, 0);
 }
 
+float PhysicsWorld::getTimeStep(){
+	return lastTimeStep;
+}
 
 PhysicsWorld::~PhysicsWorld()
 {
@@ -35,9 +38,8 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 	Rigidbody* secondBody = _second->getComponent<Rigidbody>();
 	float epsilon = 0.9f; //Perfectly elastic collisions for now
 
-	//Need some way to determine which type of objects are colliding to change the way the normals and collision points are generated
+	//Populate the variables for the impulse equation
 	Vec3 normal, ColPoint, r1, r2;
-
 	if (_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere && _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)
 	{
 		//Sphere-Sphere
@@ -47,11 +49,11 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 	else if ((_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere || _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)){
 		//Sphere-Plane
 		if ((_first->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)){
-			normal = static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal;
+			normal = static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized();
 			ColPoint = _second->position - static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
 		}
 		else if ((_second->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)) {
-			normal = static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal;
+			normal = static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized();
 			ColPoint = _first->position - static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.DistanceToPoint(_first->position);
 		}		
 	}
@@ -67,11 +69,14 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 		);
 
 	if (!firstBody->isKinematic || !secondBody->isKinematic){
+		Vec3 gravComp = Vec3::dot(PhysicsWorld::getInstance()->worldGravity, normal.Normalized()) * normal.Normalized() * PhysicsWorld::getInstance()->lastTimeStep;
 		if (firstBody->isKinematic){
 			firstBody->accel += normal * 2 * J / firstBody->mass;
+			firstBody->accel += gravComp;
 		}
 		else if (secondBody->isKinematic){
-			secondBody->accel += normal * 2 * J / secondBody->mass;
+			secondBody->accel += normal * -2 * J / secondBody->mass;
+			secondBody->accel -= gravComp;
 		}
 	}
 	else {
@@ -92,6 +97,8 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 }
 
 void PhysicsWorld::Update(float _deltaTime){
+
+	lastTimeStep = _deltaTime;
 	 
 	//Collision Response
 	for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
@@ -111,20 +118,13 @@ void PhysicsWorld::Update(float _deltaTime){
 			//Angular and linear drag goes here
 			//1/2 rho v^2 Cd A
 			float dragForce = 0.5f * 0.2 * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
-			//(*it)->AddForce((*it)->velocity * -dragForce * _deltaTime);
+			(*it)->AddForce((*it)->velocity * -dragForce * _deltaTime);
 
 			//Lift
 			//pi r ^ 3 w v rho
 			float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
 			Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
 			//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
-
-			//Ground collision, currently exit trajectory is same as incident trajectory
-			/*if ((*it)->parentObject->position.y <= 0){
-				(*it)->velocity.y *= -(1 - (*it)->drag);
-				(*it)->velocity.y = abs((*it)->velocity.y);
-				(*it)->parentObject->position.y = 0;
-			}*/
 
 			(*it)->velocity += ((*it)->accel);
 			(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
@@ -137,7 +137,7 @@ void PhysicsWorld::Update(float _deltaTime){
 
 			//Sleep velocities are here
 			if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
-			(*it)->velocity = Vec3::Zero();
+				(*it)->velocity = Vec3::Zero();
 			}
 		}
 	}
