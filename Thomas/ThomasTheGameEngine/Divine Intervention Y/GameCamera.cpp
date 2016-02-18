@@ -1,6 +1,7 @@
 #include "GameCamera.h"
 #include <Game.h>
 #include <InputHandler.h>
+#include "DIY_Level.h"
 
 GameCamera::GameCamera(Level * level_, Vec3 position_, Vec3 lookAt_) : Camera(level_)
 {
@@ -21,25 +22,27 @@ void GameCamera::Update(float deltaTime_)
 {
 	Vec3 right_ = Vec3::cross(forward(), up());
 
-	//Left mouse camera move
-	if (Input->isMouseDown(SDL_BUTTON_LEFT))
+	if (!((DIY_Level*)GAME->currentLevel)->isPaused)
 	{
-		if (!isOriginalSet)
+		//Left mouse camera move
+		if (Input->isMouseDown(SDL_BUTTON_LEFT))
 		{
-			isOriginalSet = true;
-			originalLookat = forward() + position;
+			if (!isOriginalSet)
+			{
+				isOriginalSet = true;
+				originalLookat = forward() + position;
 
-			originalRotation = rotation;
+				originalRotation = rotation;
+			}
+
+			Vec2 mouseDir_ = InputController::getInstance()->deltaMouse();
+
+			Rotate(Quat(-mouseDir_.x * deltaTime_, Vec3(0, 1.0f, 0)));
+			Rotate(Quat(-mouseDir_.y * deltaTime_, right_));
 		}
 
-		Vec2 mouseDir_ = InputController::getInstance()->deltaMouse();
-
-		Rotate(Quat(-mouseDir_.x * deltaTime_, Vec3(0, 1.0f, 0)));
-		Rotate(Quat(-mouseDir_.y * deltaTime_, right_));
-	}
-
-	//If youre no longer holding the mouse and have rotated, this section will rotate back
-	if (Input->isMouseReleased(SDL_BUTTON_LEFT))
+		//If youre no longer holding the mouse and have rotated, this section will rotate back
+		if (!Input->isMouseDown(SDL_BUTTON_LEFT))
 		if (forward() != originalLookat)
 		{
 			LookAt(originalLookat);
@@ -53,22 +56,23 @@ void GameCamera::Update(float deltaTime_)
 			}
 		}
 
-	if (Input->isKeyDown(SDLK_a) && !Input->isMouseDown(SDL_BUTTON_LEFT))
-	{
-		Translate(-1 *  right_ * deltaTime_);
-	}
-	else if (Input->isKeyDown(SDLK_d) && !Input->isMouseDown(SDL_BUTTON_LEFT))
-	{
-		Translate(right_ * deltaTime_);
-	}
+		if (Input->isKeyDown(SDLK_a) && !Input->isMouseDown(SDL_BUTTON_LEFT))
+		{
+			Translate(-1 * right_ * deltaTime_);
+		}
+		else if (Input->isKeyDown(SDLK_d) && !Input->isMouseDown(SDL_BUTTON_LEFT))
+		{
+			Translate(right_ * deltaTime_);
+		}
 
-	if (Input->isKeyDown(SDLK_w) && !Input->isMouseDown(SDL_BUTTON_LEFT))
-	{
-		Translate(forward() * deltaTime_);
-	}
-	else if (Input->isKeyDown(SDLK_s) && !Input->isMouseDown(SDL_BUTTON_LEFT))
-	{
-		Translate(forward() * -1 * deltaTime_);
+		if (Input->isKeyDown(SDLK_w) && !Input->isMouseDown(SDL_BUTTON_LEFT))
+		{
+			Translate(forward() * deltaTime_);
+		}
+		else if (Input->isKeyDown(SDLK_s) && !Input->isMouseDown(SDL_BUTTON_LEFT))
+		{
+			Translate(forward() * -1 * deltaTime_);
+		}
 	}
 
 	Camera::Update(deltaTime_);

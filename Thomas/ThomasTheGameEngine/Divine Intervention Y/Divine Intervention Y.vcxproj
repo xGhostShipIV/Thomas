@@ -82,11 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\TestGame\AsteroidField.cpp" />
-    <ClCompile Include="..\TestGame\PlanetHorizontal.cpp" />
-    <ClCompile Include="..\TestGame\PlanetVertical.cpp" />
-    <ClCompile Include="..\TestGame\WarpGate.cpp" />
-    <ClCompile Include="..\TestGame\Wormhole.cpp" />
+    <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
     <ClCompile Include="DIY_Level_GUI.cpp" />
@@ -95,28 +91,32 @@
     <ClCompile Include="Landing_GUI.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlanetHorizontal.cpp" />
+    <ClCompile Include="PlanetVertical.cpp" />
     <ClCompile Include="PlayerBall.cpp" />
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="Slingshot.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
+    <ClCompile Include="WarpGate.cpp" />
+    <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TestGame\AsteroidField.h" />
     <ClInclude Include="..\TestGame\Layer.h" />
-    <ClInclude Include="..\TestGame\PlanetHorizontal.h" />
-    <ClInclude Include="..\TestGame\PlanetVertical.h" />
-    <ClInclude Include="..\TestGame\WarpGate.h" />
-    <ClInclude Include="..\TestGame\Wormhole.h" />
+    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
     <ClInclude Include="DIY_Level_GUI.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="LandingScreen.h" />
     <ClInclude Include="Landing_GUI.h" />
+    <ClInclude Include="PlanetHorizontal.h" />
+    <ClInclude Include="PlanetVertical.h" />
     <ClInclude Include="PlayerBall.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Slingshot.h" />
     <ClInclude Include="SplashScreen.h" />
+    <ClInclude Include="WarpGate.h" />
+    <ClInclude Include="Wormhole.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />

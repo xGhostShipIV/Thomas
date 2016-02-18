@@ -6,7 +6,6 @@
 #include <InputHandler.h>
 #include <Game.h>
 
-
 #include "GameCamera.h"
 #include "PlanetHorizontal.h"
 #include "PlanetVertical.h"
@@ -15,7 +14,9 @@
 #include "WarpGate.h"
 #include "PlayerBall.h"
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_)
+#include <PhysicsWorld.h>
+
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPaused(false), isPausedKeyStillPressed(false)
 {
 
 }
@@ -50,12 +51,22 @@ void DIY_Level::LoadContent()
 	Models->CreateSkybox("skybox", 1000.0f);
 	Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
 	Models->loadTexture("layerGrid", "Images/grid.png");
+
 	Models->loadTexture("planet1", "Images/aruba.tif");
+
+	Models->loadTexture("ballSkin", "Images/8ball.png");
+	Models->loadModel("sphere", "Models/planet.obj", true);
+
+	Models->loadModel("warpGate", "Models/space_station.obj", true);
+	Models->loadTexture("gateTexture", "Images/rosary.png");
+
 	Models->loadTexture("meteorTex1", "Images/meteor_texture.tif");
 	Models->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
 	Models->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
-	Models->loadTexture("gateTexture", "Images/rosary.png");
-	Models->loadTexture("ballSkin", "Images/8ball.png");
+
+	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
+	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
+	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 
 	//Needs at least a 13x13 texture in order to show up
 	//don't know why 
@@ -66,13 +77,6 @@ void DIY_Level::LoadContent()
 		pixelDataWhite[i] = 1.0f;
 	}
 	Models->createTexture("white", pixelDataWhite, 1, 1);
-
-
-	Models->loadModel("sphere", "Models/planet.obj", true);
-	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
-	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
-	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
-	Models->loadModel("warpGate", "Models/space_station.obj", true);
 	Models->loadModel("pointer", "Models/pointer.obj", true);
 
 	//layerPlane = PlaneCollider();
@@ -191,23 +195,35 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	Level::LevelUpdate(timeStep_);
 
-	if (Input->isKeyDown(SDLK_ESCAPE))
-		GAME->setRunning(false);
-
-	if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
-		isShooting = true;
-	else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+	if (Input->isKeyDown(SDLK_ESCAPE) && !isPausedKeyStillPressed)
 	{
-		isShooting = false;
-		strokeCount++;
-		gui->PlayerTookAStroke();
+		isPaused = !isPaused;
+		isPausedKeyStillPressed = true;
+	}
+	else if (!Input->isKeyDown(SDLK_ESCAPE) && isPausedKeyStillPressed)
+	{
+		isPausedKeyStillPressed = false;
 	}
 
-	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent()/100.0f;
+	PhysicsWorld::getInstance()->isPhysicsRunning = !isPaused;
+
+	if (!isPaused)
+	{
+		if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
+			isShooting = true;
+		else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+		{
+			isShooting = false;
+			strokeCount++;
+			gui->PlayerTookAStroke();
+		}
+
+		if (Input->isMouseDown(SDL_BUTTON_RIGHT))
+		{
+			layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+		}
+	}
+
+	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent() / 100.0f;
 	gui->Update(timeStep_);
-
-	if (Input->isMouseDown(SDL_BUTTON_RIGHT))
-	{
-		layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
-	}
 }

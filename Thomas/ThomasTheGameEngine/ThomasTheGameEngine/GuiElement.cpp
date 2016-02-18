@@ -23,8 +23,6 @@ anchorPosition(anchor_), type(type_)
 
 GuiElement::~GuiElement()
 {
-	if (renderable)
-		delete renderable;
 }
 
 void GuiElement::Draw()

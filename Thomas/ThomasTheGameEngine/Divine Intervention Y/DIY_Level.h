@@ -17,6 +17,7 @@ public:
 	int par;
 	int strokeCount;
 	int levelBounds;
+	bool isPaused;
 
 	std::vector<Layer *> layers;
 
@@ -37,5 +38,6 @@ private:
 	std::string fileName;
 
 	bool isShooting;
+	bool isPausedKeyStillPressed;
 };
 

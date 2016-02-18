@@ -1,11 +1,17 @@
 #include "DIY_Level_GUI.h"
 #include <ModelManager.h>
+#include <Game.h>
+#include "DIY_Level.h"
+#include "LandingScreen.h"
 
 std::string IntToString(int i_);
 
-DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_) 
+DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 : par(par_), objectives(objectives_), strokes(0), shotPower(0)
 {
+	/***********************************************************/
+	/*						GAME GUI						   */
+	/***********************************************************/
 	Vec2 ParLabelLocation = Vec2(150, -50);
 	Vec2 StrokeLabelLocation = ParLabelLocation + Vec2(0, -80);
 	Vec2 ObjectivesLabelLocation = StrokeLabelLocation + Vec2(0, -80);
@@ -14,14 +20,14 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 	{
 		Vec2 ShotPowerMeterLocation = Vec2(-350, 65);
 
-		ModelManager::getInstance()->loadTexture("DIY_LEVEL_GUI_SHOT_METER", "Images/Level GUI/ShotPowerMeter.png");
+		Models->loadTexture("DIY_LEVEL_GUI_SHOT_METER", "Images/Level GUI/ShotPowerMeter.png");
 		ShotPowerMeter = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_METER", ShotPowerMeterLocation + Vec2(2, 0), ScreenAnchor::BOTTOM_RIGHT);
 		ShotPowerMeter->drawType = UI_DRAW_TYPE::RAINBOW;
 
-		ModelManager::getInstance()->loadTexture("DIY_LEVEL_GUI_SHOT_FRAME", "Images/Level GUI/ShotPowerMeterFrame.png");
+		Models->loadTexture("DIY_LEVEL_GUI_SHOT_FRAME", "Images/Level GUI/ShotPowerMeterFrame.png");
 		ShotPowerMeterFrame = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_FRAME", ShotPowerMeterLocation, ScreenAnchor::BOTTOM_RIGHT);
 
-		ModelManager::getInstance()->loadTexture("DIY_LEVEL_GUI_BACKGROUND", "Images/Level GUI/GUI_Background.png");
+		Models->loadTexture("DIY_LEVEL_GUI_BACKGROUND", "Images/Level GUI/GUI_Background.png");
 		ParBackground = new GuiImage(level_, "DIY_LEVEL_GUI_BACKGROUND", ParLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 		StrokeBackground = new GuiImage(level_, "DIY_LEVEL_GUI_BACKGROUND", StrokeLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 		ObjectivesBackground = new GuiImage(level_, "DIY_LEVEL_GUI_BACKGROUND", ObjectivesLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
@@ -33,7 +39,7 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/ostrich-regular.ttf");
 		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_COUNT", 50, "Font/ostrich-black.ttf");
 
-		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow()); 
+		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		StrokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), StrokeLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		ObjectivesLabel = new Label(level_, "Objectives Remaining", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ObjectivesLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 
@@ -41,6 +47,25 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 		StrokeCountLabel = new Label(level_, IntToString(strokes), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), StrokeLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		ObjectivesCountLabel = new Label(level_, IntToString(objectives), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ObjectivesLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 	}
+
+	/***********************************************************/
+	/*						PAUSE GUI						   */
+	/***********************************************************/
+
+	Vec2 ExitButtonLocation = Vec2(0, 200);
+
+	/* BACKGROUND */
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_BACKGROUND", "Images/Level GUI/PauseBackground.png");
+	Pause_Background = new GuiImage(level_, "DIY_LEVEL_GUI_PAUSE_BACKGROUND", Vec2(), ScreenAnchor::CENTER);
+	Pause_Background->Hide();
+
+	/* BUTTONS */
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_EXIT", "Images/Level GUI/Buttons/Exit.png");
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_EXIT_PRESSED", "Images/Level GUI/Buttons/ExitPressed.png");
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");
+
+	Pause_ExitButton = new Button(level_, ExitButtonLocation, "DIY_LEVEL_GUI_PAUSE_EXIT", "DIY_LEVEL_GUI_PAUSE_EXIT_PRESSED", "DIY_LEVEL_GUI_PAUSE_EXIT_HOVERED", ScreenAnchor::CENTER);
+	Pause_ExitButton->Hide();
 }
 
 DIY_Level_GUI::~DIY_Level_GUI()
@@ -50,6 +75,24 @@ DIY_Level_GUI::~DIY_Level_GUI()
 void DIY_Level_GUI::Update(float timeStep_)
 {
 	ShotPowerMeter->drawPercent = shotPower;
+
+	if (((DIY_Level*)GAME->currentLevel)->isPaused)
+	{
+		//Show Pause Menu
+		Pause_Background->Show();
+		Pause_ExitButton->Show();
+	}
+	else
+	{
+		//Hide Pause Menu
+		Pause_Background->Hide();
+		Pause_ExitButton->Hide();
+	}
+
+	if (Pause_ExitButton->buttonState == ButtonState::PRESSED)
+	{
+		GAME->LoadLevel(new LandingScreen());
+	}
 }
 
 void DIY_Level_GUI::SetObjectivesRemaining(int objectives_)

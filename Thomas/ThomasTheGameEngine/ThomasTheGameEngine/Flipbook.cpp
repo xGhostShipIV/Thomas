@@ -68,6 +68,11 @@ Flipbook::Flipbook(GameObject * _owner, UINT32 _numImages, std::string _filePath
 	ownerRenderer->SetTextureID(textureNames[0], 0);
 }
 
+Flipbook::~Flipbook()
+{
+
+}
+
 //Start the animation
 void Flipbook::Play()
 {

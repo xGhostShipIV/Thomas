@@ -88,8 +88,8 @@ ModelManager::~ModelManager()
 
 	/*for (auto it = textures.begin(); it != textures.end(); it++)
 	{
-		if (it->second)
-			delete it->second;
+	if (it->second)
+	delete it->second;
 	}*/
 
 	textures.clear();
@@ -103,6 +103,13 @@ void ModelManager::GenerateDefaultContent()
 
 void ModelManager::loadModel(string _id, string _fileName, bool _useModelTextureMap, Draw_Mode _mode)
 {
+	//Don't load models with duplicate IDs
+	for (auto it = modelMap.begin(); it != modelMap.end(); it++)
+	{
+		if (it->first == _id)
+			return;
+	}
+
 	//Checks what our current render mode is and will create the appropriate
 	//Renderable based on such. For example, will create an OpenGL_Renderable
 	//if current render mode is for OpenGL
@@ -153,9 +160,9 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 		for (int m = 0; m < model->meshes.size(); m++)
 		for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
-				model->meshes[m].edge.push_back(i);
+			model->meshes[m].edge.push_back(i);
 
-		
+
 		for (int i = 0; i < scene->mNumMeshes; i++)
 		{
 			for (int j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
@@ -235,7 +242,7 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _
 	case ModelManager::Render_OpenGL:
 
 		cube = new OpenGL_Renderable();
-		
+
 		cube->meshes.push_back(mesh);
 
 		/* Face Back */
@@ -508,14 +515,14 @@ void ModelManager::GenerateTextureMap(Renderable* _renderable, float _uvRepeatX,
 	for (int m = 0; m < _renderable->meshes.size(); m++)
 	{
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
-		{						
+		{
 			if (_renderable->meshes[m].face[i] == 4)
 				_renderable->meshes[m].textureMap.push_back(Vec2(0, 0));
 
 			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, 0));
 			_renderable->meshes[m].textureMap.push_back(Vec2(_uvRepeatX, _uvRepeatY));
 			_renderable->meshes[m].textureMap.push_back(Vec2(0, _uvRepeatY));
-			
+
 		}
 
 		for (auto it = _renderable->meshes[m].textureMap.begin(); it != _renderable->meshes[m].textureMap.end(); it++)
@@ -558,7 +565,7 @@ void  ModelManager::GenerateCubeMap(Renderable* _renderable)
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 0));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 1 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 1 / 3.0f));
-		
+
 		//Bottom  ?
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.25f, 2 / 3.0f));
 		_renderable->meshes[0].textureMap.push_back(Vec2(0.50f, 2 / 3.0f));
@@ -583,7 +590,7 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 		for (int i = 0; i < _renderable->meshes[m].face.size(); i++)
 		{
 			Vec3 normal;
-			
+
 			{
 				Vec3 p1 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset]];
 				Vec3 p2 = _renderable->meshes[m].vertex[_renderable->meshes[m].edge[offset + 1]];
@@ -599,7 +606,7 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 				if (Vec3::dot(p1, normal) > 0)
 					normal *= -1;
 			}
-			
+
 			if (_normalsOnBottom)
 				normal = Vec3(0, 1, 0);
 
@@ -631,7 +638,7 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 					indices.push_back(_indices);
 				}
 			};
-			
+
 			std::vector<VertexIndex> _vertexList;
 
 			//Populate with all unique vertex and their index
@@ -650,7 +657,7 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 
 				if (!isInVector)
 					_vertexList.push_back(VertexIndex(_renderable->meshes[m].vertex[i], i));
-			}			
+			}
 
 			//Calculate Vertex Normals
 			for (int i = 0; i < _vertexList.size(); i++)
@@ -678,7 +685,7 @@ void ModelManager::PushModels()
 	if (areBuffersInitialized)
 	{
 		GLuint zero = 0;
-		
+
 		glClearNamedBufferData(Buffers[0], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
 		glClearNamedBufferData(Buffers[1], GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
 		glClearNamedBufferData(Buffers[2], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
@@ -702,18 +709,22 @@ void ModelManager::PushModels()
 		float * newMasterList = new float[masterVectorList.size() * 3];
 
 		//populate vector list
-		for (int i = 0; i < masterVectorList.size(); i++)
 		{
-			newMasterList[i * 3] = masterVectorList[i].x;
-			newMasterList[3 * i + 1] = masterVectorList[i].y;
-			newMasterList[3 * i + 2] = masterVectorList[i].z;
+			int i;
+			for (i = 0; i < masterVectorList.size(); i++)
+			{
+				newMasterList[i * 3] = masterVectorList[i].x;
+				newMasterList[3 * i + 1] = masterVectorList[i].y;
+				newMasterList[3 * i + 2] = masterVectorList[i].z;
+			}
+
+			glBindBuffer(GL_ARRAY_BUFFER, Buffers[0]);
+			glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+			glEnableVertexAttribArray(0);
+
+			std::cout << "Loaded " << i << " Vertices.\n";
 		}
-
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[0]);
-		glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glEnableVertexAttribArray(0);
-
 		delete[] newMasterList;
 	}
 
@@ -732,6 +743,8 @@ void ModelManager::PushModels()
 	int i = 0;
 	for (auto it = textures.begin(); it != textures.end(); it++)
 	{
+		std::cout << "Loading Texture #" << i << " \"" << textures[i]->ID << "\"...";
+
 		it->second->address = textureArray[i];
 
 		glBindTexture(GL_TEXTURE_2D, it->second->address);
@@ -750,6 +763,8 @@ void ModelManager::PushModels()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		std::cout << " done!\n";
 
 		i++;
 	}
@@ -831,7 +846,7 @@ void ModelManager::UnloadModels()
 
 void ModelManager::createTexture(string _id, void* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight)
 {
-	textures.insert(std::pair<int, Texture*>(nextTextureID, new Texture(_pixelData, _textureWidth, _textureHeight)));
+	textures.insert(std::pair<int, Texture*>(nextTextureID, new Texture(_pixelData, _textureWidth, _textureHeight, _id)));
 	textureMap.insert(std::pair<string, int>(_id, nextTextureID));
 
 	nextTextureID++;
@@ -839,6 +854,13 @@ void ModelManager::createTexture(string _id, void* _pixelData, UINT32 _textureWi
 
 void ModelManager::loadTexture(string _id, string _fileName)
 {
+	//Don't load textures with duplicate IDs
+	for (auto it = textureMap.begin(); it != textureMap.end(); it++)
+	{
+		if (it->first == _id)
+			return;
+	}
+
 	SDL_Surface *texture = IMG_Load(_fileName.c_str());
 
 	if (texture == NULL)		{
@@ -846,7 +868,7 @@ void ModelManager::loadTexture(string _id, string _fileName)
 		return;
 	}
 
-	Texture * t = new Texture(texture);
+	Texture * t = new Texture(texture, _id);
 	textures.insert(std::pair<UINT32, Texture*>(nextTextureID, t));
 	textureMap.insert(std::pair<string, UINT32>(_id, nextTextureID));
 

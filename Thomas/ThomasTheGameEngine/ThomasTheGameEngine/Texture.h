@@ -14,8 +14,8 @@ public:
 		Float, UnsignedByte
 	};
 
-	Texture(SDL_Surface* _surface);
-	Texture(void* _pixelData, UINT32 _width, UINT32 _height);
+	Texture(SDL_Surface* _surface, std::string id_ = "");
+	Texture(void* _pixelData, UINT32 _width, UINT32 _height, std::string id_ = "");
 	~Texture();
 
 	//Index in texture array
@@ -28,6 +28,9 @@ public:
 
 	//color of each pixel in the texture
 	void* pixelData;
+
+	//For Debugging
+	std::string ID;
 
 	TextureDataType dataType;
 };

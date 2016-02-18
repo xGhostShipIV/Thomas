@@ -1,6 +1,6 @@
 #include "Wormhole.h"
 
-#include "GameLevel.h"
+#include "DIY_Level.h"
 
 Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(level_, position_)
 {
@@ -11,7 +11,7 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(
 
 Layer * Wormhole::getDestinationLayer()
 {
-	GameLevel * gl = static_cast<GameLevel *>(level);
+	DIY_Level * gl = static_cast<DIY_Level *>(level);
 
 	return gl->layers[destinationLayer];
 }

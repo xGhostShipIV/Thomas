@@ -2,7 +2,7 @@
 #include "ModelManager.h"
 
 TextSprite::TextSprite(std::string _text, TTF_Font* _font, Colour _textColor)
-: Texture(TTF_RenderText_Blended(_font, _text.c_str(), _textColor))
+: Texture(TTF_RenderText_Blended(_font, _text.c_str(), _textColor), "TTGE_TEXTSPRITE")
 {
 	//Self Register
 	mapAddress = ModelManager::nextTextureID;

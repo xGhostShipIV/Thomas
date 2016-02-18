@@ -21,7 +21,7 @@ void GameObject::Translate(Vec3 _translate){
 
 void GameObject::Scale(Vec3 _scale){
 	scale = Vec3(scale.x * _scale.x, scale.y * _scale.y, scale.z * _scale.z);
-	for (auto it = childObjects.begin(); it != childObjects.end(); it++){	
+	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
 		(*it)->Scale(_scale);
 	}
 }
@@ -45,7 +45,7 @@ void GameObject::Rotate(Quat _rotation){
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 void GameObject::Rotate(Vec3 _rotation){
 	Quat _rot = (Quat(_rotation.x, Vec3::BasisX()) * Quat(_rotation.y, Vec3::BasisY()) * Quat(_rotation.z, Vec3::BasisZ())).NormalizeThis();
-	
+
 	rotation = rotation * _rot;
 
 	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
@@ -111,6 +111,40 @@ GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), sc
 
 GameObject::~GameObject()
 {
+	//Clear all components
+	if (components.size() > 1)
+	{
+		int t = 0;
+	}
+
+	for (auto it = components.begin(); it != components.end(); it++)
+	{
+		switch ((*it)->type)
+		{
+		case Component::ComponentType::Rigidbody:
+			delete (Rigidbody*)*it;
+			break;
+		case Component::ComponentType::Collision:
+			delete (Collider*)*it;
+			break;
+		case Component::ComponentType::Renderable:
+			delete (RenderableComponent*)*it;
+			break;
+		case Component::ComponentType::Flipbook:
+			delete (Flipbook*)*it;
+			break;
+		case Component::ComponentType::Light:
+			delete (Light*)*it;
+			break;
+		case Component::ComponentType::ParticleSystem:
+			delete (ParticleSystem*)*it;
+			break;
+		default:
+			delete *it;
+			break;
+		}
+	}
+	components.clear();
 }
 
 GameObject& GameObject::GetTransform()
@@ -127,7 +161,17 @@ void GameObject::removeComponent(Component * _c)
 		if (*it._Ptr == _c)
 		{
 			components.erase(it);
-			delete _c;
+
+			switch (_c->type)
+			{
+			case Component::ComponentType::Rigidbody:
+				delete (Rigidbody*)_c;
+				break;
+			default:
+				delete _c;
+				break;
+			}
+
 			break;
 		}
 	}

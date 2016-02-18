@@ -21,15 +21,14 @@
 
 DIY_Game::DIY_Game()
 {
-	instance = this;
+	GLU::OutputOpenGLVersion();
 
+	instance = this;
 	inputManager = InputController::getInstance();
 
 	LoadLevel(new SplashScreen());
 
-	//LoadLevel(new DIY_Level("testLevel.xml"));
-
-	GLU::OutputOpenGLVersion();
+	//LoadLevel(new DIY_Level("testLevel.xml"));	
 }
 
 DIY_Game::~DIY_Game()
@@ -39,8 +38,8 @@ DIY_Game::~DIY_Game()
 
 void DIY_Game::Update(float _timestep)
 {
-	/*if (Input->isKeyDown(SDLK_ESCAPE))
-		GAME->setRunning(false);*/
+	if (Input->isKeyDown(SDLK_LALT) && Input->isKeyDown(SDLK_F4))
+		GAME->setRunning(false);
 
 	//FPS
 	{

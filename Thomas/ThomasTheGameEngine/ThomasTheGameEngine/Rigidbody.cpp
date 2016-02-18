@@ -41,7 +41,17 @@ Rigidbody::Rigidbody(GameObject* _parent, Collider* _Collider) : Component(_pare
 }
 
 
-Rigidbody::~Rigidbody(){}
+Rigidbody::~Rigidbody()
+{
+	for (auto it = PhysicsWorld::getInstance()->PhysicalObjects.begin(); it != PhysicsWorld::getInstance()->PhysicalObjects.end(); it++)
+	{
+		if ((*it) == this)
+		{
+			PhysicsWorld::getInstance()->PhysicalObjects.erase(it);
+			break;
+		}
+	}
+}
 
 void Rigidbody::AddForce(Vec3 _force){
 	accel += _force / mass;

@@ -1,7 +1,9 @@
 #include "PlayerBall.h"
 #include <InputHandler.h>
 
+#include <Game.h>
 #include <iostream>
+#include "DIY_Level.h"
 
 PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, position_)
 {
@@ -23,35 +25,35 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 void PlayerBall::Update(float timeStep_)
 {
 	//All the controls go here
-
-
-	if (Input->isKeyDown(SDLK_SPACE))
+	if (!((DIY_Level*)GAME->currentLevel)->isPaused)
 	{
-		if (chargingStrike)
+		if (Input->isKeyDown(SDLK_SPACE))
 		{
+			if (chargingStrike)
+			{
 
-			chargePercent += modifier;
+				chargePercent += modifier;
 
-			//std::cout << chargePercent << std::endl;
+				//std::cout << chargePercent << std::endl;
 
-			if (chargePercent >= 100)
-				modifier = -0.5f;
-			else if (chargePercent <= 0)
-				modifier = 0.5f;
+				if (chargePercent >= 100)
+					modifier = -0.5f;
+				else if (chargePercent <= 0)
+					modifier = 0.5f;
+			}
+			else
+				chargingStrike = true;
+
 		}
-		else
-			chargingStrike = true;
 
+		if (!Input->isKeyDown(SDLK_SPACE))
+		{
+			chargingStrike = false;
+			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f)) * timeStep_));
+			chargePercent = 0;
+			modifier = 0.5f;
+		}
 	}
-
-	if (Input->isKeyReleased(SDLK_SPACE))
-	{
-		chargingStrike = false;
-		rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f)) * timeStep_));
-		chargePercent = 0;
-		modifier = 0.5f;
-	}
-	
 }
 
 float PlayerBall::GetChargePercent()

@@ -5,6 +5,7 @@
 
 #include <Label.h>
 #include <GuiImage.h>
+#include <Button.h>
 
 class DIY_Level_GUI
 {
@@ -16,6 +17,7 @@ public:
 
 	float shotPower;
 
+	/* GAME GUI */
 	Label *ParLabel, *StrokeLabel, *ObjectivesLabel;
 	Label *ParCountLabel, *StrokeCountLabel, *ObjectivesCountLabel;
 	GuiImage *ShotPowerMeterFrame, *ShotPowerMeter, *ParBackground, *StrokeBackground, *ObjectivesBackground;
@@ -27,4 +29,8 @@ public:
 
 	//Used to update the stroke count
 	void PlayerTookAStroke(int strokeIncrement = 1);
+
+	/* PAUSE MENU */
+	GuiImage *Pause_Background;
+	Button *Pause_ExitButton;
 };

@@ -186,6 +186,8 @@ void Game::EngineUpdate(float _timeStep)
 
 		currentLevel->init();
 		callInitOnNextUpdate = false;
+
+		std::cout << "\nLEVEL LOADED!\n\n";
 	}
 
 	if (currentLevel)
@@ -247,6 +249,8 @@ void Game::LoadLevel(Level * _level)
 	levelToLoad = _level;
 
 	callInitOnNextUpdate = true;
+
+	std::cout << "\nLOADING LEVEL...\n";
 }
 
 void Game::setRunning(bool _isRunning) {
