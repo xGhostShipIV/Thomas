@@ -9,6 +9,7 @@ PhysicsWorld * PhysicsWorld::instance;
 PhysicsWorld::PhysicsWorld()
 {
 	worldGravity = Vec3(0, -3.f, 0);
+	isPhysicsRunning = true;
 }
 
 float PhysicsWorld::getTimeStep(){
@@ -100,44 +101,46 @@ void PhysicsWorld::Update(float _deltaTime){
 
 	lastTimeStep = _deltaTime;
 	 
-	//Collision Response
-	for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
-		for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
-			if (Collider::isColliding((*first)->col, (*second)->col)){
-				PhysicsWorld::Impulse((*first)->parentObject, (*second)->parentObject);
+	if (isPhysicsRunning){
+		//Collision Response
+		for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
+			for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
+				if (Collider::isColliding((*first)->col, (*second)->col)){
+					PhysicsWorld::Impulse((*first)->parentObject, (*second)->parentObject);
+				}
 			}
 		}
-	}
 
-	for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
-		if ((*it)->gravitas){
-			(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
-		}
+		for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
+			if ((*it)->gravitas){
+				(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
+			}
 
-		if ((*it)->isKinematic) {
-			//Angular and linear drag goes here
-			//1/2 rho v^2 Cd A
-			float dragForce = 0.5f * 0.2 * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
-			(*it)->AddForce((*it)->velocity * -dragForce * _deltaTime);
+			if ((*it)->isKinematic) {
+				//Angular and linear drag goes here
+				//1/2 rho v^2 Cd A
+				float dragForce = 0.5f * 0.2 * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
+				(*it)->AddForce((*it)->velocity * -dragForce * _deltaTime);
 
-			//Lift
-			//pi r ^ 3 w v rho
-			float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
-			Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
-			//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
+				//Lift
+				//pi r ^ 3 w v rho
+				float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
+				Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
+				//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
 
-			(*it)->velocity += ((*it)->accel);
-			(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
+				(*it)->velocity += ((*it)->accel);
+				(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
 
-			(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
-			(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
+				(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
+				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
 
-			(*it)->accel = Vec3::Zero();
-			(*it)->AngularAccel = Quat::Identity();
+				(*it)->accel = Vec3::Zero();
+				(*it)->AngularAccel = Quat::Identity();
 
-			//Sleep velocities are here
-			if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
-				(*it)->velocity = Vec3::Zero();
+				//Sleep velocities are here
+				if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
+					(*it)->velocity = Vec3::Zero();
+				}
 			}
 		}
 	}
