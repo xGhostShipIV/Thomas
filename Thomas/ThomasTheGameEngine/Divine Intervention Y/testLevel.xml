@@ -9,7 +9,7 @@
 
   <Layer>
     
-    <Object type="Player1Start" x="0" z="0"></Object>
+    
   </Layer>
 
   <Layer>
@@ -18,7 +18,8 @@
   
   <Layer>
     
-    
+        <Object type="Player1Start" x="0" z="0"></Object>
+
   </Layer>
 
   <Assets>

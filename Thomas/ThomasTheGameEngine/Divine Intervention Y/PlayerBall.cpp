@@ -9,11 +9,12 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 {
 	addTag("player");
 
-	position = position + Vec3(0, 0.25f, 0);
+	position = position + Vec3(0, 1.2f, 0);
 	renderer = new RenderableComponent("sphere", "ballSkin", this);
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 
 	rigidBody->mass = 25.0f;
+	//rigidBody->sleepThreshold = 0.69f;
 
 	Scale(Vec3(0.5f, 0.5f, 0.5f));
 	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.3f;

@@ -163,8 +163,11 @@ void DIY_Level::LoadContent()
 		//Attaches the plane collider to last layer added if it contains the players start point
 		if (setPlayerLayer)
 		{
-			layerPlane = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
-			layers.back()->getComponent<Rigidbody>()->col = layerPlane;
+			planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
+			planeRigidBody->isKinematic = false;
+
+			//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
+			//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
 			setPlayerLayer = false;
 		}
 

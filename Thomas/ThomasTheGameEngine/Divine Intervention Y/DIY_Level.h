@@ -32,7 +32,7 @@ public:
 	void SetLayerPlane(Layer *);
 private:
 	GameObject * skybox, *playerBall;
-	PlaneCollider * layerPlane;
+	Rigidbody * planeRigidBody;
 	DIY_Level_GUI * gui;
 
 	std::string fileName;
