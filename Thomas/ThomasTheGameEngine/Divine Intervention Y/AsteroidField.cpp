@@ -1,7 +1,9 @@
 #include "AsteroidField.h"
+#include "PlayerBall.h"
 #include <Level.h>
 #include <stdio.h>
 #include <RenderableComponent.h>
+#include <Rigidbody.h>
 
 AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, float _numAsteroids) : GameObject(_level, _position)
 {
@@ -40,4 +42,22 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 
 AsteroidField::~AsteroidField()
 {
+}
+
+void AsteroidField::Update(float timeStep_)
+{
+	if (!player)
+		player = (PlayerBall*)level->FindGameObjectWithTag("player");
+
+	GameObject::Update(timeStep_);
+
+	if ((position - player->position).length() < 0.75f)
+	{
+		Rigidbody * rb_ = player->getComponent<Rigidbody>();
+
+		if (rb_->isAwake())
+		{
+			rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
+		}
+	}
 }

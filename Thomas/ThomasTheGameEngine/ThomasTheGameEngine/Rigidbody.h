@@ -38,5 +38,7 @@ public:
 
 	//Not implemented!
 	void AddTorque(Quat); //torque in local space
+
+	bool isAwake();
 };
 

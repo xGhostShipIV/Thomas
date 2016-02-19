@@ -131,8 +131,11 @@ void PhysicsWorld::Update(float _deltaTime){
 				(*it)->velocity += ((*it)->accel);
 				(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
 
-				(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
-				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
+				if ((*it)->velocity.length() > (*it)->sleepThreshold)
+				{
+					(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
+					(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
+				}
 
 				(*it)->accel = Vec3::Zero();
 				(*it)->AngularAccel = Quat::Identity();

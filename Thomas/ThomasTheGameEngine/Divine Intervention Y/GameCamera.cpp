@@ -73,6 +73,16 @@ void GameCamera::Update(float deltaTime_)
 		{
 			Translate(forward() * -1 * deltaTime_);
 		}
+
+		if (Input->mouseWheel > 0)
+		{
+			Translate(up());
+		}
+		else if (Input->mouseWheel < 0)
+		{
+			if (position.y > -0.5f)
+			Translate(up() * -1);
+		}
 	}
 
 	Camera::Update(deltaTime_);

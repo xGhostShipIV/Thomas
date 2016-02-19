@@ -80,3 +80,8 @@ void Rigidbody::setTensorShape(Collider::ColliderType type_, Vec3 dims_){
 		0, tensorValue, 0,
 		0, 0, tensorValue);
 }
+
+bool Rigidbody::isAwake()
+{
+	return velocity.length() > sleepThreshold;
+}

@@ -16,6 +16,8 @@ class InputController {
 	Vec2 oldMousePos;
 	Vec2 curMousePos;
 
+	
+
 	void hitKey(SDL_Keycode);
 	void releaseKey(SDL_Keycode);
 	void hitMouse(Uint8);
@@ -45,6 +47,7 @@ public:
 	bool isAnyKeyPressed();
 	Vec2 deltaMouse();
 	Vec2 mousePos();
+	int mouseWheel;
 
 	SDL_MouseMotionEvent motionEvent;
 

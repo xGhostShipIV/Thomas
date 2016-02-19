@@ -7,9 +7,13 @@
 
 PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, position_)
 {
+	addTag("player");
+
 	position = position + Vec3(0, 0.25f, 0);
 	renderer = new RenderableComponent("sphere", "ballSkin", this);
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
+
+	rigidBody->mass = 25.0f;
 
 	Scale(Vec3(0.5f, 0.5f, 0.5f));
 	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.3f;
@@ -49,7 +53,7 @@ void PlayerBall::Update(float timeStep_)
 		if (!Input->isKeyDown(SDLK_SPACE))
 		{
 			chargingStrike = false;
-			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f)) * timeStep_));
+			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))));
 			chargePercent = 0;
 			modifier = 0.5f;
 		}

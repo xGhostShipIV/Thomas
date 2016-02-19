@@ -207,6 +207,7 @@ void InputController::Update(){
 	oldMousePos = curMousePos;
 	oldKeyboardMap = curKeyboardMap;
 	oldMouseMap = curMouseMap;
+	mouseWheel = 0;
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -234,6 +235,10 @@ void InputController::takeEvent(SDL_Event e_){
 	{
 		GuiHandler::getInstance()->HandleEventMouseHover(curMousePos.x, curMousePos.y);
 		motionEvent = e_.motion;
+	}
+	else if (e_.type == SDL_MOUSEWHEEL)
+	{
+		mouseWheel = e_.wheel.y;
 	}
 
 	//Gui events may need to be re-checked
