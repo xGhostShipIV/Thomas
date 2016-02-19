@@ -4,10 +4,11 @@
   
   <Layer>
     <Object type="Asteroids" x="1" z="1"></Object>
+    <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
 
   <Layer>
-    <Object type="WarpGate" x="0" z="0"></Object>
+    
     <Object type="Player1Start" x="0" z="0"></Object>
   </Layer>
 

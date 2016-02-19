@@ -40,4 +40,20 @@ void Pointer::Update(float timeStep_)
 	Rotate(Quat(3.14159 / 2.0f, Vec3(0, 1, 0)));
 
 	position.y = ball->position.y - 0.1f;
+
+	if (ball->getComponent<Rigidbody>()->isAwake())
+		isEnabled = false;
+
+	if (!ball->getComponent<Rigidbody>()->isAwake() && isEnabled == false)
+	{
+		isEnabled = true;
+		position = ball->position + Vec3(1, 0, 0);
+		position.y = ball->position.y - 0.1f;
+	}
+}
+
+void Pointer::Render()
+{
+	if (isEnabled)
+		GameObject::Render();
 }

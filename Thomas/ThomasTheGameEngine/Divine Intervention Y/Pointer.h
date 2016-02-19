@@ -12,10 +12,12 @@ public:
 	~Pointer();
 
 	void Update(float timeStep_) override;
-	//void Render() override;
+	void Render() override;
 
 private:
 	RenderableComponent * renderer;
 	PlayerBall * ball;
+
+	bool isEnabled;
 };
 

@@ -29,7 +29,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 void PlayerBall::Update(float timeStep_)
 {
 	//All the controls go here
-	if (!((DIY_Level*)GAME->currentLevel)->isPaused)
+	if (!((DIY_Level*)GAME->currentLevel)->isPaused && !rigidBody->isAwake())
 	{
 		if (Input->isKeyDown(SDLK_SPACE))
 		{
