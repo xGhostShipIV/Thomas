@@ -73,7 +73,7 @@ void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
 		Vec3 gravComp = Vec3::dot(PhysicsWorld::getInstance()->worldGravity, normal.Normalized()) * normal.Normalized() * PhysicsWorld::getInstance()->lastTimeStep;
 		if (firstBody->isKinematic){
 			firstBody->accel += normal * 2 * J / firstBody->mass;
-			firstBody->accel += gravComp;
+			firstBody->accel -= gravComp;
 		}
 		else if (secondBody->isKinematic){
 			secondBody->accel += normal * -2 * J / secondBody->mass;
@@ -118,12 +118,18 @@ void PhysicsWorld::Update(float _deltaTime){
 
 			if ((*it)->isKinematic) {
 				//Angular and linear drag goes here
-				//1/2 rho v^2 Cd A
-				float dragForce = 0.5f * 0.2 * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
-				(*it)->AddForce((*it)->velocity * -dragForce * _deltaTime);
+				//Assumes circular cross section for drag
+				// 1/2 (density) (velocity * velocity) (drag coefficient) (cross section area) ==> higher velocity
+				// 6 * pi * (dynamic viscosity, aka the cheaty number) (radius) (velocity)
+				float dragForce;
+				if (Vec3::length((*it)->velocity) > 1)
+					dragForce = 0.5f * 1.2f * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
+				else
+					dragForce = 6 * M_PI * 0.2f * (*it)->CollisionRadius * Vec3::length((*it)->velocity);
+
+				(*it)->AddForce((*it)->velocity * -dragForce);
 
 				//Lift
-				//pi r ^ 3 w v rho
 				float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
 				Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
 				//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
@@ -131,19 +137,21 @@ void PhysicsWorld::Update(float _deltaTime){
 				(*it)->velocity += ((*it)->accel);
 				(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
 
+				//Linear motion & sleep
 				if ((*it)->velocity.length() > (*it)->sleepThreshold)
 				{
 					(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
-					(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
 				}
+				else 
+				{
+					(*it)->velocity = Vec3::Zero();
+				}
+				
+				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
 
 				(*it)->accel = Vec3::Zero();
 				(*it)->AngularAccel = Quat::Identity();
 
-				//Sleep velocities are here
-				if (Vec3::length((*it)->velocity) < (*it)->sleepThreshold){
-					(*it)->velocity = Vec3::Zero();
-				}
 			}
 		}
 	}

@@ -29,6 +29,8 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 
 void PlayerBall::Update(float timeStep_)
 {
+
+	std::cout << getComponent<Rigidbody>()->velocity.toString() << std::endl;
 	//All the controls go here
 	if (!((DIY_Level*)GAME->currentLevel)->isPaused && !rigidBody->isAwake())
 	{
