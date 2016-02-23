@@ -12,11 +12,6 @@ Layer::Layer(Level * _level, Vec3 _position, std::vector<GameObject *> _objects)
 	}
 
 	r = new RenderableComponent("cuboid", "layerGrid", this);
-	//Rotate(Quat(3.141582654 / 2.0f, Vec3(1, 0, 0)));
-
-	//rigidBody = new Rigidbody(this, new PlaneCollider(this, Vec3(0,1,0)));
-
-	//rigidBody->isKinematic = false;
 }
 
 

@@ -25,7 +25,8 @@ public:
 	//You can think of this as rotateAround if you'd like
 	void static Orbit(Vec3 centre, Vec3 axis, GameObject* object, float angle);
 	void static Orbit(Rigidbody* mover_, GameObject* centre);
-	void static Impulse(GameObject*, GameObject*);
+	//void static Impulse(GameObject*, GameObject*);
+	void static Impulse(Rigidbody*, Rigidbody*);
 	float getTimeStep();
 	void Update(float);
 };

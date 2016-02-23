@@ -15,7 +15,7 @@ public:
 	void Render() override;
 private:
 	RenderableComponent * r;
-	Rigidbody * rigidBody;
+	/*Rigidbody * rigidBody;*/
 };
 
 

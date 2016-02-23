@@ -33,63 +33,85 @@ void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre){
 
 }
 
-void PhysicsWorld::Impulse(GameObject* _first, GameObject*_second){
+void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 
-	Rigidbody* firstBody = _first->getComponent<Rigidbody>();
-	Rigidbody* secondBody = _second->getComponent<Rigidbody>();
+	//Rigidbody* firstBody = _first->getComponent<Rigidbody>();
+	//Rigidbody* secondBody = _second->getComponent<Rigidbody>();
 	float epsilon = 0.9f; //Perfectly elastic collisions for now
 
 	//Populate the variables for the impulse equation
+	//Vec3 normal, ColPoint, r1, r2;
+	//if (_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere && _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)
+	//{
+	//	//Sphere-Sphere
+	//	normal = (_first->position - _second->position).Normalized();
+	//	ColPoint = Vec3((_second->position - _first->position) / 2) + _first->position;
+	//}
+	//else if ((_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere || _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)){
+	//	//Sphere-Plane
+	//	if ((_first->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)){
+	//		normal = static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized();
+	//		ColPoint = _second->position - static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
+	//	}
+	//	else if ((_second->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)) {
+	//		normal = static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized();
+	//		ColPoint = _first->position - static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.DistanceToPoint(_first->position);
+	//	}		
+	//}
+
+	//r1 = ColPoint - (firstBody->centreOfMass + _first->position);
+	//r2 = ColPoint - (secondBody->centreOfMass + _second->position);
+
 	Vec3 normal, ColPoint, r1, r2;
-	if (_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere && _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)
+	if (_first->col->type == Collider::ColliderType::Sphere && _second->col->type == Collider::ColliderType::Sphere)
 	{
 		//Sphere-Sphere
-		normal = (_first->position - _second->position).Normalized();
-		ColPoint = Vec3((_second->position - _first->position) / 2) + _first->position;
+		normal = (_first->parentObject->position - _second->parentObject->position).Normalized();
+		ColPoint = Vec3((_second->parentObject->position - _first->parentObject->position) / 2) + _first->parentObject->position;
 	}
-	else if ((_first->getComponent<Collider>()->type == Collider::ColliderType::Sphere || _second->getComponent<Collider>()->type == Collider::ColliderType::Sphere)){
+	else if ((_first->col->type == Collider::ColliderType::Sphere || _second->col->type == Collider::ColliderType::Sphere)){
 		//Sphere-Plane
-		if ((_first->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)){
-			normal = static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized();
-			ColPoint = _second->position - static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->getComponent<Collider>())->plane.DistanceToPoint(_second->position);
+		if ((_first->col->type == Collider::ColliderType::BoundedPlane)){
+			normal = static_cast<PlaneCollider*>(_first->col)->plane.normal.Normalized();
+			ColPoint = _second->parentObject->position - static_cast<PlaneCollider*>(_first->col)->plane.normal.Normalized() * static_cast<PlaneCollider*>(_first->col)->plane.DistanceToPoint(_second->parentObject->position);
 		}
-		else if ((_second->getComponent<Collider>()->type == Collider::ColliderType::BoundedPlane)) {
-			normal = static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized();
-			ColPoint = _first->position - static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->getComponent<Collider>())->plane.DistanceToPoint(_first->position);
-		}		
+		else if ((_second->col->type == Collider::ColliderType::BoundedPlane)) {
+			normal = static_cast<PlaneCollider*>(_second->col)->plane.normal.Normalized();
+			ColPoint = _first->parentObject->position - static_cast<PlaneCollider*>(_second->col)->plane.normal.Normalized() * static_cast<PlaneCollider*>(_second->col)->plane.DistanceToPoint(_first->parentObject->position);
+		}
 	}
 
-	r1 = ColPoint - (firstBody->centreOfMass + _first->position);
-	r2 = ColPoint - (secondBody->centreOfMass + _second->position);
+	r1 = ColPoint - (_first->centreOfMass + _first->parentObject->position);
+	r2 = ColPoint - (_second->centreOfMass + _second->parentObject->position);
 
-	float J = Vec3::dot(normal, firstBody->velocity - secondBody->velocity) * -1 * (1 + epsilon) /
+	float J = Vec3::dot(normal, _first->velocity - _second->velocity) * -1 * (1 + epsilon) /
 		(
-		(1 / firstBody->mass) +  (1 / secondBody->mass) +
-		Vec3::dot(normal, Vec3::cross(firstBody->inertiaTensor.inverse() * Vec3::cross(r1, normal),r1)) +
-		Vec3::dot(normal, Vec3::cross(secondBody->inertiaTensor.inverse() * Vec3::cross(r2, normal),r2))
+		(1 / _first->mass) +  (1 / _second->mass) +
+		Vec3::dot(normal, Vec3::cross(_first->inertiaTensor.inverse() * Vec3::cross(r1, normal), r1)) +
+		Vec3::dot(normal, Vec3::cross(_second->inertiaTensor.inverse() * Vec3::cross(r2, normal),r2))
 		);
 
-	if (!firstBody->isKinematic || !secondBody->isKinematic){
+	if (!_first->isKinematic || !_second->isKinematic){
 		Vec3 gravComp = Vec3::dot(PhysicsWorld::getInstance()->worldGravity, normal.Normalized()) * normal.Normalized() * PhysicsWorld::getInstance()->lastTimeStep;
-		if (firstBody->isKinematic){
-			firstBody->accel += normal * 2 * J / firstBody->mass;
-			firstBody->accel -= gravComp;
+		if (_first->isKinematic){
+			_first->accel += normal * 2 * J / _first->mass;
+			_first->accel -= gravComp;
 		}
-		else if (secondBody->isKinematic){
-			secondBody->accel += normal * -2 * J / secondBody->mass;
-			secondBody->accel -= gravComp;
+		else if (_second->isKinematic){
+			_second->accel += normal * -2 * J / _second->mass;
+			_second->accel -= gravComp;
 		}
 	}
 	else {
-		firstBody->accel += normal * J / firstBody->mass;
-		secondBody->accel += normal * -J / secondBody->mass;
+		_first->accel += normal * J / _first->mass;
+		_second->accel += normal * -J / _second->mass;
 	}
 
-	if (firstBody->isKinematic){
-		firstBody->parentObject->position = ColPoint - r1.Normalized() * static_cast<SphereCollider*>(_first->getComponent<Collider>())->collisionRadius;
+	if (_first->isKinematic){
+		_first->parentObject->position = ColPoint - r1.Normalized() * static_cast<SphereCollider*>(_first->col)->collisionRadius;
 	}
-	if (secondBody->isKinematic){
-		secondBody->parentObject->position = ColPoint - r2.Normalized() * static_cast<SphereCollider*>(_second->getComponent<Collider>())->collisionRadius;
+	if (_second->isKinematic){
+		_second->parentObject->position = ColPoint - r2.Normalized() * static_cast<SphereCollider*>(_second->col)->collisionRadius;
 	}
 
 	/*firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0f, Vec3::cross(r1, normal).Normalized());
@@ -106,7 +128,7 @@ void PhysicsWorld::Update(float _deltaTime){
 		for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
 			for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
 				if (Collider::isColliding((*first)->col, (*second)->col)){
-					PhysicsWorld::Impulse((*first)->parentObject, (*second)->parentObject);
+					PhysicsWorld::Impulse((*first)/*->parentObject*/, (*second)/*->parentObject*/);
 				}
 			}
 		}

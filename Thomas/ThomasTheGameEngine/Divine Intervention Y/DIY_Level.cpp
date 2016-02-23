@@ -134,7 +134,7 @@ void DIY_Level::LoadContent()
 				object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
 			}
 			else if (objectElement->Attribute("type", "Wormhole")){
-				object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), i);
+				object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), objectElement->IntAttribute("destination"));
 			}
 			else if (objectElement->Attribute("type", "WarpGate")){
 				object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
@@ -229,4 +229,11 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent() / 100.0f;
 	gui->Update(timeStep_);
+}
+
+void DIY_Level::SetLayerPlane(Layer * layer_)
+{
+	planeRigidBody->parentObject = layer_;
+	planeRigidBody->col->parentObject = layer_;
+	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);
 }

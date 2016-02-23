@@ -7,7 +7,8 @@
 #include <RenderableComponent.h>
 
 class Layer;
-class GameLevel;
+class DIY_Level;
+class PlayerBall;
 
 class Wormhole : public GameObject
 {
@@ -16,10 +17,12 @@ public:
 	~Wormhole(){}
 
 	Layer * getDestinationLayer();
-	//void setDestinationLayer(Layer *);
-
+	void Update(float) override;
 private:
-
 	RenderableComponent * rc;
+	PlayerBall * player;
+	DIY_Level * diyLevel;
+
 	int destinationLayer;
+	bool ballCaught;
 };
