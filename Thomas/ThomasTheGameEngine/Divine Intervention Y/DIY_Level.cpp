@@ -223,7 +223,10 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 		if (Input->isMouseDown(SDL_BUTTON_RIGHT))
 		{
-			layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+			//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+			PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
+			mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
+			
 		}
 	}
 

@@ -133,10 +133,10 @@ void TestLevel::LoadContent()
 	};
 	ModelManager::getInstance()->createTexture("redCheckers", pixelDataRed, 2, 2);
 
-	float pixelDataWhite[]
-	{
-		1.0f, 1.0f, 0.0f, 1.0f
-	};
+	//float pixelDataWhite[]
+	//{
+	//	1.0f, 1.0f, 0.0f, 1.0f
+	//};
 	ModelManager::getInstance()->createTexture("white", pixelDataWhite, 1, 1);
 
 	ModelManager::getInstance()->loadTexture("star", "Images/star.png");

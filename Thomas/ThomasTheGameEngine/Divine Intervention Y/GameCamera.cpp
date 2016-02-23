@@ -42,17 +42,18 @@ void GameCamera::Update(float deltaTime_)
 		}
 
 		//If youre no longer holding the mouse and have rotated, this section will rotate back
-		if (!Input->isMouseDown(SDL_BUTTON_LEFT))
-		if (forward() != originalLookat)
-		{
-			LookAt(originalLookat);
-
-			if (((forward() + position) - originalLookat).magnitude() < 0.25f)
+		if (!Input->isMouseDown(SDL_BUTTON_LEFT) && !Input->isMouseDown(SDL_BUTTON_RIGHT)){
+			if (forward() != originalLookat)
 			{
-				rotation = originalRotation;
-				originalLookat = forward();
+				LookAt(originalLookat);
 
-				isOriginalSet = false;
+				if (((forward() + position) - originalLookat).magnitude() < 0.25f)
+				{
+					rotation = originalRotation;
+					originalLookat = forward();
+
+					isOriginalSet = false;
+				}
 			}
 		}
 
@@ -65,24 +66,28 @@ void GameCamera::Update(float deltaTime_)
 			Translate(right_ * deltaTime_);
 		}
 
-		if (Input->isKeyDown(SDLK_w) && !Input->isMouseDown(SDL_BUTTON_LEFT))
+		/*if (Input->isKeyDown(SDLK_w) && !Input->isMouseDown(SDL_BUTTON_LEFT))
 		{
 			Translate(forward() * deltaTime_);
 		}
 		else if (Input->isKeyDown(SDLK_s) && !Input->isMouseDown(SDL_BUTTON_LEFT))
 		{
 			Translate(forward() * -1 * deltaTime_);
-		}
+		}*/
 
 		if (Input->mouseWheel > 0)
 		{
-			if (position.y < 3)
-			Translate(up());
+			if (position.y < 3){
+				Translate(up());
+				originalLookat = originalLookat + up();
+			}
 		}
 		else if (Input->mouseWheel < 0)
 		{
-			if (position.y > -0.5f)
-			Translate(up() * -1);
+			if (position.y > -0.5f){
+				Translate(up() * -1);
+				originalLookat = originalLookat - up();
+			}
 		}
 	}
 

@@ -134,11 +134,10 @@ void PhysicsWorld::Update(float _deltaTime){
 		}
 
 		for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
-			if ((*it)->gravitas){
-				(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
-			}
-
 			if ((*it)->isKinematic) {
+				if ((*it)->gravitas){
+					(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
+				}
 				//Angular and linear drag goes here
 				//Assumes circular cross section for drag
 				// 1/2 (density) (velocity * velocity) (drag coefficient) (cross section area) ==> higher velocity
@@ -170,11 +169,10 @@ void PhysicsWorld::Update(float _deltaTime){
 				}
 				
 				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
-
-				(*it)->accel = Vec3::Zero();
-				(*it)->AngularAccel = Quat::Identity();
-
 			}
+			(*it)->accel = Vec3::Zero();
+			(*it)->AngularAccel = Quat::Identity();
+
 		}
 	}
 }

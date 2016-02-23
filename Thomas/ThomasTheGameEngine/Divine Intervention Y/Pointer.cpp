@@ -37,7 +37,7 @@ void Pointer::Update(float timeStep_)
 	}
 
 	LookAt(ball->position);
-	Rotate(Quat(3.14159 / 2.0f, Vec3(0, 1, 0)));
+	Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
 
 	position.y = ball->position.y - 0.1f;
 
