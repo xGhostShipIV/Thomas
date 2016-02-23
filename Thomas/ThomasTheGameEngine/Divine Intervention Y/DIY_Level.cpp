@@ -13,6 +13,7 @@
 #include "Wormhole.h"
 #include "WarpGate.h"
 #include "PlayerBall.h"
+#include "ObjectivePlanet.h"
 
 #include <PhysicsWorld.h>
 
@@ -115,6 +116,7 @@ void DIY_Level::LoadContent()
 		do
 		{
 			GameObject * object;
+			GameObject * objectivePlanet;
 
 			float x = objectElement->FloatAttribute("x");
 			float z = objectElement->FloatAttribute("z");
@@ -122,13 +124,62 @@ void DIY_Level::LoadContent()
 			if (objectElement->Attribute("type", "PlanetHorizontal")){
 
 				std::string textureName = objectElement->Attribute("texture");
+				tinyxml2::XMLElement * objectiveElement;
+
+				//Check if planet has attached objective
+				if (objectElement->Attribute("objective"))
+				{
+					//Find first planet description in Objectives node
+					objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
+
+					//Search through all planets in Objectives until one with matching name is found
+					while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+					{
+						objectiveElement = objectiveElement->NextSiblingElement();
+
+						//If you're at the end and not found it, break
+						if (!objectiveElement)
+							break;
+					}
+				}
 
 				object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+
+				if (objectiveElement)
+				{
+					objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Horizonal);
+					objectiveCount++;
+				}
+
 			}
 			else if (objectElement->Attribute("type", "PlanetVertical")){
 				std::string textureName = objectElement->Attribute("texture");
 
+				tinyxml2::XMLElement * objectiveElement;
+
+				//Check if planet has attached objective
+				if (objectElement->Attribute("objective"))
+				{
+					//Find first planet description in Objectives node
+					objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
+
+					//Search through all planets in Objectives until one with matching name is found
+					while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+					{
+						objectiveElement = objectiveElement->NextSiblingElement();
+
+						//If you're at the end and not found it, break
+						if (!objectiveElement)
+							break;
+					}
+				}
 				object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+
+				if (objectiveElement)
+				{
+					objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Vertical);
+					objectiveCount++;
+				}
 			}
 			else if (objectElement->Attribute("type", "Asteroids")){
 				object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
@@ -150,6 +201,9 @@ void DIY_Level::LoadContent()
 			}
 
 			gameObjects.push_back(object);
+
+			if (objectivePlanet)
+				gameObjects.push_back(objectivePlanet);
 
 			//point to next object element
 			objectElement = objectElement->NextSiblingElement("Object");
@@ -182,6 +236,8 @@ void DIY_Level::LoadContent()
 
 	for (int i = 0; i < layers.size(); i++)
 		layerContainer->addChild(layers[i]);
+
+	gui->SetObjectivesRemaining(HasObjectives());
 }
 
 DIY_Level::~DIY_Level()
@@ -189,9 +245,9 @@ DIY_Level::~DIY_Level()
 	delete gui;
 }
 
-bool DIY_Level::HasObjectives()
+int DIY_Level::HasObjectives()
 {
-	return true;
+	return objectiveCount;
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)

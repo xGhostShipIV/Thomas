@@ -25,6 +25,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	chargingStrike = false;
 
 	hand = new Pointer(level_, position + Vec3(1, 0, 0), this);
+
 }
 
 void PlayerBall::Update(float timeStep_)

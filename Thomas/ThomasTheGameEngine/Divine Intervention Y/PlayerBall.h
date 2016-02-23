@@ -5,6 +5,7 @@
 #include <Rigidbody.h>
 
 #include "Pointer.h"
+#include "Slingshot.h"
 
 class PlayerBall : public GameObject
 {

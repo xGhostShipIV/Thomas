@@ -5,23 +5,27 @@
   <Layer>
     <Object type="Asteroids" x="1" z="1"></Object>
     <Object type="WarpGate" x="2" z="-2"></Object>
+      <Object type="PlanetVertical" x="-3" z="0" texture="planet1" objective="Booger"></Object>
+
   </Layer>
 
   <Layer>
     
-    
+    <Object type="PlanetHorizontal" x="0" z="0" texture="planet1" objective="Booger"></Object>
   </Layer>
 
   <Layer>
-    
   </Layer>
   
   <Layer>
-    
         <Object type="Player1Start" x="0" z="0"></Object>
         <Object type="Wormhole" x="3" z="0" destination="1"></Object>
   </Layer>
 
+  <Objectives>
+    <Planet name="Booger" texture="planet1"></Planet>  
+  </Objectives>
+  
   <Assets>
     <Models></Models>
     <Textures></Textures>

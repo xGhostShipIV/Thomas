@@ -9,5 +9,6 @@ public:
 	PlanetHorizontal(Level *, Vec3, std::string textName_);
 	~PlanetHorizontal();
 
+	void Update(float) override;
 	RenderableComponent * renderer;
 };

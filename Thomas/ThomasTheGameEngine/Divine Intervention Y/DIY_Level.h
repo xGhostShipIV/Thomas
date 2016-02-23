@@ -21,7 +21,7 @@ public:
 
 	std::vector<Layer *> layers;
 
-	bool HasObjectives();
+	int HasObjectives();
 
 	GameObject * layerContainer;
 
@@ -36,6 +36,8 @@ private:
 	DIY_Level_GUI * gui;
 
 	std::string fileName;
+
+	int objectiveCount;
 
 	bool isShooting;
 	bool isPausedKeyStillPressed;
