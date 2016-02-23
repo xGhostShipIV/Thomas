@@ -91,6 +91,7 @@
     <ClCompile Include="Landing_GUI.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ObjectivePlanet.cpp" />
     <ClCompile Include="PlanetHorizontal.cpp" />
     <ClCompile Include="PlanetVertical.cpp" />
     <ClCompile Include="PlayerBall.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="LandingScreen.h" />
     <ClInclude Include="Landing_GUI.h" />
+    <ClInclude Include="ObjectivePlanet.h" />
     <ClInclude Include="PlanetHorizontal.h" />
     <ClInclude Include="PlanetVertical.h" />
     <ClInclude Include="PlayerBall.h" />
