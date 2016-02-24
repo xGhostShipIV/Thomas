@@ -38,7 +38,7 @@ bool GuiHandler::HandleEventMouseDown(int x, int y)
 {
 	for (std::vector<Button*>::iterator i = registeredBtns.begin(); i != registeredBtns.end(); ++i)
 	{
-		if ((*i)->CheckMouseCollision(x, y))
+		if ((*i)->IsVisible() && (*i)->CheckMouseCollision(x, y))
 		{
 			(*i)->buttonState = PRESSED;
 			return true;
@@ -54,7 +54,7 @@ bool GuiHandler::HandleEventMouseUp(int x, int y)
 
 	for (std::vector<Button*>::iterator i = registeredBtns.begin(); i != registeredBtns.end(); ++i)
 	{
-		if ((*i)->CheckMouseCollision(x, y) && (*i)->buttonState == PRESSED)
+		if ((*i)->IsVisible() && (*i)->CheckMouseCollision(x, y) && (*i)->buttonState == PRESSED)
 		{
 			target = i;
 			succeess = true;
@@ -75,7 +75,7 @@ bool GuiHandler::HandleEventMouseHover(int x, int y)
 
 	for (std::vector<Button*>::iterator i = registeredBtns.begin(); i != registeredBtns.end(); ++i)
 	{
-		if ((*i)->CheckMouseCollision(x, y))
+		if ((*i)->IsVisible() && (*i)->CheckMouseCollision(x, y))
 		{
 			(*i)->isBeingHovered = true;
 

@@ -26,6 +26,7 @@ private:
 	bool chargingStrike;
 
 	const int MAX_FORCE = 150;
+	const float CHARGE_PER_SECOND = 100.0f;
 
 	float chargePercent;
 	float modifier;

@@ -19,7 +19,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	Scale(Vec3(0.5f, 0.5f, 0.5f));
 	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.3f;
 
-	modifier = 0.5f;
+	modifier = CHARGE_PER_SECOND;
 	chargePercent = 0;
 
 	chargingStrike = false;
@@ -31,7 +31,8 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 void PlayerBall::Update(float timeStep_)
 {
 
-	std::cout << getComponent<Rigidbody>()->velocity.toString() << std::endl;
+	//std::cout << getComponent<Rigidbody>()->velocity.toString() << std::endl;
+	
 	//All the controls go here
 	if (!((DIY_Level*)GAME->currentLevel)->isPaused && !rigidBody->isAwake())
 	{
@@ -40,14 +41,14 @@ void PlayerBall::Update(float timeStep_)
 			if (chargingStrike)
 			{
 
-				chargePercent += modifier;
+				chargePercent += modifier * timeStep_;
 
 				//std::cout << chargePercent << std::endl;
 
 				if (chargePercent >= 100)
-					modifier = -0.5f;
+					modifier = -CHARGE_PER_SECOND;
 				else if (chargePercent <= 0)
-					modifier = 0.5f;
+					modifier = CHARGE_PER_SECOND;
 			}
 			else
 				chargingStrike = true;
@@ -59,7 +60,7 @@ void PlayerBall::Update(float timeStep_)
 			chargingStrike = false;
 			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))));
 			chargePercent = 0;
-			modifier = 0.5f;
+			modifier = CHARGE_PER_SECOND;
 		}
 	}
 }

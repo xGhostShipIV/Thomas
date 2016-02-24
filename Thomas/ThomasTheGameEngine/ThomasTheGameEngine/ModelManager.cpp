@@ -686,9 +686,15 @@ void ModelManager::PushModels()
 	{
 		GLuint zero = 0;
 
-		glClearNamedBufferData(Buffers[0], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
-		glClearNamedBufferData(Buffers[1], GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
-		glClearNamedBufferData(Buffers[2], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		//OpenGL 4.5.0
+		//glClearNamedBufferData(Buffers[0], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		//glClearNamedBufferData(Buffers[1], GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
+		//glClearNamedBufferData(Buffers[2], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+
+		//OpenGL 4.3.0
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[0]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[1]); glClearBufferData(GL_ARRAY_BUFFER, GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[2]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
 
 		glDeleteTextures(numberOfTextures, textureArray);
 	}

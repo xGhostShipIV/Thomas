@@ -69,9 +69,9 @@ void DIY_Level::LoadContent()
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 
-	//Needs at least a 13x13 texture in order to show up
+	//Gotta be big to show up..
 	//don't know why 
-	const int texSize = 13 * 13 * 4;
+	const int texSize = 140 * 140 * 4;
 	float pixelDataWhite[texSize];
 	for (int i = 0; i < texSize; i++)
 	{
