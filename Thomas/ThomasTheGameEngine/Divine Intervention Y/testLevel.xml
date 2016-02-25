@@ -11,10 +11,11 @@
 
   <Layer>
     
-    <Object type="PlanetHorizontal" x="0" z="0" texture="planet1" objective="Booger"></Object>
+    <Object type="PlanetHorizontal" x="0" z="0" texture="planet1"></Object>
   </Layer>
 
   <Layer>
+    <Object type="Sun" x="0" z ="0" texture="sunTexture"></Object>
   </Layer>
   
   <Layer>
