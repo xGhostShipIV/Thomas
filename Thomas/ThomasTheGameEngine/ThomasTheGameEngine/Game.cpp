@@ -184,6 +184,9 @@ void Game::EngineUpdate(float _timeStep)
 		currentLevel = levelToLoad;
 		levelToLoad = nullptr;
 
+		//Make sure physics world is not paused
+		PhysicsWorld::getInstance()->isPhysicsRunning = true;
+
 		currentLevel->init();
 		callInitOnNextUpdate = false;
 
