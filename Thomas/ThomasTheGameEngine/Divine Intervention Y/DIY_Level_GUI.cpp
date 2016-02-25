@@ -52,7 +52,8 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 	/*						PAUSE GUI						   */
 	/***********************************************************/
 
-	Vec2 ExitButtonLocation = Vec2(0, 200);
+	Vec2 ResumeButtonLocation = Vec2(0, 200);
+	Vec2 ExitButtonLocation = ResumeButtonLocation + Vec2(0, -200);
 
 	/* BACKGROUND */
 	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_BACKGROUND", "Images/Level GUI/PauseBackground.png");
@@ -66,6 +67,21 @@ DIY_Level_GUI::DIY_Level_GUI(Level *level_, int par_, int objectives_)
 
 	Pause_ExitButton = new Button(level_, ExitButtonLocation, "DIY_LEVEL_GUI_PAUSE_EXIT", "DIY_LEVEL_GUI_PAUSE_EXIT_PRESSED", "DIY_LEVEL_GUI_PAUSE_EXIT_HOVERED", ScreenAnchor::CENTER);
 	Pause_ExitButton->Hide();
+
+
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_RESUME",		  "Images/Level GUI/Buttons/Resume.png");
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_RESUME_PRESSED", "Images/Level GUI/Buttons/ResumePressed.png");
+	Models->loadTexture("DIY_LEVEL_GUI_PAUSE_RESUME_HOVERED", "Images/Level GUI/Buttons/ResumeHovered.png");
+
+	Pause_ResumeButton = new Button(level_, ResumeButtonLocation, "DIY_LEVEL_GUI_PAUSE_RESUME", "DIY_LEVEL_GUI_PAUSE_RESUME_PRESSED", "DIY_LEVEL_GUI_PAUSE_RESUME_HOVERED", ScreenAnchor::CENTER);
+	Pause_ResumeButton->Hide();
+
+
+	/***********************************************************/
+	/*					  VICTORY GUI						   */
+	/***********************************************************/
+
+
 }
 
 DIY_Level_GUI::~DIY_Level_GUI()
@@ -76,23 +92,47 @@ void DIY_Level_GUI::Update(float timeStep_)
 {
 	ShotPowerMeter->drawPercent = shotPower;
 
-	if (((DIY_Level*)GAME->currentLevel)->isPaused)
+	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PAUSED)
 	{
 		//Show Pause Menu
 		Pause_Background->Show();
 		Pause_ExitButton->Show();
+		Pause_ResumeButton->Show();
+
+		if (Pause_ExitButton->buttonState == ButtonState::PRESSED)
+		{
+			GAME->LoadLevel(new LandingScreen());
+		}
+
+		if (Pause_ResumeButton->buttonState == ButtonState::PRESSED)
+		{
+			((DIY_Level*)GAME->currentLevel)->levelState = DIY_Level_State::PLAYING;
+		}
 	}
 	else
 	{
 		//Hide Pause Menu
 		Pause_Background->Hide();
 		Pause_ExitButton->Hide();
+		Pause_ResumeButton->Hide();
 	}
 
-	if (Pause_ExitButton->buttonState == ButtonState::PRESSED)
+	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::VICTORY)
 	{
-		GAME->LoadLevel(new LandingScreen());
+		switch (((DIY_Level*)GAME->currentLevel)->victoryState)
+		{
+		case DIY_Level_Victory_State::REVIEW:
+
+			break;
+		case DIY_Level_Victory_State::LEVEL_SELECT:
+			break;
+		}
 	}
+	else
+	{
+		//Hide Victory GUI
+	}
+	
 }
 
 void DIY_Level_GUI::SetObjectivesRemaining(int objectives_)

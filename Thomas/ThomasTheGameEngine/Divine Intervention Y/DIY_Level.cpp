@@ -17,8 +17,11 @@
 
 #include <PhysicsWorld.h>
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPaused(false), isPausedKeyStillPressed(false)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false)
 {
+	levelState = DIY_Level_State::PLAYING;
+	playingState = DIY_Level_Playing_State::SHOOTING;
+	victoryState = DIY_Level_Victory_State::REVIEW;
 
 }
 
@@ -254,27 +257,30 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	Level::LevelUpdate(timeStep_);
 
-	if (Input->isKeyDown(SDLK_ESCAPE) && !isPausedKeyStillPressed)
+	//Game state switch
+	switch (levelState)
 	{
-		isPaused = !isPaused;
-		isPausedKeyStillPressed = true;
-	}
-	else if (!Input->isKeyDown(SDLK_ESCAPE) && isPausedKeyStillPressed)
-	{
-		isPausedKeyStillPressed = false;
-	}
+	case DIY_Level_State::PLAYING:
+		PauseLogic();
 
-	PhysicsWorld::getInstance()->isPhysicsRunning = !isPaused;
-
-	if (!isPaused)
-	{
-		if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
-			isShooting = true;
-		else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+		switch (playingState)
 		{
-			isShooting = false;
-			strokeCount++;
-			gui->PlayerTookAStroke();
+		case DIY_Level_Playing_State::SHOOTING:
+			if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
+				isShooting = true;
+			else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+			{
+				isShooting = false;
+				strokeCount++;
+				gui->PlayerTookAStroke();
+
+				playingState = DIY_Level_Playing_State::WATCHING;
+			}
+			break;
+		case DIY_Level_Playing_State::WATCHING:
+			if (!playerBall->getComponent<Rigidbody>()->isAwake())
+				playingState = DIY_Level_Playing_State::SHOOTING;
+			break;
 		}
 
 		if (Input->isMouseDown(SDL_BUTTON_RIGHT))
@@ -282,8 +288,21 @@ void DIY_Level::LevelUpdate(float timeStep_)
 			//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
 			PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
 			mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
-			
+
 		}
+		break;
+	case DIY_Level_State::PAUSED:
+		PauseLogic();
+		break;
+	case DIY_Level_State::VICTORY:
+		switch (victoryState)
+		{
+		case DIY_Level_Victory_State::REVIEW:
+			break;
+		case DIY_Level_Victory_State::LEVEL_SELECT:
+			break;
+		}
+		break;
 	}
 
 	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent() / 100.0f;
@@ -295,4 +314,19 @@ void DIY_Level::SetLayerPlane(Layer * layer_)
 	planeRigidBody->parentObject = layer_;
 	planeRigidBody->col->parentObject = layer_;
 	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);
+}
+
+void DIY_Level::PauseLogic()
+{
+	if (Input->isKeyDown(SDLK_ESCAPE) && !isPausedKeyStillPressed)
+	{
+		levelState = levelState == DIY_Level_State::PAUSED ? DIY_Level_State::PLAYING : DIY_Level_State::PAUSED;
+		isPausedKeyStillPressed = true;
+	}
+	else if (!Input->isKeyDown(SDLK_ESCAPE) && isPausedKeyStillPressed)
+	{
+		isPausedKeyStillPressed = false;
+	}
+
+	PhysicsWorld::getInstance()->isPhysicsRunning = levelState == DIY_Level_State::PAUSED ? false : true;
 }

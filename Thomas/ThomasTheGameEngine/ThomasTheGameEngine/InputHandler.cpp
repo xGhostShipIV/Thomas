@@ -176,6 +176,12 @@ bool InputController::isAnyKeyPressed()
 			return true;
 	}
 
+	for (auto it = curMouseMap.begin(); it != curMouseMap.end(); it++)
+	{
+		if (it->second)
+			return true;
+	}
+
 	return false;
 }
 

@@ -34,7 +34,8 @@ void PlayerBall::Update(float timeStep_)
 	//std::cout << getComponent<Rigidbody>()->velocity.toString() << std::endl;
 	
 	//All the controls go here
-	if (!((DIY_Level*)GAME->currentLevel)->isPaused && !rigidBody->isAwake())
+	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING && 
+		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
 	{
 		if (Input->isKeyDown(SDLK_SPACE))
 		{

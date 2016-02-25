@@ -22,7 +22,7 @@ void GameCamera::Update(float deltaTime_)
 {
 	Vec3 right_ = Vec3::cross(forward(), up());
 
-	if (!((DIY_Level*)GAME->currentLevel)->isPaused)
+	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING)
 	{
 		//Left mouse camera move
 		if (Input->isMouseDown(SDL_BUTTON_LEFT))

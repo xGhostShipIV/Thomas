@@ -32,7 +32,7 @@ public:
 	virtual void OnClick();
 	virtual void OnHover();
 
-	void SelectSprite();
+	virtual void SelectSprite();
 };
 
 #endif

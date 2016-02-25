@@ -5,6 +5,21 @@
 #include "Pointer.h"
 #include "DIY_Level_GUI.h"
 
+enum DIY_Level_State
+{
+	PLAYING, PAUSED, VICTORY
+};
+
+enum DIY_Level_Playing_State
+{
+	SHOOTING, WATCHING
+};
+
+enum DIY_Level_Victory_State
+{
+	REVIEW, LEVEL_SELECT
+};
+
 class DIY_Level :
 	public Level
 {
@@ -17,7 +32,11 @@ public:
 	int par;
 	int strokeCount;
 	int levelBounds;
-	bool isPaused;
+	////bool isPaused;
+
+	DIY_Level_State levelState;
+	DIY_Level_Playing_State playingState;
+	DIY_Level_Victory_State victoryState;
 
 	std::vector<Layer *> layers;
 
@@ -41,5 +60,7 @@ private:
 
 	bool isShooting;
 	bool isPausedKeyStillPressed;
+
+	void PauseLogic();
 };
 

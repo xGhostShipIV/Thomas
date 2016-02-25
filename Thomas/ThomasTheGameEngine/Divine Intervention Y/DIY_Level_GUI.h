@@ -32,5 +32,5 @@ public:
 
 	/* PAUSE MENU */
 	GuiImage *Pause_Background;
-	Button *Pause_ExitButton;
+	Button *Pause_ExitButton, *Pause_ResumeButton;
 };

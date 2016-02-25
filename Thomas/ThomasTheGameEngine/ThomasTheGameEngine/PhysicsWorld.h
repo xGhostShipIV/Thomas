@@ -20,7 +20,7 @@ public:
 	Vec3 worldGravity;
 
 	//Pause physics world
-	bool isPhysicsRunning;
+	static bool isPhysicsRunning;
 
 	//You can think of this as rotateAround if you'd like
 	void static Orbit(Vec3 centre, Vec3 axis, GameObject* object, float angle);

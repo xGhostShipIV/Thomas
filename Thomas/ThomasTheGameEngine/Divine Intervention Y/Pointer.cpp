@@ -3,6 +3,7 @@
 
 #include <InputHandler.h>
 #include <PhysicsWorld.h>
+#include <Game.h>
 #include"DIY_Level.h"
 
 Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObject(level_, position_)
@@ -41,15 +42,18 @@ void Pointer::Update(float timeStep_)
 
 	position.y = ball->position.y - 0.1f;
 
-	if (ball->getComponent<Rigidbody>()->isAwake())
-		isEnabled = false;
-
-	if (!ball->getComponent<Rigidbody>()->isAwake() && isEnabled == false)
+	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING &&
+		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
 	{
+		if (!isEnabled)
+		{
+			position = ball->position + Vec3(1, 0, 0);
+			position.y = ball->position.y - 0.1f;
+		}
 		isEnabled = true;
-		position = ball->position + Vec3(1, 0, 0);
-		position.y = ball->position.y - 0.1f;
 	}
+	else
+		isEnabled = false;
 }
 
 void Pointer::Render()

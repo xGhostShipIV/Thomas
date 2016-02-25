@@ -11,15 +11,24 @@
 #include "ParticleSystem.h"
 #include "Flipbook.h"
 #include "Rigidbody.h"
+#include "PhysicsWorld.h"
 
-void GameObject::Translate(Vec3 _translate){
+void GameObject::Translate(Vec3 _translate)
+{
+	if (!PhysicsWorld::getInstance()->isPhysicsRunning)
+		return;
+
 	position += _translate;
 	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
 		(*it)->Translate(_translate);
 	}
 }
 
-void GameObject::Scale(Vec3 _scale){
+void GameObject::Scale(Vec3 _scale)
+{
+	if (!PhysicsWorld::getInstance()->isPhysicsRunning)
+		return;
+
 	scale = Vec3(scale.x * _scale.x, scale.y * _scale.y, scale.z * _scale.z);
 	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
 		(*it)->Scale(_scale);
@@ -27,7 +36,10 @@ void GameObject::Scale(Vec3 _scale){
 }
 
 
-void GameObject::Rotate(Quat _rotation){
+void GameObject::Rotate(Quat _rotation)
+{
+	if (!PhysicsWorld::getInstance()->isPhysicsRunning)
+		return;
 
 	_rotation = _rotation.NormalizeThis();
 
@@ -43,7 +55,11 @@ void GameObject::Rotate(Quat _rotation){
 }
 
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
-void GameObject::Rotate(Vec3 _rotation){
+void GameObject::Rotate(Vec3 _rotation)
+{
+	if (!PhysicsWorld::getInstance()->isPhysicsRunning)
+		return;
+
 	Quat _rot = (Quat(_rotation.x, Vec3::BasisX()) * Quat(_rotation.y, Vec3::BasisY()) * Quat(_rotation.z, Vec3::BasisZ())).NormalizeThis();
 
 	rotation = rotation * _rot;
@@ -82,7 +98,11 @@ Vec3 GameObject::up() {
 	return Quat::rotate(rotation, Vec3::BasisY());
 }
 
-void GameObject::LookAt(Vec3 _target){
+void GameObject::LookAt(Vec3 _target)
+{
+	if (!PhysicsWorld::getInstance()->isPhysicsRunning)
+		return;
+
 	Vec3 pointToTarget = (_target - position).Normalized();
 	if (acos(Vec3::dot(forward(), pointToTarget)) < 0.00002f || acos(Vec3::dot(forward(), pointToTarget) > 0.99998f)){
 		Rotate(Quat(acos(Vec3::dot(forward(), pointToTarget)), Vec3::cross(forward(), pointToTarget)));

@@ -5,11 +5,11 @@
 #include <iostream> 
 
 PhysicsWorld * PhysicsWorld::instance;
+bool PhysicsWorld::isPhysicsRunning = true;
 
 PhysicsWorld::PhysicsWorld()
 {
 	worldGravity = Vec3(0, -3.f, 0);
-	isPhysicsRunning = true;
 }
 
 float PhysicsWorld::getTimeStep(){
@@ -20,13 +20,21 @@ PhysicsWorld::~PhysicsWorld()
 {
 }
 
-void PhysicsWorld::Orbit(Vec3 _point,Vec3 _axis, GameObject* _rotator, float _angle){
+void PhysicsWorld::Orbit(Vec3 _point,Vec3 _axis, GameObject* _rotator, float _angle)
+{
+	if (!isPhysicsRunning)
+		return;
+
 	_rotator->Translate((Quat::rotate(Quat(_angle,_axis ), _rotator->position - _point) + _point) - _rotator->position);
 }
 
 //Not tested, will be tested in testing area with actual planet movements
 //Velocity is not changed, will experience strange behaviour
-void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre){
+void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre)
+{
+	if (!isPhysicsRunning)
+		return;
+
 	Orbit(centre->position, Vec3::cross(mover_->velocity, mover_->parentObject->position - centre->position), mover_->parentObject, Vec3::length(mover_->velocity) / Vec3::length(mover_->parentObject->position - centre->position));
 	//rotate velocity vector to match new heading
 	//mover_->velocity = Quat::rotate(, mover_->velocity);
@@ -34,6 +42,8 @@ void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre){
 }
 
 void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
+	if (!isPhysicsRunning)
+		return;
 
 	//Rigidbody* firstBody = _first->getComponent<Rigidbody>();
 	//Rigidbody* secondBody = _second->getComponent<Rigidbody>();
