@@ -98,6 +98,7 @@
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="Slingshot.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
+    <ClCompile Include="Sun.cpp" />
     <ClCompile Include="WarpGate.cpp" />
     <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
@@ -117,6 +118,7 @@
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Slingshot.h" />
     <ClInclude Include="SplashScreen.h" />
+    <ClInclude Include="Sun.h" />
     <ClInclude Include="WarpGate.h" />
     <ClInclude Include="Wormhole.h" />
   </ItemGroup>
@@ -126,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="properties.xml" />
+    <Xml Include="testLevel.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

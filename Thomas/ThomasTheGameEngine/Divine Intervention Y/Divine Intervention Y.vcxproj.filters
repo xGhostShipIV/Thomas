@@ -87,6 +87,9 @@
     <ClCompile Include="ObjectivePlanet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h">
@@ -140,6 +143,9 @@
     <ClInclude Include="ObjectivePlanet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObjects.frag" />
@@ -147,5 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="properties.xml" />
+    <Xml Include="testLevel.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

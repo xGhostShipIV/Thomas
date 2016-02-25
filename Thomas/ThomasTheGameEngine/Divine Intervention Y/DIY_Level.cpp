@@ -14,6 +14,7 @@
 #include "WarpGate.h"
 #include "PlayerBall.h"
 #include "ObjectivePlanet.h"
+#include "Sun.h"
 
 #include <PhysicsWorld.h>
 
@@ -50,7 +51,8 @@ void DIY_Level::LoadContent()
 	gui = new DIY_Level_GUI(this, par, HasObjectives());
 
 	Models->CreateSkybox("skybox", 1000.0f);
-	Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
+	//Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
+	Models->loadTexture("skybox1", "Images/skyboxUP.tif");
 	Models->loadTexture("layerGrid", "Images/grid.png");
 
 	Models->loadTexture("planet1", "Images/aruba.tif");
@@ -64,6 +66,8 @@ void DIY_Level::LoadContent()
 	Models->loadTexture("meteorTex1", "Images/meteor_texture.tif");
 	Models->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
 	Models->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+
+	Models->loadTexture("sunTexture", "Images/sun.tif");
 
 	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
@@ -113,125 +117,139 @@ void DIY_Level::LoadContent()
 		std::vector<GameObject *> gameObjects;
 
 		if (objectElement)
-		do
-		{
-			GameObject * object;
-			GameObject * objectivePlanet;
+			do
+			{
+				GameObject * object;
+				GameObject * objectivePlanet;
 
-			float x = objectElement->FloatAttribute("x");
-			float z = objectElement->FloatAttribute("z");
+				float x = objectElement->FloatAttribute("x");
+				float z = objectElement->FloatAttribute("z");
 
-			if (objectElement->Attribute("type", "PlanetHorizontal")){
+				if (objectElement->Attribute("type", "PlanetHorizontal")){
 
-				std::string textureName = objectElement->Attribute("texture");
-				tinyxml2::XMLElement * objectiveElement;
+					std::string textureName = objectElement->Attribute("texture");
 
-				//Check if planet has attached objective
-				if (objectElement->Attribute("objective"))
-				{
-					//Find first planet description in Objectives node
-					objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
+					//Get an XML element to find potential attached objective planets
+					tinyxml2::XMLElement * objectiveElement;
 
-					//Search through all planets in Objectives until one with matching name is found
-					while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+					//Check if planet has attached objective
+					if (objectElement->Attribute("objective"))
 					{
-						objectiveElement = objectiveElement->NextSiblingElement();
+						//Find first planet description in Objectives node
+						objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
 
-						//If you're at the end and not found it, break
-						if (!objectiveElement)
-							break;
+						//Search through all planets in Objectives until one with matching name is found
+						while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+						{
+							objectiveElement = objectiveElement->NextSiblingElement();
+
+							//If you're at the end and not found it, break
+							if (!objectiveElement)
+								break;
+						}
+
+						//Now create the planet as well as the objective planet to be attached
+						object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+
+						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Horizonal);
+						objectiveCount++;
 					}
+					//Else just create the horizontal planet
+					else
+						object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+
+
+
 				}
+				else if (objectElement->Attribute("type", "PlanetVertical")){
+					std::string textureName = objectElement->Attribute("texture");
 
-				object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+					tinyxml2::XMLElement * objectiveElement;
 
-				if (objectiveElement)
-				{
-					objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Horizonal);
-					objectiveCount++;
-				}
-
-			}
-			else if (objectElement->Attribute("type", "PlanetVertical")){
-				std::string textureName = objectElement->Attribute("texture");
-
-				tinyxml2::XMLElement * objectiveElement;
-
-				//Check if planet has attached objective
-				if (objectElement->Attribute("objective"))
-				{
-					//Find first planet description in Objectives node
-					objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
-
-					//Search through all planets in Objectives until one with matching name is found
-					while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+					//Check if planet has attached objective
+					if (objectElement->Attribute("objective"))
 					{
-						objectiveElement = objectiveElement->NextSiblingElement();
+						//Find first planet description in Objectives node
+						objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
 
-						//If you're at the end and not found it, break
-						if (!objectiveElement)
-							break;
+						//Search through all planets in Objectives until one with matching name is found
+						while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
+						{
+							objectiveElement = objectiveElement->NextSiblingElement();
+
+							//If you're at the end and not found it, break
+							if (!objectiveElement)
+								break;
+						}
+
+						object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+
+						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Vertical);
+						objectiveCount++;
 					}
-				}
-				object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+					else
+					{
 
-				if (objectiveElement)
+					}
+					object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+				}
+				else if (objectElement->Attribute("type", "Asteroids")){
+					object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
+				}
+				else if (objectElement->Attribute("type", "Wormhole")){
+					object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), objectElement->IntAttribute("destination"));
+				}
+				else if (objectElement->Attribute("type", "WarpGate")){
+					object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
+				}
+				else if (objectElement->Attribute("type", "Player1Start")){
+					setPlayerLayer = true;
+
+					object = new PlayerBall(this, Vec3(x, -2 + i * 1.5f, z));
+					playerBall = object;
+				}
+				else if (objectElement->Attribute("type", "Sun"))
 				{
-					objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Vertical);
-					objectiveCount++;
+					std::string textureName = objectElement->Attribute("texture");
+
+					object = new Sun(this, Vec3(x, -2 + i * 1.5f, z), textureName);
 				}
+				else{
+
+				}
+
+				gameObjects.push_back(object);
+
+				if (objectivePlanet)
+					gameObjects.push_back(objectivePlanet);
+
+				//point to next object element
+				objectElement = objectElement->NextSiblingElement("Object");
+
+
+			} while (objectElement);
+
+			//create layer in the list
+			layers.push_back(new Layer(this, Vec3(0, -2 + i * 1.5, 0), gameObjects));
+
+			//Attaches the plane collider to last layer added if it contains the players start point
+			if (setPlayerLayer)
+			{
+				planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
+				planeRigidBody->isKinematic = false;
+
+				//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
+				//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
+				setPlayerLayer = false;
 			}
-			else if (objectElement->Attribute("type", "Asteroids")){
-				object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
-			}
-			else if (objectElement->Attribute("type", "Wormhole")){
-				object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), objectElement->IntAttribute("destination"));
-			}
-			else if (objectElement->Attribute("type", "WarpGate")){
-				object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
-			}
-			else if (objectElement->Attribute("type", "Player1Start")){
-				setPlayerLayer = true;
 
-				object = new PlayerBall(this, Vec3(x, -2 + i * 1.5f, z));
-				playerBall = object;
-			}
-			else{
+			//Sets element pointer to the next layer
 
-			}
+			element = element->NextSiblingElement("Layer");
 
-			gameObjects.push_back(object);
+			if (!element)break;
 
-			if (objectivePlanet)
-				gameObjects.push_back(objectivePlanet);
-
-			//point to next object element
-			objectElement = objectElement->NextSiblingElement("Object");
-
-
-		} while (objectElement);
-
-		//create layer in the list
-		layers.push_back(new Layer(this, Vec3(0, -2 + i * 1.5, 0), gameObjects));
-
-		//Attaches the plane collider to last layer added if it contains the players start point
-		if (setPlayerLayer)
-		{
-			planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
-			planeRigidBody->isKinematic = false;
-
-			//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
-			//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
-			setPlayerLayer = false;
-		}
-
-		//Sets element pointer to the next layer
-
-		element = element->NextSiblingElement("Layer");
-
-		if (!element)break;
-
-		objectElement = element->FirstChildElement("Object");
+			objectElement = element->FirstChildElement("Object");
 	}
 
 	for (int i = 0; i < layers.size(); i++)
@@ -282,7 +300,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 			//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
 			PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
 			mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
-			
+
 		}
 	}
 
