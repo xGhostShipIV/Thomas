@@ -347,3 +347,9 @@ void DIY_Level::PauseLogic()
 
 	PhysicsWorld::getInstance()->isPhysicsRunning = levelState == DIY_Level_State::PAUSED ? false : true;
 }
+
+void DIY_Level::AdjustObjectiveCount(int countChange_)
+{
+	objectiveCount += countChange_;
+	gui->SetObjectivesRemaining(objectiveCount);
+}

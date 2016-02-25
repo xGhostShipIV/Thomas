@@ -19,5 +19,6 @@ private:
 	Light * light;
 	Rigidbody * rigidBody;
 	PlayerBall * player;
+	Rigidbody * playerRigidBody;
 };
 

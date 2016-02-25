@@ -18,6 +18,7 @@ public:
 	float GetChargePercent();
 	bool GetIsChargingStrike();
 
+	void FoulReset();
 private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
@@ -27,6 +28,8 @@ private:
 
 	const int MAX_FORCE = 150;
 	const float CHARGE_PER_SECOND = 100.0f;
+
+	Vec3 positionAtStrike;
 
 	float chargePercent;
 	float modifier;

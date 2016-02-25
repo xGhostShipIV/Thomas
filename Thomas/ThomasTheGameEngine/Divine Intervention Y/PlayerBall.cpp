@@ -26,6 +26,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 
 	hand = new Pointer(level_, position + Vec3(1, 0, 0), this);
 
+	positionAtStrike = Vec3();
 }
 
 void PlayerBall::Update(float timeStep_)
@@ -62,6 +63,8 @@ void PlayerBall::Update(float timeStep_)
 			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))));
 			chargePercent = 0;
 			modifier = CHARGE_PER_SECOND;
+
+			positionAtStrike = position;
 		}
 	}
 }
@@ -74,4 +77,10 @@ float PlayerBall::GetChargePercent()
 bool PlayerBall::GetIsChargingStrike()
 {
 	return chargingStrike;
+}
+
+void PlayerBall::FoulReset()
+{
+	position = positionAtStrike;
+	rigidBody->velocity = Vec3::Zero();
 }

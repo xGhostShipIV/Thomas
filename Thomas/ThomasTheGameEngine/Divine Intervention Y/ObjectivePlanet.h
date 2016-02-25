@@ -23,10 +23,13 @@ private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody;
 	GameObject * planetToOrbit;
+	Rigidbody * playerRigidBody;
 
 	string planetName;
 	string planetDescription;
 
 	Vec3 orbitAxis;
+
+	const float FORCE_REQUIRED_TO_DESTROY = 1.0f;
 };
 

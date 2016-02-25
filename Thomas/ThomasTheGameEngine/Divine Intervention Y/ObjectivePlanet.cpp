@@ -1,6 +1,11 @@
 #include "ObjectivePlanet.h"
 #include <PhysicsWorld.h>
 
+#include <Level.h>
+
+#include"PlayerBall.h"
+#include "DIY_Level.h"
+
 ObjectivePlanet::ObjectivePlanet(Level * level_, GameObject * planet_, string texutreName, Orbit_Angle orbitAngle_) : GameObject(level_)
 {
 	planetToOrbit = planet_;
@@ -10,9 +15,7 @@ ObjectivePlanet::ObjectivePlanet(Level * level_, GameObject * planet_, string te
 	Scale(Vec3(0.25f, 0.25f, 0.25f));
 
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
-	rigidBody->CollisionRadius = 0.25f;
-	rigidBody->isKinematic = false;
-	rigidBody->gravitas = false;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.1125f;	rigidBody->isKinematic = false;
 
 	position = planet_->position + Vec3(0.8f, 0, 0);
 	rotation = Quat::Identity();
@@ -21,6 +24,8 @@ ObjectivePlanet::ObjectivePlanet(Level * level_, GameObject * planet_, string te
 		orbitAxis = Vec3(0, 1, 0);
 	else
 		orbitAxis = Vec3(0, 0, 1);
+
+	playerRigidBody = nullptr;
 }
 
 ObjectivePlanet::~ObjectivePlanet()
@@ -29,9 +34,27 @@ ObjectivePlanet::~ObjectivePlanet()
 
 void ObjectivePlanet::Update(float timeStep_)
 {
-	if (!rigidBody->isAwake())
+	if (!playerRigidBody)
+	{
+		playerRigidBody = static_cast<PlayerBall *>(level->FindGameObjectWithTag("player"))->getComponent<Rigidbody>();
+	}
+
+	if (!rigidBody->isKinematic)
 	{
 		PhysicsWorld::Orbit(planetToOrbit->position, orbitAxis, this, 1 * timeStep_);
 		Rotate(Quat(0.5f * timeStep_, Vec3(0.3f, 0.6f, 0.1f)));
+	}
+
+	if (playerRigidBody->velocity.length() >= FORCE_REQUIRED_TO_DESTROY
+		&& Collider::isColliding(rigidBody->col, playerRigidBody->col))
+	{
+
+		if (rigidBody->isKinematic == false)
+		{
+			DIY_Level * level_ = static_cast<DIY_Level *>(level);
+			level_->AdjustObjectiveCount(-1);
+		}
+
+		rigidBody->isKinematic = true;
 	}
 }

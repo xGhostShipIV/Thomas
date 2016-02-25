@@ -43,16 +43,18 @@ public:
 	int HasObjectives();
 
 	GameObject * layerContainer;
+	DIY_Level_GUI * gui;
 
 	bool rotateLevel;
 
 	void LevelUpdate(float timeStep_) override;
 
 	void SetLayerPlane(Layer *);
+
+	void AdjustObjectiveCount(int);
 private:
 	GameObject * skybox, *playerBall;
 	Rigidbody * planeRigidBody;
-	DIY_Level_GUI * gui;
 
 	std::string fileName;
 
