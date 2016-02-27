@@ -90,6 +90,12 @@
     <ClCompile Include="Sun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GalaxyMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h">
@@ -144,6 +150,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GalaxyMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

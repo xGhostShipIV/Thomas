@@ -99,6 +99,16 @@ void ModelManager::GenerateDefaultContent()
 {
 	CreatePlane("plane", 1.0f, 1.0f);
 	CreateCuboid("cuboid", 1.0f, 1.0f, 1.0f);
+
+	//Gotta be big to show up..
+	//don't know why 
+	const int texSize = 140 * 140 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
+	{
+		pixelDataWhite[i] = 1.0f;
+	}
+	createTexture("white", pixelDataWhite, 1, 1);
 }
 
 void ModelManager::loadModel(string _id, string _fileName, bool _useModelTextureMap, Draw_Mode _mode)

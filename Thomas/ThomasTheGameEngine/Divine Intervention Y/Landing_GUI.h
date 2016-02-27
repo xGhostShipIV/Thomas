@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		2/17/2016
+//Author:	Mathieu Violette, Nathan Senter
+//Date:		2/17/2016, 2/26/2016 (NS)
 
 #pragma once
 
@@ -7,10 +7,19 @@
 #include <GuiImage.h>
 #include <TextButton.h>
 
+enum Menu_State{
+	Title,
+	Tranisiton,
+	Select
+};
+
 class Landing_GUI
 {
 private:
 	bool isInstructionsShown, isInputIsClear;
+
+	Menu_State state;
+
 public:
 	Landing_GUI(Level *level_);
 	~Landing_GUI();
@@ -18,6 +27,14 @@ public:
 	Button *PlayButton, *ExitButton;
 	TextButton *InstructionsButton;
 	GuiImage *InstructionsImage;
+
+	GuiImage * gameTitle;
+	Label * pressStart;
+
+	bool titleIsShown;
+
+	Menu_State GetState();
+	void SetState(Menu_State);
 
 	void Update(float timeStep_);
 };

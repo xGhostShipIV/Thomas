@@ -82,10 +82,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientStar.cpp" />
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
     <ClCompile Include="DIY_Level_GUI.cpp" />
+    <ClCompile Include="GalaxyMap.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="LandingScreen.cpp" />
     <ClCompile Include="Landing_GUI.cpp" />
@@ -104,10 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TestGame\Layer.h" />
+    <ClInclude Include="AmbientStar.h" />
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
     <ClInclude Include="DIY_Level_GUI.h" />
+    <ClInclude Include="GalaxyMap.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="LandingScreen.h" />
     <ClInclude Include="Landing_GUI.h" />
