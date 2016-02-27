@@ -10,6 +10,18 @@ TextButton::~TextButton()
 {
 }
 
+void TextButton::Show() 
+{ 
+	GuiElement::Show();
+	label.Show();
+}
+
+void TextButton::Hide() 
+{ 
+	GuiElement::Hide();
+	label.Hide();
+}
+
 void TextButton::SelectSprite()			 
 {
 	if (buttonState == UNPRESSED)

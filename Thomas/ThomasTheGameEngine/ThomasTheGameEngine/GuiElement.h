@@ -45,8 +45,8 @@ public:
 	ScreenAnchor anchorPosition;
 
 	bool IsVisible();
-	void Show();
-	void Hide();
+	virtual void Show();
+	virtual void Hide();
 	virtual bool CheckMouseCollision(int _x, int _y);
 	virtual void Scale(Vec3 scale_) override;
 
