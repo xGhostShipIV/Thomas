@@ -20,6 +20,7 @@ PhysicsWorld::~PhysicsWorld()
 {
 }
 
+//point to rotate around, axis of rotation, thing that's rotating, how much to rotate.
 void PhysicsWorld::Orbit(Vec3 _point,Vec3 _axis, GameObject* _rotator, float _angle)
 {
 	if (!isPhysicsRunning)
@@ -153,10 +154,10 @@ void PhysicsWorld::Update(float _deltaTime){
 				// 1/2 (density) (velocity * velocity) (drag coefficient) (cross section area) ==> higher velocity
 				// 6 * pi * (dynamic viscosity, aka the cheaty number) (radius) (velocity)
 				float dragForce;
-				if (Vec3::length((*it)->velocity) > 1)
-					dragForce = 0.5f * 1.2f * Vec3::length((*it)->velocity) * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
+				if (Vec3::length((*it)->velocity) > 0.1f)
+					dragForce = 0.5f * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
 				else
-					dragForce = 6 * M_PI * 0.2f * (*it)->CollisionRadius * Vec3::length((*it)->velocity);
+					dragForce = 6 * M_PI * 1.2f * (*it)->CollisionRadius;
 
 				(*it)->AddForce((*it)->velocity * -dragForce);
 

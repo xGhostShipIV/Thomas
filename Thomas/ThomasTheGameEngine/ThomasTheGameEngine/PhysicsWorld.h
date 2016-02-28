@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "Rigidbody.h"
 
+#define Physics PhysicsWorld::getInstance()
+
 class PhysicsWorld
 {
 	PhysicsWorld();

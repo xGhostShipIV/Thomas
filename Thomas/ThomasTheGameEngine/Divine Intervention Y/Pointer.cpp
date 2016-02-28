@@ -40,15 +40,12 @@ void Pointer::Update(float timeStep_)
 	LookAt(ball->position);
 	Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
 
-	position.y = ball->position.y - 0.1f;
-
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING &&
 		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
 	{
 		if (!isEnabled)
 		{
 			position = ball->position + Vec3(1, 0, 0);
-			position.y = ball->position.y - 0.1f;
 		}
 		isEnabled = true;
 	}

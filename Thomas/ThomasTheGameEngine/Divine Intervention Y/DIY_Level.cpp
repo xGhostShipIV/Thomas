@@ -6,6 +6,7 @@
 #include <InputHandler.h>
 #include <Game.h>
 
+#include "FocusCamera.h"
 #include "GameCamera.h"
 #include "PlanetHorizontal.h"
 #include "PlanetVertical.h"
@@ -47,7 +48,7 @@ void DIY_Level::LoadContent()
 
 	//Delete old main camera and set currentCamera to it.
 	mainCamera->isFlagged = true;
-	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3(0, 0, 0));
+	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7),Vec3::Zero() );
 	currentCamera = mainCamera;
 
 	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
@@ -259,6 +260,12 @@ void DIY_Level::LoadContent()
 		layerContainer->addChild(layers[i]);
 
 	gui->SetObjectivesRemaining(HasObjectives());
+
+	//Change camera to new focus camera
+	mainCamera->isFlagged = true;
+	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0,0,-7));
+	currentCamera = mainCamera;
+
 }
 
 DIY_Level::~DIY_Level()
@@ -301,13 +308,13 @@ void DIY_Level::LevelUpdate(float timeStep_)
 			break;
 		}
 
-		if (Input->isMouseDown(SDL_BUTTON_RIGHT))
-		{
-			//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
-			PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
-			mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
-		}
-		break;
+		//if (Input->isMouseDown(SDL_BUTTON_RIGHT))
+		//{
+		//	//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+		//	PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
+		//	mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
+		//}
+		//break;
 	case DIY_Level_State::PAUSED:
 		PauseLogic();
 		break;

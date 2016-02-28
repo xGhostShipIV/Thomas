@@ -87,6 +87,7 @@
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
     <ClCompile Include="DIY_Level_GUI.cpp" />
+    <ClCompile Include="FocusCamera.cpp" />
     <ClCompile Include="GalaxyMap.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="LandingScreen.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
     <ClInclude Include="DIY_Level_GUI.h" />
+    <ClInclude Include="FocusCamera.h" />
     <ClInclude Include="GalaxyMap.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="LandingScreen.h" />

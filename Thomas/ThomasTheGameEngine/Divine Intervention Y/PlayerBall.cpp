@@ -9,7 +9,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 {
 	addTag("player");
 
-	position = position + Vec3(0, 1.2f, 0);
+	position = position + Vec3(0, 10.2f, 0);
 	renderer = new RenderableComponent("sphere", "ballSkin", this);
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 
@@ -30,10 +30,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 }
 
 void PlayerBall::Update(float timeStep_)
-{
-
-	//std::cout << getComponent<Rigidbody>()->velocity.toString() << std::endl;
-	
+{	
 	//All the controls go here
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING && 
 		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
@@ -57,10 +54,11 @@ void PlayerBall::Update(float timeStep_)
 
 		}
 
-		if (!Input->isKeyDown(SDLK_SPACE))
+		if (Input->isKeyReleased(SDLK_SPACE))
 		{
 			chargingStrike = false;
 			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))));
+			rigidBody->AngularAccel = rigidBody->AngularAccel * Quat(0.008f, Vec3::cross(Vec3::BasisY(), (position - hand->position).Normalized()));
 			chargePercent = 0;
 			modifier = CHARGE_PER_SECOND;
 
