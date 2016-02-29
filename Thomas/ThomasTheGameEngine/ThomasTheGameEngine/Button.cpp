@@ -37,18 +37,12 @@ void Button::Update(float _deltaTime)
 	SelectSprite();
 }
 
-//void Label::Draw()
-//{
-//	
-//}
-
 void Button::OnClick()
 {
+	isClicked = true;
 }
 
-void Button::OnHover()
-{
-}
+void Button::OnHover(){}
 
 void Button::SetTexture(UINT32 texture_)
 {
@@ -82,4 +76,15 @@ void Button::SelectSprite()
 		else
 			SetTexture(textureUnpressed);
 	}
+}
+
+//Returns True if the Button has been pressed.
+bool Button::HasBeenClicked()
+{
+	return isClicked;
+}
+
+void Button::CleanUp()
+{
+	isClicked = false;
 }

@@ -868,20 +868,20 @@ void ModelManager::createTexture(string _id, void* _pixelData, UINT32 _textureWi
 	nextTextureID++;
 }
 
-void ModelManager::loadTexture(string _id, string _fileName)
+std::string ModelManager::loadTexture(string _id, string _fileName)
 {
 	//Don't load textures with duplicate IDs
 	for (auto it = textureMap.begin(); it != textureMap.end(); it++)
 	{
 		if (it->first == _id)
-			return;
+			return _id;
 	}
 
 	SDL_Surface *texture = IMG_Load(_fileName.c_str());
 
 	if (texture == NULL)		{
 		printf("Image failed to load! SDL_image Error: %s\n", IMG_GetError());
-		return;
+		return "error";
 	}
 
 	Texture * t = new Texture(texture, _id);
@@ -889,6 +889,8 @@ void ModelManager::loadTexture(string _id, string _fileName)
 	textureMap.insert(std::pair<string, UINT32>(_id, nextTextureID));
 
 	nextTextureID++;
+
+	return _id;
 }
 
 Texture* ModelManager::getTexture(string _id)

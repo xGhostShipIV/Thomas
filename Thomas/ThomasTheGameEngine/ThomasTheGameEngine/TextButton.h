@@ -20,6 +20,9 @@ public:
 	virtual void Hide() override;
 	
 	virtual void SelectSprite() override;
+
+	//Sets text colour. If nullptr, it will not change that colour.
+	void SetTextColour(Colour* unpressedTextColour_, Colour* pressedTextColour_);
 };
 
 #endif

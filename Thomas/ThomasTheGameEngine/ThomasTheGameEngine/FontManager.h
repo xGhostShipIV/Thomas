@@ -15,7 +15,7 @@ public:
 
 	~FontManager();
 
-	void GenerateFont(std::string _fontID, int _fontSize, std::string _path);
+	TTF_Font* GenerateFont(std::string _fontID, int _fontSize, std::string _path);
 
 	TTF_Font* GetFont(std::string _fontID);
 

@@ -40,6 +40,7 @@ public:
 	~GuiElement();
 
 	virtual void Update(float _deltaTime) = 0;
+	virtual void CleanUp();
 	virtual void Draw();
 	
 	ScreenAnchor anchorPosition;

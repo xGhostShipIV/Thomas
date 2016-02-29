@@ -52,6 +52,8 @@ public:
 	void SetLayerPlane(Layer *);
 
 	void AdjustObjectiveCount(int);
+
+	std::string GetLevelFileName();
 private:
 	GameObject * skybox, *playerBall, *layerRB;
 	//Rigidbody * planeRigidBody;
@@ -64,5 +66,8 @@ private:
 	bool isPausedKeyStillPressed;
 
 	void PauseLogic();
+
+
+	bool hasFinishedLoading;
 };
 

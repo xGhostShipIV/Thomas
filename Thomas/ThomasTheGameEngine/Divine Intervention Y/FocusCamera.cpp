@@ -14,8 +14,8 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 	if (focus){
 		followDistance = Vec3::length(position - focus->position);
 		LookAt(focus->position);
-		MinCameraDistance = followDistance / 3.0f;
-		MaxCameraDistance = followDistance * 3.0f;
+		MinCameraDistance = int(followDistance / 3.0f);
+		MaxCameraDistance = int(followDistance * 3.0f);
 		selfieStick = position - focus->position;
 	}
 }
@@ -24,7 +24,7 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 void FocusCamera::Update(float deltaTime_) {
 
 	//Testing output.
-	std::cout << followDistance << std::endl;
+	//std::cout << followDistance << std::endl;
 
 	//Mouse wheel to zoom in/out
 	if (Input->mouseWheel < 0)

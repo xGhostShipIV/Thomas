@@ -81,7 +81,7 @@ public:
 	void createTexture(string _id, void* _pixelData, UINT32 _textureWidth, UINT32 _textureHeight);
 
 	//loads a texture with the fileName and loads it into the texture map using the string _id
-	void loadTexture(string _id, string _fileName);
+	std::string loadTexture(string _id, string _fileName);
 
 	/* PRIMITIVE FACTORY METHODS */
 	void CreateCuboid(string _id, float _w, float _h, float _l, bool _useCubeMap = false, float _uvRepeatX = 1, float _uvRepeatY = 1);

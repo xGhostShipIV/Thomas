@@ -19,12 +19,14 @@ class Button : public GuiElement
 protected:
 	UINT32 textureUnpressed, texturePressed, textureHover;
 	void SetTexture(UINT32 texture_);
+
+	bool isClicked;
 public:
 
 	Button(Level* _level, Vec2 _screenPosition, std::string textureUnpressed_, std::string texturePressed_, std::string textureHover_, ScreenAnchor anchor_ = ScreenAnchor::BOTTOM_LEFT);
 	~Button();
 	virtual void Update(float _deltaTime) override;
-	//virtual void Draw() override;
+	virtual void CleanUp() override;
 
 	ButtonState buttonState;
 	bool isBeingHovered;
@@ -33,6 +35,8 @@ public:
 	virtual void OnHover();
 
 	virtual void SelectSprite();
+
+	bool HasBeenClicked();
 };
 
 #endif

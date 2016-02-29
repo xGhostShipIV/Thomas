@@ -47,3 +47,12 @@ void TextButton::SelectSprite()
 		}
 	}
 }
+
+void TextButton::SetTextColour(Colour* unpressedTextColour_, Colour* pressedTextColour_)
+{
+	if (unpressedTextColour_)
+		unpressedTextColour = *unpressedTextColour_;
+
+	if (pressedTextColour_)
+		pressedTextColour = *pressedTextColour_;
+}

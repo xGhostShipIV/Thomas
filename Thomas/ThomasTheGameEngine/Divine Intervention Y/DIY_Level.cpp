@@ -18,13 +18,13 @@
 #include "Sun.h"
 
 #include <PhysicsWorld.h>
+#include "LandingScreen.h"
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false)
 {
 	levelState = DIY_Level_State::PLAYING;
 	playingState = DIY_Level_Playing_State::SHOOTING;
 	victoryState = DIY_Level_Victory_State::REVIEW;
-
 }
 
 void DIY_Level::LoadContent()
@@ -32,7 +32,13 @@ void DIY_Level::LoadContent()
 	tinyxml2::XMLDocument doc;
 
 	//Tries to load the file, quits if it fails
-	if (doc.LoadFile(fileName.c_str()) != tinyxml2::XML_NO_ERROR) return;
+	if (doc.LoadFile(fileName.c_str()) != tinyxml2::XML_NO_ERROR)
+	{
+		GAME->LoadLevel(new LandingScreen);
+		std::cout << "ERROR LOADING: " << fileName << "\nLOADING LANDING SCREEN...\n";
+
+		return;
+	}
 
 	//Grabs first element
 	tinyxml2::XMLElement * element = doc.RootElement();
@@ -269,6 +275,10 @@ void DIY_Level::LoadContent()
 	mainCamera->isFlagged = true;
 	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0,0,-7));
 	currentCamera = mainCamera;	
+
+
+	//Can now go through Update loop.
+	hasFinishedLoading = true;
 }
 
 DIY_Level::~DIY_Level()
@@ -283,41 +293,58 @@ int DIY_Level::HasObjectives()
 
 void DIY_Level::LevelUpdate(float timeStep_)
 {
+	if (!hasFinishedLoading)
+		return;
+
 	Level::LevelUpdate(timeStep_);
+
+	//Victory TEST
+	if (InputController::getInstance()->isKeyDown(SDLK_v))
+		objectiveCount = 0;
 
 	//Game state switch
 	switch (levelState)
 	{
 	case DIY_Level_State::PLAYING:
+		gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent() / 100.0f;
+
 		PauseLogic();
 
-		switch (playingState)
+		//Check for Victory
+		if (HasObjectives() == 0 /* && PlayerHasShotBallIntoSun */)
 		{
-		case DIY_Level_Playing_State::SHOOTING:
-			if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
-				isShooting = true;
-			else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
-			{
-				isShooting = false;
-				strokeCount++;
-				gui->PlayerTookAStroke();
-
-				playingState = DIY_Level_Playing_State::WATCHING;
-			}
-			break;
-		case DIY_Level_Playing_State::WATCHING:
-			if (!playerBall->getComponent<Rigidbody>()->isAwake())
-				playingState = DIY_Level_Playing_State::SHOOTING;
-			break;
+			levelState = DIY_Level_State::VICTORY;
 		}
+		else
+		{
+			switch (playingState)
+			{
+			case DIY_Level_Playing_State::SHOOTING:
+				if (!isShooting && ((PlayerBall*)playerBall)->GetIsChargingStrike())
+					isShooting = true;
+				else if (isShooting && !((PlayerBall*)playerBall)->GetIsChargingStrike())
+				{
+					isShooting = false;
+					strokeCount++;
+					gui->PlayerTookAStroke();
 
-		//if (Input->isMouseDown(SDL_BUTTON_RIGHT))
-		//{
-		//	//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
-		//	PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
-		//	mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
-		//}
-		//break;
+					playingState = DIY_Level_Playing_State::WATCHING;
+				}
+				break;
+			case DIY_Level_Playing_State::WATCHING:
+				if (!playerBall->getComponent<Rigidbody>()->isAwake())
+					playingState = DIY_Level_Playing_State::SHOOTING;
+				break;
+			}
+
+			//if (Input->isMouseDown(SDL_BUTTON_RIGHT))
+			//{
+			//	//layerContainer->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3(0, 1.0f, 0)));
+			//	PhysicsWorld::Orbit(Vec3::Zero(), Vec3::BasisY(), mainCamera, Input->deltaMouse().x * timeStep_);
+			//	mainCamera->Rotate(Quat(Input->deltaMouse().x * timeStep_, Vec3::BasisY()));
+			//}
+			//break;
+		}
 	case DIY_Level_State::PAUSED:
 		PauseLogic();
 		break;
@@ -332,7 +359,6 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		break;
 	}
 
-	gui->shotPower = ((PlayerBall*)playerBall)->GetChargePercent() / 100.0f;
 	gui->Update(timeStep_);
 }
 
@@ -357,11 +383,16 @@ void DIY_Level::PauseLogic()
 		isPausedKeyStillPressed = false;
 	}
 
-	PhysicsWorld::getInstance()->isPhysicsRunning = levelState == DIY_Level_State::PAUSED ? false : true;
+	PhysicsWorld::getInstance()->isPhysicsRunning = levelState == DIY_Level_State::PAUSED ? false : levelState == DIY_Level_State::VICTORY ? false : true;
 }
 
 void DIY_Level::AdjustObjectiveCount(int countChange_)
 {
 	objectiveCount += countChange_;
 	gui->SetObjectivesRemaining(objectiveCount);
+}
+
+std::string  DIY_Level::GetLevelFileName()
+{
+	return fileName;
 }

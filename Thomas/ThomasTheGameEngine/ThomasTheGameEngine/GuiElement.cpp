@@ -29,7 +29,11 @@ void GuiElement::Draw()
 {
 	if (renderable)
 		renderable->DrawUI(anchorPosition);
+
+	CleanUp();
 }
+
+void GuiElement::CleanUp(){}
 
 bool GuiElement::IsVisible() { return isVisible; }
 

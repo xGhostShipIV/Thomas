@@ -99,15 +99,15 @@ void Landing_GUI::Update(float timeStep_)
 			isInputIsClear = !InputController::getInstance()->isAnyKeyPressed();
 		else if (!isInstructionsShown)
 		{
-			if (PlayButton->buttonState == ButtonState::PRESSED)
+			if (PlayButton->HasBeenClicked())
 			{
 				GAME->LoadLevel(new DIY_Level("testLevel.xml"));
 			}
-			else if (ExitButton->buttonState == ButtonState::PRESSED)
+			else if (ExitButton->HasBeenClicked())
 			{
 				GAME->setRunning(false);
 			}
-			else if (InstructionsButton->buttonState == ButtonState::PRESSED)
+			else if (InstructionsButton->HasBeenClicked())
 			{
 				isInstructionsShown = true;
 				isInputIsClear = false;

@@ -99,6 +99,9 @@
     <ClCompile Include="FocusCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelSelectButton.cpp">
+      <Filter>Source Files\Levels\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="FocusCamera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelectButton.h">
+      <Filter>Header Files\Levels\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -176,6 +176,8 @@ void Game::EngineUpdate(float _timeStep)
 	//Load content of the new level.
 	if (callInitOnNextUpdate)
 	{
+		callInitOnNextUpdate = false;
+		
 		if (currentLevel)
 			delete currentLevel;
 
@@ -188,7 +190,6 @@ void Game::EngineUpdate(float _timeStep)
 		PhysicsWorld::getInstance()->isPhysicsRunning = true;
 
 		currentLevel->init();
-		callInitOnNextUpdate = false;
 
 		std::cout << "\nLEVEL LOADED!\n\n";
 	}

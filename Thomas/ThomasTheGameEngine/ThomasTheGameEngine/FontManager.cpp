@@ -20,9 +20,18 @@ FontManager::~FontManager()
 	}
 }
 
-void FontManager::GenerateFont(std::string _fontID, int _fontSize, std::string _path)
+TTF_Font* FontManager::GenerateFont(std::string _fontID, int _fontSize, std::string _path)
 {
-	fonts.insert(std::pair<std::string, TTF_Font*>(_fontID, TTF_OpenFont(_path.c_str(), _fontSize)));
+	//no duplicate fonts
+	auto search = fonts.find(_fontID);
+	if (search != fonts.end())
+		return search->second;
+
+	TTF_Font* font = TTF_OpenFont(_path.c_str(), _fontSize);
+
+	fonts.insert(std::pair<std::string, TTF_Font*>(_fontID, font));
+
+	return font;
 }
 
 TTF_Font* FontManager::GetFont(std::string _fontID)
