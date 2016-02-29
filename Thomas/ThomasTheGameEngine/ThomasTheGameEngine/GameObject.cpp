@@ -93,9 +93,12 @@ Vec3 GameObject::forward(){
 	return Quat::rotate(rotation, Vec3::BasisZ());
 }
 
-//Works according to the internet, needs testing.
 Vec3 GameObject::up() {
 	return Quat::rotate(rotation, Vec3::BasisY());
+}
+
+Vec3 GameObject::right(){
+	return Quat::rotate(rotation, Vec3::BasisX());
 }
 
 void GameObject::LookAt(Vec3 _target)

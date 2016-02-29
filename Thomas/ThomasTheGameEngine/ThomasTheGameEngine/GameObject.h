@@ -27,6 +27,7 @@ public:
 	//Direction vectors that can aid in object movement
 	Vec3 forward();
 	Vec3 up();
+	Vec3 right();
 
 	//Returns the objects orientation in different formats
 	Quat getQuat();

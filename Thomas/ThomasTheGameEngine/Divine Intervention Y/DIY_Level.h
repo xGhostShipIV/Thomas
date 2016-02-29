@@ -53,8 +53,8 @@ public:
 
 	void AdjustObjectiveCount(int);
 private:
-	GameObject * skybox, *playerBall;
-	Rigidbody * planeRigidBody;
+	GameObject * skybox, *playerBall, *layerRB;
+	//Rigidbody * planeRigidBody;
 
 	std::string fileName;
 

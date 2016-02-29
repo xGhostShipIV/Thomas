@@ -57,7 +57,7 @@ void PlayerBall::Update(float timeStep_)
 		if (Input->isKeyReleased(SDLK_SPACE))
 		{
 			chargingStrike = false;
-			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))));
+			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))) + Vec3(0,3,0));
 			rigidBody->AngularAccel = rigidBody->AngularAccel * Quat(0.008f, Vec3::cross(Vec3::BasisY(), (position - hand->position).Normalized()));
 			chargePercent = 0;
 			modifier = CHARGE_PER_SECOND;

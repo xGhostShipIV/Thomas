@@ -60,8 +60,6 @@ void FocusCamera::Update(float deltaTime_) {
 			behaviour = LookState::Peek;
 		}
 
-		position = selfieStick.Normalized() * followDistance + focus->position;
-
 		break;
 	case (LookState::Orbit) :
 		Physics->Orbit(focus->position, Vec3::BasisY(), this, mouseDir_.x * deltaTime_);
@@ -85,6 +83,8 @@ void FocusCamera::Update(float deltaTime_) {
 		}
 		break;
 	}
+
+	position = selfieStick.Normalized() * followDistance + focus->position;
 
 	Camera::Update(deltaTime_);
 }

@@ -239,11 +239,15 @@ void DIY_Level::LoadContent()
 			//Attaches the plane collider to last layer added if it contains the players start point
 			if (setPlayerLayer)
 			{
-				planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
-				planeRigidBody->isKinematic = false;
+				layerRB = new GameObject(this, layers.back()->position);
+				new Rigidbody(layerRB, new PlaneCollider(layerRB, Vec3::BasisY()));
+				layerRB->getComponent<Rigidbody>()->isKinematic = false;
 
-				//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
-				//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
+				//planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
+				//planeRigidBody->isKinematic = false;
+
+				////PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
+				////(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
 				setPlayerLayer = false;
 			}
 
@@ -264,8 +268,7 @@ void DIY_Level::LoadContent()
 	//Change camera to new focus camera
 	mainCamera->isFlagged = true;
 	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0,0,-7));
-	currentCamera = mainCamera;
-
+	currentCamera = mainCamera;	
 }
 
 DIY_Level::~DIY_Level()
@@ -335,9 +338,11 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 void DIY_Level::SetLayerPlane(Layer * layer_)
 {
-	planeRigidBody->parentObject = layer_;
+	layerRB->position = layer_->position;
+	static_cast<PlaneCollider*>(layerRB->getComponent<Collider>())->plane = Plane(Vec3::BasisY(), layer_->position);
+	/*planeRigidBody->parentObject = layer_;
 	planeRigidBody->col->parentObject = layer_;
-	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);
+	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);*/
 }
 
 void DIY_Level::PauseLogic()
