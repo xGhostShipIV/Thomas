@@ -29,11 +29,11 @@ void Pointer::Update(float timeStep_)
 
 	position.y = ball->position.y;
 
-	if (Input->isKeyDown(SDLK_RIGHT))
+	if (Input->isKeyDown(SDLK_RIGHT) || Input->isKeyDown(SDLK_a))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, 3 * timeStep_);
 	}
-	if (Input->isKeyDown(SDLK_LEFT))
+	if (Input->isKeyDown(SDLK_LEFT) || Input->isKeyDown(SDLK_d))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, -3 * timeStep_);
 	}

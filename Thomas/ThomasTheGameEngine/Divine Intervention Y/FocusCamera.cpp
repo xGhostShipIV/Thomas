@@ -69,11 +69,16 @@ void FocusCamera::Update(float deltaTime_) {
 
 		break;
 	case (LookState::Orbit) :
-		Rotate(Quat(mouseDir_.x * deltaTime_, up()));
-		selfieStick = Quat::rotate(Quat(mouseDir_.x * deltaTime_, up()), selfieStick);
+		Rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()));
+		selfieStick = Quat::rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()), selfieStick);
 
 		Rotate(Quat(mouseDir_.y * deltaTime_, right() * -1));
 		selfieStick = Quat::rotate(Quat(mouseDir_.y * deltaTime_, right() * -1), selfieStick);
+
+		if (abs(Vec3::dot(up(), Vec3::BasisY())) < 0.1){
+			Rotate(Quat(mouseDir_.y * deltaTime_, right()));
+			selfieStick = Quat::rotate(Quat(mouseDir_.y * deltaTime_, right()), selfieStick);
+		}
 
 
 		//State control from Orbit
