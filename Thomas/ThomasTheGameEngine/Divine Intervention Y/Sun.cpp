@@ -9,12 +9,12 @@
 
 Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(level_, position_), ballHitIntoSun(false)
 {
-	renderer = new RenderableComponent("sphere", textureName_, this);
+	renderer = new RenderableComponent("sun", textureName_, this);
 	renderer->SetEffecctedByLight(false, false, false);
 
 	Scale(Vec3(1.75, 1.75, 1.75));
 
-	light = new Light(this, Colour(800, 800, 800), Light::Point);
+	light = new Light(this, Colour(75, 75, 75), Light::Point);
 
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 	rigidBody->isKinematic = false;

@@ -31,7 +31,6 @@ public:
 
 	int par;
 	int strokeCount;
-	int levelBounds;
 	////bool isPaused;
 
 	DIY_Level_State levelState;
@@ -55,6 +54,8 @@ public:
 	void AdjustObjectiveCount(int);
 
 	std::string GetLevelFileName();
+
+	Vec2 GetLevelBounds();
 private:
 	GameObject * skybox, *playerBall, *layerRB;
 	//Rigidbody * planeRigidBody;
@@ -68,7 +69,9 @@ private:
 
 	void PauseLogic();
 
-
 	bool hasFinishedLoading;
+
+	float levelBoundsX;
+	const float levelBoundsY = 1.5f;
 };
 

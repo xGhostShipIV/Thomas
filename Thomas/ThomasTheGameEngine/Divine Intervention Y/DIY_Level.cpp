@@ -68,9 +68,14 @@ void DIY_Level::LoadContent()
 	Models->loadTexture("layerGrid",	"Images/grid.png");
 
 	Models->loadTexture("planet1",		"Images/aruba.tif");
+	Models->loadTexture("planet2",		"Images/planet_Rim.tif");
+	Models->loadTexture("planet3",		"Images/minersMoon.tif");
+	Models->loadTexture("planet4",		"Images/planetTex.png");
+	Models->loadTexture("planet5",		"Images/hoth.tif");
 
 	Models->loadTexture("ballSkin",		"Images/8ball.png");
 	Models->loadModel("sphere",			"Models/planet.obj", true);
+	Models->loadModel("sun",			"Models/planet.obj", true);
 
 	Models->loadModel("warpGate",		"Models/space_station.obj", true);
 	Models->loadTexture("gateTexture",	"Images/rosary.png");
@@ -89,7 +94,7 @@ void DIY_Level::LoadContent()
 	Audio->loadMusic("gameTheme",		"Sounds/Exotics.wav");
 	Audio->getMusic("gameTheme")->Play();
 
-	Models->loadModel("wormhole", "Models/wormhole.obj", true);
+	Models->loadModel("wormhole",		"Models/wormhole.obj", true);
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
 
 	//Gotta be big to show up..
@@ -116,6 +121,9 @@ void DIY_Level::LoadContent()
 	else{
 		numLayers = 5;
 	}
+
+	//Setting level boundaries. CAN BE EDITTED
+	levelBoundsX = 5;
 
 	//set up skybox
 	skybox = new GameObject(this, currentCamera->position);
@@ -168,14 +176,14 @@ void DIY_Level::LoadContent()
 						}
 
 						//Now create the planet as well as the objective planet to be attached
-						object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+						object = new PlanetHorizontal(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 
 						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Horizonal);
 						objectiveCount++;
 					}
 					//Else just create the horizontal planet
 					else
-						object = new PlanetHorizontal(this, Vec3(x, -2 + i * 1.5, z), textureName);
+						object = new PlanetHorizontal(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 
 
 
@@ -201,7 +209,7 @@ void DIY_Level::LoadContent()
 								break;
 						}
 
-						object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+						object = new PlanetVertical(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 
 						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Vertical);
 						objectiveCount++;
@@ -210,28 +218,28 @@ void DIY_Level::LoadContent()
 					{
 
 					}
-					object = new PlanetVertical(this, Vec3(x, -2 + i * 1.5, z), textureName);
+					object = new PlanetVertical(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "Asteroids")){
-					object = new AsteroidField(this, Vec3(x, -2 + i * 1.5, z), 1, 6);
+					object = new AsteroidField(this, Vec3(x, -2 + i * levelBoundsY, z), 1, 6);
 				}
 				else if (objectElement->Attribute("type", "Wormhole")){
-					object = new Wormhole(this, Vec3(x, -2 + i * 1.5, z), objectElement->IntAttribute("destination"));
+					object = new Wormhole(this, Vec3(x, -2 + i * levelBoundsY, z), objectElement->IntAttribute("destination"));
 				}
 				else if (objectElement->Attribute("type", "WarpGate")){
-					object = new WarpGate(this, Vec3(x, -2 + i * 1.5, z), Quat(1, 0, 0, 0));
+					object = new WarpGate(this, Vec3(x, -2 + i * levelBoundsY, z), Quat(1, 0, 0, 0));
 				}
 				else if (objectElement->Attribute("type", "Player1Start")){
 					setPlayerLayer = true;
 
-					object = new PlayerBall(this, Vec3(x, -2 + i * 1.5f, z));
+					object = new PlayerBall(this, Vec3(x, -2 + i * levelBoundsY, z));
 					playerBall = object;
 				}
 				else if (objectElement->Attribute("type", "Sun"))
 				{
 					std::string textureName = objectElement->Attribute("texture");
 
-					object = new Sun(this, Vec3(x, -2 + i * 1.5f, z), textureName);
+					object = new Sun(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 				}
 				else{
 
@@ -249,7 +257,7 @@ void DIY_Level::LoadContent()
 			} while (objectElement);
 
 			//create layer in the list
-			layers.push_back(new Layer(this, Vec3(0, -2 + i * 1.5, 0), gameObjects));
+			layers.push_back(new Layer(this, Vec3(0, -2 + i * levelBoundsY, 0), gameObjects));
 
 			//Attaches the plane collider to last layer added if it contains the players start point
 			if (setPlayerLayer)
@@ -407,4 +415,9 @@ void DIY_Level::AdjustObjectiveCount(int countChange_)
 std::string  DIY_Level::GetLevelFileName()
 {
 	return fileName;
+}
+
+Vec2 DIY_Level::GetLevelBounds()
+{
+	return Vec2(levelBoundsX, levelBoundsY);
 }

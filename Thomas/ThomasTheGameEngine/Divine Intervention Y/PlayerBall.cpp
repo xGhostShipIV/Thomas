@@ -25,7 +25,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 
 	chargingStrike = false;
 
-	hand = new Pointer(level_, position + Vec3(1, 0, 0), this);
+	hand = new Pointer(level_, position + Vec3(1, -0.5f, 0), this);
 
 	positionAtStrike = Vec3();
 
