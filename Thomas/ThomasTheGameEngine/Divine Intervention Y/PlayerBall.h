@@ -7,6 +7,8 @@
 #include "Pointer.h"
 #include "Slingshot.h"
 
+class Sound;
+
 class PlayerBall : public GameObject
 {
 public:
@@ -33,4 +35,6 @@ private:
 
 	float chargePercent;
 	float modifier;
+
+	Sound * hitSound;
 };

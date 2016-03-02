@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
+#include <AudioManager.h>
 
 AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, float _numAsteroids) : GameObject(_level, _position)
 {
@@ -37,6 +38,9 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 			break;
 		}
 	}
+
+	Audio->loadSound("asteroidSound", "Sounds/asteroidCollide.wav");
+	collideSound = Audio->getSound("asteroidSound");
 }
 
 
@@ -57,6 +61,7 @@ void AsteroidField::Update(float timeStep_)
 
 		if (rb_->isAwake())
 		{
+			collideSound->Play();
 			rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
 		}
 	}

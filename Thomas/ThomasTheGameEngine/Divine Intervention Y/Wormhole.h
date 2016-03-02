@@ -9,6 +9,7 @@
 class Layer;
 class DIY_Level;
 class PlayerBall;
+class Sound;
 
 class Wormhole : public GameObject
 {
@@ -25,4 +26,6 @@ private:
 
 	int destinationLayer;
 	bool ballCaught;
+
+	Sound * sound;
 };

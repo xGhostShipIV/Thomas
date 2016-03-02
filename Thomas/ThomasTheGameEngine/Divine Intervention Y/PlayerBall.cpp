@@ -1,5 +1,6 @@
 #include "PlayerBall.h"
 #include <InputHandler.h>
+#include <AudioManager.h>
 
 #include <Game.h>
 #include <iostream>
@@ -9,7 +10,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 {
 	addTag("player");
 
-	position = position + Vec3(0, 10.2f, 0);
+	position = position + Vec3(0, .45f, 0);
 	renderer = new RenderableComponent("sphere", "ballSkin", this);
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 
@@ -27,6 +28,9 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	hand = new Pointer(level_, position + Vec3(1, 0, 0), this);
 
 	positionAtStrike = Vec3();
+
+	Audio->loadSound("ballHit", "Sounds/strike.wav");
+	hitSound = Audio->getSound("ballHit");
 }
 
 void PlayerBall::Update(float timeStep_)
@@ -56,6 +60,7 @@ void PlayerBall::Update(float timeStep_)
 
 		if (Input->isKeyReleased(SDLK_SPACE))
 		{
+			hitSound->Play();
 			chargingStrike = false;
 			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))) + Vec3(0,3,0));
 			rigidBody->AngularAccel = rigidBody->AngularAccel * Quat(0.008f, Vec3::cross(Vec3::BasisY(), (position - hand->position).Normalized()));

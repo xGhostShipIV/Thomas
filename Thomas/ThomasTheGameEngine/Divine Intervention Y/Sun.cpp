@@ -1,8 +1,8 @@
 #include "Sun.h"
 #include <Colour.h>
 #include <PhysicsWorld.h>
-//#include <Rigidbody.h>
 #include <Level.h>
+#include <AudioManager.h>
 
 #include "PlayerBall.h"
 #include "DIY_Level.h"
@@ -19,6 +19,8 @@ Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 	rigidBody->isKinematic = false;
 	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.75f;
+	
+	Audio->loadSound("whoosh", "Sounds/firewhoosh.wav");
 }
 
 
@@ -39,6 +41,8 @@ void Sun::Update(float timeStep_)
 	if (Collider::isColliding(rigidBody->col, playerRigidBody->col))
 	{
 		DIY_Level * level_ = static_cast<DIY_Level *>(level);
+
+		Audio->getSound("whoosh")->Play();
 
 		if (level_->HasObjectives() > 0)
 		{

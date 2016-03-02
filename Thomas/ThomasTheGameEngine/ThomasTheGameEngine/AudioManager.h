@@ -6,6 +6,8 @@
 #include "Sound.h"
 #include "Music.h"
 
+#define Audio AudioManager::getInstance()
+
 class AudioManager
 {
 	//Friended with gameproperties so that when changes are applied to the properties

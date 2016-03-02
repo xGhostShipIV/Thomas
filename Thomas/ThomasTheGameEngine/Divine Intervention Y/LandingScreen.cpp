@@ -5,6 +5,7 @@
 #include <RenderableComponent.h>
 
 #include <Game.h>
+#include <AudioManager.h>
 #include "DIY_Level.h"
 
 LandingScreen::LandingScreen()
@@ -18,6 +19,8 @@ void LandingScreen::LoadContent()
 	Models->loadTexture("skybox1",		"Images/skyboxUP.png");
 	Models->loadTexture("galaxyMap",	"Images/galaxy1.png");
 
+	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
+	Audio->getMusic("menuTheme")->Play();
 	/* Set up and position skybox */
 	{
 		skybox = new GameObject(this);
