@@ -3,6 +3,7 @@
 
 class Level;
 class PlayerBall;
+class Sound;
 
 class AsteroidField :
 	public GameObject
@@ -16,5 +17,6 @@ public:
 private:
 	std::vector<GameObject *> asteroids;
 	PlayerBall * player;
+	Sound * collideSound;
 };
 

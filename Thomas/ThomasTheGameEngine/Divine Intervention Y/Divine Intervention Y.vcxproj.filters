@@ -180,5 +180,8 @@
     <Xml Include="testLevel.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="nathanLevel.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

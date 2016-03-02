@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level size="MEDIUM" par="5" skybox="skybox1">
+  
+  <Layer>
+	<Object type="PlanetVertical" x="-1.5" z="0" texture="planet1" objective="SpaceAustralia"></Object>
+	<Object type="WarpGate" x="0.59" z="0.406"></Object>
+	<Object type="Wormhole" x="-3" z="-2" destination="1"></Object>
+  </Layer>
+  
+  <Layer>
+	<Object type="Wormhole" x="-4" z="3" destination="3"></Object>
+	
+	<Object type="WarpGate" x="2" z="3.5"></Object>
+	<Object type="Wormhole" x="4" z="0" destination="2"></Object>
+  </Layer>
+
+  <Layer>
+	<Object type="Wormhole" x="5" z="-2" destination="0"></Object>
+	<Object type="Sun" x="-3" z ="0" texture="sunTexture"></Object>
+  </Layer>
+  
+  <Layer>
+	<Object type="Player1Start" x="-4" z="-4"></Object>
+	<Object type="Wormhole" x="3" z="2" destination="0"></Object>
+  </Layer>
+  
+  
+  <Objectives>
+    <Planet name="SpaceAustralia" texture="planet1"></Planet>
+  </Objectives>
+  
+  <Assets>
+    <Models></Models>
+    <Textures></Textures>
+    <Sounds></Sounds>
+    <Music></Music>
+  </Assets>
+</Level>

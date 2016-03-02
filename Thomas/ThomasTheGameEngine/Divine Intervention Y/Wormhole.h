@@ -9,6 +9,7 @@
 class Layer;
 class DIY_Level;
 class PlayerBall;
+class Sound;
 
 class Wormhole : public GameObject
 {
@@ -23,6 +24,9 @@ private:
 	PlayerBall * player;
 	DIY_Level * diyLevel;
 
+	int initialRotation;
 	int destinationLayer;
-	bool ballCaught;
+
+	bool ballCaught, isScalingDown;
+	Sound * sound;
 };

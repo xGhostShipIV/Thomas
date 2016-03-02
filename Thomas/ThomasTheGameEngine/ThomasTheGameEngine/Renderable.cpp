@@ -31,6 +31,11 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 	float _UIdrawPercent[1] = { 1 };
 	glUniform1fv(ModelManager::getInstance()->UI_DrawPercent_Location, 1, _UIdrawPercent);
 
+	float _drawStyle[1] = { parentTransform.drawStyle };
+	glUniform1fv(ModelManager::getInstance()->DrawStyle_Location, 1, _drawStyle);
+	float _rRand[1] = { parentTransform.rainbowRand };
+	glUniform1fv(ModelManager::getInstance()->RainbowRand_Location, 1, _rRand);
+
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
@@ -84,7 +89,6 @@ void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::
 		}
 	}
 
-
 }
 
 void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std::vector<UINT32> _textureNames, ScreenAnchor anchor_)
@@ -110,6 +114,11 @@ void OpenGL_Renderable::DrawUI(GameObject& parentTransform, Material * _mat, std
 	glUniform1fv(ModelManager::getInstance()->UI_DRAW_Location, 1, _ui);
 	float _UIdrawPercent[1] = { ((GuiElement*)&parentTransform)->drawPercent };
 	glUniform1fv(ModelManager::getInstance()->UI_DrawPercent_Location, 1, _UIdrawPercent);
+
+	float _drawStyle[1] = { parentTransform.drawStyle };
+	glUniform1fv(ModelManager::getInstance()->DrawStyle_Location, 1, _drawStyle);
+	float _rRand[1] = { parentTransform.rainbowRand };
+	glUniform1fv(ModelManager::getInstance()->RainbowRand_Location, 1, _rRand);
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

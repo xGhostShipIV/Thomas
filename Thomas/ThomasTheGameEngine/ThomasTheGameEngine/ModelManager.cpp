@@ -32,8 +32,9 @@ GLuint ModelManager::isEffectedByLight_Location;
 GLuint ModelManager::UI_DRAW_Location;
 GLuint ModelManager::UI_DrawPercent_Location;
 GLuint ModelManager::cameraPosition_Location;
-
+GLuint ModelManager::DrawStyle_Location;
 GLuint ModelManager::faceNormalLocation;
+GLuint ModelManager::RainbowRand_Location;
 
 ModelManager::ModelManager(Render_Mode _render_mode)
 {
@@ -66,6 +67,9 @@ ModelManager::ModelManager(Render_Mode _render_mode)
 
 		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
 		materialLocation = glGetUniformLocation(program, "Material");
+
+		DrawStyle_Location = glGetUniformLocation(program, "drawStyle");
+		RainbowRand_Location= glGetUniformLocation(program, "rainbowRand");
 
 		areBuffersInitialized = false;
 		textureArray = nullptr;

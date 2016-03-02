@@ -45,6 +45,7 @@ public:
 	GameObject * layerContainer;
 	DIY_Level_GUI * gui;
 
+	bool PlayerHasShotBallIntoSun;
 	bool rotateLevel;
 
 	void LevelUpdate(float timeStep_) override;

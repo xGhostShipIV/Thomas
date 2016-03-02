@@ -18,6 +18,7 @@ private:
 	RenderableComponent * renderer;
 	PlayerBall * ball;
 
+	bool followCam;
 	bool isEnabled;
 };
 

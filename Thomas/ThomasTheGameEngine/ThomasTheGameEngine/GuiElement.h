@@ -24,7 +24,7 @@ enum ScreenAnchor
 
 enum UI_DRAW_TYPE
 {
-	NONE, NORMAL, RAINBOW
+	_3D_SPACE_DRAW_TYPE, NORMAL_DRAW_TYPE
 };
 
 class GuiElement : public GameObject

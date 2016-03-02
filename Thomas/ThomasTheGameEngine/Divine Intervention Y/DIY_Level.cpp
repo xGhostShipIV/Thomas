@@ -2,6 +2,7 @@
 #include <dependencies\TinyXML\tinyxml2.h>
 
 #include <ModelManager.h>
+#include <AudioManager.h>
 #include <RenderableComponent.h>
 #include <InputHandler.h>
 #include <Game.h>
@@ -20,7 +21,7 @@
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false), PlayerHasShotBallIntoSun(false)
 {
 	levelState = DIY_Level_State::PLAYING;
 	playingState = DIY_Level_Playing_State::SHOOTING;
@@ -60,28 +61,34 @@ void DIY_Level::LoadContent()
 	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
 	gui = new DIY_Level_GUI(this, par, HasObjectives());
 
-	Models->CreateSkybox("skybox", 1000.0f);
-	//Models->loadTexture("skybox1", "Images/spaceSkybox.tif");
-	Models->loadTexture("skybox1", "Images/skyboxUP.png");
-	Models->loadTexture("layerGrid", "Images/grid.png");
+	Models->CreateSkybox("skybox",		1000.0f);
+	Models->loadTexture("skybox1",		"Images/skyboxUP.png");
+	Models->loadTexture("layerGrid",	"Images/grid.png");
 
-	Models->loadTexture("planet1", "Images/aruba.tif");
+	Models->loadTexture("planet1",		"Images/aruba.tif");
 
-	Models->loadTexture("ballSkin", "Images/8ball.png");
-	Models->loadModel("sphere", "Models/planet.obj", true);
+	Models->loadTexture("ballSkin",		"Images/8ball.png");
+	Models->loadModel("sphere",			"Models/planet.obj", true);
 
-	Models->loadModel("warpGate", "Models/space_station.obj", true);
-	Models->loadTexture("gateTexture", "Images/rosary.png");
+	Models->loadModel("warpGate",		"Models/space_station.obj", true);
+	Models->loadTexture("gateTexture",	"Images/rosary.png");
 
-	Models->loadTexture("meteorTex1", "Images/meteor_texture.tif");
-	Models->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
-	Models->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+	Models->loadTexture("meteorTex1",	"Images/meteor_texture.tif");
+	Models->loadTexture("meteorTex2",	"Images/meteor_texture_2.tif");
+	Models->loadTexture("meteorTex3",	"Images/meteor_texture_3.tif");
 
-	Models->loadTexture("sunTexture", "Images/sun.tif");
+	Models->loadTexture("sunTexture",	"Images/sun.tif");
 
-	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
-	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
-	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
+	Models->loadModel("meteor1",		"Models/meteor_01.obj", true);
+	Models->loadModel("meteor2",		"Models/meteor_02.obj", true);
+	Models->loadModel("meteor3",		"Models/meteor_03.obj", true);
+
+	//Load up and play the music for in-game
+	Audio->loadMusic("gameTheme",		"Sounds/Exotics.wav");
+	Audio->getMusic("gameTheme")->Play();
+
+	Models->loadModel("wormhole", "Models/wormhole.obj", true);
+	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
 
 	//Gotta be big to show up..
 	//don't know why 
@@ -300,7 +307,10 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 	//Victory TEST
 	if (InputController::getInstance()->isKeyDown(SDLK_v))
+	{
 		objectiveCount = 0;
+		PlayerHasShotBallIntoSun = true;
+	}
 
 	//Game state switch
 	switch (levelState)
@@ -311,7 +321,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		PauseLogic();
 
 		//Check for Victory
-		if (HasObjectives() == 0 /* && PlayerHasShotBallIntoSun */)
+		if (HasObjectives() == 0  && PlayerHasShotBallIntoSun)
 		{
 			levelState = DIY_Level_State::VICTORY;
 		}

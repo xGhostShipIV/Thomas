@@ -38,21 +38,20 @@ private:
 	bool callInitOnNextUpdate;
 
 	//variables to track gameTime
-	Uint32 lastUpdateTime, timeSincelastUpdate;
+	Uint32 lastUpdateTime, timeSincelastUpdate, totalTime;
 protected:	
 	//SDL relevant variables to initialize the window
 	SDL_Window* gameWindow;
 	SDL_Renderer* gameRenderer;
 	SDL_GLContext glcontext;
+	
 	float FPS;
 	Level *levelToLoad;
-
 	Game();	
 
 	//Singleton instance
 	static Game* instance;
 public:
-
 	//Pointers to non optional engine functionalities like resource
 	//managers and the game properties
 	GameProperties * properties;
@@ -94,6 +93,8 @@ public:
 	void setRunning(bool);
 
 	float GetFPS();
+
+	float GetTotalTime();
 };
 
 #endif

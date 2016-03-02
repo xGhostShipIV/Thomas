@@ -4,9 +4,10 @@
 #include <InputHandler.h>
 #include <PhysicsWorld.h>
 #include <Game.h>
-#include"DIY_Level.h"
+#include "DIY_Level.h"
+#include <iostream>
 
-Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObject(level_, position_)
+Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObject(level_, position_), followCam(false)
 {
 	renderer = new RenderableComponent("pointer", "white", this);
 
@@ -37,6 +38,15 @@ void Pointer::Update(float timeStep_)
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, -3 * timeStep_);
 	}
 
+	if (Input->isKeyReleased(SDLK_k))
+		followCam = !followCam;
+
+	if (Input->isMouseDown(SDL_BUTTON_RIGHT) && followCam)
+	{
+		//Align pointer with camera
+		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized();
+	}
+
 	LookAt(ball->position);
 	Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
 
@@ -45,7 +55,7 @@ void Pointer::Update(float timeStep_)
 	{
 		if (!isEnabled)
 		{
-			position = ball->position + Vec3(1, 0, 0);
+			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized();
 		}
 		isEnabled = true;
 	}

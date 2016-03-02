@@ -7,6 +7,8 @@
 #include "Pointer.h"
 #include "Slingshot.h"
 
+class Sound;
+
 class PlayerBall : public GameObject
 {
 public:
@@ -19,10 +21,11 @@ public:
 	bool GetIsChargingStrike();
 
 	void FoulReset();
+
+	Pointer * hand;
 private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
-	Pointer * hand;
 
 	bool chargingStrike;
 
@@ -33,4 +36,6 @@ private:
 
 	float chargePercent;
 	float modifier;
+
+	Sound * hitSound;
 };

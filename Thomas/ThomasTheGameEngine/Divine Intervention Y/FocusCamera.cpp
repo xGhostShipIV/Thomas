@@ -75,6 +75,7 @@ void FocusCamera::Update(float deltaTime_) {
 		Rotate(Quat(mouseDir_.y * deltaTime_, right() * -1));
 		selfieStick = Quat::rotate(Quat(mouseDir_.y * deltaTime_, right() * -1), selfieStick);
 
+
 		//State control from Orbit
 		//Don't allow traversal directly to peek from orbit
 		if (Input->isMouseReleased(SDL_BUTTON_RIGHT)){
