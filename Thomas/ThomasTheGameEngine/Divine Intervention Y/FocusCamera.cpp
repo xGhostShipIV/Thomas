@@ -60,11 +60,20 @@ void FocusCamera::Update(float deltaTime_) {
 			behaviour = LookState::Peek;
 		}
 
+		if (Input->isKeyDown(SDLK_q)){
+			Rotate(Quat(deltaTime_, forward()));
+		}
+		else if (Input->isKeyDown(SDLK_e)){
+			Rotate(Quat(-deltaTime_, forward()));
+		}
+
 		break;
 	case (LookState::Orbit) :
-		Physics->Orbit(focus->position, Vec3::BasisY(), this, mouseDir_.x * deltaTime_);
-		Rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()));
-		selfieStick = Quat::rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()), selfieStick);
+		Rotate(Quat(mouseDir_.x * deltaTime_, up()));
+		selfieStick = Quat::rotate(Quat(mouseDir_.x * deltaTime_, up()), selfieStick);
+
+		Rotate(Quat(mouseDir_.y * deltaTime_, right() * -1));
+		selfieStick = Quat::rotate(Quat(mouseDir_.y * deltaTime_, right() * -1), selfieStick);
 
 		//State control from Orbit
 		//Don't allow traversal directly to peek from orbit
