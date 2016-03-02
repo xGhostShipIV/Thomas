@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level size="SMALL" par="3" skybox="skybox1">
+  
+  <Layer>
+    
+    <Object type="Player1Start" x="-2" z="-4"></Object>
+
+    <Object type="Asteroids" x="-4" z="-4"></Object>
+    <Object type="Asteroids" x="-4" z="-3"></Object>
+    <Object type="Asteroids" x="-4" z="-2"></Object>
+    <Object type="Asteroids" x="-4" z="-2"></Object>
+    <Object type="Asteroids" x="-4" z="0"></Object>
+    <Object type="Asteroids" x="-4" z="1"></Object>
+    <Object type="Asteroids" x="-4" z="2"></Object>
+    <Object type="Asteroids" x="-4" z="3"></Object>
+    <Object type="Asteroids" x="-4" z="4"></Object>
+    
+    <Object type="Asteroids" x="-4" z="4"></Object>
+    <Object type="Asteroids" x="-3" z="4"></Object>
+    <Object type="Asteroids" x="-2" z="4"></Object>
+    <Object type="Asteroids" x="-1" z="4"></Object>
+    <Object type="Asteroids" x="0" z="4"></Object>
+    <Object type="Asteroids" x="1" z="4"></Object>
+    <Object type="Asteroids" x="2" z="4"></Object>
+    <Object type="Asteroids" x="3" z="4"></Object>
+    <Object type="Asteroids" x="4" z="4"></Object>
+
+    
+    <Object type="Asteroids" x="0" z="-4"></Object>
+    <Object type="Asteroids" x="0" z="-3"></Object>
+    <Object type="Asteroids" x="0" z="-2"></Object>
+    <Object type="Asteroids" x="0" z="-1"></Object>
+    <Object type="Asteroids" x="0" z="0"></Object>
+    <Object type="Asteroids" x="0" z="0.5"></Object>
+    
+    <Object type="Asteroids" x="0" z="0.5"></Object>
+    <Object type="Asteroids" x="0" z="0.5"></Object>
+    <Object type="Asteroids" x="1" z="0.5"></Object>
+    <Object type="Asteroids" x="2" z="0.5"></Object>
+    <Object type="Asteroids" x="3" z="0.5"></Object>
+    <Object type="Asteroids" x="4" z="0.5"></Object>
+
+    <!--<Object type="WarpGate" x="2" z="-2"></Object>-->
+
+  </Layer>
+
+  <Layer>
+        <!--<Object type="PlanetHorizontal" x="0" z="0" texture="planet1"></Object>
+        <Object type="Sun" x="-3" z ="0" texture="sunTexture"></Object>-->
+  </Layer>
+  
+  <Layer>
+        <!--<Object type="Wormhole" x="3" z="0" destination="1"></Object>-->
+        <Object type="PlanetVertical" x="-1.5" z="0" texture="planet1" objective="Booger"></Object>
+
+  </Layer>
+
+  <Objectives>
+    <Planet name="Booger" texture="planet1"></Planet>  
+  </Objectives>
+
+</Level>

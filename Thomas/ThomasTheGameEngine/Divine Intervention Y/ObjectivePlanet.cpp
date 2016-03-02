@@ -1,6 +1,6 @@
 #include "ObjectivePlanet.h"
 #include <PhysicsWorld.h>
-
+#include <AudioManager.h>
 #include <Level.h>
 
 #include"PlayerBall.h"
@@ -26,6 +26,9 @@ ObjectivePlanet::ObjectivePlanet(Level * level_, GameObject * planet_, string te
 		orbitAxis = Vec3(0, 0, 1);
 
 	playerRigidBody = nullptr;
+
+	Audio->loadSound("screams", "Sounds/scream.wav");
+	sound = Audio->getSound("screams");
 }
 
 ObjectivePlanet::~ObjectivePlanet()
@@ -51,6 +54,7 @@ void ObjectivePlanet::Update(float timeStep_)
 
 		if (rigidBody->isKinematic == false)
 		{
+			sound->Play();
 			DIY_Level * level_ = static_cast<DIY_Level *>(level);
 			level_->AdjustObjectiveCount(-1);
 		}

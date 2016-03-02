@@ -4,6 +4,7 @@
 
 class RenderableComponent;
 class PlayerBall;
+class Sound;
 
 class WarpGate : public GameObject
 {
@@ -15,4 +16,5 @@ public:
 private:
 	RenderableComponent * rc;
 	PlayerBall * player;
+	Sound * sound;
 };

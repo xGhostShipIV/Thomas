@@ -1,5 +1,6 @@
 #include "Landing_GUI.h"
 #include <ModelManager.h>
+#include <AudioManager.h>
 
 #include <Game.h>
 #include "DIY_Level.h"
@@ -10,6 +11,8 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 	Vec2 PlayButtonLocation = Vec2(-500, -150);
 	Vec2 InstructionsButtonLocation = PlayButtonLocation + Vec2(0, -75);
 	Vec2 ExitButtonLocation = InstructionsButtonLocation + Vec2(0, -75);
+
+	Audio->loadSound("ding", "Sounds/ding.wav");
 
 	/* BUTTONS */
 	{
@@ -81,7 +84,10 @@ void Landing_GUI::Update(float timeStep_)
 		else
 		{
 			if (Input->isAnyKeyPressed())
+			{
+				Audio->getSound("ding")->Play();
 				state = Tranisiton;
+			}
 		}
 	}
 	else if (state == Tranisiton)
@@ -101,7 +107,11 @@ void Landing_GUI::Update(float timeStep_)
 		{
 			if (PlayButton->HasBeenClicked())
 			{
+				
+				Audio->getSound("ding")->Play();
+				Audio->getMusic("menuTheme")->Stop();
 				GAME->LoadLevel(new DIY_Level("Level001.xml"));
+				//GAME->LoadLevel(new DIY_Level("testLevel.xml"));
 			}
 			else if (ExitButton->HasBeenClicked())
 			{
@@ -109,6 +119,7 @@ void Landing_GUI::Update(float timeStep_)
 			}
 			else if (InstructionsButton->HasBeenClicked())
 			{
+				Audio->getSound("ding")->Play();
 				isInstructionsShown = true;
 				isInputIsClear = false;
 				InstructionsImage->Show();

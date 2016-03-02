@@ -27,11 +27,5 @@
   <Objectives>
     <Planet name="Booger" texture="planet1"></Planet>  
   </Objectives>
-  
-  <Assets>
-    <Models></Models>
-    <Textures></Textures>
-    <Sounds></Sounds>
-    <Music></Music>
-  </Assets>
+
 </Level>

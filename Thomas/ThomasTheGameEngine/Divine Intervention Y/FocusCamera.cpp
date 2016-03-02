@@ -62,9 +62,11 @@ void FocusCamera::Update(float deltaTime_) {
 
 		break;
 	case (LookState::Orbit) :
-		Physics->Orbit(focus->position, Vec3::BasisY(), this, mouseDir_.x * deltaTime_);
 		Rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()));
 		selfieStick = Quat::rotate(Quat(mouseDir_.x * deltaTime_, Vec3::BasisY()), selfieStick);
+
+		Rotate(Quat(mouseDir_.y * deltaTime_, Vec3::BasisX() * -1));
+		selfieStick = Quat::rotate(Quat(mouseDir_.y * deltaTime_, Vec3::BasisX() * -1), selfieStick);
 
 		//State control from Orbit
 		//Don't allow traversal directly to peek from orbit

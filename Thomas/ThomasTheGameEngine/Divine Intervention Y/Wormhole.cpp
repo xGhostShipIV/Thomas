@@ -1,3 +1,5 @@
+#include <AudioManager.h>
+
 #include "Wormhole.h"
 
 #include "DIY_Level.h"
@@ -12,12 +14,15 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(
 
 	ballCaught = false;
 	isScalingDown = true;
-
 	drawStyle = DRAW_STYLE::RAINBOW_STYLE;
 
 	initialRotation = (rand() % 366);
 	Rotate(Quat(initialRotation * M_PI / 180.0f, Vec3::BasisY()));
 	rainbowRand = 0.5f;
+
+	Audio->loadSound("wormhole", "Sounds/wormhole.wav");
+	sound = Audio->getSound("wormhole");
+
 }
 
 Layer * Wormhole::getDestinationLayer()
@@ -47,6 +52,9 @@ void Wormhole::Update(float timeStep_)
 		if (!ballCaught)
 		{
 			player->getComponent<Rigidbody>()->velocity = Vec3(0, -0.1f, 0);
+
+			sound->Play();
+
 			ballCaught = true;
 			diyLevel->SetLayerPlane(getDestinationLayer());
 

@@ -6,6 +6,8 @@
 
 typedef std::string string;
 
+class Sound;
+
 class ObjectivePlanet : public GameObject
 {
 public:
@@ -31,5 +33,7 @@ private:
 	Vec3 orbitAxis;
 
 	const float FORCE_REQUIRED_TO_DESTROY = 1.0f;
+
+	Sound * sound;
 };
 
