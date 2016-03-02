@@ -180,10 +180,13 @@
     <Xml Include="testLevel.xml">
       <Filter>Resource Files</Filter>
     </Xml>
-    <Xml Include="nathanLevel.xml">
+    <Xml Include="Level004.xml">
       <Filter>Resource Files</Filter>
     </Xml>
-    <Xml Include="Level004.xml">
+    <Xml Include="Level001.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="Level002.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

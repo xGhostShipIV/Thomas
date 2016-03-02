@@ -12,6 +12,7 @@ Layer::Layer(Level * _level, Vec3 _position, std::vector<GameObject *> _objects)
 	}
 
 	r = new RenderableComponent("cuboid", "layerGrid", this);
+	r->SetEffecctedByLight(false, false, false);
 }
 
 

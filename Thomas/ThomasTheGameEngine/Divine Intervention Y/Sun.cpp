@@ -7,14 +7,14 @@
 #include "PlayerBall.h"
 #include "DIY_Level.h"
 
-Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(level_, position_)
+Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(level_, position_), ballHitIntoSun(false)
 {
 	renderer = new RenderableComponent("sphere", textureName_, this);
 	renderer->SetEffecctedByLight(false, false, false);
 
 	Scale(Vec3(1.75, 1.75, 1.75));
 
-	light = new Light(this, Colour(80, 80, 80), Light::Point);
+	light = new Light(this, Colour(800, 800, 800), Light::Point);
 
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 	rigidBody->isKinematic = false;
@@ -42,7 +42,11 @@ void Sun::Update(float timeStep_)
 	{
 		DIY_Level * level_ = static_cast<DIY_Level *>(level);
 
-		Audio->getSound("whoosh")->Play();
+		if (!ballHitIntoSun)
+		{
+			Audio->getSound("whoosh")->Play();
+			ballHitIntoSun = true;
+		}
 
 		if (level_->HasObjectives() > 0)
 		{
@@ -52,4 +56,6 @@ void Sun::Update(float timeStep_)
 		else
 			level_->PlayerHasShotBallIntoSun = true;
 	}
+	else
+		ballHitIntoSun = false;
 }

@@ -5,6 +5,8 @@
 #include "LandingScreen.h"
 
 std::string IntToString(int i_);
+std::string IntToString(int i_, int digits_);
+
 DIY_Level *level;
 
 /***********************************************************/
@@ -118,7 +120,7 @@ void DIY_Level_GUI::Update(float timeStep_)
 		gameGUI->Show();
 		victoryGUI->HideAll();
 	}
-	
+
 }
 
 void DIY_Level_GUI::SetObjectivesRemaining(int objectives_)
@@ -144,6 +146,23 @@ std::string IntToString(int i_)
 	_itoa_s(i_, buffer, 10);
 
 	text = buffer;
+
+	return text;
+}
+
+std::string IntToString(int i_, int digits_)
+{
+	char buffer[10];
+	std::string text;
+
+	_itoa_s(i_, buffer, 10);
+
+	text = buffer;
+
+	while (digits_ - text.length() > 0)
+	{
+		text = "0" + text;
+	}
 
 	return text;
 }
@@ -199,7 +218,7 @@ void DIY_Level_GameGUI::Hide()
 {
 	ShotPowerMeter->Hide();
 	ShotPowerMeterFrame->Hide();
-	
+
 	ParBackground->Hide();
 	StrokeBackground->Hide();
 	ObjectivesBackground->Hide();
@@ -207,7 +226,7 @@ void DIY_Level_GameGUI::Hide()
 	ParLabel->Hide();
 	StrokeLabel->Hide();
 	ObjectivesLabel->Hide();
-	
+
 	ParCountLabel->Hide();
 	StrokeCountLabel->Hide();
 	ObjectivesCountLabel->Hide();
@@ -249,12 +268,12 @@ DIY_Level_PauseGUI::DIY_Level_PauseGUI(Level *level_)
 	Models->loadTexture("DIY_LEVEL_GUI_EXIT_PRESSED", "Images/Level GUI/Buttons/ExitPressed.png");
 	Models->loadTexture("DIY_LEVEL_GUI_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");
 	ExitButton = new Button(level_, ExitButtonLocation, "DIY_LEVEL_GUI_EXIT", "DIY_LEVEL_GUI_EXIT_PRESSED", "DIY_LEVEL_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);
-	
+
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME", "Images/Level GUI/Buttons/Resume.png");
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME_PRESSED", "Images/Level GUI/Buttons/ResumePressed.png");
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME_HOVERED", "Images/Level GUI/Buttons/ResumeHovered.png");
 	ResumeButton = new Button(level_, ResumeButtonLocation, "DIY_LEVEL_GUI_RESUME", "DIY_LEVEL_GUI_RESUME_PRESSED", "DIY_LEVEL_GUI_RESUME_HOVERED", ScreenAnchor::CENTER);
-	
+
 }
 
 DIY_Level_PauseGUI::~DIY_Level_PauseGUI(){}
@@ -301,16 +320,16 @@ DIY_Level_VictoryGUI::DIY_Level_VictoryGUI(Level *level_, int par_)
 	/***************************/
 
 	/* LABELS */
-	Vec2 victoryLabelLocation = Vec2(0, 200);	
+	Vec2 victoryLabelLocation = Vec2(0, 200);
 	Vec2 strokeCountLabelLocation = victoryLabelLocation + Vec2(-150, -150);
 	Vec2 strokeLabelLocation = strokeCountLabelLocation + Vec2(0, -100);
 	Vec2 slashLabelLocation = victoryLabelLocation + Vec2(0, -150);
 	Vec2 parCountLabelLocation = victoryLabelLocation + Vec2(150, -150);
 	Vec2 parLabelLocation = parCountLabelLocation + Vec2(0, -100);
 
-	victoryLabel = new Label(level_, "VICTORY!", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT_LARGE"), victoryLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());	
+	victoryLabel = new Label(level_, "VICTORY!", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT_LARGE"), victoryLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	strokeCountLabel = new Label(level_, IntToString(strokes), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), strokeCountLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
-	strokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), strokeLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());	
+	strokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), strokeLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	slashLabel = new Label(level_, "/", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT_LARGE"), slashLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	parCountLabel = new Label(level_, IntToString(par_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), parCountLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	parLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), parLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
@@ -343,24 +362,36 @@ DIY_Level_VictoryGUI::DIY_Level_VictoryGUI(Level *level_, int par_)
 	loadLevelButton = new TextButton(level_, loadLevelButtonLocation, "Load Level", FontManager::getInstance()->GetFont("LEVEL_GUI_BUTTON_FONT"), "LEVEL_GUI_BLANK", "LEVEL_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow());
 
 	/* LEVELS */
-	Vec2 levelButtonsLocation = levelSelectLabelLocation + Vec2(0, -130);
+	Vec2 levelButtonsLocation = levelSelectLabelLocation + Vec2(-276, -130);
+	Vec2 currentlevelButtonsLocation;
+
+	int levelNumber = 1;
+	for (int y = 0; y < 3; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			currentlevelButtonsLocation = levelButtonsLocation + Vec2(x * 276, -y * 77);
+			levelButtons.insert(std::pair<std::string, LevelSelectButton*>("Level" + IntToString(levelNumber, 3) + ".xml", new LevelSelectButton(level_, currentlevelButtonsLocation, "LEVEL " + IntToString(levelNumber))));
+			levelNumber++;
+		}
+	}
 
 	//Need to get a list of xml files from database. For now, will manually insert.
-	levelButtons.insert(std::pair<std::string, LevelSelectButton*>("testLevel.xml", new LevelSelectButton(level_, levelButtonsLocation, "TEST LEVEL")));
-	levelButtonsLocation += Vec2(0, -70);
-	levelButtons.insert(std::pair<std::string, LevelSelectButton*>("broken.xml", new LevelSelectButton(level_, levelButtonsLocation, "Invalid LEVEL")));
+	//levelButtons.insert(std::pair<std::string, LevelSelectButton*>("testLevel.xml", new LevelSelectButton(level_, levelButtonsLocation, "TEST LEVEL")));
+	//levelButtonsLocation += Vec2(0, -70);
+	//levelButtons.insert(std::pair<std::string, LevelSelectButton*>("broken.xml", new LevelSelectButton(level_, levelButtonsLocation, "Invalid LEVEL")));
 }
 
 DIY_Level_VictoryGUI::~DIY_Level_VictoryGUI(){}
 
-void DIY_Level_VictoryGUI::HideAll()		
+void DIY_Level_VictoryGUI::HideAll()
 {
 	Background->Hide();
 	HideReview();
 	HideLevelSelect();
 }
 
-void DIY_Level_VictoryGUI::HideReview()		
+void DIY_Level_VictoryGUI::HideReview()
 {
 	victoryLabel->Hide();
 	strokeCountLabel->Hide();
@@ -373,7 +404,7 @@ void DIY_Level_VictoryGUI::HideReview()
 	exitButton->Hide();
 }
 
-void DIY_Level_VictoryGUI::ShowReview()		
+void DIY_Level_VictoryGUI::ShowReview()
 {
 	Background->Show();
 

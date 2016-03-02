@@ -26,6 +26,8 @@ DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeySt
 	levelState = DIY_Level_State::PLAYING;
 	playingState = DIY_Level_Playing_State::SHOOTING;
 	victoryState = DIY_Level_Victory_State::REVIEW;
+
+	ambientLightColor = Colour(0.25f, 0.25f, 0.25f);
 }
 
 void DIY_Level::LoadContent()

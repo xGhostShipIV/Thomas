@@ -135,8 +135,9 @@
     <None Include="GameObjects.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="Level001.xml" />
+    <Xml Include="Level002.xml" />
     <Xml Include="Level004.xml" />
-    <Xml Include="nathanLevel.xml" />
     <Xml Include="properties.xml" />
     <Xml Include="testLevel.xml" />
   </ItemGroup>

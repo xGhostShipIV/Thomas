@@ -20,5 +20,6 @@ private:
 	Rigidbody * rigidBody;
 	PlayerBall * player;
 	Rigidbody * playerRigidBody;
+	bool ballHitIntoSun;
 };
 

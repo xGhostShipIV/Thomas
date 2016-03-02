@@ -10,6 +10,7 @@
 Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObject(level_, position_), followCam(false)
 {
 	renderer = new RenderableComponent("pointer", "white", this);
+	//renderer->SetEffecctedByLight(false, false, false);
 
 	Scale(Vec3(0.07f, 0.07f, 0.07f));
 
