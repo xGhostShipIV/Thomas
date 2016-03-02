@@ -70,6 +70,17 @@ void PlayerBall::Update(float timeStep_)
 			positionAtStrike = position;
 		}
 	}
+
+	if (position.x > ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x
+		|| position.x < ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x * -1)
+	{
+		FoulReset();
+	}
+	if (position.z >((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x
+		|| position.z < ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x * -1)
+	{
+		FoulReset();
+	}
 }
 
 float PlayerBall::GetChargePercent()

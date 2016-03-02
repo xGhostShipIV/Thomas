@@ -110,7 +110,7 @@ void Landing_GUI::Update(float timeStep_)
 				
 				Audio->getSound("ding")->Play();
 				Audio->getMusic("menuTheme")->Stop();
-				GAME->LoadLevel(new DIY_Level("Level001.xml"));
+				GAME->LoadLevel(new DIY_Level("Level002.xml"));
 				//GAME->LoadLevel(new DIY_Level("testLevel.xml"));
 				//GAME->LoadLevel(new DIY_Level("Level004.xml"));
 			}

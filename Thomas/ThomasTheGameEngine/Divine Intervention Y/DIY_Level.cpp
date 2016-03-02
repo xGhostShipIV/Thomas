@@ -221,7 +221,7 @@ void DIY_Level::LoadContent()
 					object = new PlanetVertical(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
 				}
 				else if (objectElement->Attribute("type", "Asteroids")){
-					object = new AsteroidField(this, Vec3(x, -2 + i * levelBoundsY, z), 1, 6);
+					object = new AsteroidField(this, Vec3(x, -2 + i * levelBoundsY, z), 1, 1);
 				}
 				else if (objectElement->Attribute("type", "Wormhole")){
 					object = new Wormhole(this, Vec3(x, -2 + i * levelBoundsY, z), objectElement->IntAttribute("destination"));
