@@ -27,7 +27,7 @@ Game::Game()
 	isRunning = true;
 	callInitOnNextUpdate = false;
 	levelToLoad = nullptr;
-	lastUpdateTime = 0, timeSincelastUpdate = 0;
+	lastUpdateTime = 0; timeSincelastUpdate = 0; totalTime = 0;
 
 	///SDL stuff
 	SDL_Init(SDL_INIT_VIDEO);
@@ -133,6 +133,7 @@ void Game::StartGame()
 	while (isRunning)
 	{
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
+		totalTime += timeSincelastUpdate;
 
 		if (timeSincelastUpdate > 300.f)
 			timeSincelastUpdate = 300.f;
@@ -264,4 +265,9 @@ void Game::setRunning(bool _isRunning) {
 float Game::GetFPS()
 {
 	return FPS;
+}
+
+float Game::GetTotalTime()
+{
+	return totalTime / 1000.0f;
 }

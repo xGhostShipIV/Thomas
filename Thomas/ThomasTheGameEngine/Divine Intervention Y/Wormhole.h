@@ -23,6 +23,8 @@ private:
 	PlayerBall * player;
 	DIY_Level * diyLevel;
 
+	int initialRotation;
+
 	int destinationLayer;
-	bool ballCaught;
+	bool ballCaught, isScalingDown;
 };

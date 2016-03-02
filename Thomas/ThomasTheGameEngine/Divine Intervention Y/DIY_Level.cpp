@@ -20,7 +20,7 @@
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false), PlayerHasShotBallIntoSun(false)
 {
 	levelState = DIY_Level_State::PLAYING;
 	playingState = DIY_Level_Playing_State::SHOOTING;
@@ -82,6 +82,9 @@ void DIY_Level::LoadContent()
 	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
+
+	Models->loadModel("wormhole", "Models/wormhole.obj", true);
+	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
 
 	//Gotta be big to show up..
 	//don't know why 
@@ -300,7 +303,10 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 	//Victory TEST
 	if (InputController::getInstance()->isKeyDown(SDLK_v))
+	{
 		objectiveCount = 0;
+		PlayerHasShotBallIntoSun = true;
+	}
 
 	//Game state switch
 	switch (levelState)
@@ -311,7 +317,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		PauseLogic();
 
 		//Check for Victory
-		if (HasObjectives() == 0 /* && PlayerHasShotBallIntoSun */)
+		if (HasObjectives() == 0  && PlayerHasShotBallIntoSun)
 		{
 			levelState = DIY_Level_State::VICTORY;
 		}

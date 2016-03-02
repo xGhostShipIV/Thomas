@@ -101,7 +101,7 @@ void Landing_GUI::Update(float timeStep_)
 		{
 			if (PlayButton->HasBeenClicked())
 			{
-				GAME->LoadLevel(new DIY_Level("testLevel.xml"));
+				GAME->LoadLevel(new DIY_Level("Level001.xml"));
 			}
 			else if (ExitButton->HasBeenClicked())
 			{

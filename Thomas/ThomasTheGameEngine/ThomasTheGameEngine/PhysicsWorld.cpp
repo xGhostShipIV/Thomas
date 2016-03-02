@@ -159,6 +159,8 @@ void PhysicsWorld::Update(float _deltaTime){
 				else
 					dragForce = 6 * M_PI * 1.2f * (*it)->CollisionRadius;
 
+				dragForce = dragForce < 0.5f ? 0.5f : dragForce;
+
 				(*it)->AddForce((*it)->velocity * -dragForce);
 
 				//Lift

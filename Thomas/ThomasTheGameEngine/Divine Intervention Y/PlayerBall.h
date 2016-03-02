@@ -19,10 +19,11 @@ public:
 	bool GetIsChargingStrike();
 
 	void FoulReset();
+
+	Pointer * hand;
 private:
 	RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
-	Pointer * hand;
 
 	bool chargingStrike;
 

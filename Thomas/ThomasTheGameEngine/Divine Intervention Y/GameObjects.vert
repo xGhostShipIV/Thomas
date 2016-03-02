@@ -14,6 +14,7 @@ uniform mat4 Rotation; //for normals
 
 out vec2 texCoord;
 out vec4 vNormal;
+out vec4 vNormalUnRot;
 out vec4 fNormal;
 out vec4 fPosition;
 out float fUiDraw;
@@ -38,6 +39,7 @@ void main()
 
 	//Need to rotate normals
 	vNormal =  normalize(Rotation * Normal);
+	vNormalUnRot = normalize(Normal);
 	fNormal = normalize(Rotation * faceNormal);
 
 	fUiDraw = uiDraw;

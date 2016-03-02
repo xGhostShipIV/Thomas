@@ -166,7 +166,7 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 
 		Models->loadTexture("DIY_LEVEL_GUI_SHOT_METER", "Images/Level GUI/ShotPowerMeter.png");
 		ShotPowerMeter = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_METER", ShotPowerMeterLocation + Vec2(2, 0), ScreenAnchor::BOTTOM_RIGHT);
-		ShotPowerMeter->drawType = UI_DRAW_TYPE::RAINBOW;
+		ShotPowerMeter->drawStyle = DRAW_STYLE::RAINBOW_STYLE;
 
 		Models->loadTexture("DIY_LEVEL_GUI_SHOT_FRAME", "Images/Level GUI/ShotPowerMeterFrame.png");
 		ShotPowerMeterFrame = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_FRAME", ShotPowerMeterLocation, ScreenAnchor::BOTTOM_RIGHT);

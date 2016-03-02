@@ -45,5 +45,7 @@ void Sun::Update(float timeStep_)
 			level_->gui->PlayerTookAStroke();
 			player->FoulReset();
 		}
+		else
+			level_->PlayerHasShotBallIntoSun = true;
 	}
 }

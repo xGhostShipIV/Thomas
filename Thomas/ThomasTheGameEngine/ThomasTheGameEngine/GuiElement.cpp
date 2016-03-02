@@ -9,7 +9,7 @@ anchorPosition(anchor_), type(type_)
 {
 	isVisible = true;
 	drawPercent = 1;
-	drawType = UI_DRAW_TYPE::NORMAL;
+	drawType = UI_DRAW_TYPE::NORMAL_DRAW_TYPE;
 
 	//Register with level
 	_level->guiElements.push_back(this);
