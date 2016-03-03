@@ -74,6 +74,6 @@ private:
 	bool hasFinishedLoading;
 
 	float levelBoundsX;
-	const float levelBoundsY = 3.f;
+	const float levelBoundsY = 5.f;
 };
 

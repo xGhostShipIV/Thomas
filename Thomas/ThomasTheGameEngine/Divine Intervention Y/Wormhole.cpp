@@ -5,7 +5,7 @@
 #include "DIY_Level.h"
 #include "PlayerBall.h"
 
-Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(level_, position_)
+Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(level_, position_), yRotation(0)
 {
 	destinationLayer = layerIndex;
 	diyLevel = static_cast<DIY_Level *>(level);
@@ -40,9 +40,10 @@ void Wormhole::Update(float timeStep_)
 	scale.z = isScalingDown ? scale.z - 0.1f * timeStep_ : scale.z + 0.1f * timeStep_;
 	isScalingDown = isScalingDown ? (scale.z < 0 ? false : true) : (scale.z > 0.7f ? true : false);
 
-	Rotate(Quat(-initialRotation * M_PI / 180.0f, Vec3::BasisY()));
+	Rotate(Quat(-(initialRotation + yRotation) * M_PI / 180.0f, Vec3::BasisY()));
 	Rotate(Quat(90 * M_PI / 180.0f * timeStep_, Vec3::BasisZ()));
-	Rotate(Quat(initialRotation * M_PI / 180.0f, Vec3::BasisY()));
+	yRotation += 5 * timeStep_;
+	Rotate(Quat((initialRotation + yRotation) * M_PI / 180.0f, Vec3::BasisY()));
 
 	if (!player)
 		player = static_cast<PlayerBall *>(level->FindGameObjectWithTag("player"));

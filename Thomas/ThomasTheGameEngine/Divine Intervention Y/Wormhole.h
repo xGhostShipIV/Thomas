@@ -25,6 +25,7 @@ private:
 	DIY_Level * diyLevel;
 
 	int initialRotation;
+	float yRotation;
 	int destinationLayer;
 
 	bool ballCaught, isScalingDown;

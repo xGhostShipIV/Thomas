@@ -4,6 +4,7 @@
 #include "PlayerBall.h"
 #include <Level.h>
 #include <AudioManager.h>
+#include "DIY_Level.h"
 
 WarpGate::WarpGate(Level * level_, Vec3 position_, Quat rotation_) : GameObject(level_, position_)
 {
@@ -13,6 +14,8 @@ WarpGate::WarpGate(Level * level_, Vec3 position_, Quat rotation_) : GameObject(
 	rc = new RenderableComponent("warpGate", "gateTexture", this);
 
 	Scale(Vec3(0.2, 0.2, 0.2));
+
+	Rotate(Quat((rand() % 366) * M_PI / 180.0f, Vec3::BasisY()));
 
 	Audio->loadSound("warpSound", "Sounds/warp.wav");
 	sound = Audio->getSound("warpSound");
@@ -25,7 +28,9 @@ void WarpGate::Update(float timeStep_)
 
 	GameObject::Update(timeStep_);
 
-	if ((position - player->position).length() < 0.75f)
+	Rotate(Quat(180 * M_PI / 180.0f * timeStep_, Vec3::BasisY()));
+
+	if ((position - player->position).length() < 1.f)
 	{
 		Rigidbody * rb = player->getComponent<Rigidbody>();
 

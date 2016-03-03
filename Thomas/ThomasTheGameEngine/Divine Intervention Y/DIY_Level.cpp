@@ -77,7 +77,7 @@ void DIY_Level::LoadContent()
 	Models->loadModel("sphere",			"Models/planet.obj", true);
 	Models->loadModel("sun",			"Models/planet.obj", true);
 
-	Models->loadModel("warpGate",		"Models/space_station.obj", true);
+	Models->loadModel("warpGate",		"Models/WarpGate.obj", true);
 	Models->loadTexture("gateTexture",	"Images/rosary.png");
 
 	Models->loadTexture("meteorTex1",	"Images/meteor_texture.tif");

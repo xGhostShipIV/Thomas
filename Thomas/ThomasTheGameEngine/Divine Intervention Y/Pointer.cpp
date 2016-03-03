@@ -60,6 +60,8 @@ void Pointer::Update(float timeStep_)
 	}
 	else
 		isEnabled = false;
+
+	renderer->isEnabled = isEnabled;
 }
 
 void Pointer::Render()

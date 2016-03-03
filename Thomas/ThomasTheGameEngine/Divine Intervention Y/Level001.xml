@@ -3,26 +3,25 @@
 <Level size="MEDIUM" par="5" skybox="skybox1">
   
   <Layer>
-	<Object type="PlanetVertical" x="-1.5" z="0" texture="planet1" objective="SpaceAustralia"></Object>
-	<Object type="WarpGate" x="0.59" z="0.406"></Object>
-	<Object type="Wormhole" x="-3" z="-2" destination="1"></Object>
+	  <Object type="PlanetVertical" x="-6.5" z="0" texture="planet1" objective="SpaceAustralia"></Object>
+	  <Object type="WarpGate" x="0" z="2"></Object>
+	  <Object type="Wormhole" x="-3" z="-6" destination="1"></Object>
   </Layer>
   
   <Layer>
-	<Object type="Wormhole" x="-4" z="3" destination="3"></Object>
-	
-	<Object type="WarpGate" x="2" z="3.5"></Object>
-	<Object type="Wormhole" x="4" z="0" destination="2"></Object>
+	  <Object type="Wormhole" x="-8" z="0" destination="3"></Object>
+	  <Object type="WarpGate" x="0" z="-3.5"></Object>
+	  <Object type="Wormhole" x="8" z="0" destination="2"></Object>
   </Layer>
 
   <Layer>
-	<Object type="Wormhole" x="5" z="-2" destination="0"></Object>
-	<Object type="Sun" x="-3" z ="0" texture="sunTexture"></Object>
+	  <Object type="Wormhole" x="-5" z="-2" destination="0"></Object>
+	  <Object type="Sun" x="-3" z ="0" texture="sunTexture"></Object>
   </Layer>
   
   <Layer>
-	<Object type="Player1Start" x="-4" z="-4"></Object>
-	<Object type="Wormhole" x="3" z="2" destination="0"></Object>
+	  <Object type="Player1Start" x="-8" z="-8"></Object>
+	  <Object type="Wormhole" x="5" z="4" destination="0"></Object>
   </Layer>
   
   
