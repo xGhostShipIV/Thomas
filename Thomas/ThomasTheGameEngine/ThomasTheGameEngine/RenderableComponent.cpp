@@ -8,6 +8,8 @@ RenderableComponent::RenderableComponent(std::string _modelID, std::string _text
 	modelName = ModelManager::getInstance()->modelMap.find(_modelID)->second;
 	textureName.push_back(ModelManager::getInstance()->textureMap.find(_textureID)->second);
 	mat = _mat;
+
+	OpenGL_Renderable::renderableComponents.push_back(this);
 }
 
 RenderableComponent::RenderableComponent(UINT32 _modelID, UINT32 _textureID, GameObject* _parent, Material * _mat) : Component(_parent, Component::ComponentType::Renderable)
@@ -15,6 +17,8 @@ RenderableComponent::RenderableComponent(UINT32 _modelID, UINT32 _textureID, Gam
 	modelName = _modelID;
 	textureName.push_back(_textureID);
 	mat = _mat;
+
+	OpenGL_Renderable::renderableComponents.push_back(this);
 }
 
 void RenderableComponent::DrawModel()

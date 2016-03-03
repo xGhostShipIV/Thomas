@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "GuiImage.h"
 #include "Label.h"
+#include "Renderable.h"
 
 Level::Level()
 {
@@ -73,16 +74,19 @@ void Level::LevelRender()
 
 
 	//Render
-	for (int i = 0; i < gameObjects.size(); i++)
-	{
-		//if (!currentCamera->frustrum.checkObjectInside(gameObjects[i], currentCamera) && i != 0)
-		//{
-		//	//printf("YOU SUCKS: %d \n", i);
-		//}
+	//for (int i = 0; i < gameObjects.size(); i++)
+	//{
+	//	//if (!currentCamera->frustrum.checkObjectInside(gameObjects[i], currentCamera) && i != 0)
+	//	//{
+	//	//	//printf("YOU SUCKS: %d \n", i);
+	//	//}
 
-		if (!gameObjects[i]->isFlagged)
-			gameObjects[i]->Render();
-	}
+	//	if (!gameObjects[i]->isFlagged)
+	//		gameObjects[i]->Render();
+	//}
+
+	//New Rendering method
+	OpenGL_Renderable::DrawRenderables();
 
 	//UI
 	for (int i = 0; i < guiElements.size(); i++)

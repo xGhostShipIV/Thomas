@@ -6,6 +6,17 @@
 #include "Material.h"
 #include "GameProperties.h"
 #include "GuiElement.h"
+#include "RenderableComponent.h"
+
+std::vector<RenderableComponent*> OpenGL_Renderable::renderableComponents;
+
+void OpenGL_Renderable::DrawRenderables()
+{
+	for (int i = 0; i < renderableComponents.size(); i++)
+	{
+		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(renderableComponents[i]->modelName))->Draw(*renderableComponents[i]->parentObject, renderableComponents[i]->mat, renderableComponents[i]->textureName);
+	}
+}
 
 void OpenGL_Renderable::Draw(GameObject& parentTransform, Material * _mat, std::vector<UINT32> _textureNames)
 {

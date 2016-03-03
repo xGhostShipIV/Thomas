@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GameObject.h"
 #include <vector>
 #include "../Math/four_dimensions.hpp"
@@ -5,6 +7,7 @@
 
 class Texture;
 class Material;
+class RenderableComponent;
 enum ScreenAnchor;
 
 /*
@@ -58,6 +61,10 @@ protected:
 	*/
 class OpenGL_Renderable : public Renderable {
 public:
+
+	static std::vector<RenderableComponent*> renderableComponents;
+	static void DrawRenderables();
+
 	void Draw(GameObject& parentTransform, Material * _mat, std::vector<UINT32> _textureNames) override;
 	void DrawUI(GameObject&, Material *, std::vector<UINT32> _textureNames, ScreenAnchor anchor_) override;
 	void DrawWireFrame(GameObject& parentTransform) override;
