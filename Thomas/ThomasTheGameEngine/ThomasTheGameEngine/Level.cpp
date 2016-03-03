@@ -95,7 +95,6 @@ void Level::LevelRender()
 			guiElements[i]->Draw();
 	}
 
-	DebugRender();
 	LevelCleanUp();
 }
 
