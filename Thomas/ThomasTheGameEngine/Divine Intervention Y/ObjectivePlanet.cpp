@@ -12,12 +12,14 @@ ObjectivePlanet::ObjectivePlanet(Level * level_, GameObject * planet_, string te
 
 	renderer = new RenderableComponent("sphere", texutreName, this);
 
-	Scale(Vec3(0.25f, 0.25f, 0.25f));
+	Scale(Vec3(0.5f, 0.5f, 0.5f));
 
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
-	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.1125f;	rigidBody->isKinematic = false;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.25f;	
+	rigidBody->isKinematic = false;
+	rigidBody->mass = 25.0f;
 
-	position = planet_->position + Vec3(0.8f, 0, 0);
+	position = planet_->position + Vec3(1.6f, 0, 0);
 	rotation = Quat::Identity();
 
 	if (orbitAngle_ == Horizonal)
@@ -56,6 +58,7 @@ void ObjectivePlanet::Update(float timeStep_)
 		{
 			sound->Play();
 			DIY_Level * level_ = static_cast<DIY_Level *>(level);
+			rigidBody->AddForce((position - playerRigidBody->parentObject->position).Normalized() * 100);
 			level_->AdjustObjectiveCount(-1);
 		}
 

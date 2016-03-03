@@ -123,11 +123,10 @@ void DIY_Level::LoadContent()
 	}
 
 	//Setting level boundaries. CAN BE EDITTED
-	levelBoundsX = 5;
+	levelBoundsX = 10;
 
 	//set up skybox
 	skybox = new GameObject(this, currentCamera->position);
-	layerContainer = new GameObject(this, Vec3(0, 0, 0));
 
 	RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
 	r->SetEffecctedByLight(false, false, false);
@@ -262,15 +261,15 @@ void DIY_Level::LoadContent()
 			//Attaches the plane collider to last layer added if it contains the players start point
 			if (setPlayerLayer)
 			{
-				layerRB = new GameObject(this, layers.back()->position);
-				new Rigidbody(layerRB, new PlaneCollider(layerRB, Vec3::BasisY()));
-				layerRB->getComponent<Rigidbody>()->isKinematic = false;
+				//layerRB = new GameObject(this, layers.back()->position);
+				//new Rigidbody(layerRB, new PlaneCollider(layerRB, Vec3::BasisY()));
+				//layerRB->getComponent<Rigidbody>()->isKinematic = false;
 
-				//planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
-				//planeRigidBody->isKinematic = false;
+				planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
+				planeRigidBody->isKinematic = false;
 
-				////PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
-				////(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
+				//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
+				//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
 				setPlayerLayer = false;
 			}
 
@@ -282,9 +281,6 @@ void DIY_Level::LoadContent()
 
 			objectElement = element->FirstChildElement("Object");
 	}
-
-	for (int i = 0; i < layers.size(); i++)
-		layerContainer->addChild(layers[i]);
 
 	gui->SetObjectivesRemaining(HasObjectives());
 
@@ -384,11 +380,16 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 void DIY_Level::SetLayerPlane(Layer * layer_)
 {
-	layerRB->position = layer_->position;
-	static_cast<PlaneCollider*>(layerRB->getComponent<Collider>())->plane = Plane(Vec3::BasisY(), layer_->position);
-	/*planeRigidBody->parentObject = layer_;
+	/*layerRB->position = layer_->position;
+	static_cast<PlaneCollider*>(layerRB->getComponent<Collider>())->plane = Plane(Vec3::BasisY(), layer_->position);*/
+	planeRigidBody->parentObject = layer_;
 	planeRigidBody->col->parentObject = layer_;
-	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);*/
+	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);
+}
+
+Layer * DIY_Level::GetLayerPlane()
+{
+	return (Layer *)planeRigidBody->parentObject;
 }
 
 void DIY_Level::PauseLogic()

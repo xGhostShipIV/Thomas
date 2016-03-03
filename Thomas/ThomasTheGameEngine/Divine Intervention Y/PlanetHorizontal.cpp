@@ -4,6 +4,7 @@ PlanetHorizontal::PlanetHorizontal(Level * level_, Vec3 position_, std::string t
 {
 	position = position_;
 
+	Scale(Vec3(2, 2, 2));
 	renderer = new RenderableComponent("sphere", textName, this);
 }
 

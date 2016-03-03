@@ -3,6 +3,8 @@
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
 
+class DIY_Level;
+
 class Layer :
 	public GameObject
 {
@@ -12,10 +14,10 @@ public:
 
 	std::vector<GameObject *> objects;
 
-	void Render() override;
+	void Update(float) override;
 private:
 	RenderableComponent * r;
-	Rigidbody * rigidBody;
+	DIY_Level * dl;
 };
 
 

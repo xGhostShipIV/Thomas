@@ -20,5 +20,7 @@ public:
 
 	GameObject * parentObject;
 	ComponentType type;
+
+	bool isEnabled;
 };
 

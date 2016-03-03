@@ -12,11 +12,9 @@ Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObj
 	renderer = new RenderableComponent("pointer", "white", this);
 	//renderer->SetEffecctedByLight(false, false, false);
 
-	Scale(Vec3(0.07f, 0.07f, 0.07f));
+	Scale(Vec3(0.14f, 0.14f, 0.14f));
 
 	ball = player_;
-
-	static_cast<DIY_Level *>(level)->layerContainer->addChild(this);
 }
 
 
@@ -45,7 +43,7 @@ void Pointer::Update(float timeStep_)
 	if (Input->isMouseDown(SDL_BUTTON_RIGHT) && followCam)
 	{
 		//Align pointer with camera
-		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized();
+		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
 	}
 
 	LookAt(ball->position);
@@ -56,7 +54,7 @@ void Pointer::Update(float timeStep_)
 	{
 		if (!isEnabled)
 		{
-			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized();
+			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
 		}
 		isEnabled = true;
 	}

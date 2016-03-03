@@ -8,6 +8,7 @@ Component::Component(GameObject * _go, ComponentType _type) : type(_type)
 		parentObject = _go;
 		_go->components.push_back(this);
 	}	
+	isEnabled = true;
 }
 
 Component::~Component()

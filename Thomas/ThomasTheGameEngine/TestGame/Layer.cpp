@@ -1,10 +1,8 @@
-#include "Layer.h"
+#include "Layerr.h"
 
-Layer::Layer(Level * _level, Vec3 _position, std::vector<GameObject *> _objects) : GameObject(_level, _position)
+Layerr::Layerr(Level * _level, Vec3 _position, std::vector<GameObject *> _objects) : GameObject(_level, _position)
 {
 	objects = _objects;
-
-	this->Scale(Vec3(5.0, 0.01f, 5));
 
 	for (int i = 0; i < objects.size(); i++)
 	{
@@ -12,16 +10,14 @@ Layer::Layer(Level * _level, Vec3 _position, std::vector<GameObject *> _objects)
 	}
 
 	r = new RenderableComponent("cuboid", "layerGrid", this);
-	//Rotate(Quat(3.141582654 / 2.0f, Vec3(1, 0, 0)));
-
+	r->SetEffecctedByLight(false, false, false);
 }
 
 
-Layer::~Layer()
+Layerr::~Layerr()
 {
 }
 
-void Layer::Render()
+void Layerr::Update(float timeStep_)
 {
-	GameObject::Render();
 }

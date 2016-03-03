@@ -14,7 +14,8 @@ void OpenGL_Renderable::DrawRenderables()
 {
 	for (int i = 0; i < renderableComponents.size(); i++)
 	{
-		static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(renderableComponents[i]->modelName))->Draw(*renderableComponents[i]->parentObject, renderableComponents[i]->mat, renderableComponents[i]->textureName);
+		if (renderableComponents[i]->isEnabled)
+			static_cast<OpenGL_Renderable *>(ModelManager::getInstance()->getModel(renderableComponents[i]->modelName))->Draw(*renderableComponents[i]->parentObject, renderableComponents[i]->mat, renderableComponents[i]->textureName);
 	}
 }
 

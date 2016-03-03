@@ -10,6 +10,8 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(
 	destinationLayer = layerIndex;
 	diyLevel = static_cast<DIY_Level *>(level);
 
+	Scale(Vec3(2, 2, 2));
+
 	rc = new RenderableComponent("wormhole", "wormholeTexture", this);
 
 	ballCaught = false;
@@ -47,7 +49,7 @@ void Wormhole::Update(float timeStep_)
 
 	GameObject::Update(timeStep_);
 
-	if ((position - player->position).length() < 0.5f)
+	if ((position - player->position).length() < 1.f)
 	{
 		if (!ballCaught)
 		{

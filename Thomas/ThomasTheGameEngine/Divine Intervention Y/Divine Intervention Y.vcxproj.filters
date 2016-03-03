@@ -36,9 +36,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,12 +99,12 @@
     <ClCompile Include="LevelSelectButton.cpp">
       <Filter>Source Files\Levels\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TestGame\Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBall.h">
@@ -169,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="LevelSelectButton.h">
       <Filter>Header Files\Levels\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

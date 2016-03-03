@@ -12,13 +12,13 @@ Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(
 	renderer = new RenderableComponent("sun", textureName_, this);
 	renderer->SetEffecctedByLight(false, false, false);
 
-	Scale(Vec3(1.75, 1.75, 1.75));
+	Scale(Vec3(3.25, 3.25, 3.25));
 
 	light = new Light(this, Colour(75, 75, 75), Light::Point);
 
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 	rigidBody->isKinematic = false;
-	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.75f;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 1.5f;
 	
 	Audio->loadSound("whoosh", "Sounds/firewhoosh.wav");
 }

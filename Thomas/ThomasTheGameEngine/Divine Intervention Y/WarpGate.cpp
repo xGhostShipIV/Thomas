@@ -7,12 +7,12 @@
 
 WarpGate::WarpGate(Level * level_, Vec3 position_, Quat rotation_) : GameObject(level_, position_)
 {
-	position = position + Vec3(0, 0.25f, 0);
+	position = position + Vec3(0, 0.5f, 0);
 	rotation = rotation_;
 
 	rc = new RenderableComponent("warpGate", "gateTexture", this);
 
-	Scale(Vec3(0.1, 0.1, 0.1));
+	Scale(Vec3(0.2, 0.2, 0.2));
 
 	Audio->loadSound("warpSound", "Sounds/warp.wav");
 	sound = Audio->getSound("warpSound");

@@ -107,7 +107,6 @@
     <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TestGame\Layer.h" />
     <ClInclude Include="AmbientStar.h" />
     <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="DIY_Game.h" />
@@ -118,6 +117,7 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="LandingScreen.h" />
     <ClInclude Include="Landing_GUI.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="LevelSelectButton.h" />
     <ClInclude Include="ObjectivePlanet.h" />
     <ClInclude Include="PlanetHorizontal.h" />

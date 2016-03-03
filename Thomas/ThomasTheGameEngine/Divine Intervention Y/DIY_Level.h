@@ -5,6 +5,8 @@
 #include "Pointer.h"
 #include "DIY_Level_GUI.h"
 
+#define Global_Scale 2.0f
+
 enum DIY_Level_State
 {
 	PLAYING, PAUSED, VICTORY
@@ -41,7 +43,6 @@ public:
 
 	int HasObjectives();
 
-	GameObject * layerContainer;
 	DIY_Level_GUI * gui;
 
 	bool PlayerHasShotBallIntoSun;
@@ -50,6 +51,7 @@ public:
 	void LevelUpdate(float timeStep_) override;
 
 	void SetLayerPlane(Layer *);
+	Layer * GetLayerPlane();
 
 	void AdjustObjectiveCount(int);
 
@@ -58,7 +60,7 @@ public:
 	Vec2 GetLevelBounds();
 private:
 	GameObject * skybox, *playerBall, *layerRB;
-	//Rigidbody * planeRigidBody;
+	Rigidbody * planeRigidBody;
 
 	std::string fileName;
 
@@ -72,6 +74,6 @@ private:
 	bool hasFinishedLoading;
 
 	float levelBoundsX;
-	const float levelBoundsY = 1.5f;
+	const float levelBoundsY = 3.f;
 };
 

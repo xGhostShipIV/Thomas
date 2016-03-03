@@ -10,22 +10,21 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 {
 	addTag("player");
 
-	position = position + Vec3(0, .45f, 0);
+	position = position + Vec3(0, 1.f, 0);
 	renderer = new RenderableComponent("sphere", "ballSkin", this);
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 
 	rigidBody->mass = 25.0f;
 	//rigidBody->sleepThreshold = 0.69f;
 
-	Scale(Vec3(0.5f, 0.5f, 0.5f));
-	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.3f;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.5f;
 
 	modifier = CHARGE_PER_SECOND;
 	chargePercent = 0;
 
 	chargingStrike = false;
 
-	hand = new Pointer(level_, position + Vec3(1, -0.5f, 0), this);
+	hand = new Pointer(level_, position + Vec3(2, -1.f, 0), this);
 
 	positionAtStrike = Vec3();
 

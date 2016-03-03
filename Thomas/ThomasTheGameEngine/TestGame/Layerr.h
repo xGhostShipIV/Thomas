@@ -3,19 +3,19 @@
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
 
-class Layer :
+
+class Layerr :
 	public GameObject
 {
 public:
-	Layer(Level *, Vec3 position_, std::vector<GameObject *>);
-	~Layer();
+	Layerr(Level *, Vec3 position_, std::vector<GameObject *>);
+	~Layerr();
 
 	std::vector<GameObject *> objects;
 
-	void Render() override;
+	void Update(float) override;
 private:
 	RenderableComponent * r;
-	/*Rigidbody * rigidBody;*/
 };
 
 

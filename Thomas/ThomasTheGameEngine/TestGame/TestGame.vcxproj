@@ -90,6 +90,7 @@
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Hallway.h" />
     <ClInclude Include="HeadBob.h" />
+    <ClInclude Include="Layerr.h" />
     <ClInclude Include="MockSolarSystem.h" />
     <ClInclude Include="Observatory.h" />
     <ClInclude Include="ObservatoryRoom.h" />
