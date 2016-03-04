@@ -58,6 +58,7 @@
     <ClInclude Include="Thomas.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Math\four_dimensions.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBB68591-C2E9-433D-AFCB-D2FBAD16C953}</ProjectGuid>

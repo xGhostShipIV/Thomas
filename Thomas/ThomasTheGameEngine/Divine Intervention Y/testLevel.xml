@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Level size="MEDIUM" par="3" skybox="skybox1">
+<Level numLayers="3" par="3" skybox="skybox1">
   
-  <Layer>
-    <Object type="Asteroids" x="1" z="1"></Object>
+  <Layer r = "30" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
     <Object type="WarpGate" x="2" z="-2"></Object>
-
-  </Layer>
-
-  <Layer>
-    
-    <Object type="PlanetHorizontal" x="0" z="0" texture="planet1"></Object>
-  </Layer>
-
-  <Layer>
-        <Object type="Sun" x="-3" z ="0" texture="sunTexture"></Object>
   </Layer>
   
-  <Layer>
-        <Object type="Player1Start" x="0" z="0"></Object>
-        <Object type="Wormhole" x="3" z="0" destination="1"></Object>
-        <Object type="PlanetVertical" x="-1.5" z="0" texture="planet1" objective="Booger"></Object>
-
+      <Layer r = "10" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
+    <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
 
-  <Objectives>
-    <Planet name="Booger" texture="planet1"></Planet>  
-  </Objectives>
-
+  <Layer r = "100" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1" playerX="0" playerZ ="0">
+    <Object type="WarpGate" x="2" z="-2"></Object>
+  </Layer>
 </Level>

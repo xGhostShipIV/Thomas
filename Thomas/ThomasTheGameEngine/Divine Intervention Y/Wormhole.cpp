@@ -62,7 +62,7 @@ void Wormhole::Update(float timeStep_)
 			diyLevel->SetLayerPlane(getDestinationLayer());
 
 			//Teleport to layer
-			player->position.y = getDestinationLayer()->position.y + 0.5f;
+			player->position = getDestinationLayer()->position + Vec3(0, 1.5f, 0);
 		}
 	}
 	else

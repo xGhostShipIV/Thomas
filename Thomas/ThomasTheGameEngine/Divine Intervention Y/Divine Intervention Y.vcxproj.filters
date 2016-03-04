@@ -69,9 +69,6 @@
     <ClCompile Include="Slingshot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlanetVertical.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WarpGate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,12 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AsteroidField.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanetHorizontal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectivePlanet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sun.cpp">
@@ -102,11 +93,16 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="FocusCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
+=======
+    <ClCompile Include="Planet.cpp">
+      <Filter>Source Files</Filter>
+>>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,12 +133,6 @@
     <ClInclude Include="Slingshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlanetHorizontal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlanetVertical.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WarpGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,9 +140,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AsteroidField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectivePlanet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sun.h">
@@ -170,11 +157,16 @@
     <ClInclude Include="Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="FocusCamera.h">
       <Filter>Header Files\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\Cameras</Filter>
+=======
+    <ClInclude Include="Planet.h">
+      <Filter>Header Files</Filter>
+>>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

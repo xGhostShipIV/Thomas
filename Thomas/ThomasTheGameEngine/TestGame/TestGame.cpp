@@ -12,7 +12,7 @@
 #include "DrScottLevel.h"
 #include "TestNetLevel.h"
 #include "UITestLevel.h"
-#include "GameLevel.h"
+//#include "GameLevel.h"
 #include <InputHandler.h>
 
 TestGame::TestGame()

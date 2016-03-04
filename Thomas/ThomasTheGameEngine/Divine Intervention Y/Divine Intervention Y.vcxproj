@@ -95,9 +95,7 @@
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="LevelSelectButton.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ObjectivePlanet.cpp" />
-    <ClCompile Include="PlanetHorizontal.cpp" />
-    <ClCompile Include="PlanetVertical.cpp" />
+    <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlayerBall.cpp" />
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="Slingshot.cpp" />
@@ -119,9 +117,7 @@
     <ClInclude Include="Landing_GUI.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="LevelSelectButton.h" />
-    <ClInclude Include="ObjectivePlanet.h" />
-    <ClInclude Include="PlanetHorizontal.h" />
-    <ClInclude Include="PlanetVertical.h" />
+    <ClInclude Include="Planet.h" />
     <ClInclude Include="PlayerBall.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Slingshot.h" />

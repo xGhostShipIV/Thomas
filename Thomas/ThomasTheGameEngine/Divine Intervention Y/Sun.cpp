@@ -38,7 +38,7 @@ void Sun::Update(float timeStep_)
 
 	Rotate(Quat(0.5f * timeStep_, Vec3(0, 1, 0)));
 
-	if (Collider::isColliding(rigidBody->col, playerRigidBody->col))
+	/*if (Collider::isColliding(rigidBody->col, playerRigidBody->col))
 	{
 		DIY_Level * level_ = static_cast<DIY_Level *>(level);
 
@@ -57,5 +57,5 @@ void Sun::Update(float timeStep_)
 			level_->PlayerHasShotBallIntoSun = true;
 	}
 	else
-		ballHitIntoSun = false;
+		ballHitIntoSun = false;*/
 }

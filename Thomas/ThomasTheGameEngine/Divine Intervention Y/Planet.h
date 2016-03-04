@@ -3,11 +3,11 @@
 #include <GameObject.h>
 #include <RenderableComponent.h>
 
-class PlanetVertical : public GameObject
+class Planet : public GameObject
 {
 public:
-	PlanetVertical(Level *, Vec3, std::string textName_);
-	~PlanetVertical();
+	Planet(Level *, Vec3, std::string textName_);
+	~Planet();
 
 	void Update(float) override;
 	RenderableComponent * renderer;
