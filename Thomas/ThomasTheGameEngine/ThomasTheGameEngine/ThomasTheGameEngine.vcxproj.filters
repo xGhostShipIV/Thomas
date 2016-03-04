@@ -189,6 +189,9 @@
     <ClInclude Include="TextButton.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -322,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="TextButton.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

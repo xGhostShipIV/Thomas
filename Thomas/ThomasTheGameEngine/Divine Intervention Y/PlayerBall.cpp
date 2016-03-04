@@ -70,13 +70,13 @@ void PlayerBall::Update(float timeStep_)
 		}
 	}
 
-	if (position.x > ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x
-		|| position.x < ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x * -1)
+	if (position.x > ((DIY_Level*)level)->GetLayerPlane()->position.x + ((DIY_Level*)level)->GetLevelBounds().x
+		|| position.x < ((DIY_Level*)level)->GetLayerPlane()->position.x - ((DIY_Level*)level)->GetLevelBounds().x)
 	{
 		FoulReset();
 	}
-	if (position.z >((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x
-		|| position.z < ((DIY_Level*)GAME->currentLevel)->GetLevelBounds().x * -1)
+	if (position.z >((DIY_Level*)level)->GetLayerPlane()->position.z + ((DIY_Level*)level)->GetLevelBounds().x
+		|| position.z < ((DIY_Level*)level)->GetLayerPlane()->position.z - ((DIY_Level*)level)->GetLevelBounds().x)
 	{
 		FoulReset();
 	}

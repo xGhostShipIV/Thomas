@@ -66,9 +66,6 @@
     <ClCompile Include="Slingshot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlanetVertical.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WarpGate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,12 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AsteroidField.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanetHorizontal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectivePlanet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sun.cpp">
@@ -100,6 +91,9 @@
       <Filter>Source Files\Levels\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,12 +128,6 @@
     <ClInclude Include="Slingshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlanetHorizontal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlanetVertical.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WarpGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -147,9 +135,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AsteroidField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectivePlanet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sun.h">
@@ -168,6 +153,9 @@
       <Filter>Header Files\Levels\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

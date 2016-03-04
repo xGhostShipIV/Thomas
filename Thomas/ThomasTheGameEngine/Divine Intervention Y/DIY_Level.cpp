@@ -9,14 +9,11 @@
 
 #include "FocusCamera.h"
 #include "GameCamera.h"
-#include "PlanetHorizontal.h"
-#include "PlanetVertical.h"
+#include "Planet.h"
 #include "AsteroidField.h"
 #include "Wormhole.h"
 #include "WarpGate.h"
 #include "PlayerBall.h"
-#include "ObjectivePlanet.h"
-#include "Sun.h"
 
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"
@@ -31,6 +28,84 @@ DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeySt
 }
 
 void DIY_Level::LoadContent()
+{
+	//Delete old main camera and set currentCamera to it.
+	mainCamera->isFlagged = true;
+	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3::Zero());
+	currentCamera = mainCamera;
+
+	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
+	gui = new DIY_Level_GUI(this, par, HasObjectives());
+
+	Models->CreateSkybox("skybox", 10000.0f);
+	Models->loadTexture("skybox1", "Images/skyboxUP.png");
+	Models->loadTexture("layerGrid", "Images/grid.png");
+
+	Models->loadTexture("planet1", "Images/aruba.tif");
+	Models->loadTexture("planet2", "Images/planet_Rim.tif");
+	Models->loadTexture("planet3", "Images/minersMoon.tif");
+	Models->loadTexture("planet4", "Images/planetTex.png");
+	Models->loadTexture("planet5", "Images/hoth.tif");
+
+	Models->loadTexture("ballSkin", "Images/8ball.png");
+	Models->loadModel("sphere", "Models/planet.obj", true);
+	Models->loadModel("sun", "Models/planet.obj", true);
+
+	Models->loadModel("warpGate", "Models/WarpGate.obj", true);
+	Models->loadTexture("gateTexture", "Images/rosary.png");
+
+	Models->loadTexture("meteorTex1", "Images/meteor_texture.tif");
+	Models->loadTexture("meteorTex2", "Images/meteor_texture_2.tif");
+	Models->loadTexture("meteorTex3", "Images/meteor_texture_3.tif");
+
+	Models->loadTexture("sunTexture", "Images/sun.tif");
+
+	Models->loadModel("meteor1", "Models/meteor_01.obj", true);
+	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
+	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
+
+	//Load up and play the music for in-game
+	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
+	Audio->getMusic("gameTheme")->Play();
+
+	Models->loadModel("wormhole", "Models/wormhole.obj", true);
+	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
+
+	//Gotta be big to show up..
+	//don't know why 
+	const int texSize = 14 * 14 * 4;
+	float pixelDataWhite[texSize];
+	for (int i = 0; i < texSize; i++)
+	{
+		pixelDataWhite[i] = 1.0f;
+	}
+	Models->createTexture("white", pixelDataWhite, 1, 1);
+	Models->loadModel("pointer", "Models/pointer.obj", true);
+
+
+	//Setting level boundaries. CAN BE EDITTED
+	levelBoundsX = 10;
+
+	LoadLevel();
+
+	gui->SetObjectivesRemaining(1);
+
+	//Change camera to new focus camera
+	mainCamera->isFlagged = true;
+	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0, 0, -7));
+	currentCamera = mainCamera;
+
+
+	//Can now go through Update loop.
+	hasFinishedLoading = true;
+}
+
+DIY_Level::~DIY_Level()
+{
+	delete gui;
+}
+
+void DIY_Level::LoadLevel()
 {
 	tinyxml2::XMLDocument doc;
 
@@ -55,253 +130,43 @@ void DIY_Level::LoadContent()
 	rotateLevel = false;
 	isShooting = false;
 
-	//Delete old main camera and set currentCamera to it.
-	mainCamera->isFlagged = true;
-	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7),Vec3::Zero() );
-	currentCamera = mainCamera;
-
-	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
-	gui = new DIY_Level_GUI(this, par, HasObjectives());
-
-	Models->CreateSkybox("skybox",		1000.0f);
-	Models->loadTexture("skybox1",		"Images/skyboxUP.png");
-	Models->loadTexture("layerGrid",	"Images/grid.png");
-
-	Models->loadTexture("planet1",		"Images/aruba.tif");
-	Models->loadTexture("planet2",		"Images/planet_Rim.tif");
-	Models->loadTexture("planet3",		"Images/minersMoon.tif");
-	Models->loadTexture("planet4",		"Images/planetTex.png");
-	Models->loadTexture("planet5",		"Images/hoth.tif");
-
-	Models->loadTexture("ballSkin",		"Images/8ball.png");
-	Models->loadModel("sphere",			"Models/planet.obj", true);
-	Models->loadModel("sun",			"Models/planet.obj", true);
-
-	Models->loadModel("warpGate",		"Models/WarpGate.obj", true);
-	Models->loadTexture("gateTexture",	"Images/rosary.png");
-
-	Models->loadTexture("meteorTex1",	"Images/meteor_texture.tif");
-	Models->loadTexture("meteorTex2",	"Images/meteor_texture_2.tif");
-	Models->loadTexture("meteorTex3",	"Images/meteor_texture_3.tif");
-
-	Models->loadTexture("sunTexture",	"Images/sun.tif");
-
-	Models->loadModel("meteor1",		"Models/meteor_01.obj", true);
-	Models->loadModel("meteor2",		"Models/meteor_02.obj", true);
-	Models->loadModel("meteor3",		"Models/meteor_03.obj", true);
-
-	//Load up and play the music for in-game
-	Audio->loadMusic("gameTheme",		"Sounds/Exotics.wav");
-	Audio->getMusic("gameTheme")->Play();
-
-	Models->loadModel("wormhole",		"Models/wormhole.obj", true);
-	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
-
-	//Gotta be big to show up..
-	//don't know why 
-	const int texSize = 140 * 140 * 4;
-	float pixelDataWhite[texSize];
-	for (int i = 0; i < texSize; i++)
-	{
-		pixelDataWhite[i] = 1.0f;
-	}
-	Models->createTexture("white", pixelDataWhite, 1, 1);
-	Models->loadModel("pointer", "Models/pointer.obj", true);
-
-	//layerPlane = PlaneCollider();
-
-	//grab size element and reserve memory for the layers
-	//Possibly determine scale of them?
-	if (element->Attribute("size") == "SMALL"){
-		numLayers = 3;
-	}
-	else if (element->Attribute("size", "MEDIUM")){
-		numLayers = 4;
-	}
-	else{
-		numLayers = 5;
-	}
-
-	//Setting level boundaries. CAN BE EDITTED
-	levelBoundsX = 10;
+	//Grab the number of layers from the XML
+	numLayers = element->FloatAttribute("numLayers");
 
 	//set up skybox
-	skybox = new GameObject(this, currentCamera->position);
-
-	RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
-	r->SetEffecctedByLight(false, false, false);
-
-
-	element = element->FirstChildElement("Layer");
-	tinyxml2::XMLElement * objectElement = element->FirstChildElement("Object");
-
-	bool setPlayerLayer = false;
-
-	for (int i = 0; i < numLayers; i++)
 	{
-		//Temporary storage for the gameobject to be passed to the layer
-		std::vector<GameObject *> gameObjects;
-
-		if (objectElement)
-			do
-			{
-				GameObject * object;
-				GameObject * objectivePlanet;
-
-				float x = objectElement->FloatAttribute("x");
-				float z = objectElement->FloatAttribute("z");
-
-				if (objectElement->Attribute("type", "PlanetHorizontal")){
-
-					std::string textureName = objectElement->Attribute("texture");
-
-					//Get an XML element to find potential attached objective planets
-					tinyxml2::XMLElement * objectiveElement;
-
-					//Check if planet has attached objective
-					if (objectElement->Attribute("objective"))
-					{
-						//Find first planet description in Objectives node
-						objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
-
-						//Search through all planets in Objectives until one with matching name is found
-						while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
-						{
-							objectiveElement = objectiveElement->NextSiblingElement();
-
-							//If you're at the end and not found it, break
-							if (!objectiveElement)
-								break;
-						}
-
-						//Now create the planet as well as the objective planet to be attached
-						object = new PlanetHorizontal(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
-
-						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Horizonal);
-						objectiveCount++;
-					}
-					//Else just create the horizontal planet
-					else
-						object = new PlanetHorizontal(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
-
-
-
-				}
-				else if (objectElement->Attribute("type", "PlanetVertical")){
-					std::string textureName = objectElement->Attribute("texture");
-
-					tinyxml2::XMLElement * objectiveElement;
-
-					//Check if planet has attached objective
-					if (objectElement->Attribute("objective"))
-					{
-						//Find first planet description in Objectives node
-						objectiveElement = doc.RootElement()->FirstChildElement("Objectives")->FirstChildElement("Planet");
-
-						//Search through all planets in Objectives until one with matching name is found
-						while (*(objectElement->Attribute("objective")) != *(objectiveElement->Attribute("name")))
-						{
-							objectiveElement = objectiveElement->NextSiblingElement();
-
-							//If you're at the end and not found it, break
-							if (!objectiveElement)
-								break;
-						}
-
-						object = new PlanetVertical(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
-
-						objectivePlanet = new ObjectivePlanet(this, object, objectiveElement->Attribute("texture"), ObjectivePlanet::Vertical);
-						objectiveCount++;
-					}
-					else
-					{
-
-					}
-					object = new PlanetVertical(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
-				}
-				else if (objectElement->Attribute("type", "Asteroids")){
-					object = new AsteroidField(this, Vec3(x, -2 + i * levelBoundsY, z), 1, 4);
-				}
-				else if (objectElement->Attribute("type", "Wormhole")){
-					object = new Wormhole(this, Vec3(x, -2 + i * levelBoundsY, z), objectElement->IntAttribute("destination"));
-				}
-				else if (objectElement->Attribute("type", "WarpGate")){
-					object = new WarpGate(this, Vec3(x, -2 + i * levelBoundsY, z), Quat(1, 0, 0, 0));
-				}
-				else if (objectElement->Attribute("type", "Player1Start")){
-					setPlayerLayer = true;
-
-					object = new PlayerBall(this, Vec3(x, -2 + i * levelBoundsY, z));
-					playerBall = object;
-				}
-				else if (objectElement->Attribute("type", "Sun"))
-				{
-					std::string textureName = objectElement->Attribute("texture");
-
-					object = new Sun(this, Vec3(x, -2 + i * levelBoundsY, z), textureName);
-				}
-				else{
-
-				}
-
-				gameObjects.push_back(object);
-
-				if (objectivePlanet)
-					gameObjects.push_back(objectivePlanet);
-
-				//point to next object element
-				objectElement = objectElement->NextSiblingElement("Object");
-
-
-			} while (objectElement);
-
-			//create layer in the list
-			layers.push_back(new Layer(this, Vec3(0, -2 + i * levelBoundsY, 0), gameObjects));
-
-			//Attaches the plane collider to last layer added if it contains the players start point
-			if (setPlayerLayer)
-			{
-				//layerRB = new GameObject(this, layers.back()->position);
-				//new Rigidbody(layerRB, new PlaneCollider(layerRB, Vec3::BasisY()));
-				//layerRB->getComponent<Rigidbody>()->isKinematic = false;
-
-				planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
-				planeRigidBody->isKinematic = false;
-
-				//PlaneCollider * p = new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0));
-				//(*(layers.end() - 1))->getComponent<Rigidbody>()->col = p;
-				setPlayerLayer = false;
-			}
-
-			//Sets element pointer to the next layer
-
-			element = element->NextSiblingElement("Layer");
-
-			if (!element)break;
-
-			objectElement = element->FirstChildElement("Object");
+		skybox = new GameObject(this, currentCamera->position);
+		RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
+		r->SetEffecctedByLight(false, false, false);
 	}
 
-	gui->SetObjectivesRemaining(HasObjectives());
+	element = element->FirstChildElement("Layer");
+	for (int i = 0; i < numLayers; i++)
+	{
+		layers.push_back(new Layer(this, element, i));
 
-	//Change camera to new focus camera
-	mainCamera->isFlagged = true;
-	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0,0,-7));
-	currentCamera = mainCamera;	
+		if (i + 1 == numLayers)
+		{
+			planeRigidBody = new Rigidbody(*(layers.end() - 1), new PlaneCollider(*(layers.end() - 1), Vec3(0, 1, 0)));
+			planeRigidBody->isKinematic = false;
 
+			SetLayerPlane(*(layers.end() - 1));
 
-	//Can now go through Update loop.
-	hasFinishedLoading = true;
-}
+			float x = element->FloatAttribute("playerX");
+			float z = element->FloatAttribute("playerZ");
 
-DIY_Level::~DIY_Level()
-{
-	delete gui;
+			playerBall = new PlayerBall(this, Vec3(layers.back()->position.x + x, 2.5f, layers.back()->position.z + z));
+		}
+
+		element = element->NextSiblingElement();
+	}
+
+	sun = new Sun(this, Vec3(), "sunTexture");
 }
 
 int DIY_Level::HasObjectives()
 {
-	return objectiveCount;
+	return 1;
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)
@@ -327,7 +192,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		PauseLogic();
 
 		//Check for Victory
-		if (HasObjectives() == 0  && PlayerHasShotBallIntoSun)
+		if (HasObjectives() == 0 && PlayerHasShotBallIntoSun)
 		{
 			levelState = DIY_Level_State::VICTORY;
 		}
@@ -380,11 +245,17 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 void DIY_Level::SetLayerPlane(Layer * layer_)
 {
-	/*layerRB->position = layer_->position;
-	static_cast<PlaneCollider*>(layerRB->getComponent<Collider>())->plane = Plane(Vec3::BasisY(), layer_->position);*/
+	//Render the current layer invisible
+	if (planeRigidBody->parentObject)
+		((Layer *)planeRigidBody->parentObject)->SetEnabled(false);
+
+	//Assign the rigid body to the new layer
 	planeRigidBody->parentObject = layer_;
 	planeRigidBody->col->parentObject = layer_;
 	static_cast<PlaneCollider *>(planeRigidBody->col)->plane = Plane(Vec3(0, 1, 0), planeRigidBody->parentObject->position);
+
+	//Render the new layer visible
+	((Layer *)planeRigidBody->parentObject)->SetEnabled(true);
 }
 
 Layer * DIY_Level::GetLayerPlane()

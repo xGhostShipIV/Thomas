@@ -4,6 +4,8 @@
 #include <Rigidbody.h>
 #include "Pointer.h"
 #include "DIY_Level_GUI.h"
+#include "Sun.h"
+
 
 #define Global_Scale 2.0f
 
@@ -60,6 +62,7 @@ public:
 	Vec2 GetLevelBounds();
 private:
 	GameObject * skybox, *playerBall, *layerRB;
+	Sun * sun;
 	Rigidbody * planeRigidBody;
 
 	std::string fileName;
@@ -73,7 +76,10 @@ private:
 
 	bool hasFinishedLoading;
 
+	void LoadLevel();
+
 	float levelBoundsX;
 	const float levelBoundsY = 5.f;
+	const float DISTANCE_BETWEEN_LAYERS = 20.0f;
 };
 
