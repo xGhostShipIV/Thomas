@@ -31,12 +31,15 @@
     <Filter Include="Source Files\Levels\GUI">
       <UniqueIdentifier>{480c4342-a5d4-4e75-92dd-df4b61f328ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cameras">
+      <UniqueIdentifier>{2cd47385-c71f-42ad-a73c-bb4248898304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cameras">
+      <UniqueIdentifier>{b461a959-b1f0-4ff2-8956-ad98be048577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBall.cpp">
@@ -93,20 +96,20 @@
     <ClCompile Include="AmbientStar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FocusCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LevelSelectButton.cpp">
       <Filter>Source Files\Levels\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FocusCamera.cpp">
+      <Filter>Source Files\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>Source Files\Cameras</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -161,14 +164,17 @@
     <ClInclude Include="AmbientStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FocusCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LevelSelectButton.h">
       <Filter>Header Files\Levels\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FocusCamera.h">
+      <Filter>Header Files\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>Header Files\Cameras</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

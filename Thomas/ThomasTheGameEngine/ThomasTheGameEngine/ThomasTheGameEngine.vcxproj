@@ -51,6 +51,7 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="States.h" />
     <ClInclude Include="TextButton.h" />
     <ClInclude Include="TextSprite.h" />
     <ClInclude Include="Texture.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="States.cpp" />
     <ClCompile Include="TextButton.cpp" />
     <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="Texture.cpp" />
