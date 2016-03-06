@@ -189,13 +189,11 @@
     <ClInclude Include="TextButton.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="States.h">
       <Filter>Source Files</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Header Files</Filter>
->>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,11 +329,10 @@
     <ClCompile Include="TextButton.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="States.cpp">
-=======
+		<Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Random.cpp">
->>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -93,16 +93,14 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="FocusCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
-=======
+	</ClCompile>
     <ClCompile Include="Planet.cpp">
       <Filter>Source Files</Filter>
->>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,16 +155,14 @@
     <ClInclude Include="Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="FocusCamera.h">
       <Filter>Header Files\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\Cameras</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="Planet.h">
       <Filter>Header Files</Filter>
->>>>>>> cd274dd8f84b33ee86175381c0c68aa544474524
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
