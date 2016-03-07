@@ -139,7 +139,7 @@ void Game::StartGame()
 		if (timeSincelastUpdate > 300.f)
 			timeSincelastUpdate = 300.f;
 
-		//if (timeSincelastUpdate >= 1000 / 1000.0f)
+		//if (timeSincelastUpdate >= 16)
 		{
 			lastUpdateTime = SDL_GetTicks();
 

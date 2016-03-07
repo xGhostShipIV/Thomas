@@ -14,9 +14,9 @@ anchorPosition(anchor_), type(type_)
 	//Register with level
 	_level->guiElements.push_back(this);
 
-	//For some reason Text is upside down...
-	Rotate(Quat(3.141592654f, Vec3::BasisZ()));
-	Rotate(Quat(3.141592654f, Vec3::BasisY()));
+	////For some reason Text is upside down...
+	//Rotate(Quat(3.141592654f, Vec3::BasisZ()));
+	//Rotate(Quat(3.141592654f, Vec3::BasisY()));
 
 	ModelManager::getInstance()->CreatePlane("GUI", 2, 2);
 };
