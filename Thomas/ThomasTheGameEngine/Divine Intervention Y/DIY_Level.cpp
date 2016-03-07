@@ -38,7 +38,7 @@ void DIY_Level::LoadContent()
 	gui = new DIY_Level_GUI(this, par, HasObjectives());
 
 	Models->CreateSkybox("skybox", 10000.0f);
-	Models->loadTexture("skybox1", "Images/skybox_test.png");
+	Models->loadTexture("skybox1", "Images/skyboxUP.png");
 	Models->loadTexture("layerGrid", "Images/grid.png");
 
 	Models->loadTexture("planet1", "Images/aruba.tif");

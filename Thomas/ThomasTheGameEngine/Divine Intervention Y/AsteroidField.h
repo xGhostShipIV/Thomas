@@ -14,6 +14,8 @@ public:
 
 	void Update(float timeStep_) override;
 
+	virtual void SetRenderEnabled(bool isEnabled_) override;
+	virtual bool GetRenderEnabled() override;
 private:
 	std::vector<GameObject *> asteroids;
 	PlayerBall * player;

@@ -101,6 +101,12 @@ public:
 	//Triggers the isFlagged boolean
 	void Destroy();
 
+	//Set whether the gameObject will render.
+	virtual void SetRenderEnabled(bool isEnabled_);
+	
+	//Gets whether the gameObject will render.
+	virtual bool GetRenderEnabled();
+
 	/**********************************************/
 	//NOTE: This method is still under development// 
 	/**********************************************/

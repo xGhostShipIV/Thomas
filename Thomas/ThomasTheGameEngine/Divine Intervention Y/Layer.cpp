@@ -53,10 +53,7 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 	{
 		addChild(objects[i]);
 
-		RenderableComponent* rend = objects[i]->getComponent<RenderableComponent>();
-
-		if (rend)
-			rend->isEnabled = false;
+		objects[i]->SetRenderEnabled(false);
 	}
 
 	r = new RenderableComponent("cuboid", "layerGrid", this);
@@ -90,9 +87,6 @@ void Layer::SetEnabled(bool isEnabled_)
 
 	for (int i = 0; i < childObjects.size(); i++)
 	{
-		RenderableComponent* rend = childObjects[i]->getComponent<RenderableComponent>();
-
-		if (rend)
-			rend->isEnabled = isEnabled_;
+		childObjects[i]->SetRenderEnabled(isEnabled_);
 	}
 }

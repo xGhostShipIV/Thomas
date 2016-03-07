@@ -67,3 +67,23 @@ void AsteroidField::Update(float timeStep_)
 		}
 	}
 }
+
+void AsteroidField::SetRenderEnabled(bool isEnabled_)
+{
+	for (int i = 0; i < asteroids.size(); i++)
+	{
+		RenderableComponent *r = asteroids[i]->getComponent<RenderableComponent>();
+		if (r)
+			r->isEnabled = isEnabled_;
+	}
+}
+
+bool AsteroidField::GetRenderEnabled()
+{
+	RenderableComponent *r = asteroids[0]->getComponent<RenderableComponent>();
+
+	if (r)
+		return r->isEnabled;
+	else
+		return false;
+}

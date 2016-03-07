@@ -240,13 +240,12 @@ bool GameObject::hasTag(Tag _tag)
 	return false;
 }
 
-/* Returns a pointer to the first component found of the given type. */
-
 void GameObject::Destroy()
 {
 	isFlagged = true;
 }
 
+/* Returns a pointer to the first component found of the given type. */
 template<>
 RenderableComponent* GameObject::getComponent()
 {
@@ -360,4 +359,20 @@ void GameObject::PreRender()
 	{
 		light->PushLight();
 	}
+}
+
+void GameObject::SetRenderEnabled(bool isEnabled_)
+{
+	RenderableComponent* rend = getComponent<RenderableComponent>();
+	if (rend)
+		rend->isEnabled = isEnabled_;
+}
+
+bool GameObject::GetRenderEnabled()
+{
+	RenderableComponent* rend = getComponent<RenderableComponent>();
+	if (rend)
+		return rend->isEnabled;
+	else
+		return false;
 }
