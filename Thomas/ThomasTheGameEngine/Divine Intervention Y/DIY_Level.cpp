@@ -192,7 +192,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		PauseLogic();
 
 		//Check for Victory
-		if (HasObjectives() == 0 && PlayerHasShotBallIntoSun)
+		if (PlayerHasShotBallIntoSun)
 		{
 			levelState = DIY_Level_State::VICTORY;
 		}

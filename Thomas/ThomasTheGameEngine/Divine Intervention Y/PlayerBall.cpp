@@ -17,7 +17,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	rigidBody->mass = 25.0f;
 	//rigidBody->sleepThreshold = 0.69f;
 
-	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.5f;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = scale.x / 2.0f;
 
 	modifier = CHARGE_PER_SECOND;
 	chargePercent = 0;
@@ -44,8 +44,6 @@ void PlayerBall::Update(float timeStep_)
 			{
 
 				chargePercent += modifier * timeStep_;
-
-				//std::cout << chargePercent << std::endl;
 
 				if (chargePercent >= 100)
 					modifier = -CHARGE_PER_SECOND;
