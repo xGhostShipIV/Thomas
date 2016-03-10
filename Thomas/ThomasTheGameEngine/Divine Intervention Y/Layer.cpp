@@ -32,10 +32,11 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 
 	float x = element_->FloatAttribute("planetX");
 	float z = element_->FloatAttribute("planetZ");
+	float s = element_->FloatAttribute("planetScale");
 	const char * sunTex = element_->Attribute("planetTexture");
 
 	//Planet creation not including scale
-	planet = new Planet(dl, position + Vec3(x, 0, z), sunTex);
+	planet = new Planet(dl, position + Vec3(x, 0, z), s, sunTex);
 	objects.push_back(planet);
 
 	//Grab the first element and loop through all the elements
@@ -89,4 +90,9 @@ void Layer::SetEnabled(bool isEnabled_)
 	{
 		childObjects[i]->SetRenderEnabled(isEnabled_);
 	}
+}
+
+int Layer::GetIndex()
+{
+	return index;
 }

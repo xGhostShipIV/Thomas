@@ -27,12 +27,12 @@ void Pointer::Update(float timeStep_)
 
 	position.y = ball->position.y;
 
-	if (Input->isKeyDown(SDLK_RIGHT) || Input->isKeyDown(SDLK_a))
+	if (Input->isKeyDown(SDLK_RIGHT) || Input->isKeyDown(SDLK_d))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, 3 * timeStep_);
 		Rotate(Quat(3 * timeStep_, Vec3::BasisY()));
 	}
-	if (Input->isKeyDown(SDLK_LEFT) || Input->isKeyDown(SDLK_d))
+	if (Input->isKeyDown(SDLK_LEFT) || Input->isKeyDown(SDLK_a))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, -3 * timeStep_);
 		Rotate(Quat(-3 * timeStep_, Vec3::BasisY()));

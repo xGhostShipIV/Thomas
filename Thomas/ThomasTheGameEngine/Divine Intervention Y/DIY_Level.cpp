@@ -66,7 +66,7 @@ void DIY_Level::LoadContent()
 
 	//Load up and play the music for in-game
 	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
-	Audio->getMusic("gameTheme")->Play();
+	//Audio->getMusic("gameTheme")->Play();
 
 	Models->loadModel("wormhole", "Models/wormhole.obj", true);
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
@@ -202,7 +202,7 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		PauseLogic();
 
 		//Check for Victory
-		if (HasObjectives() == 0 && PlayerHasShotBallIntoSun)
+		if (PlayerHasShotBallIntoSun)
 		{
 			levelState = DIY_Level_State::VICTORY;
 		}

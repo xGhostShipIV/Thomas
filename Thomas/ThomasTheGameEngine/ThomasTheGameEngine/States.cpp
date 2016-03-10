@@ -17,7 +17,13 @@ void StateMachine::UpdateState(){
 void StateMachine::ChangeState(State* newState){
 	if (currentState) {
 		currentState->onExit();
-		delete currentState;
+
+		if (newState != previousState)
+			delete previousState;
+
+		previousState = currentState;
+
+		//delete currentState;
 	}
 
 	if (newState) {
@@ -28,6 +34,12 @@ void StateMachine::ChangeState(State* newState){
 
 StateMachine::~StateMachine(){
 	if (currentState) delete currentState;
+	if (previousState) delete previousState;
 }
 
 StateMachine::StateMachine(){}
+
+State * StateMachine::GetPreviousState()
+{
+	return previousState;
+}

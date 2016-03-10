@@ -5,10 +5,13 @@
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
 #include <AudioManager.h>
+#include <iostream>
 
 #include "DIY_Level.h"
 AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, float _numAsteroids) : GameObject(_level, _position)
 {
+	position.y += 0.5f;
+
 	srand(rand() % 101);
 	for (int i = 0; i < _numAsteroids; i++)
 	{
@@ -20,7 +23,7 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 		int model = rand() % 4;
 
 		asteroids.push_back(new GameObject(_level, _position));
-		asteroids[asteroids.size() - 1]->position = Vec3(asteroids[asteroids.size() - 1]->position.x + r * cos(theta), _position.y + 0.4f, asteroids[asteroids.size() - 1]->position.z + r * sin(theta));
+		asteroids[asteroids.size() - 1]->position = Vec3(asteroids[asteroids.size() - 1]->position.x + r * cos(theta), _position.y + 0.5f, asteroids[asteroids.size() - 1]->position.z + r * sin(theta));
 		asteroids[asteroids.size() - 1]->Scale(Vec3(0.002, 0.002, 0.002));
 		addChild(asteroids[asteroids.size() - 1]);
 
@@ -42,6 +45,14 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 
 	Audio->loadSound("asteroidSound", "Sounds/asteroidCollide.wav");
 	collideSound = Audio->getSound("asteroidSound");
+
+	rigidbody = new Rigidbody(this, new SphereCollider(this));
+	rigidbody->CollisionRadius = _radius;
+	((SphereCollider *)rigidbody->col)->collisionRadius = _radius;
+	rigidbody->isKinematic = false;
+	rigidbody->mass = 50.0f;
+
+	rigidbody->setTensorShape(Collider::Sphere, Vec3(scale.x / 2.0f, scale.x / 2.0f, scale.x / 2.0f));
 }
 
 
@@ -63,7 +74,8 @@ void AsteroidField::Update(float timeStep_)
 		if (rb_->isAwake())
 		{
 			collideSound->Play();
-			rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
+			std::cout << "Hi, I collided with the ball!" << std::endl;
+			//rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
 		}
 	}
 }

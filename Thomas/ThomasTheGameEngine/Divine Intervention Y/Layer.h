@@ -19,6 +19,7 @@ public:
 	std::vector<GameObject *> objects;
 
 	void SetEnabled(bool);
+	int GetIndex();
 private:
 	Generic_RenderableComponent * r;
 	DIY_Level * dl;

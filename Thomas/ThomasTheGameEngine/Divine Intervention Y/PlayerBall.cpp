@@ -13,11 +13,14 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	position = position + Vec3(0, 1.f, 0);
 	renderer = new Generic_RenderableComponent(this, "sphere", "ballSkin");
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
+	rigidBody->accel = Vec3(0, 0.1f, 0);
 
 	rigidBody->mass = 25.0f;
 	//rigidBody->sleepThreshold = 0.69f;
 
-	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = 0.5f;
+	static_cast<SphereCollider *>(rigidBody->col)->collisionRadius = scale.x / 2.0f;
+
+	rigidBody->setTensorShape(Collider::Sphere, Vec3(scale.x / 2.0f, scale.x / 2.0f, scale.x / 2.0f));
 
 	modifier = CHARGE_PER_SECOND;
 	chargePercent = 0;
@@ -44,8 +47,6 @@ void PlayerBall::Update(float timeStep_)
 			{
 
 				chargePercent += modifier * timeStep_;
-
-				//std::cout << chargePercent << std::endl;
 
 				if (chargePercent >= 100)
 					modifier = -CHARGE_PER_SECOND;

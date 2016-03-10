@@ -22,4 +22,9 @@ public:
 
 	void UpdateState();
 	void ChangeState(State*);
+
+	State * GetPreviousState();
+
+private:
+	State * previousState;
 };

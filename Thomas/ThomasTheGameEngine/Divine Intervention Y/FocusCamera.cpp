@@ -19,9 +19,14 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 		MaxCameraDistance = int(followDistance * 3.0f);
 		selfieStick = position - focus->position;
 	}
+
+	xInverted = 1;
+	yInverted = 1;
+	lookSpeed = 1.f;
 }
 
 void FocusCamera::Update(float deltaTime_) {
+
 
 	//Mouse wheel to zoom in/out
 	if (Input->mouseWheel < 0)
@@ -122,6 +127,8 @@ void FocusCamera::SetMinDistance(float minDistance_){
 }
 
 
+
+//-----------------------------------------------States for the focus camera below here
 #define Parent static_cast<FocusCamera*>(self)
 
 
@@ -135,6 +142,26 @@ Orbit::~Orbit(){}
 void Stare::Execute(){
 
 	Parent->LookAt(Parent->focus->position);
+
+	//Mouse wheel to zoom in/out
+	if (Input->mouseWheel < 0)
+	{
+		if (Parent->followDistance < Parent->MaxCameraDistance){
+			Parent->followDistance += 1;
+		}
+		else {
+			Parent->followDistance = Parent->MaxCameraDistance;
+		}
+	}
+	else if (Input->mouseWheel > 0)
+	{
+		if (Parent->followDistance > Parent->MinCameraDistance){
+			Parent->followDistance -= 1;
+		}
+		else {
+			Parent->followDistance = Parent->MinCameraDistance;
+		}
+	}
 
 	if (Input->isKeyDown(SDLK_q)){
 		Parent->Rotate(Quat(Physics->getTimeStep(), Parent->forward()));
@@ -157,17 +184,17 @@ void Stare::onEnter(){}
 void Stare::onExit(){}
 
 void Orbit::Execute(){
-	Vec2 mouseDir_ = Input->deltaMouse();
+	Vec2 mouseDir_ = Input->deltaMouse() * Parent->lookSpeed;
 
-	Parent->Rotate(Quat(mouseDir_.x * Physics->getTimeStep(), Vec3::BasisY()));
-	Parent->selfieStick = Quat::rotate(Quat(mouseDir_.x * Physics->getTimeStep(), Vec3::BasisY()), Parent->selfieStick);
+	Parent->Rotate(Quat(mouseDir_.x * Parent->xInverted * Physics->getTimeStep(), Vec3::BasisY()));
+	Parent->selfieStick = Quat::rotate(Quat(mouseDir_.x * Parent->xInverted * Physics->getTimeStep(), Vec3::BasisY()), Parent->selfieStick);
 
-	Parent->Rotate(Quat(mouseDir_.y * Physics->getTimeStep(), Parent->right() * -1));
-	Parent->selfieStick = Quat::rotate(Quat(mouseDir_.y * Physics->getTimeStep(), Parent->right() * -1), Parent->selfieStick);
+	Parent->Rotate(Quat(-mouseDir_.y * Parent->yInverted * Physics->getTimeStep(), Parent->right() * -1));
+	Parent->selfieStick = Quat::rotate(Quat(-mouseDir_.y * Parent->yInverted * Physics->getTimeStep(), Parent->right() * -1), Parent->selfieStick);
 
-	if (abs(Vec3::dot(Parent->up(), Vec3::BasisY())) < 0.1){
-		Parent->Rotate(Quat(mouseDir_.y * Physics->getTimeStep(), Parent->right()));
-		Parent->selfieStick = Quat::rotate(Quat(mouseDir_.y * Physics->getTimeStep(), Parent->right()), Parent->selfieStick);
+	if (Vec3::dot(Parent->up(), Vec3::BasisY()) < 0){
+		Parent->Rotate(Quat(-mouseDir_.y * Parent->yInverted * Physics->getTimeStep(), Parent->right()));
+		Parent->selfieStick = Quat::rotate(Quat(-mouseDir_.y * Parent->yInverted * Physics->getTimeStep(), Parent->right()), Parent->selfieStick);
 	}
 
 	Parent->position = Parent->selfieStick.Normalized() * Parent->followDistance + Parent->focus->position;
@@ -176,6 +203,25 @@ void Orbit::Execute(){
 	//Don't allow traversal directly to peek from orbit
 	if (Input->isMouseReleased(SDL_BUTTON_RIGHT)){
 		Parent->stateMachine.ChangeState(new Stare(Parent));
+	}
+
+	if (Input->mouseWheel < 0)
+	{
+		if (Parent->followDistance < Parent->MaxCameraDistance){
+			Parent->followDistance += 1;
+		}
+		else {
+			Parent->followDistance = Parent->MaxCameraDistance;
+		}
+	}
+	else if (Input->mouseWheel > 0)
+	{
+		if (Parent->followDistance > Parent->MinCameraDistance){
+			Parent->followDistance -= 1;
+		}
+		else {
+			Parent->followDistance = Parent->MinCameraDistance;
+		}
 	}
 }
 
