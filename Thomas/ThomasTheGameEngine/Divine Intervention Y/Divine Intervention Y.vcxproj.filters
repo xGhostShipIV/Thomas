@@ -98,8 +98,11 @@
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Planet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Alien.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -160,8 +163,11 @@
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\Cameras</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Planet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Alien.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
