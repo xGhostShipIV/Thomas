@@ -5,6 +5,7 @@
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
 #include <AudioManager.h>
+#include <iostream>
 
 #include "DIY_Level.h"
 AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, float _numAsteroids) : GameObject(_level, _position)
@@ -50,6 +51,8 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 	((SphereCollider *)rigidbody->col)->collisionRadius = _radius;
 	rigidbody->isKinematic = false;
 	rigidbody->mass = 50.0f;
+
+	rigidbody->setTensorShape(Collider::Sphere, Vec3(scale.x / 2.0f, scale.x / 2.0f, scale.x / 2.0f));
 }
 
 
@@ -71,7 +74,8 @@ void AsteroidField::Update(float timeStep_)
 		if (rb_->isAwake())
 		{
 			collideSound->Play();
-			rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
+			std::cout << "Hi, I collided with the ball!" << std::endl;
+			//rb_->velocity = rb_->velocity.Normalized() * (rb_->velocity.length() * 0.95f);
 		}
 	}
 }

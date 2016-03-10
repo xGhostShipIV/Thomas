@@ -1,6 +1,7 @@
 #include "Planet.h"
 #include "PlayerBall.h"
 #include "DIY_Level.h"
+#include <iostream>
 
 #include <Rigidbody.h>
 Planet::Planet(Level * level_, Vec3 position_, float scaleFactor_, std::string textName) : GameObject(level_)
@@ -17,6 +18,8 @@ Planet::Planet(Level * level_, Vec3 position_, float scaleFactor_, std::string t
 	rigidbody->CollisionRadius = scale.x / 2.0f;
 	rigidbody->isKinematic = false;
 	rigidbody->mass = 50.0f;
+
+	rigidbody->setTensorShape(Collider::Sphere, Vec3(scale.x / 2.0f, scale.x / 2.0f, scale.x / 2.0f));
 }
 
 void Planet::Update(float timeStep_)

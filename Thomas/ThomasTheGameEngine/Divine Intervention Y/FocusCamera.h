@@ -16,6 +16,13 @@ class FocusCamera : public Camera{
 
 	Vec3 selfieStick;
 
+	//these two should be either 1 or -1 for mouse movement inversion
+	int xInverted, yInverted;
+
+	//more camera control numbers.
+	float lookSpeed;
+	
+
 	LookState behaviour;
 	friend class Stare;
 	friend class Peek;
@@ -36,7 +43,7 @@ public:
 	void SetMinDistance(float minDistance_);
 };
 
-//States for the state machine.
+//States for the state machine.-------------------------------------------
 class Stare : public State {
 public:
 	Stare(void*);
