@@ -56,7 +56,7 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 		objects[i]->SetRenderEnabled(false);
 	}
 
-	r = new RenderableComponent("cuboid", "layerGrid", this);
+	r = new Generic_RenderableComponent(this, "cuboid", "layerGrid");
 	r->SetEffecctedByLight(false, false, false);
 	r->isEnabled = false;
 }

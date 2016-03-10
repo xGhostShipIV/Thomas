@@ -3,13 +3,12 @@
 #include "RenderableComponent.h"
 #include "ModelManager.h"
 #include "GameProperties.h"
+#include "Shader.h"
 
 GuiElement::GuiElement(Level* _level, Vec2 _screenPosition, GuiType type_, ScreenAnchor anchor_) : GameObject(nullptr, Vec3(_screenPosition.x, _screenPosition.y, 0)),
 anchorPosition(anchor_), type(type_)
 {
 	isVisible = true;
-	drawPercent = 1;
-	drawType = UI_DRAW_TYPE::NORMAL_DRAW_TYPE;
 
 	//Register with level
 	_level->guiElements.push_back(this);
@@ -27,8 +26,8 @@ GuiElement::~GuiElement()
 
 void GuiElement::Draw()
 {
-	if (renderable)
-		renderable->DrawUI(anchorPosition);
+	if (renderable && isVisible)
+		renderable->Render();
 
 	CleanUp();
 }
@@ -110,4 +109,14 @@ void GuiElement::Scale(Vec3 scale_)
 	for (auto it = childObjects.begin(); it != childObjects.end(); it++){
 		(*it)->Scale(scale_);
 	}
+}
+
+void GuiElement::SetDrawPercent(float drawPercent_)
+{
+	((GUI_RenderableComponent*)renderable)->drawPercent = drawPercent_;
+}
+
+float GuiElement::GetDrawPercent() const
+{
+	return ((GUI_RenderableComponent*)renderable)->drawPercent;
 }

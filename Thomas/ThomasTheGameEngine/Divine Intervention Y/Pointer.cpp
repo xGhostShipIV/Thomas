@@ -9,10 +9,9 @@
 
 Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObject(level_, position_), followCam(false)
 {
-	renderer = new RenderableComponent("pointer", "white", this);
-	//renderer->SetEffecctedByLight(false, false, false);
+	renderer = new Generic_RenderableComponent(this, "pointer", "white");
 
-	Scale(Vec3(0.14f, 0.14f, 0.14f));
+	Scale(Vec3(0.075f, 0.075f, 0.075f));
 
 	ball = player_;
 }
@@ -31,10 +30,13 @@ void Pointer::Update(float timeStep_)
 	if (Input->isKeyDown(SDLK_RIGHT) || Input->isKeyDown(SDLK_a))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, 3 * timeStep_);
+		Rotate(Quat(3 * timeStep_, Vec3::BasisY()));
 	}
 	if (Input->isKeyDown(SDLK_LEFT) || Input->isKeyDown(SDLK_d))
 	{
 		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, -3 * timeStep_);
+		Rotate(Quat(-3 * timeStep_, Vec3::BasisY()));
+
 	}
 
 	if (Input->isKeyReleased(SDLK_k))
@@ -43,18 +45,18 @@ void Pointer::Update(float timeStep_)
 	if (Input->isMouseDown(SDL_BUTTON_RIGHT) && followCam)
 	{
 		//Align pointer with camera
-		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
+		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2 + Vec3(0, -1, 0);
 	}
 
-	LookAt(ball->position);
-	Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
+	//LookAt(ball->position);
+	//Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
 
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING &&
 		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
 	{
 		if (!isEnabled)
 		{
-			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
+			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2 + Vec3(0, -1, 0);
 		}
 		isEnabled = true;
 	}
@@ -62,6 +64,9 @@ void Pointer::Update(float timeStep_)
 		isEnabled = false;
 
 	renderer->isEnabled = isEnabled;
+
+	//position += (level->currentCamera->right() * 0.5f);
+
 }
 
 void Pointer::Render()

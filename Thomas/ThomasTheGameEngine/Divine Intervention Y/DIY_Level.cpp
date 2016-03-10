@@ -49,7 +49,7 @@ void DIY_Level::LoadContent()
 
 	Models->loadTexture("ballSkin", "Images/8ball.png");
 	Models->loadModel("sphere", "Models/planet.obj", true);
-	Models->loadModel("sun", "Models/planet.obj", true);
+	Models->loadModel("sun", "Models/turboSphere.obj", true);
 
 	Models->loadModel("warpGate", "Models/WarpGate.obj", true);
 	Models->loadTexture("gateTexture", "Images/rosary.png");
@@ -80,7 +80,7 @@ void DIY_Level::LoadContent()
 		pixelDataWhite[i] = 1.0f;
 	}
 	Models->createTexture("white", pixelDataWhite, 1, 1);
-	Models->loadModel("pointer", "Models/pointer.obj", true);
+	Models->loadModel("pointer", "Models/Hand_Pointer.obj", true);
 
 
 	//Setting level boundaries. CAN BE EDITTED
@@ -136,7 +136,7 @@ void DIY_Level::LoadLevel()
 	//set up skybox
 	{
 		skybox = new GameObject(this, currentCamera->position);
-		RenderableComponent * r = new RenderableComponent("skybox", std::string(element->Attribute("skybox")), skybox);
+		Generic_RenderableComponent * r = new Generic_RenderableComponent(skybox, "skybox", std::string(element->Attribute("skybox")));
 		r->SetEffecctedByLight(false, false, false);
 	}
 
@@ -161,7 +161,7 @@ void DIY_Level::LoadLevel()
 		element = element->NextSiblingElement();
 	}
 
-	sun = new Sun(this, Vec3(), "sunTexture");
+	sun = new Sun(this, Vec3(), 250);
 }
 
 int DIY_Level::HasObjectives()
@@ -176,11 +176,21 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 	Level::LevelUpdate(timeStep_);
 
+	if (InputController::getInstance()->isKeyDown(SDLK_EQUALS))
+	{
+		sun->scale += Vec3::One() * 1.0f;
+		std::cout << sun->scale.toString() << "\n";
+	}
+	else if (InputController::getInstance()->isKeyDown(SDLK_MINUS))
+	{
+		sun->scale -= Vec3::One() * 1.0f;
+		std::cout << sun->scale.toString() << "\n";
+	}	
+
 	//Victory TEST
 	if (InputController::getInstance()->isKeyDown(SDLK_v))
 	{
-		objectiveCount = 0;
-		PlayerHasShotBallIntoSun = true;
+		levelState = VICTORY;
 	}
 
 	//Game state switch

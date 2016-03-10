@@ -20,7 +20,7 @@ public:
 
 	void SetEnabled(bool);
 private:
-	RenderableComponent * r;
+	Generic_RenderableComponent * r;
 	DIY_Level * dl;
 
 	Wormhole * wormHole;

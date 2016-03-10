@@ -20,7 +20,7 @@ public:
 	Layer * getDestinationLayer();
 	void Update(float) override;
 private:
-	RenderableComponent * rc;
+	Generic_RenderableComponent * rc;
 	PlayerBall * player;
 	DIY_Level * diyLevel;
 

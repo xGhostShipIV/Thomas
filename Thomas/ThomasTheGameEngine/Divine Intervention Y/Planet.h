@@ -10,5 +10,5 @@ public:
 	~Planet();
 
 	void Update(float) override;
-	RenderableComponent * renderer;
+	Generic_RenderableComponent * renderer;
 };

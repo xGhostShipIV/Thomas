@@ -1,5 +1,6 @@
 #include "../Math/four_dimensions.hpp"
 #include "Colour.h"
+#include <vector>
 
 class LightManager
 {
@@ -8,12 +9,16 @@ public:
 	{
 		Colour colour;
 		Vec4 direction;
+
+		DirectionalLight(Colour colour_, Vec4 direction_) : colour(colour_), direction(direction_) {}
 	};
 
 	struct PointLight
 	{
 		Colour colour;
 		Vec4 position;
+
+		PointLight(Colour colour_, Vec4 position_) : colour(colour_), position(position_) {}
 	};
 
 	struct SpotLight
@@ -21,6 +26,8 @@ public:
 		Colour colour;
 		Vec4 position, direction;
 		float coneAngle;
+
+		SpotLight(Colour colour_, Vec4 position_, Vec4 direction_, float coneAngle_) : colour(colour_), position(position_), direction(direction_), coneAngle(coneAngle_) {}
 	};
 	
 	~LightManager();
@@ -44,7 +51,7 @@ public:
 	void InputSpotLight(Colour _color, Vec4 _position, Vec4 _direction, float _coneAngle);
 
 	//Pushes Lights to Shaders. Should be called After lighting arrays have been built and before draw calls.
-	void PushLights();
+	void PushLights(Vec3 cameraPosition_);
 
 private:
 	LightManager();
@@ -53,10 +60,9 @@ private:
 	void ResetPoint();
 	void ResetSpot();
 
-	unsigned int directionalIndex, pointIndex, spotIndex;
-	static const unsigned int DirectionalLength = 1, PointLength = 2, SpotLength = 2;
-	DirectionalLight Directional[DirectionalLength];
-	PointLight Point[PointLength];
-	SpotLight Spot[SpotLength];
+	static const unsigned int MAX_DIRECTIONAL = 4, MAX_POINT = 10, MAX_SPOT = 10;	
+	std::vector<DirectionalLight> Directional;
+	std::vector<PointLight> Point;
+	std::vector<SpotLight> Spot;
 
 };

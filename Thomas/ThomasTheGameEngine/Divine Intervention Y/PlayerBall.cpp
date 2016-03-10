@@ -11,7 +11,7 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	addTag("player");
 
 	position = position + Vec3(0, 1.f, 0);
-	renderer = new RenderableComponent("sphere", "ballSkin", this);
+	renderer = new Generic_RenderableComponent(this, "sphere", "ballSkin");
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 
 	rigidBody->mass = 25.0f;

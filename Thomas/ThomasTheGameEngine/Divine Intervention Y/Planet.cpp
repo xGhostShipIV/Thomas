@@ -5,7 +5,7 @@ Planet::Planet(Level * level_, Vec3 position_, std::string textName) : GameObjec
 	position = position_;
 
 	Scale(Vec3(2, 2, 2));
-	renderer = new RenderableComponent("sphere", textName, this);
+	renderer = new Generic_RenderableComponent(this, "sphere", textName);
 }
 
 void Planet::Update(float timeStep_)

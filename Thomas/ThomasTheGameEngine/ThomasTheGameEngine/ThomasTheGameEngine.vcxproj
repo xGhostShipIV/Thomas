@@ -35,6 +35,7 @@
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Logs.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="Noise.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsWorld.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="OpenGLUtilities.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="States.h" />
     <ClInclude Include="TextButton.h" />
@@ -85,6 +87,7 @@
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Logs.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Noise.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PhysicsWorld.cpp" />
@@ -99,6 +102,7 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="States.cpp" />
     <ClCompile Include="TextButton.cpp" />

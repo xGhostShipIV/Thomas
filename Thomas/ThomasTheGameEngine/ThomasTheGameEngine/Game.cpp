@@ -12,7 +12,7 @@
 #include "FontManager.h"
 #include "PhysicsWorld.h"
 #include "InputHandler.h"
-#include "Renderable.h"
+#include "RenderableComponent.h"
 
 Game* Game::instance = nullptr;
 
@@ -183,7 +183,7 @@ void Game::EngineUpdate(float _timeStep)
 		if (currentLevel)
 			delete currentLevel;
 
-		OpenGL_Renderable::renderableComponents.clear();
+		RenderableComponent::renderableComponents.clear();
 		Models->UnloadModels();
 
 		currentLevel = levelToLoad;

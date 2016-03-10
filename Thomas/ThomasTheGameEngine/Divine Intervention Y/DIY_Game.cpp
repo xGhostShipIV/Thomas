@@ -16,7 +16,6 @@
 #include <../Math/four_dimensions.hpp>
 #include <SDL.h>
 
-#include "DIY_Level.h"
 #include "SplashScreen.h"
 
 DIY_Game::DIY_Game()
@@ -27,8 +26,6 @@ DIY_Game::DIY_Game()
 	inputManager = InputController::getInstance();
 
 	LoadLevel(new SplashScreen());
-
-	//LoadLevel(new DIY_Level("testLevel.xml"));	
 }
 
 DIY_Game::~DIY_Game()

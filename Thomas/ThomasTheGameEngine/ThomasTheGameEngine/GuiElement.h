@@ -22,17 +22,12 @@ enum ScreenAnchor
 	BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
 };
 
-enum UI_DRAW_TYPE
-{
-	_3D_SPACE_DRAW_TYPE, NORMAL_DRAW_TYPE
-};
-
 class GuiElement : public GameObject
 {
 protected:
 	bool isVisible;
 	UINT32 texture;
-	RenderableComponent *renderable;
+	RenderableComponent* renderable;
 	Vec2 guiScale;
 public:
 
@@ -51,10 +46,11 @@ public:
 	virtual bool CheckMouseCollision(int _x, int _y);
 	virtual void Scale(Vec3 scale_) override;
 
-	UI_DRAW_TYPE drawType;
-	float drawPercent;
-
 	GuiType type;
+
+	//Assumes GUI_Renderable
+	virtual void SetDrawPercent(float drawPercent_);
+	virtual float GetDrawPercent() const;
 };
 
 #endif

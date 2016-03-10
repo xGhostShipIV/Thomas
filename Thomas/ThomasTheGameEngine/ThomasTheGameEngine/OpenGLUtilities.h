@@ -18,7 +18,7 @@ class OpenGLUtilities
 {
 public:
 
-	static GLint UseShaders(char* vertexShader, char* fragmentShader)
+	static GLint CreateShaders(char* vertexShader, char* fragmentShader)
 	{
 		ShaderInfo shaders[] = {
 			{ GL_VERTEX_SHADER, vertexShader },
@@ -27,7 +27,7 @@ public:
 		};
 
 		GLuint program = LoadShaders(shaders);
-		glUseProgram(program);
+		//glUseProgram(program);
 
 		return program;
 	}

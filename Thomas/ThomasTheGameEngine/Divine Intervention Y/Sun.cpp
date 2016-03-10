@@ -7,12 +7,12 @@
 #include "PlayerBall.h"
 #include "DIY_Level.h"
 
-Sun::Sun(Level * level_, Vec3 position_, std::string textureName_) : GameObject(level_, position_), ballHitIntoSun(false)
+Sun::Sun(Level * level_, Vec3 position_, float radius_) : GameObject(level_, position_), ballHitIntoSun(false)
 {
-	renderer = new RenderableComponent("sun", textureName_, this);
-	renderer->SetEffecctedByLight(false, false, false);
+	renderer = new Sun_RenderableComponent(this, "sun");
+	renderer->intensity = 1.0f;
 
-	Scale(Vec3(3.25, 3.25, 3.25));
+	Scale(Vec3::One() * radius_);
 
 	light = new Light(this, Colour(75, 75, 75), Light::Point);
 
@@ -30,6 +30,8 @@ Sun::~Sun()
 
 void Sun::Update(float timeStep_)
 {
+	renderer->offset -= Vec3(0.1f, 0.01f, 0.25f) * timeStep_;
+
 	if (!player)
 	{
 		player = static_cast<PlayerBall *>(level->FindGameObjectWithTag("player"));

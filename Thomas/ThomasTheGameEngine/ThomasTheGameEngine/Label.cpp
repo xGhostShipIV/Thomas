@@ -19,7 +19,7 @@ Label::Label(Level* _level, std::string _text, TTF_Font* _font, Vec2 _screenPosi
 
 	//create square model to draw on
 	//ModelManager::getInstance()->CreatePlane("label", 0.01f, 0.01f);
-	renderable = new RenderableComponent(ModelManager::getInstance()->GetModelID("GUI"), texture, this, new Material(0, 0, 0));
+	renderable = new GUI_RenderableComponent(this, ModelManager::getInstance()->GetModelID("GUI"), texture);
 }
 
 Label::~Label()

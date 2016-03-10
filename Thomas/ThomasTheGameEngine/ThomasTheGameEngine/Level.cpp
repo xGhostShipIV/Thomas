@@ -7,7 +7,8 @@
 #include "Button.h"
 #include "GuiImage.h"
 #include "Label.h"
-#include "Renderable.h"
+#include "RenderableComponent.h"
+#include "Shader.h"
 
 Level::Level()
 {
@@ -62,7 +63,7 @@ void Level::LoadContent(){}
 void Level::LevelRender()
 {
 	float ambient[] = { ambientLightColor.r, ambientLightColor.g, ambientLightColor.b, ambientLightColor.a };
-	glUniform4fv(ModelManager::getInstance()->ambientLocation, 1, ambient);
+	glUniform4fv(Generic_Shader::_GetInstance()->ambient_Location, 1, ambient);
 
 	//Pre-Render
 	for (int i = 0; i < gameObjects.size(); i++)
@@ -70,29 +71,16 @@ void Level::LevelRender()
 		if (!gameObjects[i]->isFlagged)
 			gameObjects[i]->PreRender();
 	}
-	LightManager::getInstance()->PushLights();
-
-
-	//Render
-	//for (int i = 0; i < gameObjects.size(); i++)
-	//{
-	//	//if (!currentCamera->frustrum.checkObjectInside(gameObjects[i], currentCamera) && i != 0)
-	//	//{
-	//	//	//printf("YOU SUCKS: %d \n", i);
-	//	//}
-
-	//	if (!gameObjects[i]->isFlagged)
-	//		gameObjects[i]->Render();
-	//}
+	LightManager::getInstance()->PushLights(mainCamera->position);
 
 	//New Rendering method
-	OpenGL_Renderable::DrawRenderables();
+
+	RenderableComponent::DrawRenderables();
 
 	//UI
 	for (int i = 0; i < guiElements.size(); i++)
 	{
-		if (guiElements[i]->IsVisible())
-			guiElements[i]->Draw();
+		guiElements[i]->Draw();
 	}
 
 	LevelCleanUp();

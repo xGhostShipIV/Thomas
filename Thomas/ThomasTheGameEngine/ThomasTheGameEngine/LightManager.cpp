@@ -1,5 +1,6 @@
 #include "LightManager.h"
-#include "ModelManager.h"
+#include "Shader.h"
+#include <algorithm>
 
 LightManager * LightManager::instance;
 
@@ -14,74 +15,52 @@ LightManager::~LightManager(){}
 
 void LightManager::ResetDirectional()
 {
-	directionalIndex = 0;
-	for (int i = 0; i < DirectionalLength; i++)
-	{
-		Directional[i].colour = Colour::Black();
-		Directional[i].direction = Vec4::Zero();
-	}
+	Directional.clear();
 }
 
 void LightManager::ResetPoint()
 {
-	pointIndex = 0;
-	for (int i = 0; i < PointLength; i++)
-	{
-		Point[i].colour = Colour::Black();
-		Point[i].position = Vec4::Zero();
-	}
+	Point.clear();
 }
 
 void LightManager::ResetSpot()
 {
-	spotIndex = 0;
-	for (int i = 0; i < SpotLength; i++)
-	{
-		Spot[i].colour = Colour::Black();
-		Spot[i].position = Vec4::Zero();
-		Spot[i].direction = Vec4::Zero();
-		Spot[i].coneAngle = 0;
-	}
+	Spot.clear();
 }
 
 void LightManager::InputDirectionalLight(Colour _color, Vec4 _direction)
 {
-	if (directionalIndex < DirectionalLength)
-	{
-		Directional[directionalIndex].colour = _color;
-		Directional[directionalIndex].direction = _direction;
-		directionalIndex++;
-	}
+	Directional.push_back(DirectionalLight(_color, _direction));
 }
 
 void LightManager::InputPointLight(Colour _color, Vec4 _position)
 {
-	if (pointIndex < PointLength)
-	{
-		Point[pointIndex].colour = _color;
-		Point[pointIndex].position = _position;
-		pointIndex++;
-	}
+	Point.push_back(PointLight(_color, _position));
 }
 
 void LightManager::InputSpotLight(Colour _color, Vec4 _position, Vec4 _direction, float _coneAngle)
 {
-	if (spotIndex < SpotLength)
-	{
-		Spot[spotIndex].colour = _color;
-		Spot[spotIndex].position = _position;
-		Spot[spotIndex].direction = _direction;
-		Spot[spotIndex].coneAngle = _coneAngle;
-		spotIndex++;
-	}
+	Spot.push_back(SpotLight(_color, _position, _direction, _coneAngle));
 }
 
-void LightManager::PushLights()
+void LightManager::PushLights(Vec3 cameraPosition_)
 {
+	int DirectionalLength = Directional.size() > MAX_DIRECTIONAL ? MAX_DIRECTIONAL : Directional.size();
+	int PointLength = Point.size() > MAX_POINT ? MAX_POINT : Point.size();
+	int SpotLength = Spot.size() > MAX_SPOT ? MAX_SPOT : Spot.size();
+
 	//Direction
 	{
-		float color[DirectionalLength * 4];
-		float direction[DirectionalLength * 4];
+		//Check if theres more directional lights than supported
+		if (Directional.size() > MAX_DIRECTIONAL)
+		{
+			//Sort by distance to camera
+			//TODO: make a sort function for each light type
+			//std::sort(Directional.begin(), Directional.end(), []())
+		}
+
+		float* color = new float[DirectionalLength * 4];
+		float* direction = new float[DirectionalLength * 4];
 
 		for (int i = 0; i < DirectionalLength; i++)
 		{
@@ -96,16 +75,18 @@ void LightManager::PushLights()
 			direction[i * 4 + 3] = Directional[i].direction.w;
 		}
 
-		glUniform4fv(ModelManager::getInstance()->lightColor_Directional_Location, DirectionalLength, color);
-		glUniform4fv(ModelManager::getInstance()->lightDirection_Directional_Location, DirectionalLength, direction);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightColor_Directional_Location, DirectionalLength, color);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightDirection_Directional_Location, DirectionalLength, direction);
 
 		ResetDirectional();
+		delete[] color;
+		delete[] direction;
 	}
 
 	//Point
 	{
-		float color[PointLength * 4];
-		float position[PointLength * 4];
+		float* color = new float[PointLength * 4];
+		float* position = new float[PointLength * 4];
 
 		for (int i = 0; i < PointLength; i++)
 		{
@@ -120,18 +101,20 @@ void LightManager::PushLights()
 			position[i * 4 + 3] = Point[i].position.w;
 		}
 
-		glUniform4fv(ModelManager::getInstance()->lightColor_Point_Location, PointLength, color);
-		glUniform4fv(ModelManager::getInstance()->lightPosition_Point_Location, PointLength, position);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightColor_Point_Location, PointLength, color);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightPosition_Point_Location, PointLength, position);
 
 		ResetPoint();
+		delete[] color;
+		delete[] position;
 	}
 
 	//Spot
 	{
-		float color[SpotLength * 4];
-		float position[SpotLength * 4];
-		float direction[SpotLength * 4];
-		float angle[SpotLength];
+		float* color = new float[SpotLength * 4];
+		float* position = new float[SpotLength * 4];
+		float* direction = new float[SpotLength * 4];
+		float* angle = new float[SpotLength];
 
 		for (int i = 0; i < SpotLength; i++)
 		{
@@ -153,11 +136,18 @@ void LightManager::PushLights()
 			angle[i] = Spot[i].coneAngle;
 		}
 
-		glUniform4fv(ModelManager::getInstance()->lightColor_Spot_Location, SpotLength, color);
-		glUniform4fv(ModelManager::getInstance()->lightPosition_Spot_Location, SpotLength, position);
-		glUniform4fv(ModelManager::getInstance()->lightDirection_Spot_Location, SpotLength, direction);
-		glUniform1fv(ModelManager::getInstance()->lightAngle_Spot_Location, SpotLength, angle);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightColor_Spot_Location, SpotLength, color);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightPosition_Spot_Location, SpotLength, position);
+		glProgramUniform4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightDirection_Spot_Location, SpotLength, direction);
+		glProgramUniform1fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->lightAngle_Spot_Location, SpotLength, angle);
 
 		ResetSpot();
+		delete[] color;
+		delete[] position;
+		delete[] direction;
+		delete[] angle;
 	}
+
+	float numLights[] = { DirectionalLength, PointLength, SpotLength };
+	glProgramUniform3fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->numberOfLights_Location, 1, numLights);
 }

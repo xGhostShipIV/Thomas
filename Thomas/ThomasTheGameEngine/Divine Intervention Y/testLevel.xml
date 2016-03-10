@@ -2,15 +2,15 @@
 
 <Level numLayers="3" par="3" skybox="skybox1">
   
-  <Layer r = "30" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
+  <Layer r = "120" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
     <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
   
-      <Layer r = "10" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
+      <Layer r = "140" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
     <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
 
-  <Layer r = "100" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1" playerX="0" playerZ ="0">
+  <Layer r = "130" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1" playerX="0" playerZ ="0">
     <Object type="WarpGate" x="2" z="-2"></Object>
 
 	<Object type="Asteroids" x="20" z="1"></Object>

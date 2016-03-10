@@ -15,11 +15,6 @@ class Level;
 
 typedef std::string Tag;
 
-enum DRAW_STYLE
-{
-	NORMAL_STYLE, RAINBOW_STYLE
-};
-
 class GameObject
 {
 	friend class Particle;
@@ -28,9 +23,6 @@ public:
 	Vec3 position;
 	Vec3 scale;
 	Quat rotation;
-
-	DRAW_STYLE drawStyle;
-	float rainbowRand;
 
 	//Direction vectors that can aid in object movement
 	Vec3 forward();

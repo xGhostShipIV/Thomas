@@ -120,9 +120,6 @@ GameObject::GameObject(Level * _level) : position(Vec3::Zero()), scale(Vec3(1, 1
 
 	if (level)
 		level->gameObjects.push_back(this);
-
-	drawStyle = DRAW_STYLE::NORMAL_STYLE;
-	rainbowRand = 1;
 }
 
 GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
@@ -132,9 +129,6 @@ GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), sc
 
 	if (level)
 		level->gameObjects.push_back(this);
-
-	drawStyle = DRAW_STYLE::NORMAL_STYLE;
-	rainbowRand = 1;
 }
 
 
@@ -156,7 +150,7 @@ GameObject::~GameObject()
 		case Component::ComponentType::Collision:
 			delete (Collider*)*it;
 			break;
-		case Component::ComponentType::Renderable:
+		case Component::ComponentType::Renderable_Component:
 			delete (RenderableComponent*)*it;
 			break;
 		case Component::ComponentType::Flipbook:
@@ -251,7 +245,7 @@ RenderableComponent* GameObject::getComponent()
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-		if ((*components[i]).type == Component::ComponentType::Renderable)
+		if ((*components[i]).type == Component::ComponentType::Renderable_Component)
 			return (RenderableComponent*)components[i];
 	}
 	return nullptr;
@@ -342,8 +336,7 @@ void GameObject::Render()
 
 	if (renderable)
 	{
-		renderable->DrawModel();
-		//renderable->DrawWireframe();
+		renderable->Render();
 	}
 
 	ParticleSystem * particles = getComponent<ParticleSystem>();

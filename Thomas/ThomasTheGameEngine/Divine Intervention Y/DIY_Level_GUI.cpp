@@ -35,7 +35,7 @@ DIY_Level_GUI::~DIY_Level_GUI()
 
 void DIY_Level_GUI::Update(float timeStep_)
 {
-	gameGUI->ShotPowerMeter->drawPercent = shotPower;
+	gameGUI->ShotPowerMeter->SetDrawPercent(shotPower);
 
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PAUSED)
 	{
@@ -184,8 +184,8 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 		Vec2 ShotPowerMeterLocation = Vec2(-350, 65);
 
 		Models->loadTexture("DIY_LEVEL_GUI_SHOT_METER", "Images/Level GUI/ShotPowerMeter.png");
-		ShotPowerMeter = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_METER", ShotPowerMeterLocation + Vec2(2, 0), ScreenAnchor::BOTTOM_RIGHT);
-		ShotPowerMeter->drawStyle = DRAW_STYLE::RAINBOW_STYLE;
+		ShotPowerMeter = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_METER", ShotPowerMeterLocation + Vec2(2, 0), ScreenAnchor::BOTTOM_RIGHT, true);
+		//ShotPowerMeter->drawStyle = DRAW_STYLE::RAINBOW_STYLE;
 
 		Models->loadTexture("DIY_LEVEL_GUI_SHOT_FRAME", "Images/Level GUI/ShotPowerMeterFrame.png");
 		ShotPowerMeterFrame = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_FRAME", ShotPowerMeterLocation, ScreenAnchor::BOTTOM_RIGHT);

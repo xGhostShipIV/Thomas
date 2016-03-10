@@ -12,15 +12,15 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(
 
 	Scale(Vec3(2, 2, 2));
 
-	rc = new RenderableComponent("wormhole", "wormholeTexture", this);
+	rc = new Generic_RenderableComponent(this, "wormhole", "wormholeTexture");
 
 	ballCaught = false;
 	isScalingDown = true;
-	drawStyle = DRAW_STYLE::RAINBOW_STYLE;
+	//drawStyle = DRAW_STYLE::RAINBOW_STYLE;
 
 	initialRotation = (rand() % 366);
 	Rotate(Quat(initialRotation * M_PI / 180.0f, Vec3::BasisY()));
-	rainbowRand = 0.5f;
+	//rainbowRand = 0.5f;
 
 	Audio->loadSound("wormhole", "Sounds/wormhole.wav");
 	sound = Audio->getSound("wormhole");
@@ -34,8 +34,8 @@ Layer * Wormhole::getDestinationLayer()
 
 void Wormhole::Update(float timeStep_)
 {
-	rainbowRand += ((rand() % 21) - 10) / 100.0f;
-	rainbowRand = rainbowRand > 1 ? 1 : rainbowRand < 0.4f ? 0.4f : rainbowRand;
+	//rainbowRand += ((rand() % 21) - 10) / 100.0f;
+	//rainbowRand = rainbowRand > 1 ? 1 : rainbowRand < 0.4f ? 0.4f : rainbowRand;
 
 	scale.z = isScalingDown ? scale.z - 0.1f * timeStep_ : scale.z + 0.1f * timeStep_;
 	isScalingDown = isScalingDown ? (scale.z < 0 ? false : true) : (scale.z > 0.7f ? true : false);

@@ -15,7 +15,7 @@ public:
 	void Render() override;
 
 private:
-	RenderableComponent * renderer;
+	Generic_RenderableComponent * renderer;
 	PlayerBall * ball;
 
 	bool followCam;

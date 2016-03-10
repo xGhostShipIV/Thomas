@@ -27,13 +27,13 @@ AsteroidField::AsteroidField(Level * _level, Vec3 _position, float _radius, floa
 		switch (model)
 		{
 		case 0:
-			new RenderableComponent("meteor1", "meteorTex1", asteroids[asteroids.size() - 1]);
+			new Generic_RenderableComponent(asteroids[asteroids.size() - 1], "meteor1", "meteorTex1");
 			break;
 		case 1:
-			new RenderableComponent("meteor2", "meteorTex2", asteroids[asteroids.size() - 1]);
+			new Generic_RenderableComponent(asteroids[asteroids.size() - 1], "meteor2", "meteorTex2");
 			break;
 		case 2:
-			new RenderableComponent("meteor3", "meteorTex3", asteroids[asteroids.size() - 1]);
+			new Generic_RenderableComponent(asteroids[asteroids.size() - 1], "meteor3", "meteorTex3");
 			break;
 		default:
 			break;

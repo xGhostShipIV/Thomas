@@ -11,7 +11,7 @@ WarpGate::WarpGate(Level * level_, Vec3 position_, Quat rotation_) : GameObject(
 	position = position + Vec3(0, 0.5f, 0);
 	rotation = rotation_;
 
-	rc = new RenderableComponent("warpGate", "gateTexture", this);
+	rc = new Generic_RenderableComponent(this, "warpGate", "gateTexture");
 
 	Scale(Vec3(0.2, 0.2, 0.2));
 

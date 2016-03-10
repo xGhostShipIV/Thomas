@@ -24,9 +24,6 @@ public:
 	void Update(float _deltaTime) override;
 
 private:
-	//OpenGL specific identifier
-	GLuint viewLocation, projectionLocation;
-
 	//All matricies associated with the camera
 	Matrix4 projectionMatrix;
 	Matrix4 viewMatrix;

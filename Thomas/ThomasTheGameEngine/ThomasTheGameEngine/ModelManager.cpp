@@ -1,82 +1,49 @@
 #include "ModelManager.h"
 #include "Renderable.h"
 #include "Texture.h"
-#include "OpenGLUtilities.h"
+#include "Shader.h"
 
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+
+#define BUFFER_OFFSET(i) ((void*)(i))
 
 ModelManager * ModelManager::instance;
 
 UINT32 ModelManager::nextTextureID = 0;
 UINT32 ModelManager::nextModelID = 0;
 
-GLuint ModelManager::transformLocation;
-GLuint ModelManager::ambientLocation;
-GLuint ModelManager::rotateLocation;
-GLuint ModelManager::materialLocation;
-
-GLuint ModelManager::lightColor_Directional_Location;
-GLuint ModelManager::lightDirection_Directional_Location;
-
-GLuint ModelManager::lightColor_Point_Location;
-GLuint ModelManager::lightPosition_Point_Location;
-
-GLuint ModelManager::lightColor_Spot_Location;
-GLuint ModelManager::lightPosition_Spot_Location;
-GLuint ModelManager::lightDirection_Spot_Location;
-GLuint ModelManager::lightAngle_Spot_Location;
-
-GLuint ModelManager::isEffectedByLight_Location;
-GLuint ModelManager::UI_DRAW_Location;
-GLuint ModelManager::UI_DrawPercent_Location;
-GLuint ModelManager::cameraPosition_Location;
-GLuint ModelManager::DrawStyle_Location;
-GLuint ModelManager::faceNormalLocation;
-GLuint ModelManager::RainbowRand_Location;
-
-ModelManager::ModelManager(Render_Mode _render_mode)
+ModelManager::ModelManager()
 {
-	render_mode = _render_mode;
+	//Create Buffers
+	glGenBuffers(NUMBER_OF_BUFFERS, Buffers);
+	areBuffersInitialized = true;
 
-	if (_render_mode == RENDER_MODE_OPENGL)
+	//Create Shader Programs
+	shaderPrograms.push_back(Generic_Shader::_GetInstance());
+	shaderPrograms.push_back(GUI_Shader::_GetInstance());
+	shaderPrograms.push_back(Sun_Shader::_GetInstance());
+
+	//Bind Attributes
 	{
-		program = GLU::UseShaders("GameObjects.vert", "GameObjects.frag");
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[VERTEX_BUFFER]);
+		glVertexAttribPointer(VERTEX_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glEnableVertexAttribArray(VERTEX_ATTRIBUTE);
 
-		faceNormalLocation = glGetUniformLocation(program, "faceNormal");
-		UI_DRAW_Location = glGetUniformLocation(program, "uiDraw");
-		UI_DrawPercent_Location = glGetUniformLocation(program, "drawPercent");
-		transformLocation = glGetUniformLocation(program, "Transform");
-		rotateLocation = glGetUniformLocation(program, "Rotation");
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[TEXTURE_BUFFER]);
+		glVertexAttribPointer(TEXTURE_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glEnableVertexAttribArray(TEXTURE_ATTRIBUTE);
 
-		cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
-
-		ambientLocation = glGetUniformLocation(program, "AmbientColor");
-
-		lightColor_Directional_Location = glGetUniformLocation(program, "LightColor_Directional");
-		lightDirection_Directional_Location = glGetUniformLocation(program, "LightDirection_Directional");
-
-		lightColor_Point_Location = glGetUniformLocation(program, "LightColor_Point");
-		lightPosition_Point_Location = glGetUniformLocation(program, "LightPosition_Point");
-
-		lightColor_Spot_Location = glGetUniformLocation(program, "LightColor_Spot");
-		lightPosition_Spot_Location = glGetUniformLocation(program, "LightPosition_Spot");
-		lightDirection_Spot_Location = glGetUniformLocation(program, "LightDirection_Spot");
-		lightAngle_Spot_Location = glGetUniformLocation(program, "LightAngle_Spot");
-
-		isEffectedByLight_Location = glGetUniformLocation(program, "IsEffectedByLight");
-		materialLocation = glGetUniformLocation(program, "Material");
-
-		DrawStyle_Location = glGetUniformLocation(program, "drawStyle");
-		RainbowRand_Location= glGetUniformLocation(program, "rainbowRand");
-
-		areBuffersInitialized = false;
-		textureArray = nullptr;
-		numberOfTextures = 0;
-
-		GenerateDefaultContent();
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[NORMAL_BUFFER]);
+		glVertexAttribPointer(NORMAL_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glEnableVertexAttribArray(NORMAL_ATTRIBUTE);
 	}
+
+	textureArray = nullptr;
+	numberOfTextures = 0;	
+
+	GenerateDefaultContent();
 }
 
 ModelManager::~ModelManager()
@@ -124,10 +91,6 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 			return;
 	}
 
-	//Checks what our current render mode is and will create the appropriate
-	//Renderable based on such. For example, will create an OpenGL_Renderable
-	//if current render mode is for OpenGL
-
 	Assimp::Importer import;
 	const aiScene * scene;
 
@@ -135,84 +98,71 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 
 	bool hasNormals;
 
-	switch (render_mode)
+	model = new Renderable();
+
+	scene = import.ReadFile(_fileName, aiProcess_Triangulate | aiProcess_SortByPType);
+
+	hasNormals = false;
+
+	for (int i = 0; i < scene->mNumMeshes; i++)
 	{
-	case ModelManager::Render_OpenGL:
-
-		model = new OpenGL_Renderable();
-
-		scene = import.ReadFile(_fileName, aiProcess_Triangulate | aiProcess_SortByPType);
-
-		hasNormals = false;
-
-		for (int i = 0; i < scene->mNumMeshes; i++)
-		{
-			Renderable::Mesh mesh;
+		Renderable::Mesh mesh;
 				
-			for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
-			{
-				Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
-				mesh.vertex.push_back(vertex);
-
-				if (scene->mMeshes[i]->HasNormals())
-				{
-					Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
-					mesh.normal.push_back(normal);
-					hasNormals = true;
-				}
-
-				if (_useModelTextureMap && scene->mMeshes[i]->HasTextureCoords(0))
-				{
-					Vec2 texture = Vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, scene->mMeshes[i]->mTextureCoords[0][j].y);
-					mesh.textureMap.push_back(texture);
-				}
-			}
-
-			model->meshes.push_back(mesh);
-		}
-
-
-		for (int m = 0; m < model->meshes.size(); m++)
-		for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
-			model->meshes[m].edge.push_back(i);
-
-
-		for (int i = 0; i < scene->mNumMeshes; i++)
+		for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
 		{
-			for (int j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
+			Vec3 vertex = Vec3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z);
+			mesh.vertex.push_back(vertex);
+
+			if (scene->mMeshes[i]->HasNormals())
 			{
-				model->meshes[i].face.push_back(scene->mMeshes[i]->mFaces[j].mNumIndices);
+				Vec3 normal = Vec3(scene->mMeshes[i]->mNormals[j].x, scene->mMeshes[i]->mNormals[j].y, scene->mMeshes[i]->mNormals[j].z);
+				mesh.normal.push_back(normal);
+				hasNormals = true;
+			}
+
+			if (_useModelTextureMap && scene->mMeshes[i]->HasTextureCoords(0))
+			{
+				Vec2 texture = Vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, scene->mMeshes[i]->mTextureCoords[0][j].y);
+				mesh.textureMap.push_back(texture);
 			}
 		}
 
-		if (!_useModelTextureMap)
-			GenerateTextureMap(model);
-		else
-		{
-			for (int m = 0; m < model->meshes.size(); m++)
-			for (auto it = model->meshes[m].textureMap.begin(); it != model->meshes[m].textureMap.end(); it++)
-			{
-				masterTextureCoords.push_back(*it);
-			}
-		}
-
-		/*if (!hasNormals)
-			GenerateNormals(model);
-		else
-			GenerateNormals(model, false, false, true);*/
-
-		model->drawMode = _mode;
-
-		InsertModel(model, _id);
-
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	default:
-		break;
+		model->meshes.push_back(mesh);
 	}
+
+
+	for (int m = 0; m < model->meshes.size(); m++)
+	for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
+		model->meshes[m].edge.push_back(i);
+
+
+	for (int i = 0; i < scene->mNumMeshes; i++)
+	{
+		for (int j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
+		{
+			model->meshes[i].face.push_back(scene->mMeshes[i]->mFaces[j].mNumIndices);
+		}
+	}
+
+	if (!_useModelTextureMap)
+		GenerateTextureMap(model);
+	else
+	{
+		for (int m = 0; m < model->meshes.size(); m++)
+		for (auto it = model->meshes[m].textureMap.begin(); it != model->meshes[m].textureMap.end(); it++)
+		{
+			masterTextureCoords.push_back(*it);
+		}
+	}
+
+	/*if (!hasNormals)
+		GenerateNormals(model);
+	else
+		GenerateNormals(model, false, false, true);*/
+
+	model->drawMode = _mode;
+
+	InsertModel(model, _id);
 }
 
 Renderable * ModelManager::getModel(string _id)
@@ -236,11 +186,6 @@ Renderable * ModelManager::getModel(UINT32 _id)
 //	models.clear();
 //}
 
-void ModelManager::setRenderMode(ModelManager::Render_Mode _rm)
-{
-	render_mode = _rm;
-}
-
 #define Cuboid_Vertex_0 Vec3(-_w, _h, _l)
 #define Cuboid_Vertex_1 Vec3(_w, _h, _l)
 #define Cuboid_Vertex_2 Vec3(_w, -_h, _l)
@@ -257,101 +202,91 @@ void ModelManager::CreateCuboid(string _id, float _w, float _h, float _l, bool _
 		return;
 
 	Renderable * cube;
-	Renderable::Mesh mesh;
+	Renderable::Mesh mesh;	
 
-	switch (render_mode)
-	{
-	case ModelManager::Render_OpenGL:
+	cube = new Renderable();
 
-		cube = new OpenGL_Renderable();
+	cube->meshes.push_back(mesh);
 
-		cube->meshes.push_back(mesh);
+	//ABD  DBC
 
-		//ABD  DBC
+	/* Face Back */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
 
-		/* Face Back */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
 
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
+	/* Face Front */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
 
-		/* Face Front */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
 
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
+	/* Face Right */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
 
-		/* Face Right */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
 
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
+	/* Face Left */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
 
-		/* Face Left */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
-
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);		
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);		
 		
-		/* Face Top */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
+	/* Face Top */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_7);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
 		
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_0);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_6);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_1);
 
-		/* Face Bottom */
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
+	/* Face Bottom */
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_3);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
 
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
-		cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_4);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_2);
+	cube->meshes[0].vertex.push_back(Cuboid_Vertex_5);
 
 
-		///* Face Back */		cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
-		///* Face Front */		cube->edge.push_back(4);	cube->edge.push_back(5);	cube->edge.push_back(6);	cube->edge.push_back(7);
-		///* Face Left */		cube->edge.push_back(0);	cube->edge.push_back(3);	cube->edge.push_back(4);	cube->edge.push_back(7);
-		///* Face Right */		cube->edge.push_back(6);	cube->edge.push_back(5);	cube->edge.push_back(2);	cube->edge.push_back(1);
-		///* Face Top */		cube->edge.push_back(7);	cube->edge.push_back(6);	cube->edge.push_back(1);	cube->edge.push_back(0);
-		///* Face Bottom */		cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(5);	cube->edge.push_back(4);
+	///* Face Back */		cube->edge.push_back(0);	cube->edge.push_back(1);	cube->edge.push_back(2);	cube->edge.push_back(3);
+	///* Face Front */		cube->edge.push_back(4);	cube->edge.push_back(5);	cube->edge.push_back(6);	cube->edge.push_back(7);
+	///* Face Left */		cube->edge.push_back(0);	cube->edge.push_back(3);	cube->edge.push_back(4);	cube->edge.push_back(7);
+	///* Face Right */		cube->edge.push_back(6);	cube->edge.push_back(5);	cube->edge.push_back(2);	cube->edge.push_back(1);
+	///* Face Top */		cube->edge.push_back(7);	cube->edge.push_back(6);	cube->edge.push_back(1);	cube->edge.push_back(0);
+	///* Face Bottom */		cube->edge.push_back(3);	cube->edge.push_back(2);	cube->edge.push_back(5);	cube->edge.push_back(4);
 
-		for (unsigned int i = 0; i < cube->meshes[0].vertex.size(); i++)
-			cube->meshes[0].edge.push_back(i);
+	for (unsigned int i = 0; i < cube->meshes[0].vertex.size(); i++)
+		cube->meshes[0].edge.push_back(i);
 
-		for (int i = 0; i < 12; i++)
-			cube->meshes[0].face.push_back(3);
+	for (int i = 0; i < 12; i++)
+		cube->meshes[0].face.push_back(3);
 
-		GenerateNormals(cube);
+	GenerateNormals(cube);
 
-		if (!_useCubeMap)
-			GenerateTextureMap(cube, _uvRepeatX, _uvRepeatY);
-		else
-			GenerateCubeMap(cube);
+	if (!_useCubeMap)
+		GenerateTextureMap(cube, _uvRepeatX, _uvRepeatY);
+	else
+		GenerateCubeMap(cube);
 
-		InsertModel(cube, _id);
+	InsertModel(cube, _id);
 
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	}
 }
 
 #define Skybox_Vertex_0 Vec3(-_size, -_size, _size)
@@ -372,84 +307,73 @@ void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 	Renderable * skybox;
 	Renderable::Mesh mesh;
 
-	switch (render_mode)
-	{
-	case ModelManager::Render_OpenGL:
+	skybox = new Renderable();
+	skybox->meshes.push_back(mesh);
 
-		skybox = new OpenGL_Renderable();
-		skybox->meshes.push_back(mesh);
+	/* Face Back  */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
 
-		/* Face Back  */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
 
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
+	/* Face Front */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
 
-		/* Face Front */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
 
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
+	/* Face Right */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
 
-		/* Face Right */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
-
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
 		
-		/* Face Left */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
+	/* Face Left */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
 
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
 		
-		/* Face Top */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
+	/* Face Top */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_7);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
 		
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_0);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_6);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_1);
 		
-		/* Face Bottom */
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
+	/* Face Bottom */
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_3);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
 
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
-		skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_4);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_2);
+	skybox->meshes[0].vertex.push_back(Skybox_Vertex_5);
 
-		for (unsigned int i = 0; i < skybox->meshes[0].vertex.size(); i++)
-			skybox->meshes[0].edge.push_back(i);
+	for (unsigned int i = 0; i < skybox->meshes[0].vertex.size(); i++)
+		skybox->meshes[0].edge.push_back(i);
 
-		for (int i = 0; i < 12; i++)
-			skybox->meshes[0].face.push_back(3);
+	for (int i = 0; i < 12; i++)
+		skybox->meshes[0].face.push_back(3);
 
-		GenerateNormals(skybox, true, _normalsOnBottom);
-		GenerateCubeMap(skybox);
+	GenerateNormals(skybox, true, _normalsOnBottom);
+	GenerateCubeMap(skybox);
 
-		InsertModel(skybox, _id);
-
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	}
+	InsertModel(skybox, _id);
 }
 
 void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)
@@ -462,59 +386,46 @@ void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float
 	Renderable * pyramid;
 	Renderable::Mesh mesh;
 
-	switch (render_mode)
-	{
-	case ModelManager::Render_OpenGL:
+	pyramid = new Renderable();
+	pyramid->meshes.push_back(mesh);
 
-		pyramid = new OpenGL_Renderable();
-		pyramid->meshes.push_back(mesh);
+	pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, -_l));
+	pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, -_l));
+	pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, _l));
+	pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, _l));
 
-		pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, -_l));
-		pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, -_l));
-		pyramid->meshes[0].vertex.push_back(Vec3(-_w, 0.0f, _l));
-		pyramid->meshes[0].vertex.push_back(Vec3(_w, 0.0f, _l));
+	pyramid->meshes[0].vertex.push_back(Vec3(0.0f, _h, 0.0f));
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
 
-		pyramid->meshes[0].vertex.push_back(Vec3(0.0f, _h, 0.0f));
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
 
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[2]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
 
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[1]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
+	pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
 
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[4]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[0]);
-		pyramid->meshes[0].vertex.push_back(pyramid->meshes[0].vertex[3]);
+	////	/* Bottom */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(2);		pyramid->edge.push_back(3);
+	////	/* Face 1 */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(4);
+	////	/* Face 2 */pyramid->edge.push_back(1);	 pyramid->edge.push_back(2);	pyramid->edge.push_back(4);
+	////	/* Face 3 */pyramid->edge.push_back(2);	 pyramid->edge.push_back(3);	pyramid->edge.push_back(4);
+	////	/* Face 4 */pyramid->edge.push_back(3);	 pyramid->edge.push_back(0);	pyramid->edge.push_back(4);
 
-		////	/* Bottom */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(2);		pyramid->edge.push_back(3);
-		////	/* Face 1 */pyramid->edge.push_back(0);	 pyramid->edge.push_back(1);	pyramid->edge.push_back(4);
-		////	/* Face 2 */pyramid->edge.push_back(1);	 pyramid->edge.push_back(2);	pyramid->edge.push_back(4);
-		////	/* Face 3 */pyramid->edge.push_back(2);	 pyramid->edge.push_back(3);	pyramid->edge.push_back(4);
-		////	/* Face 4 */pyramid->edge.push_back(3);	 pyramid->edge.push_back(0);	pyramid->edge.push_back(4);
+	for (unsigned int i = 0; i < pyramid->meshes[0].vertex.size(); i++)
+		pyramid->meshes[0].edge.push_back(i);
 
-		for (unsigned int i = 0; i < pyramid->meshes[0].vertex.size(); i++)
-			pyramid->meshes[0].edge.push_back(i);
+	pyramid->meshes[0].face.push_back(4);
+	for (int i = 1; i < 5; i++)pyramid->meshes[0].face.push_back(3);
 
-		pyramid->meshes[0].face.push_back(4);
-		for (int i = 1; i < 5; i++)pyramid->meshes[0].face.push_back(3);
+	GenerateNormals(pyramid);
+	GenerateTextureMap(pyramid, _uvRepeatX, _uvRepeatY);
 
-		GenerateNormals(pyramid);
-		GenerateTextureMap(pyramid, _uvRepeatX, _uvRepeatY);
-
-		InsertModel(pyramid, _id);
-
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	default:
-		break;
-	}
+	InsertModel(pyramid, _id);
 }
 
 void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX, float _uvRepeatY)
@@ -527,43 +438,30 @@ void ModelManager::CreatePlane(string _id, float _h, float _w, float _uvRepeatX,
 	Renderable * plane;
 	Renderable::Mesh mesh;
 
-	switch (render_mode)
-	{
-	case ModelManager::Render_OpenGL:
+	plane = new Renderable();
+	plane->meshes.push_back(mesh);
 
-		plane = new OpenGL_Renderable();
-		plane->meshes.push_back(mesh);
+	_h /= 2.0f;
+	_w /= 2.0f;
 
-		_h /= 2.0f;
-		_w /= 2.0f;
-
-		plane->meshes[0].vertex.push_back(Vec3(-_w, _h, 0.0f));	//A
-		plane->meshes[0].vertex.push_back(Vec3(_w, _h, 0.0f));	//B
-		plane->meshes[0].vertex.push_back(Vec3(-_w, -_h, 0.0f)); //D
+	plane->meshes[0].vertex.push_back(Vec3(-_w, _h, 0.0f));	//A
+	plane->meshes[0].vertex.push_back(Vec3(_w, _h, 0.0f));	//B
+	plane->meshes[0].vertex.push_back(Vec3(-_w, -_h, 0.0f)); //D
 		
-		plane->meshes[0].vertex.push_back(Vec3(-_w, -_h, 0.0f)); //D
-		plane->meshes[0].vertex.push_back(Vec3(_w, _h, 0.0f));	//B
-		plane->meshes[0].vertex.push_back(Vec3(_w, -_h, 0.0f)); //C
+	plane->meshes[0].vertex.push_back(Vec3(-_w, -_h, 0.0f)); //D
+	plane->meshes[0].vertex.push_back(Vec3(_w, _h, 0.0f));	//B
+	plane->meshes[0].vertex.push_back(Vec3(_w, -_h, 0.0f)); //C
 
-		for (unsigned int i = 0; i < plane->meshes[0].vertex.size(); i++)
-			plane->meshes[0].edge.push_back(i);
+	for (unsigned int i = 0; i < plane->meshes[0].vertex.size(); i++)
+		plane->meshes[0].edge.push_back(i);
 
-		for (int i = 0; i < 2; i++)
-			plane->meshes[0].face.push_back(3);
+	for (int i = 0; i < 2; i++)
+		plane->meshes[0].face.push_back(3);
 
-		GenerateNormals(plane);
-		GenerateTextureMap(plane, _uvRepeatX, _uvRepeatY);
+	GenerateNormals(plane);
+	GenerateTextureMap(plane, _uvRepeatX, _uvRepeatY);
 
-		InsertModel(plane, _id);
-
-		break;
-	case ModelManager::Render_DirectX:
-		break;
-	case ModelManager::Render_Ogre:
-		break;
-	default:
-		break;
-	}
+	InsertModel(plane, _id);
 }
 
 void ModelManager::InsertModel(Renderable* _renderable, string _id)
@@ -789,7 +687,6 @@ void ModelManager::GenerateNormals(Renderable* _renderable, bool _reverse, bool 
 	}
 }
 
-#define BUFFER_OFFSET(i) ((void*)(i))
 void ModelManager::PushModels()
 {
 	//Clear Buffers
@@ -803,20 +700,11 @@ void ModelManager::PushModels()
 		//glClearNamedBufferData(Buffers[2], GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
 
 		//OpenGL 4.3.0
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[0]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[1]); glClearBufferData(GL_ARRAY_BUFFER, GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[2]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[VERTEX_BUFFER]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[TEXTURE_BUFFER]); glClearBufferData(GL_ARRAY_BUFFER, GL_RG32F, GL_RG, GL_UNSIGNED_INT, &zero);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[NORMAL_BUFFER]); glClearBufferData(GL_ARRAY_BUFFER, GL_RGB32F, GL_RGB, GL_UNSIGNED_INT, &zero);
 
 		glDeleteTextures(numberOfTextures, textureArray);
-	}
-	else
-	{
-		//Init Buffers
-		glGenVertexArrays(1, VAOs);
-		glBindVertexArray(VAOs[0]);
-
-		glGenBuffers(3, Buffers);
-		areBuffersInitialized = true;
 	}
 
 	/*  VERTICES  */
@@ -835,10 +723,8 @@ void ModelManager::PushModels()
 				newMasterList[3 * i + 2] = masterVectorList[i].z;
 			}
 
-			glBindBuffer(GL_ARRAY_BUFFER, Buffers[0]);
+			glBindBuffer(GL_ARRAY_BUFFER, Buffers[VERTEX_BUFFER]);
 			glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-			glEnableVertexAttribArray(0);
 
 			std::cout << "Loaded " << i << " Vertices.\n";
 		}
@@ -864,22 +750,34 @@ void ModelManager::PushModels()
 
 		it->second->address = textureArray[i];
 
-		glBindTexture(GL_TEXTURE_2D, it->second->address);
-
 		switch (it->second->dataType)
 		{
 		case Texture::TextureDataType::Float:
+			glBindTexture(GL_TEXTURE_2D, it->second->address);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, it->second->width, it->second->height, 0, GL_RGBA, GL_FLOAT, it->second->pixelData);
 			break;
 		case Texture::TextureDataType::UnsignedByte:
+			glBindTexture(GL_TEXTURE_2D, it->second->address);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, it->second->width, it->second->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, it->second->pixelData);
 			break;
+		case Texture::TextureDataType::UnsignedByte_3D:
+			glBindTexture(GL_TEXTURE_3D, it->second->address);
+			glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, it->second->width, it->second->height, it->second->depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, it->second->pixelData);
+			break;
 		}
-
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		std::cout << " done!\n";
 
@@ -892,14 +790,11 @@ void ModelManager::PushModels()
 		for (int i = 0; i < masterTextureCoords.size(); i++)
 		{
 			newMasterTextureList[2 * i + 0] = masterTextureCoords[i].x;
-			newMasterTextureList[2 * i + 1] = masterTextureCoords[i].y;
+			newMasterTextureList[2 * i + 1] = masterTextureCoords[i].y * -1;
 		}
 
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[TEXTURE_BUFFER]);
 		glBufferData(GL_ARRAY_BUFFER, masterTextureCoords.size() * 2 * 4, newMasterTextureList, GL_STATIC_DRAW);
-		glBindAttribLocation(program, 1, "vTexCoord");
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glEnableVertexAttribArray(1);
 
 		delete[] newMasterTextureList;
 	}
@@ -918,11 +813,8 @@ void ModelManager::PushModels()
 			newMasterList[3 * i + 2] = masterNormalList[i].z;
 		}
 
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffers[NORMAL_BUFFER]);
 		glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);
-		glBindAttribLocation(program, 2, "Normal");
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glEnableVertexAttribArray(2);
 
 		delete[] newMasterList;
 	}
@@ -994,27 +886,37 @@ std::string ModelManager::loadTexture(string _id, string _fileName)
 	return _id;
 }
 
-Texture* ModelManager::getTexture(string _id)
+UINT32 ModelManager::InsertTexture(Texture* texture_)
+{
+	UINT32 _id = nextTextureID;
+	textures.insert(std::pair<UINT32, Texture*>(nextTextureID, texture_));
+	
+	nextTextureID++;
+
+	return _id;
+}
+
+Texture* ModelManager::getTexture(string _id) const
 {
 	return textures.find(GetTextureID(_id))->second;
 }
 
-Texture* ModelManager::getTexture(UINT32 _id)
+Texture* ModelManager::getTexture(UINT32 _id) const
 {
 	return textures.find(_id)->second;
 }
 
-UINT32 ModelManager::GetModelID(string _name)
+UINT32 ModelManager::GetModelID(string _name) const
 {
 	return modelMap.find(_name)->second;
 }
 
-UINT32 ModelManager::GetTextureID(string _name)
+UINT32 ModelManager::GetTextureID(string _name) const
 {
 	return textureMap.find(_name)->second;
 }
 
-int ModelManager::GetTextureWidth(string _name)
+int ModelManager::GetTextureWidth(string _name) const
 {
 	Texture* tex = getTexture(_name);
 
@@ -1024,7 +926,7 @@ int ModelManager::GetTextureWidth(string _name)
 		return -1;
 }
 
-int ModelManager::GetTextureWidth(UINT32 _id)
+int ModelManager::GetTextureWidth(UINT32 _id) const
 {
 	Texture* tex = getTexture(_id);
 
@@ -1035,7 +937,7 @@ int ModelManager::GetTextureWidth(UINT32 _id)
 }
 
 
-int ModelManager::GetTextureHeight(string _name)
+int ModelManager::GetTextureHeight(string _name) const
 {
 	Texture* tex = getTexture(_name);
 	if (tex != nullptr)
@@ -1044,7 +946,7 @@ int ModelManager::GetTextureHeight(string _name)
 		return -1;
 }
 
-int ModelManager::GetTextureHeight(UINT32 _id)
+int ModelManager::GetTextureHeight(UINT32 _id) const
 {
 	Texture* tex = getTexture(_id);
 	if (tex != nullptr)

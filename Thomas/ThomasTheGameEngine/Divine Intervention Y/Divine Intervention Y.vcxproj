@@ -127,8 +127,14 @@
     <ClInclude Include="Wormhole.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="GameObjects.frag" />
-    <None Include="GameObjects.vert" />
+    <None Include="Generic.frag" />
+    <None Include="Generic.vert" />
+    <None Include="GUI.frag" />
+    <None Include="GUI.vert" />
+    <None Include="Rainbow_GUI.frag" />
+    <None Include="Rainbow_GUI.vert" />
+    <None Include="Sun.frag" />
+    <None Include="Sun.vert" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Level001.xml" />

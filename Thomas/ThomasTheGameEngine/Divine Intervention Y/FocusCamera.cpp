@@ -21,10 +21,8 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 	}
 }
 
-
 void FocusCamera::Update(float deltaTime_) {
 
-	std::cout << focus->position.toString() << std::endl;
 	//Mouse wheel to zoom in/out
 	if (Input->mouseWheel < 0)
 	{

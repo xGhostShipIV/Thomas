@@ -5,7 +5,8 @@
 #include <vector>
 
 typedef unsigned int UINT32;
-enum ScreenAnchor;
+class Renderable;
+class Shader;
 
 /*
 	A component that contains all the graphical information that can be
@@ -18,24 +19,76 @@ class RenderableComponent : public Component {
 public:
 	//An identifier string that will be used to find
 	//the model information from the modelManager
+	RenderableComponent(GameObject* _parent, Shader* shaderProgram_);
+	~RenderableComponent();
+
+	//Draw the model
+	virtual void Render() = 0;
+
+	static std::vector<RenderableComponent*> renderableComponents;
+	static void DrawRenderables();
+
 	UINT32 modelName;
 	std::vector<UINT32> textureName;
+protected:
+	Shader* shaderProgram;
 
+	Renderable* GetModel(std::string ID_);
+	Renderable* GetModel(UINT32 ID_);
+};
+
+/**********************************************************************************/
+/*                                CHILD CLASSES                                   */
+/**********************************************************************************/
+
+class Generic_RenderableComponent : public RenderableComponent
+{
+public:
 	Material * mat;
+	Vec3 isEffectedByLight;
 
-	RenderableComponent(std::string _modelID, std::string _textureID, GameObject* _parent, Material * mat = new Material(1.0f, 1.0f, 1.0f));
-	RenderableComponent(UINT32 _modelID, UINT32 _textureID, GameObject* _parent, Material * mat = new Material(1.0f, 1.0f, 1.0f));
+	Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, Material * mat_ = new Material(1.0f, 1.0f, 1.0f));
 
-	//Draws a filled in model
-	void DrawModel();
+	~Generic_RenderableComponent();
 
-	//Draw UI to the screen
-	void DrawUI(ScreenAnchor anchor_);
-
-	//Draws the wireframe of the model
-	void DrawWireframe();
+	virtual void Render();
 
 	void SetEffecctedByLight(bool _directional = true, bool _point = true, bool _spot = true);
+};
 
-	void SetTextureID(UINT32 _id, int _index);
+class GUI_RenderableComponent : public RenderableComponent
+{
+public:
+	float drawPercent;
+
+	GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_);
+
+	~GUI_RenderableComponent();
+
+	virtual void Render();
+};
+
+class Sun_RenderableComponent : public RenderableComponent
+{
+public:
+	Sun_RenderableComponent(GameObject* parent_, std::string modelID_);
+
+	~Sun_RenderableComponent();
+
+	virtual void Render();
+
+	Vec3 offset;
+	float intensity;
+};
+
+class Rainbow_GUI_RenderableComponent : public RenderableComponent
+{
+public:
+	float drawPercent;
+
+	Rainbow_GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_);
+
+	~Rainbow_GUI_RenderableComponent();
+
+	virtual void Render();
 };

@@ -17,7 +17,7 @@ Particle::Particle(Level * _level, Vec3 _startPosition, float _lifeTime, std::st
 
 	position = _startPosition;
 
-	renderer = new RenderableComponent(_modelName, _textureName, this);
+	renderer = new Generic_RenderableComponent(this, _modelName, _textureName);
 
 	isAlive = false;
 
@@ -35,7 +35,7 @@ void Particle::Render()
 {
 	if (isAlive)
 	{
-		renderer->DrawModel();
+		renderer->Render();
 	}
 }
 

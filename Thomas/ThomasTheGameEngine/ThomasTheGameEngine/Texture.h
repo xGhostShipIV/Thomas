@@ -11,11 +11,12 @@ class Texture
 public:
 	enum TextureDataType
 	{
-		Float, UnsignedByte
+		Float, UnsignedByte, UnsignedByte_3D
 	};
 
 	Texture(SDL_Surface* _surface, std::string id_ = "");
 	Texture(void* _pixelData, UINT32 _width, UINT32 _height, std::string id_ = "");
+	Texture(void* _pixelData, UINT32 _width, UINT32 _height, UINT32 _depth, std::string id_ = "");
 	~Texture();
 
 	//Index in texture array
@@ -24,7 +25,7 @@ public:
 	SDL_Surface* surface;
 
 	//texture dimensions in pixels
-	UINT32 width, height;
+	UINT32 width, height, depth;
 
 	//color of each pixel in the texture
 	void* pixelData;

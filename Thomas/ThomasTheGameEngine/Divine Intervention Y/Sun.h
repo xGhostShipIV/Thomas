@@ -9,13 +9,13 @@ class PlayerBall;
 class Sun : public GameObject
 {
 public:
-	Sun(Level *, Vec3, std::string);
+	Sun(Level * level_, Vec3 position_, float radius_);
 	~Sun();
 
 	void Update(float) override;
 
 private:
-	RenderableComponent * renderer;
+	Sun_RenderableComponent * renderer;
 	Light * light;
 	Rigidbody * rigidBody;
 	PlayerBall * player;

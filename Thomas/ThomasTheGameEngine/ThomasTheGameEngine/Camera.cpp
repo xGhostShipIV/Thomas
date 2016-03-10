@@ -6,12 +6,11 @@
 
 #include <iostream>
 #include "ModelManager.h"
+#include "Shader.h"
 
 Camera::Camera(Level * _level) : GameObject(_level, Vec3(0, 0, -2))
 {
 	CalculateCameraMatrix();	
-	viewLocation = glGetUniformLocation(ModelManager::getInstance()->program, "view");
-	projectionLocation = glGetUniformLocation(ModelManager::getInstance()->program, "projection");
 }
 
 void Camera::CalculateCameraMatrix()
@@ -55,11 +54,15 @@ Matrix4 Camera::getMatrix() const
 void Camera::Update(float _deltaTime)
 {
 	CalculateCameraMatrix();
-	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projectionMatrix.values);
-	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, viewMatrix.values);
-
 	float pos[] = { position.x, position.y, position.z };
-	glUniform3fv(ModelManager::getInstance()->cameraPosition_Location, 1, pos);
+
+	//Update Shaders
+	glProgramUniformMatrix4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->projection_Location, 1, GL_FALSE, projectionMatrix.values);
+	glProgramUniformMatrix4fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->view_Location, 1, GL_FALSE, viewMatrix.values);
+	glProgramUniform3fv(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->cameraPosition_Location, 1, pos);
+
+	glProgramUniformMatrix4fv(Sun_Shader::_GetInstance()->GetProgram(), Sun_Shader::_GetInstance()->projection_Location, 1, GL_FALSE, projectionMatrix.values);
+	glProgramUniformMatrix4fv(Sun_Shader::_GetInstance()->GetProgram(), Sun_Shader::_GetInstance()->view_Location, 1, GL_FALSE, viewMatrix.values);
 }
 
 void Camera::Render()

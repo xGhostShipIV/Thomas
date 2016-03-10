@@ -2,7 +2,7 @@
 
 #include <GameObject.h>
 
-class RenderableComponent;
+class Generic_RenderableComponent;
 class PlayerBall;
 class Sound;
 
@@ -14,7 +14,7 @@ public:
 
 	void Update(float) override;
 private:
-	RenderableComponent * rc;
+	Generic_RenderableComponent * rc;
 	PlayerBall * player;
 	Sound * sound;
 };

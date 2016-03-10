@@ -14,7 +14,7 @@ Button::Button(Level* _level, Vec2 _screenPosition, std::string textureUnpressed
 	textureHover = ModelManager::getInstance()->GetTextureID(textureHover_);
 	texture = textureUnpressed;
 
-	renderable = new RenderableComponent(ModelManager::getInstance()->GetModelID("GUI"), texture, this, new Material(0, 0, 0));
+	renderable = new GUI_RenderableComponent(this, ModelManager::getInstance()->GetModelID("GUI"), texture);
 
 	//Adjust scale so texture appears at 1:1 pixel size on the screen
 	guiScale = Vec2(ModelManager::getInstance()->GetTextureWidth(texture) / (float)GameProperties::getInstance()->getVideoProperties()->screenWidth,
@@ -50,7 +50,7 @@ void Button::SetTexture(UINT32 texture_)
 	scale = Vec3(scale.x / guiScale.x, scale.y / guiScale.y, scale.z);
 
 	texture = texture_;
-	renderable->SetTextureID(texture, 0);
+	renderable->textureName[0] = texture;
 
 	//Recalculate guiscale
 	guiScale = Vec2(ModelManager::getInstance()->GetTextureWidth(texture) / (float)GameProperties::getInstance()->getVideoProperties()->screenWidth,

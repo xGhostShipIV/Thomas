@@ -6,7 +6,7 @@
 #include "Component.h"
 #include <vector>
 
-class RenderableComponent;
+class Generic_RenderableComponent;
 typedef unsigned int UINT32;
 
 class Flipbook : public Component
@@ -41,7 +41,7 @@ private:
 	unsigned int numFrames;
 	unsigned int currentFrame;
 
-	RenderableComponent * ownerRenderer;
+	Generic_RenderableComponent * ownerRenderer;
 
 	std::vector<UINT32> textureNames;
 };

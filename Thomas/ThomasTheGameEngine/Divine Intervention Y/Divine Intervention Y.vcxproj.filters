@@ -98,7 +98,7 @@
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Source Files\Cameras</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Planet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -160,14 +160,20 @@
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>Header Files\Cameras</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Planet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="GameObjects.frag" />
-    <None Include="GameObjects.vert" />
+    <None Include="Generic.vert" />
+    <None Include="Generic.frag" />
+    <None Include="GUI.vert" />
+    <None Include="GUI.frag" />
+    <None Include="Sun.frag" />
+    <None Include="Sun.vert" />
+    <None Include="Rainbow_GUI.vert" />
+    <None Include="Rainbow_GUI.frag" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="properties.xml" />

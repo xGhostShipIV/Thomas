@@ -24,7 +24,7 @@ void LandingScreen::LoadContent()
 	/* Set up and position skybox */
 	{
 		skybox = new GameObject(this);
-		new RenderableComponent("skybox", "skybox1", skybox);
+		new Generic_RenderableComponent(skybox, "skybox", "skybox1");
 		skybox->Rotate(Quat(1.5 * M_PI, Vec3(0, 1, 0)));
 	}
 

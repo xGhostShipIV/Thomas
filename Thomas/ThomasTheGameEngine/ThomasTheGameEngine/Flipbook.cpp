@@ -64,8 +64,8 @@ Flipbook::Flipbook(GameObject * _owner, UINT32 _numImages, std::string _filePath
 		}
 	}
 
-	ownerRenderer = parentObject->getComponent<RenderableComponent>();
-	ownerRenderer->SetTextureID(textureNames[0], 0);
+	ownerRenderer = ((Generic_RenderableComponent*)parentObject->getComponent<RenderableComponent>());
+	ownerRenderer->textureName[0] = textureNames[0];
 }
 
 Flipbook::~Flipbook()
@@ -104,7 +104,7 @@ void Flipbook::UpdateFlipbook(float _deltaTime)
 			if (timeSinceLastFrame >= timePerFrame)
 			{
 				currentFrame = ++currentFrame % numFrames;
-				ownerRenderer->SetTextureID(textureNames[currentFrame], 0);
+				ownerRenderer->textureName[0] = textureNames[currentFrame];
 
 				timeSinceLastFrame = 0.0f;
 

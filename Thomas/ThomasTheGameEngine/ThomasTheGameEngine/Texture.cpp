@@ -21,6 +21,12 @@ Texture::Texture(SDL_Surface* _surface, std::string id_)
 	pixelData = _surface->pixels;
 }
 
+Texture::Texture(void* _pixelData, UINT32 _width, UINT32 _height, UINT32 _depth, std::string id_)
+: pixelData(_pixelData), width(_width), height(_height), depth(_depth), ID(id_)
+{
+	dataType = TextureDataType::UnsignedByte_3D;
+}
+
 Texture::Texture(void *_pixelData, UINT32 _width, UINT32 _height, std::string id_)
 : pixelData(_pixelData), width(_width), height(_height), ID(id_)
 {

@@ -24,7 +24,7 @@ public:
 
 	Pointer * hand;
 private:
-	RenderableComponent * renderer;
+	Generic_RenderableComponent * renderer;
 	Rigidbody * rigidBody; 
 
 	bool chargingStrike;

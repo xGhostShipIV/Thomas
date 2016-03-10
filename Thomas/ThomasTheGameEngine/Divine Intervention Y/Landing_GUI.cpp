@@ -5,6 +5,7 @@
 #include <Game.h>
 #include "DIY_Level.h"
 #include <InputHandler.h>
+#include "LandingScreen.h"
 
 Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsClear(false)
 {
@@ -45,6 +46,7 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 	{
 		gameTitle = new GuiImage(level_, "LANDING_GUI_TITLE", Vec2(0, 150), ScreenAnchor::CENTER);
 		gameTitle->Scale(Vec3(0.0f, 0.0f, 0.0f));
+		gameTitle->Hide();
 
 		pressStart = new Label(level_, "Press Anything To Start...", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
 			Vec2(0, -250), ScreenAnchor::CENTER, Colour::White());
@@ -67,10 +69,18 @@ Landing_GUI::~Landing_GUI()
 {
 }
 
+//Fixes the wonkyness..
+bool firstUpdate = true;
+
 void Landing_GUI::Update(float timeStep_)
 {
 	if (state == Title)
 	{
+		if (firstUpdate)
+			firstUpdate = false;
+		else
+			gameTitle->Show();
+
 		if (!titleIsShown)
 		{
 			gameTitle->scale = gameTitle->scale + Vec3(0.01f, 0.01f, 0.01f);

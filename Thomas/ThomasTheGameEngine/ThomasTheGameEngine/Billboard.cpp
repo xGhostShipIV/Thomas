@@ -6,7 +6,7 @@
 
 Billboard::Billboard(Level * _level) : GameObject(_level)
 {
-	rc = new RenderableComponent("plane", "white", this);
+	rc = new Generic_RenderableComponent(this,"plane", "white");
 	position = Vec3(0, 0, 0);
 	rotation = Quat();
 	scale = Vec3(1, 1, 1);
@@ -14,7 +14,7 @@ Billboard::Billboard(Level * _level) : GameObject(_level)
 
 Billboard::Billboard(Level * _level, Vec3 _position) : GameObject(_level)
 {
-	rc = new RenderableComponent("plane", "white", this);
+	rc = new Generic_RenderableComponent(this, "plane", "white");
 	position = _position;
 	rotation = Quat();
 	scale = Vec3(1, 1, 1);
