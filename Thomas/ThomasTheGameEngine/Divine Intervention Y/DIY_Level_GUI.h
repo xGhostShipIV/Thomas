@@ -57,9 +57,9 @@ public:
 	DIY_Level_GameGUI(Level *level_, int par_, int objectives_);
 	~DIY_Level_GameGUI();
 
-	Label *ParLabel, *StrokeLabel, *ObjectivesLabel;
-	Label *ParCountLabel, *StrokeCountLabel, *ObjectivesCountLabel;
-	GuiImage *ShotPowerMeterFrame, *ShotPowerMeter, *ParBackground, *StrokeBackground, *ObjectivesBackground;
+	Label *ParLabel, *StrokeLabel;// , *ObjectivesLabel;
+	Label *ParCountLabel, *StrokeCountLabel;// , *ObjectivesCountLabel;
+	GuiImage *ShotPowerMeterFrame, *ShotPowerMeter, *ParBackground, *StrokeBackground;// , *ObjectivesBackground;
 
 	void Hide();
 	void Show();

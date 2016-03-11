@@ -77,8 +77,9 @@ void main()
 			vec4 toPointLight =  normalize(LightPosition_Point[i] - worldPosition);
 
 			float lambertian = max(dot(toPointLight, vNormal), 0.0);
+			//float lambertian = dot(toPointLight, vNormal);
 
-			if(lambertian > 0.0)
+			//if(lambertian > -0.3)
 			{
 				{
 					float brightness = dot(vNormal, toPointLight);
@@ -90,7 +91,8 @@ void main()
 				vec3 viewDir = normalize(toCameraVector.xyz);
 				vec3 halfDir = normalize(toPointLight.xyz + viewDir);
 				float specAngle = max(dot(halfDir, vNormal.xyz), 0.0);
-				specular += pow(specAngle, 16.0) * Material.z * LightColor_Point[i];
+				//specular += pow(specAngle, 16.0) * Material.z * LightColor_Point[i];
+				specular += pow(specAngle, 15.5) * Material.z * LightColor_Point[i];
 			}
 		}
 	}

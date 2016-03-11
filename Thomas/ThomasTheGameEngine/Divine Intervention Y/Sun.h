@@ -21,5 +21,6 @@ private:
 	PlayerBall * player;
 	Rigidbody * playerRigidBody;
 	bool ballHitIntoSun;
+	const float INTENSITY_INCREMENT = 0.1f, MINIMUM_INTENSITY = 0.4f, MAXIMUM_INTENSITY = 0.7f;
 };
 

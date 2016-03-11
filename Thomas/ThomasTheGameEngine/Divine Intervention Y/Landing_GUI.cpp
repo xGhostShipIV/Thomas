@@ -9,36 +9,40 @@
 
 Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsClear(false)
 {
-	Vec2 PlayButtonLocation = Vec2(-500, -150);
-	Vec2 InstructionsButtonLocation = PlayButtonLocation + Vec2(0, -75);
-	Vec2 ExitButtonLocation = InstructionsButtonLocation + Vec2(0, -75);
+	Vec2 PlayButtonLocation = Vec2(143, 205);
+	Vec2 InstructionsButtonLocation = PlayButtonLocation + Vec2(0, -80);
+	Vec2 ExitButtonLocation = InstructionsButtonLocation + Vec2(0, -80);
 
 	Audio->loadSound("ding", "Sounds/ding.wav");
 
 	/* BUTTONS */
 	{
 		Models->loadTexture("LANDING_GUI_TITLE",		"Images/logoMaybe.png");
-		Models->loadTexture("LANDING_GUI_PLAY",			"Images/Level GUI/Buttons/Play.png");
+		/*Models->loadTexture("LANDING_GUI_PLAY",			"Images/Level GUI/Buttons/Play.png");
 		Models->loadTexture("LANDING_GUI_PLAY_PRESSED", "Images/Level GUI/Buttons/PlayPressed.png");
 		Models->loadTexture("LANDING_GUI_PLAY_HOVERED", "Images/Level GUI/Buttons/PlayHovered.png");
 
 		Models->loadTexture("LANDING_GUI_EXIT",			"Images/Level GUI/Buttons/Exit.png");
 		Models->loadTexture("LANDING_GUI_EXIT_PRESSED", "Images/Level GUI/Buttons/ExitPressed.png");
-		Models->loadTexture("LANDING_GUI_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");
+		Models->loadTexture("LANDING_GUI_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");*/
+		
+		Models->loadTexture("LANDING_GUI_BLANK", "Images/Level GUI/Buttons/Blank.png");
+		Models->loadTexture("LANDING_GUI_BLANK_HOVERED", "Images/Level GUI/Buttons/BlankHovered.png");
+		FontManager::getInstance()->GenerateFont("LANDING_GUI_FONT", 45, "Font/ostrich-regular.ttf");
 
-		PlayButton = new Button(level_, PlayButtonLocation, "LANDING_GUI_PLAY", "LANDING_GUI_PLAY_PRESSED", "LANDING_GUI_PLAY_HOVERED", ScreenAnchor::CENTER);
-		ExitButton = new Button(level_, ExitButtonLocation, "LANDING_GUI_EXIT", "LANDING_GUI_EXIT_PRESSED", "LANDING_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);
+		//PlayButton = new Button(level_, PlayButtonLocation, "LANDING_GUI_PLAY", "LANDING_GUI_PLAY_PRESSED", "LANDING_GUI_PLAY_HOVERED", ScreenAnchor::CENTER);
+		//ExitButton = new Button(level_, ExitButtonLocation, "LANDING_GUI_EXIT", "LANDING_GUI_EXIT_PRESSED", "LANDING_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);
+
+		PlayButton = new TextButton(level_, PlayButtonLocation, "PLAY", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
+			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
+		ExitButton = new TextButton(level_, ExitButtonLocation, "EXIT", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
+			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
 
 		PlayButton->Hide();
 		ExitButton->Hide();
 
-		Models->loadTexture("LANDING_GUI_BLANK",		 "Images/Level GUI/Buttons/Blank.png");
-		Models->loadTexture("LANDING_GUI_BLANK_HOVERED", "Images/Level GUI/Buttons/BlankHovered.png");
-		FontManager::getInstance()->GenerateFont("LANDING_GUI_FONT", 45, "Font/ostrich-regular.ttf");
-
 		InstructionsButton = new TextButton(level_, InstructionsButtonLocation, "Instructions", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
-			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow(), Colour::Lime());
-
+			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
 		InstructionsButton->Hide();
 	}
 
@@ -121,7 +125,6 @@ void Landing_GUI::Update(float timeStep_)
 				Audio->getSound("ding")->Play();
 				Audio->getMusic("menuTheme")->Stop();
 				GAME->LoadLevel(new DIY_Level("testLevel.xml"));
-				//GAME->LoadLevel(new DIY_Level("testLevel.xml"));
 				//GAME->LoadLevel(new DIY_Level("Level004.xml"));
 			}
 			else if (ExitButton->HasBeenClicked())

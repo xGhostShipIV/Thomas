@@ -6,11 +6,14 @@
 
 #include "PlayerBall.h"
 #include "DIY_Level.h"
+#include <InputHandler.h>
+#include <iostream>
+#include <Random.h>
 
 Sun::Sun(Level * level_, Vec3 position_, float radius_) : GameObject(level_, position_), ballHitIntoSun(false)
 {
 	renderer = new Sun_RenderableComponent(this, "sun");
-	renderer->intensity = 1.0f;
+	renderer->intensity = (MINIMUM_INTENSITY + MAXIMUM_INTENSITY) / 2.0f;
 
 	Scale(Vec3::One() * radius_);
 
@@ -30,6 +33,21 @@ Sun::~Sun()
 
 void Sun::Update(float timeStep_)
 {
+	if (InputController::getInstance()->isKeyReleased(SDLK_KP_PLUS))
+	{
+		renderer->intensity += 0.1f;
+		std::cout << "Sun Intensity: " << renderer->intensity << "\n";
+	}
+	else if (InputController::getInstance()->isKeyReleased(SDLK_KP_MINUS))
+	{
+		renderer->intensity -= 0.1f;
+		std::cout << "Sun Intensity: " << renderer->intensity << "\n";
+	}
+
+	renderer->intensity += Random::box_muller(0, INTENSITY_INCREMENT) * timeStep_;
+	renderer->intensity = renderer->intensity > MAXIMUM_INTENSITY ? MAXIMUM_INTENSITY : renderer->intensity < MINIMUM_INTENSITY ? MINIMUM_INTENSITY: renderer->intensity;
+	//std::cout << "Sun Intensity: " << renderer->intensity << "\n";
+	
 	renderer->offset -= Vec3(0.1f, 0.01f, 0.25f) * timeStep_;
 
 	if (!player)

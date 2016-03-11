@@ -127,7 +127,7 @@ void DIY_Level_GUI::SetObjectivesRemaining(int objectives_)
 {
 	objectives = objectives_;
 
-	gameGUI->ObjectivesCountLabel->SetText(IntToString(objectives_));
+	//gameGUI->ObjectivesCountLabel->SetText(IntToString(objectives_));
 }
 
 void DIY_Level_GUI::SetLevelPar(int par_)
@@ -199,7 +199,7 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 		Models->loadTexture("DIY_LEVEL_GAMEGUI_BACKGROUND", "Images/Level GUI/GUI_Background.png");
 		ParBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ParLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 		StrokeBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", StrokeLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
-		ObjectivesBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ObjectivesLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
+		//ObjectivesBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ObjectivesLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 	}
 
 	/* LABELS */
@@ -210,11 +210,11 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 
 		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		StrokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), StrokeLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
-		ObjectivesLabel = new Label(level_, "Objectives Remaining", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ObjectivesLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
+		//ObjectivesLabel = new Label(level_, "Objectives Remaining", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ObjectivesLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 
 		ParCountLabel = new Label(level_, IntToString(par_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ParLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		StrokeCountLabel = new Label(level_, IntToString(strokes), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), StrokeLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
-		ObjectivesCountLabel = new Label(level_, IntToString(objectives_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ObjectivesLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
+		//ObjectivesCountLabel = new Label(level_, IntToString(objectives_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ObjectivesLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 	}
 }
 
@@ -227,15 +227,15 @@ void DIY_Level_GameGUI::Hide()
 
 	ParBackground->Hide();
 	StrokeBackground->Hide();
-	ObjectivesBackground->Hide();
+	//ObjectivesBackground->Hide();
 
 	ParLabel->Hide();
 	StrokeLabel->Hide();
-	ObjectivesLabel->Hide();
+	//ObjectivesLabel->Hide();
 
 	ParCountLabel->Hide();
 	StrokeCountLabel->Hide();
-	ObjectivesCountLabel->Hide();
+	//ObjectivesCountLabel->Hide();
 }
 
 void DIY_Level_GameGUI::Show()
@@ -245,15 +245,15 @@ void DIY_Level_GameGUI::Show()
 
 	ParBackground->Show();
 	StrokeBackground->Show();
-	ObjectivesBackground->Show();
+	//ObjectivesBackground->Show();
 
 	ParLabel->Show();
 	StrokeLabel->Show();
-	ObjectivesLabel->Show();
+	//ObjectivesLabel->Show();
 
 	ParCountLabel->Show();
 	StrokeCountLabel->Show();
-	ObjectivesCountLabel->Show();
+	//ObjectivesCountLabel->Show();
 }
 
 /***********************************************************/

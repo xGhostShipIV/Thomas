@@ -24,7 +24,7 @@ public:
 	Landing_GUI(Level *level_);
 	~Landing_GUI();
 
-	Button *PlayButton, *ExitButton;
+	TextButton *PlayButton, *ExitButton;
 	TextButton *InstructionsButton;
 	GuiImage *InstructionsImage;
 

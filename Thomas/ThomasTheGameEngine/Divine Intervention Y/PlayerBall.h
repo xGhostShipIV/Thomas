@@ -30,6 +30,7 @@ private:
 	bool chargingStrike;
 
 	const int MAX_FORCE = 1500;
+	int force_mult;
 	const float CHARGE_PER_SECOND = 100.0f;
 
 	Vec3 positionAtStrike;

@@ -14,7 +14,8 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 	renderer = new Generic_RenderableComponent(this, "sphere", "ballSkin");
 	rigidBody = new Rigidbody(this, new SphereCollider(this));
 	rigidBody->accel = Vec3(0, 0.1f, 0);
-
+	
+	force_mult = 1;
 	rigidBody->mass = 25.0f;
 	//rigidBody->sleepThreshold = 0.69f;
 
@@ -62,8 +63,7 @@ void PlayerBall::Update(float timeStep_)
 		{
 			hitSound->Play();
 			chargingStrike = false;
-			rigidBody->AddForce((position - hand->position).Normalized() * ((MAX_FORCE * (chargePercent / 100.0f))) + Vec3(0,3,0));
-			rigidBody->AngularAccel = rigidBody->AngularAccel * Quat(0.008f, Vec3::cross(Vec3::BasisY(), (position - hand->position).Normalized()));
+			rigidBody->AddForce((position - hand->position).Normalized() * (force_mult * MAX_FORCE * ((20.0f + chargePercent * 0.8f) / 100.0f)));
 			chargePercent = 0;
 			modifier = CHARGE_PER_SECOND;
 
@@ -103,6 +103,6 @@ bool PlayerBall::GetIsChargingStrike()
 
 void PlayerBall::FoulReset()
 {
-	position = positionAtStrike;
-	rigidBody->velocity = Vec3::Zero();
+	/*position = positionAtStrike;
+	rigidBody->velocity = Vec3::Zero();*/
 }
