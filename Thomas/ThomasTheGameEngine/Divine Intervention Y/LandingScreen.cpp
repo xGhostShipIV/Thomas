@@ -21,6 +21,7 @@ void LandingScreen::LoadContent()
 
 	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
 	Audio->getMusic("menuTheme")->Play();
+
 	/* Set up and position skybox */
 	{
 		skybox = new GameObject(this);

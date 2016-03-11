@@ -17,7 +17,7 @@ public:
 	Alien(Level *, Vec3, Swarm *);
 	~Alien();
 
-	void Update(float) override;
+	//void Update(float) override;
 
 private:
 	Swarm * swarm;

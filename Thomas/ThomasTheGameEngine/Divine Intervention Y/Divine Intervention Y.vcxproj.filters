@@ -176,10 +176,10 @@
     <None Include="Generic.frag" />
     <None Include="GUI.vert" />
     <None Include="GUI.frag" />
-    <None Include="Sun.frag" />
-    <None Include="Sun.vert" />
     <None Include="Rainbow_GUI.vert" />
     <None Include="Rainbow_GUI.frag" />
+    <None Include="Sun.frag" />
+    <None Include="Sun.vert" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="properties.xml" />

@@ -161,7 +161,7 @@ void DIY_Level::LoadLevel()
 		element = element->NextSiblingElement();
 	}
 
-	sun = new Sun(this, Vec3(), 250);
+	sun = new Sun(this, Vec3(), 100);
 }
 
 int DIY_Level::HasObjectives()
