@@ -2,17 +2,34 @@
 
 <Level numLayers="3" par="3" skybox="skybox1">
 
-  <Layer r = "120" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
+  <Layer r = "120" wormHoleX = "0" wormHoleZ = "-5" planetX ="1" planetZ = "-4" planetScale="4" planetTexture = "planet3">
     <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
   
-      <Layer r = "140" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1">
+  <Layer r = "240" wormHoleX = "3" wormHoleZ = "3" planetX ="-2" planetZ = "3" planetScale="3" planetTexture = "planet1">
     <Object type="WarpGate" x="2" z="-2"></Object>
   </Layer>
 
-  <Layer r = "130" wormHoleX = "3" wormHoleZ = "1" planetX ="4" planetZ = "0" planetTexture = "planet1" playerX="0" playerZ ="0">
-    <Object type="WarpGate" x="2" z="-2"></Object>
+  <Layer r = "330" wormHoleX = "5" wormHoleZ = "-6" planetX ="10" planetZ = "0" planetScale="8" planetTexture = "planet2" playerX="-5" playerZ ="0">
+    
+   <Object type="WarpGate" x="2" z="-2"></Object>
 
-	<Object type="Asteroids" x="-5" z="-3"></Object>
+	<Object type="Asteroids" x="0" z="-10"></Object>
+  <Object type="Asteroids" x="0" z="-9"></Object>
+  <Object type="Asteroids" x="0" z="-8"></Object>
+  <Object type="Asteroids" x="0" z="-7"></Object>
+  <Object type="Asteroids" x="0" z="-6"></Object>
+  <Object type="Asteroids" x="0" z="-5"></Object>
+  <Object type="Asteroids" x="0" z="-4"></Object>
+  <Object type="Asteroids" x="0" z="-2"></Object>
+  <Object type="Asteroids" x="0" z="2"></Object>
+  <Object type="Asteroids" x="0" z="3"></Object>
+  <Object type="Asteroids" x="0" z="4"></Object>
+  <Object type="Asteroids" x="0" z="5"></Object>
+  <Object type="Asteroids" x="0" z="6"></Object>
+  <Object type="Asteroids" x="0" z="7"></Object>
+  <Object type="Asteroids" x="0" z="8"></Object>
+  <Object type="Asteroids" x="0" z="9"></Object>
+  <Object type="Asteroids" x="0" z="10"></Object>
   </Layer>
 </Level>

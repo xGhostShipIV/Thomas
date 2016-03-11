@@ -83,6 +83,9 @@ public:
 	//Used to update the number of remaining objectives
 	void SetObjectivesRemaining(int objectives_);
 
+	//Used to set par
+	void SetLevelPar(int par_);
+
 	//Used to update the stroke count
 	void PlayerTookAStroke(int strokeIncrement = 1);	
 };

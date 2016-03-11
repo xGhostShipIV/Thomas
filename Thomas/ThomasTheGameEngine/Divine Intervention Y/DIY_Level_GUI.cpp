@@ -130,6 +130,12 @@ void DIY_Level_GUI::SetObjectivesRemaining(int objectives_)
 	gameGUI->ObjectivesCountLabel->SetText(IntToString(objectives_));
 }
 
+void DIY_Level_GUI::SetLevelPar(int par_)
+{
+	par = par_;
+	gameGUI->ParCountLabel->SetText(IntToString(par));
+}
+
 void DIY_Level_GUI::PlayerTookAStroke(int strokeIncrement)
 {
 	strokes += strokeIncrement;

@@ -89,6 +89,7 @@ void DIY_Level::LoadContent()
 	LoadLevel();
 
 	gui->SetObjectivesRemaining(1);
+	gui->SetLevelPar(par);
 
 	//Change camera to new focus camera
 	mainCamera->isFlagged = true;
