@@ -54,6 +54,11 @@ void GameObject::Rotate(Quat _rotation)
 	}
 }
 
+void GameObject::RotateAround(Vec3 centre_, Vec3 axis_, float angle_){
+	PhysicsWorld::Orbit(centre_, axis_, this, angle_);
+	Rotate(Quat(angle_, axis_));
+}
+
 //Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 void GameObject::Rotate(Vec3 _rotation)
 {

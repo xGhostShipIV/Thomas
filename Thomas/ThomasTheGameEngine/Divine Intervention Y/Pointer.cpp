@@ -14,6 +14,7 @@ Pointer::Pointer(Level * level_, Vec3 position_, PlayerBall * player_) : GameObj
 	Scale(Vec3(0.075f, 0.075f, 0.075f));
 
 	ball = player_;
+	Rotate(Quat(M_PI / 2.0f, Vec3::BasisY()));
 }
 
 
@@ -29,13 +30,11 @@ void Pointer::Update(float timeStep_)
 
 	if (Input->isKeyDown(SDLK_RIGHT) || Input->isKeyDown(SDLK_d))
 	{
-		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, 3 * timeStep_);
-		Rotate(Quat(3 * timeStep_, Vec3::BasisY()));
+		RotateAround(ball->position, Vec3::BasisY(), 3 * timeStep_);
 	}
 	if (Input->isKeyDown(SDLK_LEFT) || Input->isKeyDown(SDLK_a))
 	{
-		PhysicsWorld::Orbit(ball->position, Vec3(0, 1, 0), this, -3 * timeStep_);
-		Rotate(Quat(-3 * timeStep_, Vec3::BasisY()));
+		RotateAround(ball->position, Vec3::BasisY(), -3 * timeStep_);
 
 	}
 
@@ -44,8 +43,7 @@ void Pointer::Update(float timeStep_)
 
 	if (Input->isMouseDown(SDL_BUTTON_RIGHT) && followCam)
 	{
-		//Align pointer with camera
-		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2 + Vec3(0, -1, 0);
+		RotateAround(ball->position, Vec3::BasisY(), Input->deltaMouse().x * timeStep_);
 	}
 
 	//LookAt(ball->position);

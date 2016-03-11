@@ -81,6 +81,14 @@ void PlayerBall::Update(float timeStep_)
 	{
 		FoulReset();
 	}
+
+	if (Vec3::length(rigidBody->velocity) > 0.2f)
+	{
+		Rotate(Quat(
+			Vec3::length(rigidBody->velocity) / (scale.x) * timeStep_,
+			Vec3::cross(Vec3::BasisY(), rigidBody->velocity.Normalized())
+			));
+	}
 }
 
 float PlayerBall::GetChargePercent()

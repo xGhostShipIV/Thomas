@@ -80,7 +80,8 @@ void DIY_Level::LoadContent()
 		pixelDataWhite[i] = 1.0f;
 	}
 	Models->createTexture("white", pixelDataWhite, 1, 1);
-	Models->loadModel("pointer", "Models/Hand_Pointer.obj", true);
+	//Models->loadModel("pointer", "Models/Hand_Pointer.obj", true);
+	Models->loadModel("pointer", "Models/pointer.obj", true);
 
 
 	//Setting level boundaries. CAN BE EDITTED

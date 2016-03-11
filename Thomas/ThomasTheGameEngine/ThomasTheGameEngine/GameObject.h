@@ -37,6 +37,7 @@ public:
 	//These will apply the given transforms and move the gameObject
 	void LookAt(Vec3);
 	void Rotate(Quat);
+	void RotateAround(Vec3 centre_, Vec3 axis_, float angle_);
 
 	//Rotates in the X-Y-Z plane (in that order) use Radians, if possible use the Rotate(Quat) method instead
 	void Rotate(Vec3);

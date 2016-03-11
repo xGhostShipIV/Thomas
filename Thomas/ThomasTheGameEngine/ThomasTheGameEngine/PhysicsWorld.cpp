@@ -43,8 +43,9 @@ void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre)
 }
 
 void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
-	if (!isPhysicsRunning)
-		return;
+	if (!isPhysicsRunning) { return; }
+
+	if (!_first->isKinematic && !_second->isKinematic) { return; }
 
 	float epsilon = 1.f; //Perfectly elastic collisions for now
 
