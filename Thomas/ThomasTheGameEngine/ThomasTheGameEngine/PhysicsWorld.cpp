@@ -47,7 +47,7 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 
 	if (!_first->isKinematic && !_second->isKinematic) { return; }
 
-	float epsilon = 1.f; //Perfectly elastic collisions for now
+	float epsilon = 0.9f; //Perfectly elastic collisions for now
 
 	Vec3 normal, ColPoint, r1, r2;
 	if (_first->col->type == Collider::ColliderType::Sphere && _second->col->type == Collider::ColliderType::Sphere)
@@ -139,19 +139,21 @@ void PhysicsWorld::Update(float _deltaTime){
 				if ((*it)->gravitas){
 					(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
 				}
-				//Angular and linear drag goes here
-				//Assumes circular cross section for drag
-				// 1/2 (density) (velocity * velocity) (drag coefficient) (cross section area) ==> higher velocity
-				// 6 * pi * (dynamic viscosity, aka the cheaty number) (radius) (velocity)
-				float dragForce;
-				if (Vec3::length((*it)->velocity) > 0.1f)
-					dragForce = 0.5f * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
-				else
-					dragForce = 6 * M_PI * 1.2f * (*it)->CollisionRadius;
 
-				dragForce = dragForce < 0.5f ? 0.5f : dragForce;
+				if ((*it)->velocity != Vec3::Zero()){
+					float dragForce;
+					/*if (Vec3::length((*it)->velocity) > 0.1f)
+						dragForce = 0.5f * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
+					else
+						dragForce = 6 * M_PI * 1.2f * (*it)->CollisionRadius;*/
 
-				(*it)->AddForce((*it)->velocity * -dragForce);
+					//dragForce = dragForce < 0.005f ? 0.005f : dragForce;
+
+					//Fr = u * Fn (Fn == gravity in our case)
+					dragForce = Vec3::length(worldGravity) * 0.4f;
+
+					(*it)->AddForce((*it)->velocity.Normalized() * -dragForce);
+				}
 
 				//Lift
 				float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
@@ -175,6 +177,16 @@ void PhysicsWorld::Update(float _deltaTime){
 			}
 			(*it)->accel = Vec3::Zero();
 			(*it)->AngularAccel = Quat::Identity();
+
+			//Messing with ground stuff
+			if ((*it)->velocity == Vec3::Zero())
+			{
+				(*it)->gravitas = false;
+			}
+			else
+			{
+				(*it)->gravitas = true;
+			}
 
 		}
 	}

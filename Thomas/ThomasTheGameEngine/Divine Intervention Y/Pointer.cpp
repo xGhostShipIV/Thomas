@@ -46,15 +46,15 @@ void Pointer::Update(float timeStep_)
 		RotateAround(ball->position, Vec3::BasisY(), Input->deltaMouse().x * timeStep_);
 	}
 
-	//LookAt(ball->position);
-	//Rotate(Quat(M_PI / 2.0f, Vec3(0, 1, 0)));
-
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING &&
 		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
 	{
 		if (!isEnabled)
 		{
-			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2 + Vec3(0, -1, 0);
+			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
+			LookAt(ball->position);
+			Rotate(Quat(M_PI / 2, Vec3::BasisY()));
+			Translate(Vec3(0, -1, 0));
 		}
 		isEnabled = true;
 	}

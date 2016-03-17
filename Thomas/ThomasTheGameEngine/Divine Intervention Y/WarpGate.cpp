@@ -36,7 +36,7 @@ void WarpGate::Update(float timeStep_)
 
 		if (Vec3::dot(forward(), rb->velocity) > 0.5f || Vec3::dot(forward() * -1, rb->velocity) > 0.5f)
 		{
-			rb->AddForce(rb->velocity.Normalized() * 50.0f);
+			rb->AddForce(rb->velocity.Normalized() * 10.0f);
 			sound->Play();
 		}
 		else
