@@ -14,6 +14,7 @@
 #include "Wormhole.h"
 #include "WarpGate.h"
 #include "PlayerBall.h"
+#include "Swarm.h"
 
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"
@@ -70,6 +71,10 @@ void DIY_Level::LoadContent()
 
 	Models->loadModel("wormhole", "Models/wormhole.obj", true);
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
+
+	Models->loadModel("ufo", "Models/UFO.obj", true);
+	Models->loadTexture("ufoBottom", "Images/Bottom1.png");
+	Models->loadTexture("ufoTop", "Images/Top1.png");
 
 	//Gotta be big to show up..
 	//don't know why 

@@ -6,6 +6,7 @@
 
 #include "AsteroidField.h"
 #include "WarpGate.h"
+#include "Swarm.h"
 
 Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : GameObject(_level)
 {
@@ -79,6 +80,10 @@ void Layer::CreateObjects(const char * attribute_, const Vec2 position_)
 	if (string == "Asteroids")
 	{
 		objects.push_back(new AsteroidField(dl, position + Vec3(position_.x, 0, position_.y), 1, 4));
+	}
+	if (string == "Aliens")
+	{
+		objects.push_back(new Swarm(dl, position + Vec3(position_.x, 1, position_.y)));
 	}
 }
 
