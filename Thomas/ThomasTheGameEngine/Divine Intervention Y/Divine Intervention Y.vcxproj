@@ -101,6 +101,7 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlayerBall.cpp" />
     <ClCompile Include="Pointer.cpp" />
+    <ClCompile Include="PopUp.cpp" />
     <ClCompile Include="Slingshot.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Sun.cpp" />

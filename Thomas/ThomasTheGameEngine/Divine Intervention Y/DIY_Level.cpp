@@ -30,6 +30,23 @@ DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeySt
 
 void DIY_Level::LoadContent()
 {
+	tinyxml2::XMLDocument doc;
+
+	//Tries to load the file, quits if it fails
+	if (doc.LoadFile(fileName.c_str()) != tinyxml2::XML_NO_ERROR)
+	{
+		GAME->LoadLevel(new LandingScreen);
+		std::cout << "ERROR LOADING: " << fileName << "\nLOADING LANDING SCREEN...\n";
+
+		return;
+	}
+
+	//Grabs first element
+	tinyxml2::XMLElement * element = doc.RootElement();
+
+	//set par
+	par = element->IntAttribute("par");
+
 	//Delete old main camera and set currentCamera to it.
 	mainCamera->isFlagged = true;
 	mainCamera = new GameCamera(this, Vec3(0, 0.75f, -7), Vec3::Zero());
@@ -65,9 +82,10 @@ void DIY_Level::LoadContent()
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 
+	Models->loadModel("satellite", "Models/Satellite.obj");
+
 	//Load up and play the music for in-game
 	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
-	//Audio->getMusic("gameTheme")->Play();
 
 	Models->loadModel("wormhole", "Models/wormhole.obj", true);
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
@@ -93,9 +111,6 @@ void DIY_Level::LoadContent()
 	levelBoundsX = 10;
 
 	LoadLevel();
-
-	gui->SetObjectivesRemaining(1);
-	gui->SetLevelPar(par);
 
 	//Change camera to new focus camera
 	mainCamera->isFlagged = true;

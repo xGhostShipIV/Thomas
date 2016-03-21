@@ -7,7 +7,7 @@
 #include "AsteroidField.h"
 #include "WarpGate.h"
 #include "Swarm.h"
-
+#include "Obstacles.h"
 Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : GameObject(_level)
 {
 	//Save reference to the level as proper pointer
@@ -25,7 +25,10 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 		float x = element_->FloatAttribute("wormHoleX");
 		float z = element_->FloatAttribute("wormHoleZ");
 
-		wormHole = new Wormhole(dl, position + Vec3(x, 0, z), index - 1);
+		float destX = element_->FloatAttribute("wormHoleDestX");
+		float destZ = element_->FloatAttribute("wormHoleDestY");
+
+		wormHole = new Wormhole(dl, position + Vec3(x, 0, z), index - 1, Vec3(destX, 0, destZ));
 
 		//Create wormhole here
 		objects.push_back(wormHole);
@@ -84,6 +87,14 @@ void Layer::CreateObjects(const char * attribute_, const Vec2 position_)
 	if (string == "Aliens")
 	{
 		objects.push_back(new Swarm(dl, position + Vec3(position_.x, 1, position_.y)));
+	}
+	if (string == "Satellite")
+	{
+		objects.push_back(new Satellite(dl, planet, position + Vec3(position_.x, 1, position_.y), Vec3(0, 1, 0), 0.001, "satellite", "white"));
+	}
+	if (string == "PopUp")
+	{
+		objects.push_back(new PopUp(dl, position + Vec3(position_.x, 0, position_.y)));
 	}
 }
 

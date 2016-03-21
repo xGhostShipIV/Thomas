@@ -5,7 +5,7 @@
 #include "DIY_Level.h"
 #include "PlayerBall.h"
 
-Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(level_, position_), yRotation(0)
+Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex, Vec3 destinationLocation_) : GameObject(level_, position_), yRotation(0)
 {
 	destinationLayer = layerIndex;
 	diyLevel = static_cast<DIY_Level *>(level);
@@ -20,7 +20,8 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex) : GameObject(
 
 	initialRotation = (rand() % 366);
 	Rotate(Quat(initialRotation * M_PI / 180.0f, Vec3::BasisY()));
-	//rainbowRand = 0.5f;
+
+	destinationLocation = destinationLocation_;
 
 	Audio->loadSound("wormhole", "Sounds/wormhole.wav");
 	sound = Audio->getSound("wormhole");
@@ -34,8 +35,6 @@ Layer * Wormhole::getDestinationLayer()
 
 void Wormhole::Update(float timeStep_)
 {
-	//rainbowRand += ((rand() % 21) - 10) / 100.0f;
-	//rainbowRand = rainbowRand > 1 ? 1 : rainbowRand < 0.4f ? 0.4f : rainbowRand;
 
 	scale.z = isScalingDown ? scale.z - 0.1f * timeStep_ : scale.z + 0.1f * timeStep_;
 	isScalingDown = isScalingDown ? (scale.z < 0 ? false : true) : (scale.z > 0.7f ? true : false);
@@ -62,7 +61,7 @@ void Wormhole::Update(float timeStep_)
 			diyLevel->SetLayerPlane(getDestinationLayer());
 
 			//Teleport to layer
-			player->position = getDestinationLayer()->position + Vec3(0, 1.5f, 0);
+			player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
 		}
 	}
 	else

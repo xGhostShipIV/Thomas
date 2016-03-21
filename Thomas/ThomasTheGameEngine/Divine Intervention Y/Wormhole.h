@@ -14,7 +14,7 @@ class Sound;
 class Wormhole : public GameObject
 {
 public:
-	Wormhole(Level *, Vec3, int);
+	Wormhole(Level *, Vec3, int, Vec3);
 	~Wormhole(){}
 
 	Layer * getDestinationLayer();
@@ -27,6 +27,7 @@ private:
 	int initialRotation;
 	float yRotation;
 	int destinationLayer;
+	Vec3 destinationLocation;
 
 	bool ballCaught, isScalingDown;
 	Sound * sound;

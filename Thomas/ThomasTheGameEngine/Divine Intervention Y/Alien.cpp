@@ -90,6 +90,7 @@ void Attack::Execute()
 			if (Parent->shootSound)
 			{
 				Parent->shootSound->Play();
+				Parent->player->getComponent<Rigidbody>()->velocity = (Parent->player->getComponent<Rigidbody>()->velocity.magnitude() * 0.99999999f) * Parent->player->getComponent<Rigidbody>()->velocity.Normalized();
 			}
 			Parent->shouldShoot = false;
 		}
