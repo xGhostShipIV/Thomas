@@ -47,7 +47,7 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 
 	if (!_first->isKinematic && !_second->isKinematic) { return; }
 
-	float epsilon = 0.9f; //Perfectly elastic collisions for now
+	float epsilon = 0.65f; //Change elasticity of collisions
 
 	Vec3 normal, ColPoint, r1, r2;
 	if (_first->col->type == Collider::ColliderType::Sphere && _second->col->type == Collider::ColliderType::Sphere)
@@ -150,7 +150,7 @@ void PhysicsWorld::Update(float _deltaTime){
 					//dragForce = dragForce < 0.005f ? 0.005f : dragForce;
 
 					//Fr = u * Fn (Fn == gravity in our case)
-					dragForce = Vec3::length(worldGravity) * 0.4f;
+					dragForce = Vec3::length(worldGravity / 1.5) * 0.4f;
 
 					(*it)->AddForce((*it)->velocity.Normalized() * -dragForce);
 				}
