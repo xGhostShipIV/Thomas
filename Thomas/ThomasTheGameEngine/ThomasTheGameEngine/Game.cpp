@@ -71,7 +71,8 @@ Game::Game()
 	glDepthFunc(GL_LESS);
 	glDepthMask(GL_TRUE);
 	glFrontFace(GL_CCW);
-
+	glEnable(GL_BLEND);
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

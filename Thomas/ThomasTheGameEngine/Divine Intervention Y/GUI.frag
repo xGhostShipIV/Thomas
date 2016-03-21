@@ -5,10 +5,12 @@ uniform sampler2D texture;
 in vec2 texCoord;
 
 uniform float drawPercent;
+uniform float Opacity;
 
 void main()
 {
 	fColor = texture2D(texture, texCoord);
+	fColor.w = fColor.w * Opacity;
 
 	if (texCoord.x > drawPercent)
 		discard;

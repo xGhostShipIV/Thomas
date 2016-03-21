@@ -6,6 +6,32 @@
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+#include <windows.h>
+
+void gotoxy(int column, int line)
+{
+	COORD coord;
+	coord.X = column;
+	coord.Y = line;
+	SetConsoleCursorPosition(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		coord
+		);
+}
+
+int wherex()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwCursorPosition.X;
+}
+
+int wherey()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.dwCursorPosition.Y;
+}
 
 #define BUFFER_OFFSET(i) ((void*)(i))
 
@@ -91,6 +117,9 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 			return;
 	}
 
+	std::cout << "Loading Model: \"" << _id << "\", \"" << _fileName << "\", ";
+	unsigned int totalVertices = 0, currentVertex = 0;
+
 	Assimp::Importer import;
 	const aiScene * scene;
 
@@ -103,6 +132,12 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 	scene = import.ReadFile(_fileName, aiProcess_Triangulate | aiProcess_SortByPType);
 
 	hasNormals = false;
+
+	for (int i = 0; i < scene->mNumMeshes; i++)
+		totalVertices += scene->mMeshes[i]->mNumVertices;
+
+	std::cout << totalVertices << " Vertices ...";
+	Vec2 cursorPos = Vec2(wherex(), wherey());
 
 	for (int i = 0; i < scene->mNumMeshes; i++)
 	{
@@ -125,11 +160,21 @@ void ModelManager::loadModel(string _id, string _fileName, bool _useModelTexture
 				Vec2 texture = Vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, scene->mMeshes[i]->mTextureCoords[0][j].y);
 				mesh.textureMap.push_back(texture);
 			}
+
+			currentVertex++;
+
+			if (currentVertex % 1000 == 0)
+			{
+				gotoxy(cursorPos.x, cursorPos.y);
+				std::cout << (currentVertex / (float)totalVertices) * 100 << "%    ";
+			}
 		}
 
 		model->meshes.push_back(mesh);
 	}
 
+	gotoxy(cursorPos.x, cursorPos.y);
+	std::cout << "100%     \n";
 
 	for (int m = 0; m < model->meshes.size(); m++)
 	for (unsigned int i = 0; i < model->meshes[m].vertex.size(); i++)
@@ -715,13 +760,28 @@ void ModelManager::PushModels()
 
 		//populate vector list
 		{
-			int i;
+			int i = 0;
+			std::cout << "Loading Vertices: " << (i / (float)masterVectorList.size()) * 100 << "%";
+
 			for (i = 0; i < masterVectorList.size(); i++)
 			{
 				newMasterList[i * 3] = masterVectorList[i].x;
 				newMasterList[3 * i + 1] = masterVectorList[i].y;
 				newMasterList[3 * i + 2] = masterVectorList[i].z;
+
+				if (i % 1000 == 0)
+				{
+					gotoxy(18, wherey());
+					std::cout << "                                                     ";
+					gotoxy(18, wherey());
+					std::cout << (i / (float)masterVectorList.size()) * 100 << "%";
+				}
 			}
+
+			gotoxy(0, wherey());
+			std::cout << "                                                                        ";
+			gotoxy(0, wherey());
+			std::cout << "Loading Vertices: 100%\n";
 
 			glBindBuffer(GL_ARRAY_BUFFER, Buffers[VERTEX_BUFFER]);
 			glBufferData(GL_ARRAY_BUFFER, arraySize, newMasterList, GL_STATIC_DRAW);

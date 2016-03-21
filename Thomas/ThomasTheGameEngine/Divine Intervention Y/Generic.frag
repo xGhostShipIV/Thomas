@@ -25,6 +25,8 @@ uniform float[10] LightAngle_Spot;
 uniform vec3 IsEffectedByLight;
 uniform vec3 Material;
 
+uniform float Opacity;
+
 void main()
 {
 	//if Alpha == 0, don't draw
@@ -147,5 +149,5 @@ void main()
 	specular.w = specular.w > 0 ? 0 : specular.w;
 
 	fColor = specular + texture2D(texture, texCoord) * (ambientLight + diffuse);
-
+	fColor.w = fColor.w * Opacity;
 }

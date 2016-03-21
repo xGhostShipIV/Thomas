@@ -53,6 +53,7 @@ Generic_Shader::Generic_Shader() : Shader(GLU::CreateShaders("Generic.vert", "Ge
 	numberOfLights_Location = glGetUniformLocation(program, "NumberOfLights");
 	view_Location = glGetUniformLocation(program, "view");
 	projection_Location = glGetUniformLocation(program, "projection");
+	opacity_Location = glGetUniformLocation(program, "Opacity");
 }
 Generic_Shader::~Generic_Shader(){}
 #pragma endregion
@@ -77,6 +78,7 @@ GUI_Shader::GUI_Shader() : Shader(GLU::CreateShaders("GUI.vert", "GUI.frag"))
 
 	transform_Location = glGetUniformLocation(program, "Transform");
 	drawPercent_Location = glGetUniformLocation(program, "drawPercent");
+	opacity_Location = glGetUniformLocation(program, "Opacity");
 }
 GUI_Shader::~GUI_Shader(){}
 #pragma endregion

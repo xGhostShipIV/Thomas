@@ -50,8 +50,9 @@ void Generic_RenderableComponent::SetEffecctedByLight(bool _directional, bool _p
 	isEffectedByLight = Vec3(_directional, _point, _spot);
 }
 
-Generic_RenderableComponent::Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, Material * mat_) : RenderableComponent(parent_, Generic_Shader::_GetInstance())
+Generic_RenderableComponent::Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_, Material * mat_) : RenderableComponent(parent_, Generic_Shader::_GetInstance())
 {
+	opacity = opacity_;
 	modelName = ModelManager::getInstance()->GetModelID(modelID_);
 	textureName.push_back(ModelManager::getInstance()->GetTextureID(textureID_));
 	mat = mat_;
@@ -93,6 +94,8 @@ void Generic_RenderableComponent::Render()
 	float effected[3] = { isEffectedByLight.x, isEffectedByLight.y, isEffectedByLight.z };
 	glProgramUniform3fv(shader_->GetProgram(), shader_->isEffectedByLight_Location, 1, effected);
 
+	glProgramUniform1f(shader_->GetProgram(), shader_->opacity_Location, opacity);
+
 	//Get Transform Stuff
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->rotate_Location, 1, GL_FALSE, Matrix4(parentObject->rotation).transpose().values);
@@ -119,7 +122,7 @@ void Generic_RenderableComponent::Render()
 /*                                   GUI                                          */
 /**********************************************************************************/
 
-GUI_RenderableComponent::GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_) : RenderableComponent(parent_, GUI_Shader::_GetInstance()), drawPercent(1)
+GUI_RenderableComponent::GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_, float opacity_) : RenderableComponent(parent_, GUI_Shader::_GetInstance()), drawPercent(1), opacity(opacity_)
 {
 	modelName = modelID_;
 	textureName.push_back(textureID_);
@@ -157,6 +160,8 @@ void GUI_RenderableComponent::Render()
 
 	float _UIdrawPercent[1] = { drawPercent };
 	glProgramUniform1fv(shader_->GetProgram(), shader_->drawPercent_Location, 1, _UIdrawPercent);
+
+	glProgramUniform1f(shader_->GetProgram(), shader_->opacity_Location, opacity);
 
 	//Get Transform Stuff
 	//Convert from screen pixels to screen percent

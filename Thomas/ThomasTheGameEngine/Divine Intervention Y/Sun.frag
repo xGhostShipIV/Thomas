@@ -22,4 +22,6 @@ void main()
 	
 	fColor = mix(color1, color2, intensity) * lightIntensity;
 
+	fColor.w = 1;
+
 }

@@ -108,6 +108,9 @@
     <ClCompile Include="Obstacles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Swarm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerBall.h">
@@ -174,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Obstacles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Swarm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

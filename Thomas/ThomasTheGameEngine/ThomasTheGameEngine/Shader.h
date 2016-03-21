@@ -40,7 +40,7 @@ public:
 	~Generic_Shader();
 
 	GLuint view_Location, projection_Location, cameraPosition_Location;
-	GLuint numberOfLights_Location;
+	GLuint numberOfLights_Location, opacity_Location;
 	GLuint transform_Location, rotate_Location;
 	GLuint ambient_Location, lightColor_Directional_Location, lightDirection_Directional_Location;
 	GLuint lightColor_Point_Location, lightPosition_Point_Location;
@@ -57,7 +57,7 @@ public:
 	static GUI_Shader* _GetInstance();
 	~GUI_Shader();
 
-	GLuint transform_Location, drawPercent_Location;
+	GLuint transform_Location, drawPercent_Location, opacity_Location;
 private:
 	GUI_Shader();
 };

@@ -198,14 +198,16 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 
 		Models->loadTexture("DIY_LEVEL_GAMEGUI_BACKGROUND", "Images/Level GUI/GUI_Background.png");
 		ParBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ParLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
+		ParBackground->SetOpacity(0.5f);
 		StrokeBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", StrokeLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
+		StrokeBackground->SetOpacity(0.5f);
 		//ObjectivesBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ObjectivesLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 	}
 
 	/* LABELS */
 	{
 		//Fonts
-		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/ostrich-regular.ttf");
+		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/Aaargh.ttf");
 		FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_COUNT", 50, "Font/ostrich-black.ttf");
 
 		ParLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ParLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
@@ -268,18 +270,25 @@ DIY_Level_PauseGUI::DIY_Level_PauseGUI(Level *level_)
 	/* BACKGROUND */
 	Models->loadTexture("DIY_LEVEL_PAUSEGUI_BACKGROUND", "Images/Level GUI/PauseBackground.png");
 	Background = new GuiImage(level_, "DIY_LEVEL_PAUSEGUI_BACKGROUND", Vec2(), ScreenAnchor::CENTER);
+	Background->SetOpacity(0.5f);
 
 	/* BUTTONS */
-	Models->loadTexture("DIY_LEVEL_GUI_EXIT", "Images/Level GUI/Buttons/Exit.png");
+	//Fonts
+	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_BUTTON_LARGE", 60, "Font/ostrich-black.ttf");
+
+	//Textures
+	Models->loadTexture("LEVEL_GUI_BLANK", "Images/Level GUI/Buttons/Blank.png");
+	Models->loadTexture("LEVEL_GUI_BLANK_HOVERED", "Images/Level GUI/Buttons/BlankHovered.png");
+
+	/*Models->loadTexture("DIY_LEVEL_GUI_EXIT", "Images/Level GUI/Buttons/Exit.png");
 	Models->loadTexture("DIY_LEVEL_GUI_EXIT_PRESSED", "Images/Level GUI/Buttons/ExitPressed.png");
-	Models->loadTexture("DIY_LEVEL_GUI_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");
-	ExitButton = new Button(level_, ExitButtonLocation, "DIY_LEVEL_GUI_EXIT", "DIY_LEVEL_GUI_EXIT_PRESSED", "DIY_LEVEL_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);
+	Models->loadTexture("DIY_LEVEL_GUI_EXIT_HOVERED", "Images/Level GUI/Buttons/ExitHovered.png");*/
+	ExitButton = new TextButton(level_, ExitButtonLocation, "EXIT", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_BUTTON_LARGE"), "LEVEL_GUI_BLANK", "LEVEL_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow());
 
-	Models->loadTexture("DIY_LEVEL_GUI_RESUME", "Images/Level GUI/Buttons/Resume.png");
+	/*Models->loadTexture("DIY_LEVEL_GUI_RESUME", "Images/Level GUI/Buttons/Resume.png");
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME_PRESSED", "Images/Level GUI/Buttons/ResumePressed.png");
-	Models->loadTexture("DIY_LEVEL_GUI_RESUME_HOVERED", "Images/Level GUI/Buttons/ResumeHovered.png");
-	ResumeButton = new Button(level_, ResumeButtonLocation, "DIY_LEVEL_GUI_RESUME", "DIY_LEVEL_GUI_RESUME_PRESSED", "DIY_LEVEL_GUI_RESUME_HOVERED", ScreenAnchor::CENTER);
-
+	Models->loadTexture("DIY_LEVEL_GUI_RESUME_HOVERED", "Images/Level GUI/Buttons/ResumeHovered.png");*/
+	ResumeButton = new TextButton(level_, ResumeButtonLocation, "RESUME", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_BUTTON_LARGE"), "LEVEL_GUI_BLANK", "LEVEL_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow());
 }
 
 DIY_Level_PauseGUI::~DIY_Level_PauseGUI(){}
@@ -310,12 +319,13 @@ DIY_Level_VictoryGUI::DIY_Level_VictoryGUI(Level *level_, int par_)
 	/* BACKGROUND */
 	Models->loadTexture("DIY_LEVEL_VICTORYGUI_BACKGROUND", "Images/Level GUI/Victory_Background.png");
 	Background = new GuiImage(level_, "DIY_LEVEL_VICTORYGUI_BACKGROUND", Vec2(), ScreenAnchor::CENTER);
+	Background->SetOpacity(0.5f);
 
 	//Fonts
 	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT_LARGE", 80, "Font/ostrich-black.ttf");
-	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/ostrich-regular.ttf");
+	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/Aaargh.ttf");
 	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_COUNT", 65, "Font/ostrich-black.ttf");
-	FontManager::getInstance()->GenerateFont("LEVEL_GUI_BUTTON_FONT", 45, "Font/ostrich-regular.ttf");
+	FontManager::getInstance()->GenerateFont("LEVEL_GUI_BUTTON_FONT", 45, "Font/Aaargh.ttf");
 
 	//Textures
 	Models->loadTexture("LEVEL_GUI_BLANK", "Images/Level GUI/Buttons/Blank.png");

@@ -120,3 +120,13 @@ float GuiElement::GetDrawPercent() const
 {
 	return ((GUI_RenderableComponent*)renderable)->drawPercent;
 }
+
+void GuiElement::SetOpacity(float opacity_)
+{
+	((GUI_RenderableComponent*)renderable)->opacity = opacity_;
+}
+
+float GuiElement::GetOpacity() const
+{
+	return ((GUI_RenderableComponent*)renderable)->opacity;
+}

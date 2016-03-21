@@ -28,7 +28,7 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 		
 		Models->loadTexture("LANDING_GUI_BLANK", "Images/Level GUI/Buttons/Blank.png");
 		Models->loadTexture("LANDING_GUI_BLANK_HOVERED", "Images/Level GUI/Buttons/BlankHovered.png");
-		FontManager::getInstance()->GenerateFont("LANDING_GUI_FONT", 45, "Font/ostrich-regular.ttf");
+		FontManager::getInstance()->GenerateFont("LANDING_GUI_FONT", 45, "Font/Aaargh.ttf");
 
 		//PlayButton = new Button(level_, PlayButtonLocation, "LANDING_GUI_PLAY", "LANDING_GUI_PLAY_PRESSED", "LANDING_GUI_PLAY_HOVERED", ScreenAnchor::CENTER);
 		//ExitButton = new Button(level_, ExitButtonLocation, "LANDING_GUI_EXIT", "LANDING_GUI_EXIT_PRESSED", "LANDING_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);

@@ -11,8 +11,8 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 	plane2 = new GameObject(level_, Vec3(0, 0, 0));
 	plane2->Rotate(Quat(-(3.14159f / 2.f), Vec3(1, 0, 0)));
 
-	new Generic_RenderableComponent(plane1, "plane", "galaxyMap");
-	new Generic_RenderableComponent(plane2, "plane", "galaxyMap");
+	new Generic_RenderableComponent(plane1, "plane", "galaxyMap", 3.0f);
+	new Generic_RenderableComponent(plane2, "plane", "galaxyMap", 3.0f);
 
 	addChild(plane1);
 	addChild(plane2);

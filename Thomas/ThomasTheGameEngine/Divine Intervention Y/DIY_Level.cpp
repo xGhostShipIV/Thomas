@@ -73,8 +73,6 @@ void DIY_Level::LoadContent()
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
 
 	Models->loadModel("ufo", "Models/UFO.obj", true);
-	Models->loadTexture("ufoBottom", "Images/Bottom1.png");
-	Models->loadTexture("ufoTop", "Images/Top1.png");
 
 	//Gotta be big to show up..
 	//don't know why 

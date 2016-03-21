@@ -46,8 +46,9 @@ class Generic_RenderableComponent : public RenderableComponent
 public:
 	Material * mat;
 	Vec3 isEffectedByLight;
+	float opacity;
 
-	Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, Material * mat_ = new Material(1.0f, 1.0f, 1.0f));
+	Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_ = 1, Material * mat_ = new Material(1.0f, 1.0f, 1.0f));
 
 	~Generic_RenderableComponent();
 
@@ -60,8 +61,9 @@ class GUI_RenderableComponent : public RenderableComponent
 {
 public:
 	float drawPercent;
+	float opacity;
 
-	GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_);
+	GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_, float opacity_ = 1);
 
 	~GUI_RenderableComponent();
 

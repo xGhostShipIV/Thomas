@@ -51,6 +51,9 @@ public:
 	//Assumes GUI_Renderable
 	virtual void SetDrawPercent(float drawPercent_);
 	virtual float GetDrawPercent() const;
+
+	virtual void SetOpacity(float opacity_);
+	virtual float GetOpacity() const;
 };
 
 #endif

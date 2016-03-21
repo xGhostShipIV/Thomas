@@ -45,7 +45,7 @@ public:
 	~DIY_Level_PauseGUI();
 
 	GuiImage *Background;
-	Button *ExitButton, *ResumeButton;
+	TextButton *ExitButton, *ResumeButton;
 
 	void Hide();
 	void Show();

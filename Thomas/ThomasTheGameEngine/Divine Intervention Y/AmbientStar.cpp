@@ -20,7 +20,7 @@ void AmbientStar::Update(float _deltaTime)
 {
 	GameObject::Update(_deltaTime);
 
-	if (elapsedTime > 5.5f)
+	if (elapsedTime > 2.0f)
 	{
 		fb->Play();
 		elapsedTime = 0.0f;
