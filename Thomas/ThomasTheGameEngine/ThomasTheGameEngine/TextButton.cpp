@@ -1,4 +1,5 @@
 #include "TextButton.h"
+#include <iostream>
 
 TextButton::TextButton(Level* level_, Vec2 screenPosition_, std::string labelText_, TTF_Font* font_, std::string textureUnpressed_, std::string textureHover_, ScreenAnchor anchor_, Colour unpressedTextColour_, Colour pressedTextColour_)
 : Button(level_, screenPosition_, textureUnpressed_, textureHover_, textureHover_, anchor_), 
@@ -8,6 +9,7 @@ label(level_, labelText_, font_, screenPosition_, anchor_, unpressedTextColour_)
 
 TextButton::~TextButton()
 {
+	std::cout << "   ?????  DELETING TEXT BUTTON  ?????\n";
 }
 
 void TextButton::Show() 

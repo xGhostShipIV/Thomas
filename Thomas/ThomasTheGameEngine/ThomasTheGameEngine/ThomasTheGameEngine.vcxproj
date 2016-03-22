@@ -124,7 +124,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -141,6 +141,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -173,11 +177,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

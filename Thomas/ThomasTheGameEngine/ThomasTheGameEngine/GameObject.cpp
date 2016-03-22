@@ -139,6 +139,8 @@ GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), sc
 
 GameObject::~GameObject()
 {
+	std::cout << "DELETING GAME OBJECT! Number of Components: " << components.size() << " \n";
+
 	//Clear all components
 	if (components.size() > 1)
 	{
@@ -150,25 +152,39 @@ GameObject::~GameObject()
 		switch ((*it)->type)
 		{
 		case Component::ComponentType::Rigidbody:
+			std::cout << "----DELETING Rigidbody...";
 			delete (Rigidbody*)*it;
+			std::cout << " done.\n";
 			break;
 		case Component::ComponentType::Collision:
+			std::cout << "----DELETING Collider...";
 			delete (Collider*)*it;
+			std::cout << " done.\n";
 			break;
 		case Component::ComponentType::Renderable_Component:
+			std::cout << "----DELETING RenderableComponent...";
 			delete (RenderableComponent*)*it;
+			std::cout << " done.\n";
 			break;
 		case Component::ComponentType::Flipbook:
+			std::cout << "----DELETING Flipbook...";
 			delete (Flipbook*)*it;
+			std::cout << " done.\n";
 			break;
 		case Component::ComponentType::Light:
+			std::cout << "----DELETING Light...";
 			delete (Light*)*it;
+			std::cout << " done.\n";
 			break;
 		case Component::ComponentType::ParticleSystem:
+			std::cout << "----DELETING Particle System...";
 			delete (ParticleSystem*)*it;
+			std::cout << " done.\n";
 			break;
 		default:
+			std::cout << "----DELETING Component?...";
 			delete *it;
+			std::cout << " done.\n";
 			break;
 		}
 	}

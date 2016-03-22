@@ -182,9 +182,14 @@ void Game::EngineUpdate(float _timeStep)
 		callInitOnNextUpdate = false;
 		
 		if (currentLevel)
+		{
+			std::cout << "DELETING CURRENT LEVEL.... \n";
 			delete currentLevel;
+		}
 
+		std::cout << "CLEARING COMPONENTS.... \n";
 		RenderableComponent::renderableComponents.clear();
+		std::cout << "UNLOADING MODELS.... \n";
 		Models->UnloadModels();
 
 		currentLevel = levelToLoad;
@@ -193,6 +198,7 @@ void Game::EngineUpdate(float _timeStep)
 		//Make sure physics world is not paused
 		PhysicsWorld::getInstance()->isPhysicsRunning = true;
 
+		std::cout << "CALLING LEVEL INIT.... \n";
 		currentLevel->init();
 
 		std::cout << "\nLEVEL LOADED!\n\n";

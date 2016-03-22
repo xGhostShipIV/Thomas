@@ -24,7 +24,7 @@ Label::Label(Level* _level, std::string _text, TTF_Font* _font, Vec2 _screenPosi
 
 Label::~Label()
 {
-
+	std::cout << "   ?????  DELETING LABEL  ?????\n";
 }
 
 void Label::Update(float _deltaTime){}

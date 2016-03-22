@@ -323,7 +323,7 @@ DIY_Level_VictoryGUI::DIY_Level_VictoryGUI(Level *level_, int par_)
 
 	//Fonts
 	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT_LARGE", 80, "Font/ostrich-black.ttf");
-	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_TEXT", 40, "Font/Aaargh.ttf");
+	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_LABEL_TEXT", 40, "Font/ostrich-black.ttf");
 	FontManager::getInstance()->GenerateFont("DIY_LEVEL_GUI_COUNT", 65, "Font/ostrich-black.ttf");
 	FontManager::getInstance()->GenerateFont("LEVEL_GUI_BUTTON_FONT", 45, "Font/Aaargh.ttf");
 
@@ -345,10 +345,10 @@ DIY_Level_VictoryGUI::DIY_Level_VictoryGUI(Level *level_, int par_)
 
 	victoryLabel = new Label(level_, "VICTORY!", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT_LARGE"), victoryLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	strokeCountLabel = new Label(level_, IntToString(strokes), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), strokeCountLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
-	strokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), strokeLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
+	strokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_LABEL_TEXT"), strokeLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	slashLabel = new Label(level_, "/", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT_LARGE"), slashLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 	parCountLabel = new Label(level_, IntToString(par_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), parCountLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
-	parLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), parLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
+	parLabel = new Label(level_, "Par", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_LABEL_TEXT"), parLabelLocation, ScreenAnchor::CENTER, Colour::Yellow());
 
 	/* BUTTONS */
 	Vec2 levelSelectButtonLocation = Vec2(300, -200);

@@ -50,6 +50,7 @@ ModelManager::ModelManager()
 	shaderPrograms.push_back(Generic_Shader::_GetInstance());
 	shaderPrograms.push_back(GUI_Shader::_GetInstance());
 	shaderPrograms.push_back(Sun_Shader::_GetInstance());
+	shaderPrograms.push_back(Rainbow_GUI_Shader::_GetInstance());
 
 	//Bind Attributes
 	{
@@ -418,7 +419,7 @@ void ModelManager::CreateSkybox(string _id, float _size, bool _normalsOnBottom)
 	GenerateNormals(skybox, true, _normalsOnBottom);
 	GenerateCubeMap(skybox);
 
-	InsertModel(skybox, _id);
+	InsertModel(skybox, _id); 
 }
 
 void ModelManager::CreatePyramid(string _id, float _w, float _h, float _l, float _uvRepeatX, float _uvRepeatY)

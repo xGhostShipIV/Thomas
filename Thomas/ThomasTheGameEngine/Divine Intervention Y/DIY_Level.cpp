@@ -37,7 +37,6 @@ void DIY_Level::LoadContent()
 	{
 		GAME->LoadLevel(new LandingScreen);
 		std::cout << "ERROR LOADING: " << fileName << "\nLOADING LANDING SCREEN...\n";
-
 		return;
 	}
 
