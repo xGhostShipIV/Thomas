@@ -1,8 +1,7 @@
 //Author: Nathan Senter
 //Date: 10/03/2016
 
-#include "Alien.h"
-#include "Swarm.h"
+#include "Obstacles.h"
 #include "PlayerBall.h"
 
 #include <Level.h>

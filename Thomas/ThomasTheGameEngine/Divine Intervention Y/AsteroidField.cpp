@@ -1,9 +1,6 @@
-#include "AsteroidField.h"
+#include "Obstacles.h"
 #include "PlayerBall.h"
-#include <Level.h>
 #include <stdio.h>
-#include <RenderableComponent.h>
-#include <Rigidbody.h>
 #include <AudioManager.h>
 #include <iostream>
 

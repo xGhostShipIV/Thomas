@@ -10,11 +10,8 @@
 #include "FocusCamera.h"
 #include "GameCamera.h"
 #include "Planet.h"
-#include "AsteroidField.h"
-#include "Wormhole.h"
-#include "WarpGate.h"
+#include "Obstacles.h"
 #include "PlayerBall.h"
-#include "Swarm.h"
 
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"

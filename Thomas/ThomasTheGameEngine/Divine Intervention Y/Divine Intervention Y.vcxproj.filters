@@ -146,15 +146,6 @@
     <ClInclude Include="Slingshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WarpGate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wormhole.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AsteroidField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sun.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -179,17 +170,11 @@
     <ClInclude Include="Planet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Alien.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Obstacles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor_Level.h">
       <Filter>Header Files\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Swarm.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

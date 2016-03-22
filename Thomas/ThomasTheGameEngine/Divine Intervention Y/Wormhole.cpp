@@ -1,6 +1,6 @@
 #include <AudioManager.h>
 
-#include "Wormhole.h"
+#include "Obstacles.h"
 
 #include "DIY_Level.h"
 #include "PlayerBall.h"

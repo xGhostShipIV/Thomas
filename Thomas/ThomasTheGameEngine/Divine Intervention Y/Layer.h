@@ -4,7 +4,7 @@
 #include <Rigidbody.h>
 #include <dependencies\TinyXML\tinyxml2.h>
 
-#include "Wormhole.h"
+#include "Obstacles.h"
 #include "Planet.h"
 
 class DIY_Level;

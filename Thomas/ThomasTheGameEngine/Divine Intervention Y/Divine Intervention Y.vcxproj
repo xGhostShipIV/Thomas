@@ -114,9 +114,7 @@
     <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Alien.h" />
     <ClInclude Include="AmbientStar.h" />
-    <ClInclude Include="AsteroidField.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
     <ClInclude Include="DIY_Level_GUI.h" />
@@ -135,9 +133,6 @@
     <ClInclude Include="Slingshot.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Sun.h" />
-    <ClInclude Include="Swarm.h" />
-    <ClInclude Include="WarpGate.h" />
-    <ClInclude Include="Wormhole.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Generic.frag" />

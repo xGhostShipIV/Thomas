@@ -1,10 +1,9 @@
-#include "WarpGate.h"
-
-#include <RenderableComponent.h>
+#include "Obstacles.h"
 #include "PlayerBall.h"
-#include <Level.h>
-#include <AudioManager.h>
 #include "DIY_Level.h"
+
+#include <AudioManager.h>
+
 
 WarpGate::WarpGate(Level * level_, Vec3 position_, Quat rotation_) : GameObject(level_, position_)
 {

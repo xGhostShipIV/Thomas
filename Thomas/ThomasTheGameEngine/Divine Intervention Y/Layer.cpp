@@ -4,10 +4,6 @@
 #include <Random.h>
 #include <string>
 
-#include "AsteroidField.h"
-#include "WarpGate.h"
-#include "Swarm.h"
-#include "Obstacles.h"
 Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : GameObject(_level)
 {
 	//Save reference to the level as proper pointer
