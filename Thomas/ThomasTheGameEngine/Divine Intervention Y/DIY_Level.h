@@ -27,6 +27,7 @@ enum DIY_Level_Victory_State
 class DIY_Level :
 	public Level
 {
+	friend class Layer;
 public:
 	DIY_Level(std::string fileName_);
 	~DIY_Level();

@@ -114,7 +114,6 @@ void DIY_Level::LoadContent()
 	mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0, 0, -7));
 	currentCamera = mainCamera;
 
-
 	//Can now go through Update loop.
 	hasFinishedLoading = true;
 }
@@ -126,6 +125,8 @@ DIY_Level::~DIY_Level()
 
 void DIY_Level::LoadLevel()
 {
+	sun = new Sun(this, Vec3(), 100);
+
 	tinyxml2::XMLDocument doc;
 
 	//Tries to load the file, quits if it fails
@@ -180,7 +181,7 @@ void DIY_Level::LoadLevel()
 		element = element->NextSiblingElement();
 	}
 
-	sun = new Sun(this, Vec3(), 100);
+
 }
 
 int DIY_Level::HasObjectives()
