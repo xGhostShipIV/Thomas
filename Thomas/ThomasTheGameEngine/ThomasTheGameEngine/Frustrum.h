@@ -14,7 +14,7 @@ public:
 	bool checkObjectInside(GameObject * _go, Camera * _c);
 
 	//Returns a copy of the frustrum but matched to the current cameras transform
-	Frustrum getTransofmedFrustrum(Camera * camera);
+	static Frustrum getTransofmedFrustrum(Camera * camera);
 
 	//Called when video properties change, will recalculate the size of the frustrum
 	void Recalculate();
