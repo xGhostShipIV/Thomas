@@ -2,16 +2,21 @@
 #include <Billboard.h>
 #include <Flipbook.h>
 
-class AmbientStar :
+class Node :
 	public GameObject
 {
 public:
-	AmbientStar(Level *, Vec3);
-	~AmbientStar();
+	Node(Level *, Vec3, std::string fileName_);
+	~Node();
 
 	void Update(float _deltaTime) override;
 
+	std::string GetFileName();
 private:
+
+	//String that dictates which xml to load
+	std::string levelFileName;
+
 	float elapsedTime;
 
 	Billboard * b;

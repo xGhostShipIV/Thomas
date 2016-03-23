@@ -3,10 +3,14 @@
 #include <ModelManager.h>
 #include <InputHandler.h>
 #include <RenderableComponent.h>
+#include <Ray.h>
+#include <../Math/Plane.h>
 
 #include <Game.h>
 #include <AudioManager.h>
+
 #include "DIY_Level.h"
+#include "Node.h"
 
 LandingScreen::LandingScreen()
 {
@@ -28,6 +32,10 @@ void LandingScreen::LoadContent()
 		new Generic_RenderableComponent(skybox, "skybox", "skybox1");
 		skybox->Rotate(Quat(1.5 * M_PI, Vec3(0, 1, 0)));
 	}
+
+	//Set string to nothing.
+	//Will do a check when play button is clicked
+	targetFileName = "";
 
 	galaxyMap = new GalaxyMap(this);
 
@@ -62,12 +70,29 @@ void LandingScreen::LevelUpdate(float timeStep_)
 	{
 		if (Input->isMouseDown(SDL_BUTTON_LEFT))
 		{
-			Vec2 mouseDir_ = InputController::getInstance()->deltaMouse();
+			for (int i = 0; i < galaxyMap->nodes.size(); i++)
+			{
+				Ray ray = Ray();
+				ray.fromScreen();
 
-			galaxyMap->Rotate(Quat(mouseDir_.x * timeStep_, Vec3(0, 1.0f, 0)));
-			galaxyMap->Rotate(Quat(-mouseDir_.y * timeStep_, Vec3::BasisX()));
+				Vec3 rayHitPosition;
+				Plane targetPlane = Plane(galaxyMap->nodes[i]->forward(), galaxyMap->nodes[i]->position.magnitude());
+
+				ray.castTo(targetPlane, rayHitPosition);
+				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 20.0f)
+				{
+					printf("selected Level\n");
+					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();
+				}
+			}
+
 		}
 	}
 
 	gui->Update(timeStep_);
+}
+
+std::string LandingScreen::GetTargetFileName()
+{
+	return targetFileName;
 }

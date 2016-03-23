@@ -5,7 +5,6 @@
 #include <Rigidbody.h>
 
 #include "Pointer.h"
-#include "Slingshot.h"
 
 class Sound;
 

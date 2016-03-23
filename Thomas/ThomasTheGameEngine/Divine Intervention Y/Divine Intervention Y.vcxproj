@@ -87,7 +87,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
-    <ClCompile Include="AmbientStar.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="AsteroidField.cpp" />
     <ClCompile Include="DIY_Game.cpp" />
     <ClCompile Include="DIY_Level.cpp" />
@@ -106,7 +106,6 @@
     <ClCompile Include="PlayerBall.cpp" />
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="PopUp.cpp" />
-    <ClCompile Include="Slingshot.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Sun.cpp" />
     <ClCompile Include="Swarm.cpp" />
@@ -114,7 +113,7 @@
     <ClCompile Include="Wormhole.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AmbientStar.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="DIY_Game.h" />
     <ClInclude Include="DIY_Level.h" />
     <ClInclude Include="DIY_Level_GUI.h" />
@@ -130,7 +129,6 @@
     <ClInclude Include="Planet.h" />
     <ClInclude Include="PlayerBall.h" />
     <ClInclude Include="Pointer.h" />
-    <ClInclude Include="Slingshot.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Sun.h" />
   </ItemGroup>
@@ -146,10 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Level001.xml" />
-    <Xml Include="Level002.xml" />
-    <Xml Include="Level004.xml" />
     <Xml Include="properties.xml" />
-    <Xml Include="testLevel.xml" />
+    <Xml Include="Level002.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

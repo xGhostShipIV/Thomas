@@ -1,7 +1,8 @@
 #include "GalaxyMap.h"
-#include "AmbientStar.h"
+#include "Node.h"
 
 #include <RenderableComponent.h>
+#include <Random.h>
 
 GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 {
@@ -23,8 +24,31 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 
 	for (int i = 0; i < NUMBER_OF_NODES; i++)
 	{
-		//Hard coding position for now cause I dont want to deal with random
-		AmbientStar * star = new AmbientStar(level_, Vec3(5.f, -0.2f, -2.f));
+		std::string levelName = "Level0";
+
+		if (i + 1 < 10)
+		{
+			levelName += "0" + std::to_string(i + 1);
+		}
+		else levelName += std::to_string(i + 1);
+
+		levelName += ".xml";
+
+		//Generate a random position
+		Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
+		nodePosition.y = -0.2f;
+
+		//Loop to ensure that nodes aren't spawned too close to eachother
+		if (i != 0)
+		{
+			while ((nodePosition - nodes[i - 1]->position).magnitude() < 1.0f)
+			{
+				nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
+				nodePosition.y = -0.2f;
+			}
+		}
+
+		Node * star = new Node(level_, nodePosition, levelName);
 		nodes.push_back(star);
 		addChild(nodes.back());
 	}

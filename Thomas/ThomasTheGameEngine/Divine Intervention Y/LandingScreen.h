@@ -9,6 +9,8 @@ class LandingScreen : public Level
 {
 private:
 	Landing_GUI *gui;
+
+	std::string targetFileName;
 public:
 	LandingScreen();
 	~LandingScreen();
@@ -16,6 +18,8 @@ public:
 	void LoadContent() override;
 
 	void LevelUpdate(float timeStep_) override;
+
+	std::string GetTargetFileName();
 
 	GameObject * skybox;
 	GalaxyMap * galaxyMap;

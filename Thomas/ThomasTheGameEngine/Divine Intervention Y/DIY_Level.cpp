@@ -49,7 +49,7 @@ void DIY_Level::LoadContent()
 	currentCamera = mainCamera;
 
 	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
-	gui = new DIY_Level_GUI(this, par, HasObjectives());
+	gui = new DIY_Level_GUI(this, par, 1);
 
 	Models->CreateSkybox("skybox", 10000.0f);
 	Models->loadTexture("skybox1", "Images/skyboxUP.png");
@@ -179,11 +179,6 @@ void DIY_Level::LoadLevel()
 	}
 
 
-}
-
-int DIY_Level::HasObjectives()
-{
-	return 1;
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)

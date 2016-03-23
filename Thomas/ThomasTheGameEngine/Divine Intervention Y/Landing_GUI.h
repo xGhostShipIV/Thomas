@@ -7,6 +7,8 @@
 #include <GuiImage.h>
 #include <TextButton.h>
 
+class LandingScreen;
+
 enum Menu_State{
 	Title,
 	Tranisiton,
@@ -33,8 +35,11 @@ public:
 
 	bool titleIsShown;
 
+	LandingScreen * landingScreen;
+
 	Menu_State GetState();
 	void SetState(Menu_State);
 
 	void Update(float timeStep_);
+	void SetLevelName(std::string name_);
 };

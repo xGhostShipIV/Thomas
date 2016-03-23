@@ -44,8 +44,6 @@ public:
 
 	std::vector<Layer *> layers;
 
-	int HasObjectives();
-
 	DIY_Level_GUI * gui;
 
 	bool PlayerHasShotBallIntoSun;

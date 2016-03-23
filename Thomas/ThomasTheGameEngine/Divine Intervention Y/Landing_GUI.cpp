@@ -13,6 +13,8 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 	Vec2 InstructionsButtonLocation = PlayButtonLocation + Vec2(0, -80);
 	Vec2 ExitButtonLocation = InstructionsButtonLocation + Vec2(0, -80);
 
+	landingScreen = ((LandingScreen *)level_);
+
 	Audio->loadSound("ding", "Sounds/ding.wav");
 
 	/* BUTTONS */
@@ -65,7 +67,7 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 		InstructionsImage = new GuiImage(level_, "LANDING_GUI_INSTRUCTIONS", Vec2(), ScreenAnchor::CENTER);
 		InstructionsImage->Hide();
 	}
-
+	
 	state = Title;
 }
 
@@ -121,10 +123,14 @@ void Landing_GUI::Update(float timeStep_)
 		{
 			if (PlayButton->HasBeenClicked())
 			{
-				
-				Audio->getSound("ding")->Play();
-				Audio->getMusic("menuTheme")->Stop();
-				GAME->LoadLevel(new DIY_Level("testLevel.xml"));
+				std::string levelName = landingScreen->GetTargetFileName();
+
+				if (levelName != "")
+				{
+					Audio->getSound("ding")->Play();
+					Audio->getMusic("menuTheme")->Stop();
+					GAME->LoadLevel(new DIY_Level(levelName));
+				}
 				//GAME->LoadLevel(new DIY_Level("Level004.xml"));
 			}
 			else if (ExitButton->HasBeenClicked())

@@ -139,7 +139,7 @@ GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), sc
 
 GameObject::~GameObject()
 {
-	std::cout << "DELETING GAME OBJECT! Number of Components: " << components.size() << " \n";
+	//std::cout << "DELETING GAME OBJECT! Number of Components: " << components.size() << " \n";
 
 	//Clear all components
 	if (components.size() > 1)

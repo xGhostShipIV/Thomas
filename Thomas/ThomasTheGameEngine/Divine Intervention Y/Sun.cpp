@@ -57,25 +57,4 @@ void Sun::Update(float timeStep_)
 	}
 
 	Rotate(Quat(0.5f * timeStep_, Vec3(0, 1, 0)));
-
-	/*if (Collider::isColliding(rigidBody->col, playerRigidBody->col))
-	{
-		DIY_Level * level_ = static_cast<DIY_Level *>(level);
-
-		if (!ballHitIntoSun)
-		{
-			Audio->getSound("whoosh")->Play();
-			ballHitIntoSun = true;
-		}
-
-		if (level_->HasObjectives() > 0)
-		{
-			level_->gui->PlayerTookAStroke();
-			player->FoulReset();
-		}
-		else
-			level_->PlayerHasShotBallIntoSun = true;
-	}
-	else
-		ballHitIntoSun = false;*/
 }
