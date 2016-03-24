@@ -68,24 +68,32 @@ void LandingScreen::LevelUpdate(float timeStep_)
 	}
 	else if (gui->GetState() == Select)
 	{
-		if (Input->isMouseDown(SDL_BUTTON_LEFT))
+		if (Input->isMousePressed(SDL_BUTTON_LEFT))
 		{
 			for (int i = 0; i < galaxyMap->nodes.size(); i++)
 			{
+				//Ray ray = Ray(currentCamera->position,currentCamera->forward());
 				Ray ray = Ray();
 				ray.fromScreen();
 
 				Vec3 rayHitPosition;
-				Plane targetPlane = Plane(galaxyMap->nodes[i]->forward(), galaxyMap->nodes[i]->position.magnitude());
+				Plane targetPlane = Plane(galaxyMap->nodes[i]->position - currentCamera->position, galaxyMap->nodes[i]->position);
 
-				ray.castTo(targetPlane, rayHitPosition);
-				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 20.0f)
+				if (!ray.castTo(targetPlane, rayHitPosition)) { 
+					std::cout << "Returned false from plane collision" << std::endl;
+					continue; 
+				}
+
+				//galaxyMap->nodes[i]->Translate(rayHitPosition - galaxyMap->nodes[i]->position);
+				//galaxyMap->nodes[i]->position = rayHitPosition;
+
+				//std::cout << "Distance to node: " << (galaxyMap->nodes[i]->position - rayHitPosition).magnitude() << std::endl;
+				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 1.0f)
 				{
 					printf("selected Level\n");
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();
 				}
 			}
-
 		}
 	}
 

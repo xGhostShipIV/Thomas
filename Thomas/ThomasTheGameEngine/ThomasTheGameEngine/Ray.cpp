@@ -27,19 +27,14 @@ Ray Ray::fromScreen(){
 		Input->mousePos().y / GameProperties::getInstance()->getVideoProperties()->screenHeight);
 
 	//Place point directly on transformed frustum
-	Frustrum transformed = Frustrum::getTransofmedFrustrum(view_);
-	
-	//Assumes near plane is 0.1f away, taken from game properties
-	Plane nearPlane = Plane(view_->forward() * -1, view_->forward() * 0.1f + view_->position);
+	Frustrum transformed = view_->frustrum;
 
 	Vec3 worldPos = transformed.nearTopLeft + Vec3(
 		mouseInput.x * (transformed.nearBottomRight.x - transformed.nearTopLeft.x),
 		mouseInput.y * (transformed.nearBottomRight.y - transformed.nearTopLeft.y),
 		0.0f);
 
-	worldPos.z = (nearPlane.normal.x * worldPos.x + nearPlane.normal.y * worldPos.y + nearPlane.D) / nearPlane.normal.z;
-
-	dir = (worldPos - view_->position).Normalized();
+	dir = Quat::rotate(view_->rotation, worldPos);
 
 	return Ray(point, dir);
 }
@@ -55,20 +50,12 @@ bool Ray::castTo(Plane target_, Vec3 &output_) {
 		return false;
 	}
 
-	if (target_.DistanceToPoint(point) < 0) {
-		if (Vec3::dot(target_.normal, dir) > 0) {
-			output_ = point + dir * (-(Vec3::dot(point, target_.normal) + target_.D) / Vec3::dot(target_.normal, dir));
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		if (Vec3::dot(target_.normal, dir) < 0) {
-			output_ = point + dir * (-(Vec3::dot(point, target_.normal) + target_.D) / Vec3::dot(target_.normal, dir));
-			return true;
-		} else {
-			return false;
-		}
+	//Calculate the negative of T in point + T * dir = plane point
+	float t = (Vec3::dot(target_.normal, point) - target_.D) / Vec3::dot(target_.normal, dir);
+
+	//If t > 0 that means -T < 0 which means dir is pointing away from plane.
+	if (t > 0) { return false; }
+	else {
+		output_ = point + -t * dir;
 	}
-	
 }
