@@ -3,6 +3,7 @@
 #include <string>
 #include "Material.h"
 #include <vector>
+#include "Colour.h"
 
 typedef unsigned int UINT32;
 class Renderable;
@@ -70,6 +71,18 @@ public:
 	virtual void Render();
 };
 
+class Rainbow_GUI_RenderableComponent : public RenderableComponent
+{
+public:
+	float drawPercent;
+
+	Rainbow_GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_);
+
+	~Rainbow_GUI_RenderableComponent();
+
+	virtual void Render();
+};
+
 class Sun_RenderableComponent : public RenderableComponent
 {
 public:
@@ -81,16 +94,32 @@ public:
 
 	Vec3 offset;
 	float intensity;
+	Colour coreColour, rippleColour;
 };
 
-class Rainbow_GUI_RenderableComponent : public RenderableComponent
+class Atmosphere_RenderableComponent : public RenderableComponent
 {
 public:
-	float drawPercent;
+	Atmosphere_RenderableComponent(GameObject* parent_, std::string modelID_);
 
-	Rainbow_GUI_RenderableComponent(GameObject* parent_, UINT32 modelID_, UINT32 textureID_);
-
-	~Rainbow_GUI_RenderableComponent();
+	~Atmosphere_RenderableComponent();
 
 	virtual void Render();
+
+	Vec3 offset;
+	float intensity;
+	Colour atmosphereColour;
+};
+
+class Glow_RenderableComponent : public RenderableComponent
+{
+public:
+	Glow_RenderableComponent(GameObject* parent_, std::string modelID_);
+
+	~Glow_RenderableComponent();
+
+	virtual void Render();
+
+	Vec3 offset;
+	Colour glowColour;
 };

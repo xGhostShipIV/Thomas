@@ -133,8 +133,12 @@
     <ClInclude Include="Sun.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Atmosphere.frag" />
+    <None Include="Atmosphere.vert" />
     <None Include="Generic.frag" />
     <None Include="Generic.vert" />
+    <None Include="Glow.frag" />
+    <None Include="Glow.vert" />
     <None Include="GUI.frag" />
     <None Include="GUI.vert" />
     <None Include="Rainbow_GUI.frag" />

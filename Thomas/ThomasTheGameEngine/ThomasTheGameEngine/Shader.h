@@ -4,6 +4,7 @@
 
 #include <glew.h>
 #include <vector>
+#include "../Math/four_dimensions.hpp"
 
 /*********************************************************/
 /*                       BASE                            */
@@ -62,20 +63,6 @@ private:
 	GUI_Shader();
 };
 
-class Sun_Shader : public Shader
-{
-public:
-	static Sun_Shader* instance;
-	static Sun_Shader* _GetInstance();
-	~Sun_Shader();
-
-	GLuint view_Location, projection_Location;
-	GLuint transform_Location, lightIntensity_Location, Offset_Location;
-	GLuint rotate_Location;
-private:
-	Sun_Shader();
-};
-
 class Rainbow_GUI_Shader : public Shader
 {
 public:
@@ -86,4 +73,51 @@ public:
 	GLuint transform_Location, drawPercent_Location;
 private:
 	Rainbow_GUI_Shader();
+};
+
+class Sun_Shader : public Shader
+{
+public:
+	static Sun_Shader* instance;
+	static Sun_Shader* _GetInstance();
+	~Sun_Shader();
+
+	GLuint view_Location, projection_Location, cameraPosition_Location;
+	GLuint transform_Location, lightIntensity_Location, Offset_Location;
+	GLuint rotate_Location;
+	GLuint TextureScale_Location, CoreColor_Location, RippleColor_Location;
+
+	Vec3 camPosition;
+private:
+	Sun_Shader();
+};
+
+class Atmosphere_Shader : public Shader
+{
+public:
+	static Atmosphere_Shader* instance;
+	static Atmosphere_Shader* _GetInstance();
+	~Atmosphere_Shader();
+
+	GLuint view_Location, projection_Location;
+	GLuint transform_Location, lightIntensity_Location, Offset_Location;
+	GLuint rotate_Location;
+	GLuint TextureScale_Location, AtmosphereColor_Location;
+private:
+	Atmosphere_Shader();
+};
+
+class Glow_Shader : public Shader
+{
+public:
+	static Glow_Shader* instance;
+	static Glow_Shader* _GetInstance();
+	~Glow_Shader();
+
+	GLuint view_Location, projection_Location, cameraPosition_Location;
+	GLuint transform_Location, Offset_Location;
+	GLuint rotate_Location;
+	GLuint TextureScale_Location, GlowColor_Location;
+private:
+	Glow_Shader();
 };

@@ -15,12 +15,16 @@ public:
 	void Update(float) override;
 
 private:
+	GameObject* glow;
 	Sun_RenderableComponent * renderer;
+	Glow_RenderableComponent * glow_renderer;
 	Light * light;
 	Rigidbody * rigidBody;
 	PlayerBall * player;
 	Rigidbody * playerRigidBody;
 	bool ballHitIntoSun;
-	const float INTENSITY_INCREMENT = 0.1f, MINIMUM_INTENSITY = 0.4f, MAXIMUM_INTENSITY = 0.7f;
+	const float INTENSITY_INCREMENT = 0.25f;
+	const float	MINIMUM_INTENSITY = 0.8f;
+	const float MAXIMUM_INTENSITY = 1.0f;
 };
 

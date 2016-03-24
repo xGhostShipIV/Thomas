@@ -226,75 +226,6 @@ void GUI_RenderableComponent::Render()
 }
 
 /**********************************************************************************/
-/*                                   SUN                                          */
-/**********************************************************************************/
-
-Sun_RenderableComponent::Sun_RenderableComponent(GameObject* parent_, std::string modelID_) : RenderableComponent(parent_, Sun_Shader::_GetInstance())
-{
-	modelName = ModelManager::getInstance()->GetModelID(modelID_);
-	intensity = 1;
-	offset = Vec3();
-
-	//create 3d texture
-	textureName.push_back(CreateNoise3D());
-
-	RenderableComponent::renderableComponents.push_back(this);
-}
-
-Sun_RenderableComponent::~Sun_RenderableComponent(){}
-
-void Sun_RenderableComponent::Render()
-{
-	Renderable* model = GetModel(modelName);
-
-	if (!model || !shaderProgram)
-		return;
-
-	//Get textures
-	std::vector<Texture*> _textures;
-	for (int i = 0; i < textureName.size(); i++)
-		_textures.push_back(ModelManager::getInstance()->getTexture(textureName[i]));
-
-	Sun_Shader* shader_ = (Sun_Shader*)shaderProgram;
-	glUseProgram(shader_->GetProgram());
-
-	//Switch Face Culling Mode
-	switch (model->GetDrawMode())
-	{
-	case Draw_Mode::CCW:
-		glFrontFace(GL_CCW);
-		break;
-	case Draw_Mode::CW:
-		glFrontFace(GL_CW);
-		break;
-	}
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-
-	//Get Transform Stuff
-	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
-
-	//Light Intensity
-	glProgramUniform1f(shader_->GetProgram(), shader_->lightIntensity_Location, intensity);
-
-	//Offset
-	glProgramUniform3f(shader_->GetProgram(), shader_->Offset_Location, offset.x, offset.y, offset.z);
-
-	for (int m = 0; m < model->meshes.size(); m++)
-	{
-		//Get Texture
-		if (m < _textures.size() && _textures[m])
-		{
-			glBindTexture(GL_TEXTURE_3D, _textures[m]->address);
-		}
-		else if (_textures[0])
-			glBindTexture(GL_TEXTURE_3D, _textures[0]->address);
-
-		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
-	}
-}
-
-/**********************************************************************************/
 /*                               RAINBOW GUI                                      */
 /**********************************************************************************/
 
@@ -384,7 +315,7 @@ void Rainbow_GUI_RenderableComponent::Render()
 	GUITransform.values[7] = (GUITransform.values[7] / (float)GameProperties::getInstance()->getVideoProperties()->screenHeight) * 2 - 1;
 
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, GUITransform.transpose().values);
-	
+
 	for (int m = 0; m < model->meshes.size(); m++)
 	{
 		//Get Texture
@@ -394,6 +325,242 @@ void Rainbow_GUI_RenderableComponent::Render()
 		}
 		else if (_textures[0])
 			glBindTexture(GL_TEXTURE_2D, _textures[0]->address);
+
+		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
+	}
+}
+
+/**********************************************************************************/
+/*                                   SUN                                          */
+/**********************************************************************************/
+
+Sun_RenderableComponent::Sun_RenderableComponent(GameObject* parent_, std::string modelID_) : RenderableComponent(parent_, Sun_Shader::_GetInstance())
+{
+	modelName = ModelManager::getInstance()->GetModelID(modelID_);
+	intensity = 1;
+	offset = Vec3();
+
+	//create 3d texture
+	textureName.push_back(CreateNoise3D());
+
+	RenderableComponent::renderableComponents.push_back(this);
+
+	coreColour = Colour::Yellow();
+	rippleColour = Colour::Orange();
+}
+
+Sun_RenderableComponent::~Sun_RenderableComponent(){}
+
+void Sun_RenderableComponent::Render()
+{
+	Renderable* model = GetModel(modelName);
+	Renderable* guiModel = GetModel("GUI");
+
+	if (!model || !guiModel || !shaderProgram)
+		return;
+
+	//Get textures
+	std::vector<Texture*> _textures;
+	for (int i = 0; i < textureName.size(); i++)
+		_textures.push_back(ModelManager::getInstance()->getTexture(textureName[i]));
+
+	Sun_Shader* shader_ = (Sun_Shader*)shaderProgram;
+
+	//Render to scene
+	glUseProgram(shader_->GetProgram());
+
+	//Switch Face Culling Mode
+	switch (model->GetDrawMode())
+	{
+	case Draw_Mode::CCW:
+		glFrontFace(GL_CCW);
+		break;
+	case Draw_Mode::CW:
+		glFrontFace(GL_CW);
+		break;
+	}
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	//Get Transform Stuff
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->rotate_Location, 1, GL_FALSE, Matrix4(parentObject->rotation).transpose().values);
+
+	//Light Intensity
+	glProgramUniform1f(shader_->GetProgram(), shader_->lightIntensity_Location, intensity);
+
+	//Offset
+	glProgramUniform3f(shader_->GetProgram(), shader_->Offset_Location, offset.x, offset.y, offset.z);
+
+	//Texture Scale
+	glProgramUniform1f(shader_->GetProgram(), shader_->TextureScale_Location, parentObject->scale.length() / 50.0f);
+
+	//Colours
+	glProgramUniform4f(shader_->GetProgram(), shader_->CoreColor_Location, coreColour.r, coreColour.g, coreColour.b, 1);
+	glProgramUniform4f(shader_->GetProgram(), shader_->RippleColor_Location, rippleColour.r, rippleColour.g, rippleColour.b, 1);
+
+	for (int m = 0; m < model->meshes.size(); m++)
+	{
+		if (m < _textures.size() && _textures[m])
+		{
+			glBindTexture(GL_TEXTURE_3D, _textures[m]->address);
+		}
+		else if (_textures[0])
+			glBindTexture(GL_TEXTURE_3D, _textures[0]->address);
+
+		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
+	}
+}
+
+/**********************************************************************************/
+/*                                ATMOSPHERE                                      */
+/**********************************************************************************/
+
+Atmosphere_RenderableComponent::Atmosphere_RenderableComponent(GameObject* parent_, std::string modelID_) : RenderableComponent(parent_, Atmosphere_Shader::_GetInstance())
+{
+	modelName = ModelManager::getInstance()->GetModelID(modelID_);
+	intensity = 1;
+	offset = Vec3();
+
+	//create 3d texture
+	textureName.push_back(CreateNoise3D());
+
+	RenderableComponent::renderableComponents.push_back(this);
+
+	atmosphereColour = Colour::White();
+}
+
+Atmosphere_RenderableComponent::~Atmosphere_RenderableComponent(){}
+
+void Atmosphere_RenderableComponent::Render()
+{
+	Renderable* model = GetModel(modelName);
+
+	if (!model || !shaderProgram)
+		return;
+
+	//Get textures
+	std::vector<Texture*> _textures;
+	for (int i = 0; i < textureName.size(); i++)
+		_textures.push_back(ModelManager::getInstance()->getTexture(textureName[i]));
+
+	Atmosphere_Shader* shader_ = (Atmosphere_Shader*)shaderProgram;
+
+	//Render to scene
+	glUseProgram(shader_->GetProgram());
+
+	//Switch Face Culling Mode
+	switch (model->GetDrawMode())
+	{
+	case Draw_Mode::CCW:
+		glFrontFace(GL_CCW);
+		break;
+	case Draw_Mode::CW:
+		glFrontFace(GL_CW);
+		break;
+	}
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	//Get Transform Stuff
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->rotate_Location, 1, GL_FALSE, Matrix4(parentObject->rotation).transpose().values);
+
+	//Light Intensity
+	glProgramUniform1f(shader_->GetProgram(), shader_->lightIntensity_Location, intensity);
+
+	//Offset
+	glProgramUniform3f(shader_->GetProgram(), shader_->Offset_Location, offset.x, offset.y, offset.z);
+
+	//Texture Scale
+	glProgramUniform1f(shader_->GetProgram(), shader_->TextureScale_Location, parentObject->scale.length() / 50.0f);
+
+	//Colours
+	glProgramUniform4f(shader_->GetProgram(), shader_->AtmosphereColor_Location, atmosphereColour.r, atmosphereColour.g, atmosphereColour.b, 1);
+
+	for (int m = 0; m < model->meshes.size(); m++)
+	{
+		if (m < _textures.size() && _textures[m])
+		{
+			glBindTexture(GL_TEXTURE_3D, _textures[m]->address);
+		}
+		else if (_textures[0])
+			glBindTexture(GL_TEXTURE_3D, _textures[0]->address);
+
+		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
+	}
+}
+
+/**********************************************************************************/
+/*                                   GLOW                                         */
+/**********************************************************************************/
+
+Glow_RenderableComponent::Glow_RenderableComponent(GameObject* parent_, std::string modelID_) : RenderableComponent(parent_, Glow_Shader::_GetInstance())
+{
+	modelName = ModelManager::getInstance()->GetModelID(modelID_);
+	offset = Vec3();
+
+	//create 3d texture
+	textureName.push_back(CreateNoise3D());
+
+	RenderableComponent::renderableComponents.push_back(this);
+
+	glowColour = Colour::White();
+}
+
+Glow_RenderableComponent::~Glow_RenderableComponent(){}
+
+void Glow_RenderableComponent::Render()
+{
+	Renderable* model = GetModel(modelName);
+
+	if (!model || !shaderProgram)
+		return;
+
+	//Get textures
+	std::vector<Texture*> _textures;
+	for (int i = 0; i < textureName.size(); i++)
+		_textures.push_back(ModelManager::getInstance()->getTexture(textureName[i]));
+
+	Glow_Shader* shader_ = (Glow_Shader*)shaderProgram;
+
+	//Render to scene
+	glUseProgram(shader_->GetProgram());
+
+	//Switch Face Culling Mode
+	switch (model->GetDrawMode())
+	{
+	case Draw_Mode::CCW:
+		glFrontFace(GL_CCW);
+		break;
+	case Draw_Mode::CW:
+		glFrontFace(GL_CW);
+		break;
+	}
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	//Get Transform Stuff
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
+	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->rotate_Location, 1, GL_FALSE, Matrix4(parentObject->rotation).transpose().values);
+
+	//Offset
+	glProgramUniform3f(shader_->GetProgram(), shader_->Offset_Location, offset.x, offset.y, offset.z);
+
+	//Texture Scale
+	glProgramUniform1f(shader_->GetProgram(), shader_->TextureScale_Location, parentObject->scale.length() / 50.0f);
+
+	//Colours
+	glProgramUniform4f(shader_->GetProgram(), shader_->GlowColor_Location, glowColour.r, glowColour.g, glowColour.b, 1);
+
+	for (int m = 0; m < model->meshes.size(); m++)
+	{
+		if (m < _textures.size() && _textures[m])
+		{
+			glBindTexture(GL_TEXTURE_3D, _textures[m]->address);
+		}
+		else if (_textures[0])
+			glBindTexture(GL_TEXTURE_3D, _textures[0]->address);
 
 		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
 	}

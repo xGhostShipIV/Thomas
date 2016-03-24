@@ -63,6 +63,15 @@ void Camera::Update(float _deltaTime)
 
 	glProgramUniformMatrix4fv(Sun_Shader::_GetInstance()->GetProgram(), Sun_Shader::_GetInstance()->projection_Location, 1, GL_FALSE, projectionMatrix.values);
 	glProgramUniformMatrix4fv(Sun_Shader::_GetInstance()->GetProgram(), Sun_Shader::_GetInstance()->view_Location, 1, GL_FALSE, viewMatrix.values);
+	glProgramUniform3fv(Sun_Shader::_GetInstance()->GetProgram(), Sun_Shader::_GetInstance()->cameraPosition_Location, 1, pos);
+	Sun_Shader::_GetInstance()->camPosition = position;
+
+	glProgramUniformMatrix4fv(Atmosphere_Shader::_GetInstance()->GetProgram(), Atmosphere_Shader::_GetInstance()->projection_Location, 1, GL_FALSE, projectionMatrix.values);
+	glProgramUniformMatrix4fv(Atmosphere_Shader::_GetInstance()->GetProgram(), Atmosphere_Shader::_GetInstance()->view_Location, 1, GL_FALSE, viewMatrix.values);
+
+	glProgramUniformMatrix4fv(Glow_Shader::_GetInstance()->GetProgram(), Glow_Shader::_GetInstance()->projection_Location, 1, GL_FALSE, projectionMatrix.values);
+	glProgramUniformMatrix4fv(Glow_Shader::_GetInstance()->GetProgram(), Glow_Shader::_GetInstance()->view_Location, 1, GL_FALSE, viewMatrix.values);
+	glProgramUniform3fv(Glow_Shader::_GetInstance()->GetProgram(), Glow_Shader::_GetInstance()->cameraPosition_Location, 1, pos);
 }
 
 void Camera::Render()

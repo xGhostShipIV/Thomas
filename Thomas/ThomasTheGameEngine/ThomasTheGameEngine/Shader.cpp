@@ -83,34 +83,6 @@ GUI_Shader::GUI_Shader() : Shader(GLU::CreateShaders("GUI.vert", "GUI.frag"))
 GUI_Shader::~GUI_Shader(){}
 #pragma endregion
 
-#pragma region SUN_SHADER
-Sun_Shader* Sun_Shader::instance;
-
-Sun_Shader* Sun_Shader::_GetInstance()
-{
-	if (!instance)
-		instance = new Sun_Shader();
-
-	return instance;
-}
-
-Sun_Shader::Sun_Shader() : Shader(GLU::CreateShaders("Sun.vert", "Sun.frag"))
-{
-	glUseProgram(program);
-
-	glBindAttribLocation(program, TEXTURE_ATTRIBUTE, "vTexCoord");
-
-	transform_Location = glGetUniformLocation(program, "Transform");
-	
-	view_Location = glGetUniformLocation(program, "view");
-	projection_Location = glGetUniformLocation(program, "projection");
-
-	lightIntensity_Location = glGetUniformLocation(program, "lightIntensity");
-	Offset_Location = glGetUniformLocation(program, "Offset");
-}
-Sun_Shader::~Sun_Shader(){}
-#pragma endregion
-
 #pragma region RAINBOW_GUI_SHADER
 Rainbow_GUI_Shader* Rainbow_GUI_Shader::instance;
 
@@ -131,4 +103,107 @@ Rainbow_GUI_Shader::Rainbow_GUI_Shader() : Shader(GLU::CreateShaders("Rainbow_GU
 	drawPercent_Location = glGetUniformLocation(program, "drawPercent");
 }
 Rainbow_GUI_Shader::~Rainbow_GUI_Shader(){}
+#pragma endregion
+
+#pragma region SUN_SHADER
+Sun_Shader* Sun_Shader::instance;
+
+Sun_Shader* Sun_Shader::_GetInstance()
+{
+	if (!instance)
+		instance = new Sun_Shader();
+
+	return instance;
+}
+
+Sun_Shader::Sun_Shader() : Shader(GLU::CreateShaders("Sun.vert", "Sun.frag"))
+{
+	glUseProgram(program);
+
+	glBindAttribLocation(program, TEXTURE_ATTRIBUTE, "vTexCoord");
+
+	transform_Location = glGetUniformLocation(program, "Transform");
+	view_Location = glGetUniformLocation(program, "view");
+	projection_Location = glGetUniformLocation(program, "projection");
+	lightIntensity_Location = glGetUniformLocation(program, "lightIntensity");
+	Offset_Location = glGetUniformLocation(program, "Offset");
+
+	rotate_Location = glGetUniformLocation(program, "Rotation");
+	cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
+
+	TextureScale_Location = glGetUniformLocation(program, "TextureScale");
+	CoreColor_Location = glGetUniformLocation(program, "CoreColor");
+	RippleColor_Location = glGetUniformLocation(program, "RippleColor");
+
+	camPosition = Vec3();
+}
+Sun_Shader::~Sun_Shader()
+{
+}
+#pragma endregion
+
+#pragma region ATMOSPHERE_SHADER
+Atmosphere_Shader* Atmosphere_Shader::instance;
+
+Atmosphere_Shader* Atmosphere_Shader::_GetInstance()
+{
+	if (!instance)
+		instance = new Atmosphere_Shader();
+
+	return instance;
+}
+
+Atmosphere_Shader::Atmosphere_Shader() : Shader(GLU::CreateShaders("Atmosphere.vert", "Atmosphere.frag"))
+{
+	glUseProgram(program);
+
+	glBindAttribLocation(program, TEXTURE_ATTRIBUTE, "vTexCoord");
+
+	transform_Location = glGetUniformLocation(program, "Transform");
+	view_Location = glGetUniformLocation(program, "view");
+	projection_Location = glGetUniformLocation(program, "projection");
+	lightIntensity_Location = glGetUniformLocation(program, "lightIntensity");
+	Offset_Location = glGetUniformLocation(program, "Offset");
+
+	rotate_Location = glGetUniformLocation(program, "Rotation");
+
+	TextureScale_Location = glGetUniformLocation(program, "TextureScale");
+	AtmosphereColor_Location = glGetUniformLocation(program, "AtmosphereColor");
+}
+Atmosphere_Shader::~Atmosphere_Shader()
+{
+}
+#pragma endregion
+
+#pragma region GLOW_SHADER
+Glow_Shader* Glow_Shader::instance;
+
+Glow_Shader* Glow_Shader::_GetInstance()
+{
+	if (!instance)
+		instance = new Glow_Shader();
+
+	return instance;
+}
+
+Glow_Shader::Glow_Shader() : Shader(GLU::CreateShaders("Glow.vert", "Glow.frag"))
+{
+	glUseProgram(program);
+
+	glBindAttribLocation(program, TEXTURE_ATTRIBUTE, "vTexCoord");
+
+	transform_Location = glGetUniformLocation(program, "Transform");
+	view_Location = glGetUniformLocation(program, "view");
+	projection_Location = glGetUniformLocation(program, "projection");
+	Offset_Location = glGetUniformLocation(program, "Offset");
+
+	cameraPosition_Location = glGetUniformLocation(program, "CamPosition");
+	rotate_Location = glGetUniformLocation(program, "Rotation");
+
+	TextureScale_Location = glGetUniformLocation(program, "TextureScale");
+	GlowColor_Location = glGetUniformLocation(program, "GlowColor");
+}
+Glow_Shader::~Glow_Shader()
+{
+}
 #pragma endregion

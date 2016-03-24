@@ -51,6 +51,8 @@ ModelManager::ModelManager()
 	shaderPrograms.push_back(GUI_Shader::_GetInstance());
 	shaderPrograms.push_back(Sun_Shader::_GetInstance());
 	shaderPrograms.push_back(Rainbow_GUI_Shader::_GetInstance());
+	shaderPrograms.push_back(Atmosphere_Shader::_GetInstance());
+	shaderPrograms.push_back(Glow_Shader::_GetInstance());
 
 	//Bind Attributes
 	{
