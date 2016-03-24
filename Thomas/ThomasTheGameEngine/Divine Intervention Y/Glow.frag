@@ -6,8 +6,8 @@ in vec3 worldPosition;
 
 uniform sampler3D texture0;
 uniform vec3 Offset;
-
 uniform float TextureScale;
+
 uniform vec4 GlowColor;
 
 uniform vec3 CamPosition;

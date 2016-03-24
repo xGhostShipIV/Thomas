@@ -165,8 +165,6 @@ Atmosphere_Shader::Atmosphere_Shader() : Shader(GLU::CreateShaders("Atmosphere.v
 	lightIntensity_Location = glGetUniformLocation(program, "lightIntensity");
 	Offset_Location = glGetUniformLocation(program, "Offset");
 
-	rotate_Location = glGetUniformLocation(program, "Rotation");
-
 	TextureScale_Location = glGetUniformLocation(program, "TextureScale");
 	AtmosphereColor_Location = glGetUniformLocation(program, "AtmosphereColor");
 }

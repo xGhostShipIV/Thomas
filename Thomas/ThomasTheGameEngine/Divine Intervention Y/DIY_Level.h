@@ -62,6 +62,7 @@ public:
 private:
 	GameObject * skybox, *playerBall, *layerRB;
 	Sun * sun;
+	float sunRadius;
 	Rigidbody * planeRigidBody;
 
 	std::string fileName;

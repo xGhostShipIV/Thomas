@@ -14,6 +14,7 @@
 
 LandingScreen::LandingScreen()
 {
+	ambientLightColor = Colour(0.5f, 0.5f, 0.5f, 1);
 }
 
 void LandingScreen::LoadContent()

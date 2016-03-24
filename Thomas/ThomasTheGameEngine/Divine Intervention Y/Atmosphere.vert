@@ -7,7 +7,6 @@ out vec2 texCoord;
 uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 Transform; //model
-uniform mat4 Rotation; //for normals
 
 out vec3  worldPosition;
 

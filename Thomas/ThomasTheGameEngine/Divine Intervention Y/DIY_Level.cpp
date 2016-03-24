@@ -22,7 +22,7 @@ DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeySt
 	playingState = DIY_Level_Playing_State::SHOOTING;
 	victoryState = DIY_Level_Victory_State::REVIEW;
 
-	ambientLightColor = Colour(0.25f, 0.25f, 0.25f);
+	ambientLightColor = Colour(0.1f, 0.1f, 0.1f);
 }
 
 void DIY_Level::LoadContent()
@@ -123,8 +123,6 @@ DIY_Level::~DIY_Level()
 
 void DIY_Level::LoadLevel()
 {
-	sun = new Sun(this, Vec3(), 100);
-
 	tinyxml2::XMLDocument doc;
 
 	//Tries to load the file, quits if it fails
@@ -158,6 +156,8 @@ void DIY_Level::LoadLevel()
 		r->SetEffecctedByLight(false, false, false);
 	}
 
+	sunRadius = 100;
+
 	element = element->FirstChildElement("Layer");
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -179,7 +179,8 @@ void DIY_Level::LoadLevel()
 		element = element->NextSiblingElement();
 	}
 
-
+	//Must be last object loaded... 
+	sun = new Sun(this, Vec3(), sunRadius);
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)

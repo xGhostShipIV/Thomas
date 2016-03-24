@@ -10,12 +10,10 @@
 #include "RenderableComponent.h"
 #include "Shader.h"
 
-Level::Level()
+Level::Level() : ambientLightColor(Colour(0.5f, 0.5f, 0.5f, 1))
 {
 	mainCamera = new Camera(this);
 	currentCamera = mainCamera;
-
-	ambientLightColor = Colour(0.5f, 0.5f, 0.5f, 1);
 
 	hasCalledInit = false;
 }
@@ -62,8 +60,7 @@ void Level::LoadContent(){}
 
 void Level::LevelRender()
 {
-	float ambient[] = { ambientLightColor.r, ambientLightColor.g, ambientLightColor.b, ambientLightColor.a };
-	glUniform4fv(Generic_Shader::_GetInstance()->ambient_Location, 1, ambient);
+	glProgramUniform4f(Generic_Shader::_GetInstance()->GetProgram(), Generic_Shader::_GetInstance()->ambient_Location, ambientLightColor.r, ambientLightColor.g, ambientLightColor.b, ambientLightColor.a);
 
 	//Pre-Render
 	for (int i = 0; i < gameObjects.size(); i++)

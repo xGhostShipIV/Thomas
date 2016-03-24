@@ -101,7 +101,6 @@ public:
 
 	GLuint view_Location, projection_Location;
 	GLuint transform_Location, lightIntensity_Location, Offset_Location;
-	GLuint rotate_Location;
 	GLuint TextureScale_Location, AtmosphereColor_Location;
 private:
 	Atmosphere_Shader();

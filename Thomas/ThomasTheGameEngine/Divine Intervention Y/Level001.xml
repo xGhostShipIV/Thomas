@@ -72,7 +72,7 @@
     <Object type="Asteroids" x="-10" z="-5"></Object>
   </Layer>
 
-  <Layer r = "30" wormHoleX = "0" wormHoleZ = "0" wormHoleDestX ="-9" wormHoleDestY ="0" planetX ="0" planetZ = "-10" planetScale="8" planetTexture = "planet2" playerX="-9" playerZ ="0">
+  <Layer r = "60" wormHoleX = "0" wormHoleZ = "0" wormHoleDestX ="-9" wormHoleDestY ="0" planetX ="0" planetZ = "-10" planetScale="8" planetTexture = "planet2" playerX="-9" playerZ ="0">
 
     <Object type="PopUp" x="-6" z="0"></Object>
 

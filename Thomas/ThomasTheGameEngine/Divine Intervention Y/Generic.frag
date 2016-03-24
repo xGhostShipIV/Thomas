@@ -34,7 +34,7 @@ void main()
 		discard;
 
 	/* AMBIENT LIGHTING */
-	vec4 ambientLight = (Material.x * AmbientColor);
+	vec4 ambientLight = AmbientColor;
 
 	if (length(IsEffectedByLight) == 0)
 		ambientLight = vec4(1, 1, 1, 1);
@@ -59,7 +59,7 @@ void main()
 		{
 			float brightness = dot(vNormal, -LightDirection_Directional[i]) / ( length(LightDirection_Directional[i]) * length(vNormal) );
 			brightness = clamp(brightness, 0, 1);
-			vec4 directionalDiffuse = brightness * LightColor_Directional[i] * Material.y;
+			vec4 directionalDiffuse = brightness * LightColor_Directional[i] * Material.x;
 
 
 			diffuse += directionalDiffuse;
@@ -81,20 +81,23 @@ void main()
 			float lambertian = max(dot(toPointLight, vNormal), 0.0);
 			//float lambertian = dot(toPointLight, vNormal);
 
-			//if(lambertian > -0.3)
+			//if(lambertian > 0.0)
 			{
+				//DIFFUSE
 				{
 					float brightness = dot(vNormal, toPointLight);
-					brightness = clamp(brightness, 0.0f, 1.0f) / ( length(toPointLight) * length(vNormal) * pow(length(distanceToPoint), 2) );
+					brightness = clamp(brightness, 0.0f, 1.0f) / ( length(toPointLight) * length(vNormal) * pow(length(distanceToPoint), 0) );
 					vec4 pointDiffuse = brightness * LightColor_Point[i] * Material.y;
 					diffuse += pointDiffuse;
 				}
 
-				vec3 viewDir = normalize(toCameraVector.xyz);
-				vec3 halfDir = normalize(toPointLight.xyz + viewDir);
-				float specAngle = max(dot(halfDir, vNormal.xyz), 0.0);
-				//specular += pow(specAngle, 16.0) * Material.z * LightColor_Point[i];
-				specular += pow(specAngle, 15.5) * Material.z * LightColor_Point[i];
+				//SPECULAR
+				{
+					vec3 viewDir = normalize(toCameraVector.xyz);
+					vec3 halfDir = normalize(toPointLight.xyz + viewDir);
+					float specAngle = max(dot(halfDir, vNormal.xyz), 0.0);
+					specular += pow(specAngle, 5) * Material.y * LightColor_Point[i];
+				}
 			}
 		}
 	}

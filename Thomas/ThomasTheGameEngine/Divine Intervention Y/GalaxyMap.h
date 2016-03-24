@@ -4,6 +4,7 @@
 #pragma once
 
 #include <GameObject.h>
+#include <RenderableComponent.h>
 
 class GalaxyMap : public GameObject
 {
@@ -24,6 +25,11 @@ private:
 	//2 planes so theyll both render when you rotate it around
 	//Face-culling avoidance
 	GameObject * plane1, * plane2;
+
+	//galexy center
+	GameObject *glow, *core;
+	Sun_RenderableComponent * renderer;
+	Glow_RenderableComponent * glow_renderer;
 
 	//Gate for idle animation when title screen is up
 	bool isRotating;

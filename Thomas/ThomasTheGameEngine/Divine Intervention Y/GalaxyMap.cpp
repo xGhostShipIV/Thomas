@@ -3,6 +3,7 @@
 
 #include <RenderableComponent.h>
 #include <Random.h>
+#include <ModelManager.h>
 
 GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 {
@@ -21,6 +22,23 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 	//Have to scale the galaxy before adding nodes. For some reason
 	//star wont scale with parent
 	Scale(Vec3(25, 25, 25));
+
+	float radius_ = 1.3f;
+	Models->loadModel("core", "Models/turboSphere.obj", true);
+	core = new GameObject(level_, Vec3());
+	renderer = new Sun_RenderableComponent(core, "core");
+	renderer->intensity = 1.0f;
+	renderer->coreColour = Colour(1.0f, 1, 1, 0) * 2;
+	renderer->rippleColour = Colour(8.0f, 0.4f, 0, 0);
+	core->Scale(Vec3::One() * radius_);
+
+	glow = new GameObject(level_, core->position);
+	glow->Scale(Vec3::One() * radius_ * 1.34f);
+	glow_renderer = new Glow_RenderableComponent(glow, "core");
+	glow_renderer->glowColour = Colour(1.0f, 0.8f, 0.8f, 0) * 1.0f;
+	core->addChild(glow);
+
+	addChild(core);
 
 	for (int i = 0; i < NUMBER_OF_NODES; i++)
 	{
