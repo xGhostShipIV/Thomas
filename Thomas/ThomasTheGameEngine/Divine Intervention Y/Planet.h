@@ -14,8 +14,11 @@ public:
 
 	void Update(float) override;
 	Generic_RenderableComponent * renderer;
+	Atmosphere_RenderableComponent * at_renderer;
 
 private:
+	GameObject * atmosphere;
+
 	Rigidbody * rigidbody;
 	PlayerBall * player;
 };

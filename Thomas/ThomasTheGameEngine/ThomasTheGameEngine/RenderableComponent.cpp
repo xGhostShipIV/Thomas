@@ -472,7 +472,7 @@ void Atmosphere_RenderableComponent::Render()
 	glProgramUniform3f(shader_->GetProgram(), shader_->Offset_Location, offset.x, offset.y, offset.z);
 
 	//Texture Scale
-	glProgramUniform1f(shader_->GetProgram(), shader_->TextureScale_Location, parentObject->scale.length() / 50.0f);
+	glProgramUniform1f(shader_->GetProgram(), shader_->TextureScale_Location, parentObject->scale.length() / 10.0f);
 
 	//Colours
 	glProgramUniform4f(shader_->GetProgram(), shader_->AtmosphereColor_Location, atmosphereColour.r, atmosphereColour.g, atmosphereColour.b, 1);
@@ -538,7 +538,6 @@ void Glow_RenderableComponent::Render()
 	}
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	//Get Transform Stuff
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);
@@ -564,5 +563,4 @@ void Glow_RenderableComponent::Render()
 
 		glDrawArrays(GL_TRIANGLES, model->meshes[m].edge[0], model->meshes[m].vertex.size());
 	}
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

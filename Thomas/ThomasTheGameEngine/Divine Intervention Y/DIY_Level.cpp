@@ -157,6 +157,7 @@ void DIY_Level::LoadLevel()
 	}
 
 	sunRadius = 100;
+	sun = new Sun(this, Vec3(), sunRadius);
 
 	element = element->FirstChildElement("Layer");
 	for (int i = 0; i < numLayers; i++)
@@ -177,10 +178,8 @@ void DIY_Level::LoadLevel()
 		}
 
 		element = element->NextSiblingElement();
-	}
-
-	//Must be last object loaded... 
-	sun = new Sun(this, Vec3(), sunRadius);
+	} 
+	
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)

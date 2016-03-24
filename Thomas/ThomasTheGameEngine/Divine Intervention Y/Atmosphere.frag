@@ -19,5 +19,5 @@ void main()
 	intensity = clamp(intensity * 4.0, 0.0, 1.0);
 
 	fColor = AtmosphereColor * lightIntensity;
-	fColor.w = intensity;
+	fColor.w = pow(intensity, 3);
 }
