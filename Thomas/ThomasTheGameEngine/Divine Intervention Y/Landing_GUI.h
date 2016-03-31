@@ -34,6 +34,7 @@ public:
 
 	GuiImage * gameTitle;
 	Label * pressStart;
+	MultiLineLabel * detailsLabel;
 
 	bool titleIsShown;
 

@@ -87,6 +87,8 @@
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Logs.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MultiLineLabel.cpp" />
+    <ClCompile Include="MultiLineTextSprite.cpp" />
     <ClCompile Include="Noise.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />

@@ -45,6 +45,10 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 		InstructionsButton = new TextButton(level_, InstructionsButtonLocation, "Instructions", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
 			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
 		InstructionsButton->Hide();
+
+		detailsLabel = new MultiLineLabel(level_, "Some sort of text. Look Nathan! Look!", 50, FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
+			Vec2(-150, -200), ScreenAnchor::TOP_RIGHT, Colour::White());
+		detailsLabel->Hide();
 	}
 
 	//Title Screen
@@ -115,6 +119,7 @@ void Landing_GUI::Update(float timeStep_)
 		PlayButton->Show();
 		ExitButton->Show();
 		InstructionsButton->Show();
+		detailsLabel->Show();
 
 		if (landingScreen->GetTargetFileName() != "")
 			PlayButton->isSelected = true;

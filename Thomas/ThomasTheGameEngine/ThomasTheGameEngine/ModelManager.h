@@ -37,6 +37,7 @@ class ModelManager
 	friend class Renderable;
 	friend class Camera;
 	friend class TextSprite;
+	friend class MultiLineTextSprite;
 
 public:
 

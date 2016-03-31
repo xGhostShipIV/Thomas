@@ -18,3 +18,17 @@ public:
 	//Location in Texture Map
 	UINT32 mapAddress;
 };
+
+class MultiLineTextSprite : public Texture
+{
+public:
+	MultiLineTextSprite(std::string _text, TTF_Font* _font, Colour _textColor, Uint32 wrapLength_);
+	~MultiLineTextSprite();
+
+	void ReCreateTexture(std::string _text, TTF_Font* _font, Colour _textColor, Uint32 wrapLength_);
+
+	//Location in Texture Map
+	UINT32 mapAddress;
+
+	static Uint32 CompareMinimumWordLength(std::string text_, TTF_Font* font_, Uint32 compareLength_);
+};
