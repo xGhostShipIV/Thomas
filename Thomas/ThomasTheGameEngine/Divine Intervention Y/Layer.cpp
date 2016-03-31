@@ -16,6 +16,10 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 
 	//Adjust size of layer
 	float scale = element_->FloatAttribute("s");
+	
+	//Enforce minimum layer size
+	if (scale < 10) scale = 10.0f;
+
 	Scale(Vec3(scale, 0.01f, scale));
 
 	//Not the first layer
