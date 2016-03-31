@@ -13,7 +13,10 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 	distanceFromSun = element_->FloatAttribute("r");
 
 	position = Vec3(Random::box_muller(0.f, 1.f), 0, Random::box_muller(0.f, 1.f)).Normalized() * (distanceFromSun + dl->sunRadius);
-	Scale(Vec3(dl->GetLevelBounds().x, 0.01f, dl->GetLevelBounds().x));
+
+	//Adjust size of layer
+	float scale = element_->FloatAttribute("s");
+	Scale(Vec3(scale, 0.01f, scale));
 
 	//Not the first layer
 	if (index != 0)
