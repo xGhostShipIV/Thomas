@@ -106,6 +106,7 @@
     <ClCompile Include="PlayerBall.cpp" />
     <ClCompile Include="Pointer.cpp" />
     <ClCompile Include="PopUp.cpp" />
+    <ClCompile Include="SelectButton.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Sun.cpp" />
     <ClCompile Include="Swarm.cpp" />

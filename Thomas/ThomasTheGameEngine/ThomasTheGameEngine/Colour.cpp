@@ -97,6 +97,7 @@ void Colour::Normalize()
 /* Factories */
 Colour Colour::Black()	{ return Colour(0, 0, 0, 1); }
 Colour Colour::White()	{ return Colour(1, 1, 1, 1); }
+Colour Colour::Gray()	{ return Colour(0.75f, 0.75f, 0.75f, 1); }
 Colour Colour::Transparent() { return Colour(0, 0, 0, 0); }
 Colour Colour::Red() { return Colour(1, 0, 0, 1);}
 Colour Colour::Green() { return Colour(0, 1, 0, 1); }

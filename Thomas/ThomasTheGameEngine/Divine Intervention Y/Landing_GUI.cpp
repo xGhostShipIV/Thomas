@@ -35,8 +35,7 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 		//PlayButton = new Button(level_, PlayButtonLocation, "LANDING_GUI_PLAY", "LANDING_GUI_PLAY_PRESSED", "LANDING_GUI_PLAY_HOVERED", ScreenAnchor::CENTER);
 		//ExitButton = new Button(level_, ExitButtonLocation, "LANDING_GUI_EXIT", "LANDING_GUI_EXIT_PRESSED", "LANDING_GUI_EXIT_HOVERED", ScreenAnchor::CENTER);
 
-		PlayButton = new TextButton(level_, PlayButtonLocation, "PLAY", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
-			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
+		PlayButton = new SelectButton(level_, PlayButtonLocation, "PLAY", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"), ScreenAnchor::BOTTOM_LEFT);
 		ExitButton = new TextButton(level_, ExitButtonLocation, "EXIT", FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
 			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
 
@@ -116,6 +115,9 @@ void Landing_GUI::Update(float timeStep_)
 		PlayButton->Show();
 		ExitButton->Show();
 		InstructionsButton->Show();
+
+		if (landingScreen->GetTargetFileName() != "")
+			PlayButton->isSelected = true;
 
 		if (!isInputIsClear)
 			isInputIsClear = !InputController::getInstance()->isAnyKeyPressed();

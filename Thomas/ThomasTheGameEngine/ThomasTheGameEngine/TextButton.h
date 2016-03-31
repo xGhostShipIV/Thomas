@@ -1,8 +1,7 @@
 //Author:	Mathieu Violette
 //Date:		2/25/2015
 
-#ifndef _TEXT_BUTTON_H_
-#define _TEXT_BUTTON_H_
+#pragma once
 
 #include "Button.h"
 #include "Label.h"
@@ -24,5 +23,3 @@ public:
 	//Sets text colour. If nullptr, it will not change that colour.
 	void SetTextColour(Colour* unpressedTextColour_, Colour* pressedTextColour_);
 };
-
-#endif

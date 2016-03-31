@@ -200,7 +200,7 @@
     </ClInclude>
     <ClInclude Include="Noise.h">
       <Filter>Header Files\Math</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -6,6 +6,7 @@
 #include <Label.h>
 #include <GuiImage.h>
 #include <TextButton.h>
+#include "LevelSelectButton.h" //SelectButton
 
 class LandingScreen;
 
@@ -26,7 +27,8 @@ public:
 	Landing_GUI(Level *level_);
 	~Landing_GUI();
 
-	TextButton *PlayButton, *ExitButton;
+	SelectButton *PlayButton;
+	TextButton *ExitButton;
 	TextButton *InstructionsButton;
 	GuiImage *InstructionsImage;
 

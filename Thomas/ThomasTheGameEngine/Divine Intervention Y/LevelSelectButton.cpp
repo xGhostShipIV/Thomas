@@ -2,7 +2,7 @@
 #include <ModelManager.h>
 
 LevelSelectButton::LevelSelectButton(Level* level_, Vec2 screenPosition_, std::string labelText_, ScreenAnchor anchor_, Colour unpressedTextColour_, Colour pressedTextColour_ )
-: TextButton(level_, screenPosition_, labelText_, FontManager::getInstance()->GenerateFont("LevelSelectButtonFont", 40, "Font/ostrich-black.ttf"), Models->loadTexture("LevelSelectButtonTextureUnSelected", "Images/Level GUI/Buttons/Blank.png"), 
+: TextButton(level_, screenPosition_, labelText_, FontManager::getInstance()->GenerateFont("LevelSelectButtonFont", 42, "Font/ostrich-regular.ttf"), Models->loadTexture("LevelSelectButtonTextureUnSelected", "Images/Level GUI/Buttons/Blank.png"), 
 	Models->loadTexture("LevelSelectButtonTextureSelected", "Images/Level GUI/Buttons/BlankHovered.png"), anchor_, unpressedTextColour_, pressedTextColour_)
 {
 	isSelected = false;

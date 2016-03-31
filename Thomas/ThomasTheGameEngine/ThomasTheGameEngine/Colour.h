@@ -18,7 +18,7 @@ public:
 	static Colour Black();			static Colour Red();		static Colour Yellow();		static Colour Orange();			static Colour Lime();
 	static Colour White();			static Colour Green();		static Colour Cyan();		static Colour Pink();			static Colour SpringGreen();
 	static Colour Transparent();	static Colour Blue();		static Colour Magenta();	static Colour ManganeseBlue();	static Colour Fuchsia();
-
+	static Colour Gray();
 
 	Colour operator+(const Colour&) const;
 	Colour operator+=(const Colour&);
