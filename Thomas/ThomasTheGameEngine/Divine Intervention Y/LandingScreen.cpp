@@ -89,7 +89,7 @@ void LandingScreen::LevelUpdate(float timeStep_)
 				//galaxyMap->nodes[i]->position = rayHitPosition;
 
 				//std::cout << "Distance to node: " << (galaxyMap->nodes[i]->position - rayHitPosition).magnitude() << std::endl;
-				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 1.0f)
+				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 0.5f)
 				{
 					printf("selected Level\n");
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();

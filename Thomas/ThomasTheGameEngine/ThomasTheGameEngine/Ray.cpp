@@ -23,7 +23,7 @@ Ray Ray::fromScreen(){
 
 	//%age of screen away from top left in each direction
 	Vec2 mouseInput = Vec2(
-		Input->mousePos().x / GameProperties::getInstance()->getVideoProperties()->screenWidth,
+		1 - (Input->mousePos().x / GameProperties::getInstance()->getVideoProperties()->screenWidth),
 		Input->mousePos().y / GameProperties::getInstance()->getVideoProperties()->screenHeight);
 
 	//Place point directly on transformed frustum

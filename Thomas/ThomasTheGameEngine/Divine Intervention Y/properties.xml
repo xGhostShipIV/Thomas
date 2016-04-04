@@ -8,8 +8,8 @@
   </AudioProperty>
   <VideoProperty>
 	  <property id="drawDistance">100000</property>
-	  <property id="width">1400</property>
-	  <property id="height">900</property>
+	  <property id="width">1280</property>
+	  <property id="height">720</property>
 	  <property id="fullscreen">0</property>
   </VideoProperty>
 </Properties>

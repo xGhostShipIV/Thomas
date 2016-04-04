@@ -11,11 +11,11 @@ Frustrum::Frustrum()
 	float fov = 45.0f;
 	float aspectRatio = GameProperties::getVideoProperties()->aspectRatio();
 
-	nearBottomRight = Vec3(znear * tan(fov * aspectRatio / 2.0f), znear * -tan(fov / 2.0f), znear);
-	nearTopLeft = Vec3(znear * -tan(fov * aspectRatio / 2.0f), znear * tan(fov / 2.0f), znear);
+	nearBottomRight = Vec3(znear * tan(fov / 2.0f) * aspectRatio, znear * -tan(fov / 2.0f), znear);
+	nearTopLeft = Vec3(znear * -tan(fov / 2.0f)* aspectRatio, znear * tan(fov / 2.0f), znear);
 
-	farBottomRight = Vec3(zFar * tan(fov * aspectRatio / 2.0f), zFar * -tan(fov / 2.0f), zFar);
-	farTopLeft = Vec3(zFar * -tan(fov * aspectRatio / 2.0f), zFar * tan(fov / 2.0f), zFar);
+	farBottomRight = Vec3(zFar * tan(fov / 2.0f)* aspectRatio, zFar * -tan(fov / 2.0f), zFar);
+	farTopLeft = Vec3(zFar * -tan(fov/ 2.0f)* aspectRatio, zFar * tan(fov / 2.0f), zFar);
 }
 
 Frustrum::~Frustrum()
