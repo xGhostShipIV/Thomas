@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Noise.h"
+#include "Game.h"
 
 /**********************************************************************************/
 /*                          Renderable Component                                  */
@@ -167,39 +168,47 @@ void GUI_RenderableComponent::Render()
 	//Convert from screen pixels to screen percent
 	Matrix4 GUITransform = parentObject->toMat4();
 
+	float widthScale = GameProperties::getInstance()->getVideoProperties()->screenWidth / (float)GAME->GetGUIWidth();
+	float heightScale = GameProperties::getInstance()->getVideoProperties()->screenHeight / (float)GAME->GetGUIHeight();
+
 	//Adjust Position based on anchor location
 	switch (((GuiElement*)parentObject)->anchorPosition)
 	{
 	case ScreenAnchor::TOP_LEFT:
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::TOP_CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::TOP_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::CENTER_LEFT:
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
 	case ScreenAnchor::CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
 	case ScreenAnchor::CENTER_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
-	case ScreenAnchor::BOTTOM_LEFT:
-		//Default, do nothing
+	case ScreenAnchor::BOTTOM_LEFT: //default
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	case ScreenAnchor::BOTTOM_CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	case ScreenAnchor::BOTTOM_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	}
 
@@ -208,6 +217,13 @@ void GUI_RenderableComponent::Render()
 
 	//Y Position
 	GUITransform.values[7] = (GUITransform.values[7] / (float)GameProperties::getInstance()->getVideoProperties()->screenHeight) * 2 - 1;
+
+	//X Scale (width)
+	GUITransform.values[0] = GUITransform.values[0] * widthScale;
+
+	//Y Scale (height)
+	GUITransform.values[5] = GUITransform.values[5] * heightScale;
+
 
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, GUITransform.transpose().values);
 
@@ -272,39 +288,47 @@ void Rainbow_GUI_RenderableComponent::Render()
 	//Convert from screen pixels to screen percent
 	Matrix4 GUITransform = parentObject->toMat4();
 
+	float widthScale = GameProperties::getInstance()->getVideoProperties()->screenWidth / (float)GAME->GetGUIWidth();
+	float heightScale = GameProperties::getInstance()->getVideoProperties()->screenHeight / (float)GAME->GetGUIHeight();
+
 	//Adjust Position based on anchor location
 	switch (((GuiElement*)parentObject)->anchorPosition)
 	{
 	case ScreenAnchor::TOP_LEFT:
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::TOP_CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::TOP_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight;
 		break;
 	case ScreenAnchor::CENTER_LEFT:
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
 	case ScreenAnchor::CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
 	case ScreenAnchor::CENTER_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
-		GUITransform.values[7] += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale) + GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
-	case ScreenAnchor::BOTTOM_LEFT:
-		//Default, do nothing
+	case ScreenAnchor::BOTTOM_LEFT: //default
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale);
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	case ScreenAnchor::BOTTOM_CENTER:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	case ScreenAnchor::BOTTOM_RIGHT:
-		GUITransform.values[3] += GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[3] = (GUITransform.values[3] * widthScale) + GameProperties::getInstance()->getVideoProperties()->screenWidth;
+		GUITransform.values[7] = (GUITransform.values[7] * heightScale);
 		break;
 	}
 
@@ -313,6 +337,12 @@ void Rainbow_GUI_RenderableComponent::Render()
 
 	//Y Position
 	GUITransform.values[7] = (GUITransform.values[7] / (float)GameProperties::getInstance()->getVideoProperties()->screenHeight) * 2 - 1;
+
+	//X Scale (width)
+	GUITransform.values[0] = GUITransform.values[0] * widthScale;
+
+	//Y Scale (height)
+	GUITransform.values[5] = GUITransform.values[5] * heightScale;
 
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, GUITransform.transpose().values);
 

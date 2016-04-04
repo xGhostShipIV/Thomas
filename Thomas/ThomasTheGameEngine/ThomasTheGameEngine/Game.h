@@ -49,6 +49,9 @@ protected:
 	Level *levelToLoad;
 	Game();	
 
+	//resolution that the gui was built for
+	Uint32 guiHeight, guiWidth;
+
 	//Singleton instance
 	static Game* instance;
 public:
@@ -92,9 +95,12 @@ public:
 
 	void setRunning(bool);
 
-	float GetFPS();
+	float GetFPS() const;
 
-	float GetTotalTime();
+	float GetTotalTime() const;
+
+	Uint32 GetGUIHeight() const;
+	Uint32 GetGUIWidth() const;
 };
 
 #endif

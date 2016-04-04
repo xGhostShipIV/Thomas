@@ -4,6 +4,7 @@
 #include "ModelManager.h"
 #include "GameProperties.h"
 #include "Shader.h"
+#include "Game.h"
 
 GuiElement::GuiElement(Level* _level, Vec2 _screenPosition, GuiType type_, ScreenAnchor anchor_) : GameObject(nullptr, Vec3(_screenPosition.x, _screenPosition.y, 0)),
 anchorPosition(anchor_), type(type_)
@@ -51,13 +52,16 @@ bool GuiElement::CheckMouseCollision(int _x, int _y)
 	//Construct rectangle bounds of the button
 	int rX, rY, rW, rH;
 		
-	rW = ModelManager::getInstance()->GetTextureWidth(texture) * scale.x / guiScale.x;
-	rH = ModelManager::getInstance()->GetTextureHeight(texture) * scale.y / guiScale.y;
+	float widthScale = GameProperties::getInstance()->getVideoProperties()->screenWidth / (float)GAME->GetGUIWidth();
+	float heightScale = GameProperties::getInstance()->getVideoProperties()->screenHeight / (float)GAME->GetGUIHeight();
 
-	rX = position.x - rW / 2.0f;
-	rY = position.y - rH / 2.0f;
+	rW = (ModelManager::getInstance()->GetTextureWidth(texture) * scale.x / guiScale.x) * widthScale;
+	rH = (ModelManager::getInstance()->GetTextureHeight(texture) * scale.y / guiScale.y) * heightScale;
 
-	//Adjust for anchor position
+	rX = (position.x * widthScale) - rW / 2.0f;
+	rY = (position.y * heightScale) - rH / 2.0f;	
+
+	//Adjust Position based on anchor location
 	switch (anchorPosition)
 	{
 	case ScreenAnchor::TOP_LEFT:
@@ -82,8 +86,8 @@ bool GuiElement::CheckMouseCollision(int _x, int _y)
 		rX += GameProperties::getInstance()->getVideoProperties()->screenWidth;
 		rY += GameProperties::getInstance()->getVideoProperties()->screenHeight / 2.0f;
 		break;
-	case ScreenAnchor::BOTTOM_LEFT:
-		//Default, do nothing
+	case ScreenAnchor::BOTTOM_LEFT: 
+		//default
 		break;
 	case ScreenAnchor::BOTTOM_CENTER:
 		rX += GameProperties::getInstance()->getVideoProperties()->screenWidth / 2.0f;

@@ -272,12 +272,22 @@ void Game::setRunning(bool _isRunning) {
 	isRunning = _isRunning;
 }
 
-float Game::GetFPS()
+float Game::GetFPS() const
 {
 	return FPS;
 }
 
-float Game::GetTotalTime()
+float Game::GetTotalTime() const
 {
 	return totalTime / 1000.0f;
+}
+
+Uint32 Game::GetGUIHeight() const
+{
+	return guiHeight;
+}
+
+Uint32 Game::GetGUIWidth() const
+{
+	return guiWidth;
 }

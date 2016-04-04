@@ -20,6 +20,9 @@
 
 DIY_Game::DIY_Game()
 {
+	guiWidth = 1280;
+	guiHeight = 720;
+
 	GLU::OutputOpenGLVersion();
 
 	instance = this;
