@@ -138,8 +138,8 @@ void Game::StartGame()
 		timeSincelastUpdate = SDL_GetTicks() - lastUpdateTime;
 		totalTime += timeSincelastUpdate;
 
-		if (timeSincelastUpdate > 300.f)
-			timeSincelastUpdate = 300.f;
+		if (timeSincelastUpdate > 1000.0f / 30.0f)
+			timeSincelastUpdate = 1000.0f / 30.0f;
 
 		//if (timeSincelastUpdate >= 16)
 		{

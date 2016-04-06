@@ -27,6 +27,7 @@ class FocusCamera : public Camera{
 	friend class Stare;
 	friend class Peek;
 	friend class Orbit;
+	friend class Refocus;
 
 public:
 	FocusCamera(Level * level_, GameObject * focus_, Vec3 position_);
@@ -41,6 +42,7 @@ public:
 	void ChangeDistance(float newFollow_);
 	void SetMaxDistance(float maxDistance_);
 	void SetMinDistance(float minDistance_);
+	void startPan(float duration_);
 };
 
 //States for the state machine.-------------------------------------------
@@ -68,6 +70,17 @@ class Orbit : public State {
 public:
 	Orbit(void*);
 	~Orbit();
+	void Execute() override;
+	void onEnter() override;
+	void onExit() override;
+};
+
+class Refocus : public State {
+	float curTime, maxTime, radsPerSecond;
+	Vec3 centrePos;
+public:
+	Refocus(float duration, void* self);
+	~Refocus();
 	void Execute() override;
 	void onEnter() override;
 	void onExit() override;

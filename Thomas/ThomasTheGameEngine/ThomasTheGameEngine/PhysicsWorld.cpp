@@ -9,7 +9,7 @@ bool PhysicsWorld::isPhysicsRunning = true;
 
 PhysicsWorld::PhysicsWorld()
 {
-	worldGravity = Vec3(0, -3.f, 0);
+	worldGravity = Vec3(0, -1.8f, 0);
 }
 
 float PhysicsWorld::getTimeStep(){
@@ -47,8 +47,10 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 
 	if (!_first->isKinematic && !_second->isKinematic) { return; }
 
-	float epsilon = 0.65f; //Change elasticity of collisions
+	float epsilon = 0.6f; //Change elasticity of collisions
 
+
+	//Calculating the collision point and normal based on collider types
 	Vec3 normal, ColPoint, r1, r2;
 	if (_first->col->type == Collider::ColliderType::Sphere && _second->col->type == Collider::ColliderType::Sphere)
 	{
@@ -79,6 +81,7 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 		}
 	}
 
+	//More number calculation, independant of collider type
 	r1 = ColPoint - (_first->centreOfMass + _first->parentObject->position);
 	r2 = ColPoint - (_second->centreOfMass + _second->parentObject->position);
 
@@ -88,7 +91,7 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 	}
 	if (_second->isKinematic){
 		_second->parentObject->position = ColPoint - r2.Normalized() * static_cast<SphereCollider*>(_second->col)->collisionRadius;
-	}
+	}	
 
 	//J Calculation
 	float J = Vec3::dot(normal, _first->velocity - _second->velocity) * -1 * (1 + epsilon) /
@@ -98,22 +101,30 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 		Vec3::dot(normal, Vec3::cross(_second->inertiaTensor.inverse() * Vec3::cross(r2, normal),r2))
 		);
 
-	//Adjust for gravity things
+	//Friction from impulse
+	//float frictionCoefficient = 0.4f;
+	//Vec3 collisionTangent = Vec3::cross(Vec3::cross(normal, _first->velocity - _second->velocity), normal);
+
+	//Adjust for kinematics, impulse force includes tangential (friction) and normal impulse forces
 	if (!_first->isKinematic || !_second->isKinematic){
 		Vec3 gravComp = Vec3::dot(Physics->worldGravity, normal.Normalized()) * normal.Normalized() * Physics->lastTimeStep;
 		if (_first->isKinematic){
-			_first->accel += normal * 2 * J / _first->mass;
+			_first->accel += (normal * J) / _first->mass;
 			_first->accel -= gravComp;
 		}
 		else if (_second->isKinematic){
-			_second->accel += normal * -2 * J / _second->mass;
+			_second->accel += (normal * -1 * J) / _second->mass;
 			_second->accel -= gravComp;
 		}
 	}
 	else {
-		_first->accel += normal * J / _first->mass;
-		_second->accel += normal * -J / _second->mass;
+		_first->accel += (normal * J) / _first->mass;
+		_second->accel += (normal * -J) / _second->mass;
 	}
+
+	//Pretending friction
+	//_first->velocity = _first->velocity * 0.95;
+	//_second->velocity = _second->velocity * 0.95;
 
 	/*firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0f, Vec3::cross(r1, normal).Normalized());
 	secondBody->AngularAccel = secondBody->AngularAccel * Quat(J / 1000.0f, Vec3::cross(r2, normal).Normalized());*/
@@ -130,6 +141,10 @@ void PhysicsWorld::Update(float _deltaTime){
 			for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
 				if (Collider::isColliding((*first)->col, (*second)->col)){
 					PhysicsWorld::Impulse((*first)/*->parentObject*/, (*second)/*->parentObject*/);
+					//Friction calculations here?
+					float dragForce = Vec3::length(worldGravity / 1.5) * 0.4;
+					(*first)->AddForce((*first)->velocity.Normalized() * -dragForce);
+					(*second)->AddForce((*second)->velocity.Normalized() * -dragForce);
 				}
 			}
 		}
@@ -139,26 +154,6 @@ void PhysicsWorld::Update(float _deltaTime){
 				if ((*it)->gravitas){
 					(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
 				}
-
-				if ((*it)->velocity != Vec3::Zero()){
-					float dragForce;
-					/*if (Vec3::length((*it)->velocity) > 0.1f)
-						dragForce = 0.5f * Vec3::length((*it)->velocity) * 0.5f * (M_PI * (*it)->CollisionRadius * (*it)->CollisionRadius);
-					else
-						dragForce = 6 * M_PI * 1.2f * (*it)->CollisionRadius;*/
-
-					//dragForce = dragForce < 0.005f ? 0.005f : dragForce;
-
-					//Fr = u * Fn (Fn == gravity in our case)
-					dragForce = Vec3::length(worldGravity / 1.5) * 0.4f;
-
-					(*it)->AddForce((*it)->velocity.Normalized() * -dragForce);
-				}
-
-				//Lift
-				float liftForce = M_PI * ((*it)->CollisionRadius * (*it)->CollisionRadius * (*it)->CollisionRadius) * (acos((*it)->AngularVelocity.w) * 2) * Vec3::length((*it)->velocity * 0.2f);
-				Vec3 lifeDir = Vec3::cross((*it)->velocity, (*it)->AngularVelocity.vector);
-				//(*it)->AddForce(lifeDir * liftForce * _deltaTime);
 
 				(*it)->velocity += ((*it)->accel);
 				(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
@@ -175,18 +170,17 @@ void PhysicsWorld::Update(float _deltaTime){
 				
 				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
 			}
+
 			(*it)->accel = Vec3::Zero();
 			(*it)->AngularAccel = Quat::Identity();
 
-			//Messing with ground stuff
-			if ((*it)->velocity == Vec3::Zero())
-			{
+			//Cheezy gravity stalling, to be "fixed"
+			/*if ((*it)->velocity == Vec3::Zero()){
 				(*it)->gravitas = false;
 			}
-			else
-			{
+			else {
 				(*it)->gravitas = true;
-			}
+			}*/
 
 		}
 	}

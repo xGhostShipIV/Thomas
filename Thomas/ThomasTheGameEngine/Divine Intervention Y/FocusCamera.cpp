@@ -27,7 +27,7 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 
 void FocusCamera::Update(float deltaTime_) {
 
-	if (Physics->isPhysicsRunning) stateMachine.UpdateState();
+	if (Physics->isPhysicsRunning) { stateMachine.UpdateState(); }
 	Camera::Update(deltaTime_);
 }
 
@@ -50,6 +50,10 @@ void FocusCamera::SetMinDistance(float minDistance_){
 	MinCameraDistance = minDistance_;
 }
 
+void FocusCamera::startPan(float duration_){
+	stateMachine.ChangeState(new Refocus(duration_, this));
+}
+
 
 
 //-----------------------------------------------States for the focus camera below here
@@ -62,6 +66,10 @@ Peek::Peek(void* whoAmI) : State(whoAmI){}
 Peek::~Peek(){}
 Orbit::Orbit(void* whoAmI) : State(whoAmI){}
 Orbit::~Orbit(){}
+Refocus::Refocus(float duration, void* whoAmI) : State(whoAmI) {
+	maxTime = duration;
+}
+Refocus::~Refocus(){}
 
 void Stare::Execute(){
 
@@ -168,4 +176,22 @@ void Peek::onEnter(){
 }
 void Peek::onExit(){
 	Parent->rotation = beginningOrientation;
+}
+
+void Refocus::Execute(){
+
+	//Rotate around the centre point
+	PhysicsWorld::Orbit(centrePos, Vec3::cross(centrePos - Parent->focus->position, Vec3::BasisY()).Normalized(), Parent, M_PI * Physics->getTimeStep() / maxTime);
+
+	curTime += Physics->getTimeStep();
+	if (curTime >= maxTime) { Parent->stateMachine.ChangeState(new Stare(Parent)); }
+}
+
+void Refocus::onEnter(){
+	//travelDistanceStep = ((Parent->getFocus()->position + Parent->selfieStick * Parent->followDistance) - Parent->position) / maxTime;
+	centrePos = Parent->position + (Parent->focus->position + Parent->selfieStick.Normalized() * Parent->followDistance - Parent->position) / 2;
+}
+
+void Refocus::onExit(){
+	Parent->position = Parent->selfieStick.Normalized() * Parent->followDistance + Parent->focus->position;
 }

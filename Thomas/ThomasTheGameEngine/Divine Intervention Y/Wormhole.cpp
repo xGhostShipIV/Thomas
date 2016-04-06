@@ -4,6 +4,7 @@
 
 #include "DIY_Level.h"
 #include "PlayerBall.h"
+#include "FocusCamera.h"
 
 Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex, Vec3 destinationLocation_) : GameObject(level_, position_), yRotation(0)
 {
@@ -62,6 +63,7 @@ void Wormhole::Update(float timeStep_)
 
 			//Teleport to layer
 			player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
+			static_cast<FocusCamera*>(level->currentCamera)->startPan(5.0f);
 		}
 	}
 	else
