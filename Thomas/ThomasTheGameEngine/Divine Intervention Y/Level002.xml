@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Level numLayers="3" par="5" skybox="skybox1">
-
+<Level numLayers="3" par="5" name="Pomparra" skybox="skybox1">
+  They like to throw cats at homeless children.
   <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="7" planetZ = "0" planetScale="12" planetTexture = "planet3">
   </Layer>
   

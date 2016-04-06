@@ -5,6 +5,8 @@
 class Node :
 	public GameObject
 {
+	friend class Level_Descriptor;
+
 public:
 	Node(Level *, Vec3, std::string fileName_);
 	~Node();
@@ -16,6 +18,10 @@ private:
 
 	//String that dictates which xml to load
 	std::string levelFileName;
+
+	int par;
+	std::string objectiveName;
+	std::string description;
 
 	float elapsedTime;
 

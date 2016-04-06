@@ -6,6 +6,7 @@
 #include "DIY_Level.h"
 #include <InputHandler.h>
 #include "LandingScreen.h"
+#include "Node.h"
 
 Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsClear(false)
 {
@@ -46,9 +47,9 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 			"LANDING_GUI_BLANK", "LANDING_GUI_BLANK_HOVERED", ScreenAnchor::BOTTOM_LEFT, Colour::Yellow(), Colour::Lime());
 		InstructionsButton->Hide();
 
-		detailsLabel = new MultiLineLabel(level_, "Some sort of text. Look Nathan! Look!", 50, FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
+		/*detailsLabel = new MultiLineLabel(level_, "Some sort of text. Look Nathan! Look!", 50, FontManager::getInstance()->GetFont("LANDING_GUI_FONT"),
 			Vec2(-150, -200), ScreenAnchor::TOP_RIGHT, Colour::White());
-		detailsLabel->Hide();
+		detailsLabel->Hide();*/
 	}
 
 	//Title Screen
@@ -70,6 +71,8 @@ Landing_GUI::Landing_GUI(Level *level_) : isInstructionsShown(false), isInputIsC
 		InstructionsImage = new GuiImage(level_, "LANDING_GUI_INSTRUCTIONS", Vec2(), ScreenAnchor::CENTER);
 		InstructionsImage->Hide();
 	}
+
+	levelDescriptor = new Level_Descriptor(level_);
 	
 	state = Title;
 }
@@ -116,10 +119,10 @@ void Landing_GUI::Update(float timeStep_)
 	}
 	else if (state == Select)
 	{
-		PlayButton->Show();
+		//PlayButton->Show();
 		ExitButton->Show();
 		InstructionsButton->Show();
-		detailsLabel->Show();
+		//detailsLabel->Show();
 
 		if (landingScreen->GetTargetFileName() != "")
 			PlayButton->isSelected = true;
@@ -128,7 +131,7 @@ void Landing_GUI::Update(float timeStep_)
 			isInputIsClear = !InputController::getInstance()->isAnyKeyPressed();
 		else if (!isInstructionsShown)
 		{
-			if (PlayButton->HasBeenClicked())
+			if (levelDescriptor->playButton->HasBeenClicked())
 			{
 				std::string levelName = landingScreen->GetTargetFileName();
 
@@ -174,4 +177,72 @@ Menu_State Landing_GUI::GetState()
 void Landing_GUI::SetState(Menu_State newState_)
 {
 	state = newState_;
+}
+
+Level_Descriptor::Level_Descriptor(Level * level_)
+{
+	FontManager::getInstance()->GenerateFont("DESCRIPTOR_FONT", 22, "Font/Aaargh.ttf");
+	FontManager::getInstance()->GenerateFont("DESCRIPTOR_FONT2", 18, "Font/Aaargh.ttf");
+
+	mainImage = new GuiImage(level_, "LANDING_GUI_BLANK", Vec2(0, 0));
+	mainImage->Scale(Vec3(1.f, 3.5f, 1));
+
+	playButton = new SelectButton(level_, Vec2(0, -80), "Play", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), BOTTOM_LEFT);
+	playButton->Scale(Vec3(0.5, 0.5, 1));
+	playButton->isSelected = true;
+	mainImage->addChild(playButton);
+
+	levelName = new Label(level_, "Name: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-40, 100));
+	mainImage->addChild(levelName);
+
+	levelPar = new Label(level_, "Par: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-100, 80));
+	mainImage->addChild(levelPar);
+
+	reasonWhy = new MultiLineLabel(level_, "I like to write a number of things. None of which are really all that important.", 
+		250, FontManager::getInstance()->GetFont("DESCRIPTOR_FONT2"), Vec2(0, -10));
+
+	mainImage->addChild(reasonWhy);
+
+	//mainImage->Translate(Vec3(200, 200, 0));
+
+	Hide();
+}
+
+
+void Level_Descriptor::Hide()
+{
+	mainImage->Hide();
+	playButton->Hide();
+	levelName->Hide();
+	levelPar->Hide();
+	reasonWhy->Hide();
+
+	if (mainImage->position.x != 0)
+		mainImage->Translate(mainImage->position * -1);
+}
+
+void Level_Descriptor::Show()
+{
+	mainImage->Show();
+	playButton->Show();
+	levelName->Show();
+	levelPar->Show();
+	reasonWhy->Show();
+}
+
+bool Level_Descriptor::GetVisible()
+{
+	return mainImage->IsVisible();
+}
+
+void Level_Descriptor::SetDescriptor(const Node * node_)
+{
+	Hide();
+
+	levelName->SetText("Name: " + node_->objectiveName);
+	levelPar->SetText("Par: " + std::to_string(node_->par));
+	reasonWhy->SetText(node_->description);
+
+	mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	Show();
 }

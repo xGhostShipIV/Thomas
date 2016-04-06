@@ -5,6 +5,7 @@ TextButton::TextButton(Level* level_, Vec2 screenPosition_, std::string labelTex
 : Button(level_, screenPosition_, textureUnpressed_, textureHover_, textureHover_, anchor_), 
 label(level_, labelText_, font_, screenPosition_, anchor_, unpressedTextColour_), unpressedTextColour(unpressedTextColour_), pressedTextColour(pressedTextColour_)
 {
+	addChild(&label);
 }
 
 TextButton::~TextButton()

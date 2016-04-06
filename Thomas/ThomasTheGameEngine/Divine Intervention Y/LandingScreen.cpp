@@ -71,6 +71,8 @@ void LandingScreen::LevelUpdate(float timeStep_)
 	{
 		if (Input->isMousePressed(SDL_BUTTON_LEFT))
 		{
+			bool selected = false;
+
 			for (int i = 0; i < galaxyMap->nodes.size(); i++)
 			{
 				//Ray ray = Ray(currentCamera->position,currentCamera->forward());
@@ -93,8 +95,12 @@ void LandingScreen::LevelUpdate(float timeStep_)
 				{
 					printf("selected Level\n");
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();
+					gui->levelDescriptor->SetDescriptor(((Node *)galaxyMap->nodes[i]));
+					selected = true;
 				}
 			}
+			//if (!selected)
+				//gui->levelDescriptor->Hide();
 		}
 	}
 

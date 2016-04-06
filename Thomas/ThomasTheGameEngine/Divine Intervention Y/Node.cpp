@@ -1,5 +1,6 @@
 #include "Node.h"
 #include <stdlib.h>
+#include <dependencies\TinyXML\tinyxml2.h>
 
 Node::Node(Level * _level, Vec3 _position, std::string fileName_) : GameObject(_level, _position)
 {
@@ -11,6 +12,15 @@ Node::Node(Level * _level, Vec3 _position, std::string fileName_) : GameObject(_
 	elapsedTime = rand() % 5;
 
 	levelFileName = fileName_;
+
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(levelFileName.c_str());
+
+	tinyxml2::XMLElement * element = doc.RootElement();
+
+	objectiveName = element->Attribute("name");
+	par = element->FloatAttribute("par");
+	description = element->GetText();
 }
 
 

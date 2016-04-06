@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Level numLayers="5" par="8" skybox="skybox1">
+<Level numLayers="5" par="8" name="Alzhatta" skybox="skybox1">
+  Because I freakin' said so. That's why it's going bye-bye.
   <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="10" planetZ = "0" planetScale="15" planetTexture = "planet4">
   </Layer>
 
