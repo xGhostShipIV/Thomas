@@ -25,7 +25,10 @@
 
   <Layer r = "120" s = "20" wormHoleX = "18" wormHoleZ = "18" wormHoleDestX ="0" wormHoleDestY ="0" planetX ="0" planetZ = "0" planetScale="24" planetTexture = "planet3">
     <Object type="PopUp" x="-16" z="-16"></Object>
-
+    <Object type="PopUp" x="-16" z="-16"></Object>
+    <Object type="PopUp" x="-16" z="-16"></Object>
+    
+    
     <Object type="Asteroids" x="-16" z="0"></Object>
     <Object type="Asteroids" x="-16" z="0"></Object>
     <Object type="Asteroids" x="-16" z="1"></Object>
@@ -85,7 +88,7 @@
   <Layer r = "60" s = "10" wormHoleX = "0" wormHoleZ = "0" wormHoleDestX ="-9" wormHoleDestY ="0" planetX ="0" planetZ = "-10" planetScale="8" planetTexture = "planet2" playerX="-9" playerZ ="0">
 
     <Object type="PopUp" x="-6" z="0"></Object>
-
+    
     <Object type="Asteroids" x="-4" z="0"></Object>
     <Object type="Asteroids" x="-3" z="2"></Object>
     <Object type="Asteroids" x="-2" z="2"></Object>

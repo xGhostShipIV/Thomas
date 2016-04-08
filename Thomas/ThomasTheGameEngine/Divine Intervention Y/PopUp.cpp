@@ -9,6 +9,8 @@ PopUp::PopUp(Level * level_, Vec3 position_) : GameObject(level_, position_)
 	Rotate(Quat(3.141592654 / 2.0f, Vec3(1, 0, 0)));
 
 	Scale(Vec3(0.2, 0.2, 0.2));
+
+	hasHitPopUp = false;
 }
 
 PopUp::~PopUp()
@@ -25,12 +27,19 @@ void PopUp::Update(float timeStep_)
 
 	if (player)
 	{
-		if ((player->position - position).magnitude() < 1.0f)
+		if ((player->position - position).magnitude() < 1.0f && !hasHitPopUp)
 		{
-			Vec3 force = player->getComponent<Rigidbody>()->velocity.Normalized() * 10.0f;
-			force.y = UPWARD_FORCE;
+			/*Vec3 force = player->getComponent<Rigidbody>()->velocity.Normalized() * 10.0f;
+			force.y = UPWARD_FORCE;*/
 
-			player->getComponent<Rigidbody>()->AddForce(force);
+			player->getComponent<Rigidbody>()->AddForce(Vec3(0,UPWARD_FORCE,0));
+
+			hasHitPopUp = true;
+		}
+		
+		if((player->position - position).magnitude() > 2.0f && hasHitPopUp)
+		{
+			hasHitPopUp = false;
 		}
 	}
 

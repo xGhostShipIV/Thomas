@@ -51,7 +51,7 @@ void DIY_Level::LoadContent()
 	//ADD GUI  **MUST BE BEFORE OTHER TEXTURES OR IT WON'T SHOW UP** <- for some reason...
 	gui = new DIY_Level_GUI(this, par, 1);
 
-	Models->CreateSkybox("skybox", 10000.0f);
+	Models->CreateSkybox("skybox", 1000.0f);
 	Models->loadTexture("skybox1", "Images/skyboxUP.png");
 	Models->loadTexture("layerGrid", "Images/grid.png");
 
@@ -188,6 +188,8 @@ void DIY_Level::LevelUpdate(float timeStep_)
 		return;
 
 	Level::LevelUpdate(timeStep_);
+
+	skybox->position = mainCamera->position;
 
 	if (InputController::getInstance()->isKeyDown(SDLK_EQUALS))
 	{

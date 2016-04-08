@@ -9,7 +9,7 @@ bool PhysicsWorld::isPhysicsRunning = true;
 
 PhysicsWorld::PhysicsWorld()
 {
-	worldGravity = Vec3(0, -1.8f, 0);
+	worldGravity = Vec3(0, -5.f, 0);
 }
 
 float PhysicsWorld::getTimeStep(){

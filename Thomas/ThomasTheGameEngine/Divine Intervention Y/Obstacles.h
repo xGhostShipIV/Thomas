@@ -43,7 +43,8 @@ private:
 	Generic_RenderableComponent * renderer;
 	PlayerBall * player;
 
-	const float UPWARD_FORCE = 150.0f;
+	bool hasHitPopUp;
+	const float UPWARD_FORCE = 100.0f;
 };
 
 #pragma endregion
@@ -66,6 +67,8 @@ private:
 	PlayerBall * player;
 	Sound * collideSound;
 	Rigidbody * rigidbody;
+
+	//std::vector<Rigidbody *> rigidbodies;
 };
 
 #pragma endregion
