@@ -50,8 +50,8 @@ void FocusCamera::SetMinDistance(float minDistance_){
 	MinCameraDistance = minDistance_;
 }
 
-void FocusCamera::startPan(float duration_){
-	stateMachine.ChangeState(new Refocus(duration_, this));
+void FocusCamera::startPan(float duration_, Layer* target){
+	stateMachine.ChangeState(new Refocus(duration_,target, this));
 }
 
 
@@ -66,8 +66,9 @@ Peek::Peek(void* whoAmI) : State(whoAmI){}
 Peek::~Peek(){}
 Orbit::Orbit(void* whoAmI) : State(whoAmI){}
 Orbit::~Orbit(){}
-Refocus::Refocus(float duration, void* whoAmI) : State(whoAmI) {
+Refocus::Refocus(float duration, Layer* targetLayer_, void* whoAmI) : State(whoAmI) {
 	maxTime = duration;
+	destination = targetLayer_;
 }
 Refocus::~Refocus(){}
 
@@ -181,17 +182,22 @@ void Peek::onExit(){
 void Refocus::Execute(){
 
 	//Rotate around the centre point
-	PhysicsWorld::Orbit(centrePos, Vec3::cross(centrePos - Parent->focus->position, Vec3::BasisY()).Normalized(), Parent, M_PI * Physics->getTimeStep() / maxTime);
+	PhysicsWorld::Orbit(centrePos, Vec3::cross(Parent->focus->position - centrePos, Vec3::BasisY()).Normalized(), Parent, -M_PI * Physics->getTimeStep() / maxTime);
 
 	curTime += Physics->getTimeStep();
+	if (curTime / maxTime >= 0.5f){ static_cast<DIY_Level*>(Game::GetInstance()->currentLevel)->SetLayerPlane(destination); }
+
 	if (curTime >= maxTime) { Parent->stateMachine.ChangeState(new Stare(Parent)); }
 }
 
 void Refocus::onEnter(){
 	//travelDistanceStep = ((Parent->getFocus()->position + Parent->selfieStick * Parent->followDistance) - Parent->position) / maxTime;
+	Parent->focus->getComponent<Rigidbody>()->isKinematic = false;
 	centrePos = Parent->position + (Parent->focus->position + Parent->selfieStick.Normalized() * Parent->followDistance - Parent->position) / 2;
 }
 
 void Refocus::onExit(){
+	Parent->focus->getComponent<Rigidbody>()->isKinematic = true;
+	//Parent->focus->position = destination->position
 	Parent->position = Parent->selfieStick.Normalized() * Parent->followDistance + Parent->focus->position;
 }

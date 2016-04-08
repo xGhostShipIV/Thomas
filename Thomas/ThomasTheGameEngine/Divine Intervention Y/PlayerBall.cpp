@@ -71,7 +71,7 @@ void PlayerBall::Update(float timeStep_)
 		}
 	}
 
-	Layer * currentLayer = ((DIY_Level*)level)->GetLayerPlane();
+	/*Layer * currentLayer = ((DIY_Level*)level)->GetLayerPlane();
 
 	if (position.x > currentLayer->position.x + currentLayer->scale.x
 		|| position.x < currentLayer->position.x - currentLayer->scale.x)
@@ -82,7 +82,7 @@ void PlayerBall::Update(float timeStep_)
 		|| position.z < currentLayer->position.z - currentLayer->scale.x)
 	{
 		FoulReset();
-	}
+	}*/
 
 	if (Vec3::length(rigidBody->velocity) > 0.2f)
 	{

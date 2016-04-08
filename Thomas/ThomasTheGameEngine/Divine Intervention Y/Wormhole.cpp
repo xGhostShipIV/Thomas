@@ -59,11 +59,11 @@ void Wormhole::Update(float timeStep_)
 			sound->Play();
 
 			ballCaught = true;
-			diyLevel->SetLayerPlane(getDestinationLayer());
+			//diyLevel->SetLayerPlane(getDestinationLayer());
 
 			//Teleport to layer
 			player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
-			static_cast<FocusCamera*>(level->currentCamera)->startPan(5.0f);
+			static_cast<FocusCamera*>(level->currentCamera)->startPan(2.5f, getDestinationLayer());
 		}
 	}
 	else

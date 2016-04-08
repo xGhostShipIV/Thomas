@@ -2,6 +2,7 @@
 
 #include <Camera.h>
 #include <States.h>
+#include "DIY_Level.h"
 
 class FocusCamera : public Camera{
 	GameObject * focus;
@@ -42,7 +43,7 @@ public:
 	void ChangeDistance(float newFollow_);
 	void SetMaxDistance(float maxDistance_);
 	void SetMinDistance(float minDistance_);
-	void startPan(float duration_);
+	void startPan(float duration_, Layer* targetLayer_);
 };
 
 //States for the state machine.-------------------------------------------
@@ -78,8 +79,9 @@ public:
 class Refocus : public State {
 	float curTime, maxTime, radsPerSecond;
 	Vec3 centrePos;
+	Layer* destination;
 public:
-	Refocus(float duration, void* self);
+	Refocus(float duration, Layer* destLayer_, void* self);
 	~Refocus();
 	void Execute() override;
 	void onEnter() override;
