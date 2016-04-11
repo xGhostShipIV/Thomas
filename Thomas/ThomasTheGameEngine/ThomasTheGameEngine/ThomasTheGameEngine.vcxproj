@@ -143,8 +143,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\studio\inc;..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\lowlevel\inc;..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\studio\lib;..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\lowlevel\lib;..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\lib\x86;..\ThomasTheGameEngine\dependencies\OpenGL\lib;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\lib\x86;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\ThomasTheGameEngine\dependencies\assimp\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_mixer-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_image-2.0.0\include;..\ThomasTheGameEngine\dependencies\SDL\include;..\ThomasTheGameEngine\dependencies\OpenGL\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_ttf-2.0.12\include;..\ThomasTheGameEngine\dependencies\SDL\SDL2_net-2.0.0\include;$(IncludePath)</IncludePath>
@@ -166,10 +166,10 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp.lib</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;fmod_vc.lib;fmodL_vc.lib;fmod64_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;fmodstudio64_vc.lib;fmodstudioL64_vc.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\studio\lib;..\ThomasTheGameEngine\dependencies\FMOD Studio API Windows\api\lowlevel\lib;..\ThomasTheGameEngine\dependencies\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

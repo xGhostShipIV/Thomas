@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL_mixer.h>
+#include <fmod.hpp>
 
 class Music
 {
@@ -16,9 +17,10 @@ public:
 	void setLoops(int);
 
 private:
-	Music(Mix_Music * _music, int _numLoops = -1);
+	Music(const char * fileName_, int numLoops_ = -1);
 
-	Mix_Music * music;
+
+	FMOD::Sound * music;
 	int isLooped;
 };
 

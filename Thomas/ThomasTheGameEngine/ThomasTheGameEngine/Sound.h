@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fmod.hpp>
+
 struct Mix_Chunk;
 
 class Sound
@@ -13,8 +15,8 @@ public:
 
 private:
 	//Sounds must be created via the AudioManager
-	Sound(Mix_Chunk * _sound);
+	Sound(const char * fileName);
 
-	Mix_Chunk * sound;
+	FMOD::Sound * sound;
 };
 

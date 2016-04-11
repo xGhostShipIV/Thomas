@@ -1,7 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
-#include<SDL_mixer.h>
+#include <SDL_mixer.h>
+#include <fmod.hpp>
+#include <fmod_studio.hpp>
 
 #include "Sound.h"
 #include "Music.h"
@@ -15,6 +17,10 @@ class AudioManager
 	friend class GameProperties;
 
 public:
+	FMOD_RESULT result;
+	FMOD::Channel * musicChannel;
+	FMOD::System * system = nullptr;
+
 	~AudioManager();
 
 	static AudioManager * instance;
@@ -51,8 +57,5 @@ private:
 	//Mapped with a string that acts as an identifier
 	std::map<std::string, Sound *> Sounds;
 	std::map<std::string, Music *> Musics;
-
-
-
 };
 

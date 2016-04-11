@@ -6,6 +6,9 @@ AudioManager * AudioManager::instance;
 AudioManager::AudioManager()
 {
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
+	result = FMOD::System_Create(&system);
+	result = system->init(512, FMOD_INIT_NORMAL, 0);
 }
 
 
@@ -21,12 +24,14 @@ AudioManager::~AudioManager()
 		delete it->second;
 	}
 
+	system->release();
+
 	Mix_CloseAudio();
 }
 
 void AudioManager::loadMusic(std::string _id, std::string _fileName)
 {
-	Music * m = new Music(Mix_LoadMUS(_fileName.c_str()));
+	Music * m = new Music(_fileName.c_str());
 	Musics.insert(std::pair<std::string, Music *>(_id, m));
 }
 
@@ -37,8 +42,7 @@ Music * AudioManager::getMusic(std::string _id)
 
 void AudioManager::loadSound(std::string _id, std::string _fileName)
 {
-	
-	Sound * newSound = new Sound(Mix_LoadWAV(_fileName.c_str()));
+	Sound * newSound = new Sound(_fileName.c_str());
 	Sounds.insert(std::pair<std::string, Sound *>(_id, newSound));
 }
 

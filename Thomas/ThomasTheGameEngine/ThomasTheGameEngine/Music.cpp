@@ -1,42 +1,53 @@
 #include "Music.h"
+#include "AudioManager.h"
 
-Music::Music(Mix_Music * _music, int _numLoops)
+
+Music::Music(const char * fileName_, int numLoops_)
 {
-	music = _music;
-	isLooped = _numLoops;
+	Audio->system->createStream(fileName_, FMOD_DEFAULT, 0, &music);
+	music->setLoopCount(numLoops_);
 }
 
 Music::~Music()
 {
-	Mix_FreeMusic(music);
+	music->release();
 }
 
 void Music::Play()
 {
-	if (Mix_PlayingMusic() == 0)
+	bool isMusicPlaying;
+	Audio->musicChannel->getPaused(&isMusicPlaying);
+
+	if (!isMusicPlaying)
 	{
-		Mix_PlayMusic(music, isLooped);
+		Audio->system->playSound(music, 0, false, &(Audio->musicChannel));
 	}
 	else
 	{
-		Mix_HaltMusic();
-		Mix_PlayMusic(music, isLooped);
+		Audio->musicChannel->stop();
+		Audio->system->playSound(music, 0, false, &(Audio->musicChannel));
 	}
 }
 
 void Music::Stop()
 {
-	if (Mix_PlayingMusic() != 0) Mix_HaltMusic();
+	Audio->musicChannel->stop();
 }
 
 void Music::Pause()
 {
-	Mix_PauseMusic();
+	Audio->musicChannel->setPaused(true);
 }
 
 void Music::Resume()
 {
-	if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
+	bool isPaused;
+	Audio->musicChannel->getPaused(&isPaused);
+	
+	if (isPaused)
+	{
+		Audio->musicChannel->setPaused(false);
+	}
 }
 
 void Music::setLoops(int _loops)
