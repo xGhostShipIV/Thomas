@@ -174,6 +174,7 @@ public:
 
 	Layer * getDestinationLayer();
 	void Update(float) override;
+	friend class Refocus;
 private:
 	Generic_RenderableComponent * rc;
 	PlayerBall * player;

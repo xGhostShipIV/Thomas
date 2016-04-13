@@ -43,7 +43,7 @@ public:
 	void ChangeDistance(float newFollow_);
 	void SetMaxDistance(float maxDistance_);
 	void SetMinDistance(float minDistance_);
-	void startPan(float duration_, Layer* targetLayer_);
+	void startPan(float duration_, Wormhole* guider);
 };
 
 //States for the state machine.-------------------------------------------
@@ -79,9 +79,10 @@ public:
 class Refocus : public State {
 	float curTime, maxTime, radsPerSecond;
 	Vec3 centrePos;
-	Layer* destination;
+	Wormhole* guidance;
+	bool isNewLayerSet;
 public:
-	Refocus(float duration, Layer* destLayer_, void* self);
+	Refocus(float duration, Wormhole* destination_, void* self);
 	~Refocus();
 	void Execute() override;
 	void onEnter() override;

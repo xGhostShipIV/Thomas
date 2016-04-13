@@ -62,8 +62,8 @@ void Wormhole::Update(float timeStep_)
 			//diyLevel->SetLayerPlane(getDestinationLayer());
 
 			//Teleport to layer
-			player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
-			static_cast<FocusCamera*>(level->currentCamera)->startPan(2.5f, getDestinationLayer());
+			//player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
+			static_cast<FocusCamera*>(level->currentCamera)->startPan(2.5f, this);
 		}
 	}
 	else
