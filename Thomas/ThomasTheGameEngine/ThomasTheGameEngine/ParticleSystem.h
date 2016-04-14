@@ -19,7 +19,7 @@ public:
 	};
 
 	ParticleSystem(GameObject * _owner, Emitter_Type _emitterType, std::string _modelName, std::string _textureName,
-		float _maxParticles, float _rateOfEmission, float _lifeTime, Particle::Object_Type);
+		float _maxParticles, float _rateOfEmission, float _lifeTime, Particle::Object_Type, bool isLooped);
 
 	~ParticleSystem();
 	void UpdateParticles(float _deltaTime);
@@ -35,6 +35,8 @@ public:
 
 	void Play();
 	void Stop();
+
+	bool isLooped;
 private:
 
 	std::vector<Particle *> particles;

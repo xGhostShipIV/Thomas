@@ -78,6 +78,8 @@ void DIY_Level::LoadContent()
 	Models->loadModel("meteor2", "Models/meteor_02.obj", true);
 	Models->loadModel("meteor3", "Models/meteor_03.obj", true);
 
+	Models->loadTexture("smoke", "Images/Smoke.png");
+
 	Models->loadModel("satellite", "Models/Satellite.obj");
 
 	//Load up and play the music for in-game

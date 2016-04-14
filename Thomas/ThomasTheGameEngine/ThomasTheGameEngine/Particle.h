@@ -21,8 +21,10 @@ public:
 	void Render() override;
 
 	void SetVelocity(Vec3);
+	void SetElapsedTime(float time_);
 
 	bool isAlive;
+	bool isLooped;
 private:
 	Object_Type objectType;
 

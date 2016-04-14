@@ -47,7 +47,7 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 
 	if (!_first->isKinematic && !_second->isKinematic) { return; }
 
-	float epsilon = 0.6f; //Change elasticity of collisions
+	float epsilon = 0.8f; //Change elasticity of collisions
 
 
 	//Calculating the collision point and normal based on collider types

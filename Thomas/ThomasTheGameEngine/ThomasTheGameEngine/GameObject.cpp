@@ -40,7 +40,6 @@ Vec2 GameObject::getScreenPosition() const {
 	screenPosition.x = (screenPosition.x + levelCamera->frustrum.nearTopLeft.x) * GameProperties::getInstance()->getVideoProperties()->screenWidth;
 	screenPosition.y = (screenPosition.y + levelCamera->frustrum.nearBottomRight.y) * GameProperties::getInstance()->getVideoProperties()->screenHeight;
 
-	std::cout << (screenPosition - Input->mousePos()).toString() << std::endl;
 	return screenPosition;
 }
 

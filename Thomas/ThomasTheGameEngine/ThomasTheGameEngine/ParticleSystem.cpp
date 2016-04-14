@@ -1,7 +1,8 @@
 #include "ParticleSystem.h"
+#include "Random.h"
 
 ParticleSystem::ParticleSystem(GameObject * _owner, Emitter_Type _emitterType, std::string _modelName, std::string _textureName,
-	float _maxParticles, float _rateOfEmission, float _lifeTime, Particle::Object_Type _type) : Component(_owner, Component::ParticleSystem)
+	float _maxParticles, float _rateOfEmission, float _lifeTime, Particle::Object_Type _type, bool isLooped_ = false) : Component(_owner, Component::ParticleSystem)
 {
 	for (int i = 0; i < _maxParticles; i++)
 	{
@@ -39,7 +40,23 @@ void ParticleSystem::UpdateParticles(float _deltaTime)
 					particles[i]->position = parentObject->position + positionOffset;
 					particles[i]->scale = iScale;
 					particles[i]->rotation = iRotation;
-					particles[i]->SetVelocity(iVeloctiy);
+					particles[i]->isLooped = isLooped;
+
+					if (emitter_type == Emitter_Type_Cone)
+					{
+						float theta = Random::box_muller(0, 22.5);
+						float y = sin(theta);
+						float x = cos(theta);
+
+						Vec3 v = Vec3(x, y, 0);
+
+						Quat::rotate(Quat(Vec3::dot(v, iVeloctiy), Vec3::cross(v, iVeloctiy)), v);
+
+						particles[i]->SetVelocity(v);
+					}
+					else
+						particles[i]->SetVelocity(iVeloctiy);
+
 					particles[i]->isAlive = true;
 					elapsedTime = 0.0f;
 					break;
@@ -72,6 +89,9 @@ void ParticleSystem::SetEmitterType(Emitter_Type _type)
 void ParticleSystem::Play()
 {
 	isActive = true;
+
+	for (int i = 0; i < particles.size(); i++)
+		particles[i]->SetElapsedTime(0);
 }
 
 void ParticleSystem::Stop()
