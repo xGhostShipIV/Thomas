@@ -29,9 +29,10 @@ public:
 	Vec3 up();
 	Vec3 right();
 
-	//Returns the objects orientation in different formats
+	//Returns the objects orientation or position in different formats
 	Quat getQuat();
 	Vec3 getEuler();
+	Vec2 getScreenPosition() const;
 
 	//Transform methods
 	//These will apply the given transforms and move the gameObject

@@ -243,6 +243,9 @@ void Level_Descriptor::SetDescriptor(const Node * node_)
 	levelPar->SetText("Par: " + std::to_string(node_->par));
 	reasonWhy->SetText(node_->description);
 
-	mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	Vec2 screenPos = node_->getScreenPosition();
+
+	//mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	mainImage->Translate(Vec3(screenPos.x + 270, screenPos.y, 0));
 	Show();
 }

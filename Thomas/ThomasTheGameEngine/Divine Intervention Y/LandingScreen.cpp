@@ -97,6 +97,8 @@ void LandingScreen::LevelUpdate(float timeStep_)
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();
 					gui->levelDescriptor->SetDescriptor(((Node *)galaxyMap->nodes[i]));
 					selected = true;
+
+
 				}
 			}
 			//if (!selected)
