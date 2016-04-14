@@ -24,6 +24,12 @@ void LandingScreen::LoadContent()
 	Models->loadTexture("skybox1",		"Images/skyboxUP.png");
 	Models->loadTexture("galaxyMap",	"Images/galaxy1.png");
 
+	bool musicIsPlaying;
+
+	Audio->musicChannel->isPlaying(&musicIsPlaying);
+	if (musicIsPlaying)
+		Audio->musicChannel->stop();
+
 	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
 	Audio->getMusic("menuTheme")->Play();
 
@@ -97,8 +103,6 @@ void LandingScreen::LevelUpdate(float timeStep_)
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();
 					gui->levelDescriptor->SetDescriptor(((Node *)galaxyMap->nodes[i]));
 					selected = true;
-
-
 				}
 			}
 			//if (!selected)

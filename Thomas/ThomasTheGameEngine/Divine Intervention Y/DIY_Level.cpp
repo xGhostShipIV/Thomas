@@ -83,6 +83,12 @@ void DIY_Level::LoadContent()
 	Models->loadModel("satellite", "Models/Satellite.obj");
 
 	//Load up and play the music for in-game
+	bool musicIsPlaying;
+
+	Audio->musicChannel->isPlaying(&musicIsPlaying);
+	if (musicIsPlaying)
+		Audio->musicChannel->stop();
+
 	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
 	Audio->getMusic("gameTheme")->Play();
 

@@ -53,7 +53,7 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 		levelName += ".xml";
 
 		//Generate a random position
-		Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
+		Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 10);
 		nodePosition.y = -0.2f;
 
 		//Loop to ensure that nodes aren't spawned too close to eachother

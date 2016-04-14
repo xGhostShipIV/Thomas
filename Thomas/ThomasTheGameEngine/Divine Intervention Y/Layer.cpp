@@ -85,7 +85,7 @@ void Layer::CreateObjects(const char * attribute_, const Vec2 position_)
 	}
 	if (string == "Asteroids")
 	{
-		objects.push_back(new AsteroidField(dl, position + Vec3(position_.x, 0, position_.y), 1, 4));
+		objects.push_back(new AsteroidField(dl, position + Vec3(position_.x, 0, position_.y), 0.75f, 4));
 	}
 	if (string == "Aliens")
 	{
