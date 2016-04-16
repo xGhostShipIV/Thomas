@@ -39,11 +39,11 @@ void GameProperties::AudioProperties::readValues()
 {
 	tinyxml2::XMLElement * element = doc.FirstChildElement("Properties")->FirstChildElement("AudioProperty")->FirstChildElement("property");
 
-	masterVolume = std::stoi(element->GetText());
+	masterVolume = std::stoi(element->GetText()) / 100.0f;
 	element = element->NextSiblingElement("property");
-	musicVolume = std::stoi(element->GetText());
+	musicVolume = std::stoi(element->GetText()) / 100.0f;
 	element = element->NextSiblingElement("property");
-	soundVolume = std::stoi(element->GetText());
+	soundVolume = std::stoi(element->GetText()) / 100.0f;
 }
 
 //Writes current audio values to the xml
@@ -51,11 +51,11 @@ void GameProperties::AudioProperties::writeValues()
 {
 	tinyxml2::XMLElement * element = doc.FirstChildElement("Properties")->FirstChildElement("AudioProperty")->FirstChildElement("property");
 
-	element->SetText(masterVolume);
+	element->SetText(int(masterVolume * 100));
 	element = element->NextSiblingElement("property");
-	element->SetText(musicVolume);
+	element->SetText(int(musicVolume * 100));
 	element = element->NextSiblingElement("property");
-	element->SetText(soundVolume);
+	element->SetText(int(soundVolume * 100));
 }
 
 //Reads video properties from xml and assigns them

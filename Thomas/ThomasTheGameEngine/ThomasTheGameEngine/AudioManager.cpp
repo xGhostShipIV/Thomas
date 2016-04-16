@@ -3,7 +3,7 @@
 
 AudioManager * AudioManager::instance;
 
-AudioManager::AudioManager()
+AudioManager::AudioManager() : soundVolume(1), musicVolume(1), mainVolume(1)
 {
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
@@ -51,17 +51,37 @@ Sound * AudioManager::getSound(std::string _id)
 	return Sounds.find(_id)->second;
 }
 
+void AudioManager::setMainVolume(float _volume)
+{
+	mainVolume = _volume <= 1 && _volume >= 0 ? _volume : mainVolume;
+	musicChannel->setVolume(getMusicVolume());
+}
+
 void AudioManager::setSoundVolume(float _volume)
 {
-	Mix_Volume(-1, MIX_MAX_VOLUME * _volume);
+	soundVolume = _volume <= 1 && _volume >= 0 ? _volume : soundVolume;
+	//Mix_Volume(-1, MIX_MAX_VOLUME * _volume);
 }
 
 void AudioManager::setMusicVolume(float _volume)
 {
-	Mix_VolumeMusic(MIX_MAX_VOLUME * _volume);
+	musicVolume = _volume <= 1 && _volume >= 0 ? _volume : musicVolume;
+
+	//Mix_VolumeMusic(MIX_MAX_VOLUME * _volume);
+	musicChannel->setVolume(getMusicVolume());
 }
 
 bool AudioManager::isMusicPlaying()
 {
 	return (Mix_PlayingMusic() != 0);
+}
+
+float AudioManager::getSoundVolume() const
+{
+	return soundVolume * mainVolume;
+}
+
+float AudioManager::getMusicVolume() const
+{
+	return musicVolume * mainVolume;
 }

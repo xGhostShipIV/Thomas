@@ -18,15 +18,12 @@ void Music::Play()
 	bool isMusicPlaying;
 	Audio->musicChannel->getPaused(&isMusicPlaying);
 
-	if (!isMusicPlaying)
-	{
-		Audio->system->playSound(music, 0, false, &(Audio->musicChannel));
-	}
-	else
-	{
+	if (isMusicPlaying)
 		Audio->musicChannel->stop();
-		Audio->system->playSound(music, 0, false, &(Audio->musicChannel));
-	}
+
+	Audio->system->playSound(music, 0, true, &(Audio->musicChannel));
+	Audio->musicChannel->setVolume(Audio->getMusicVolume());
+	Audio->musicChannel->setPaused(false);
 }
 
 void Music::Stop()

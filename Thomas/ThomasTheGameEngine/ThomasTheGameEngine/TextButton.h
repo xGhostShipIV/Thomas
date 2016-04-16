@@ -5,6 +5,7 @@
 
 #include "Button.h"
 #include "Label.h"
+#include <string>
 
 class TextButton : public Button
 {
@@ -22,4 +23,7 @@ public:
 
 	//Sets text colour. If nullptr, it will not change that colour.
 	void SetTextColour(Colour* unpressedTextColour_, Colour* pressedTextColour_);
+
+	void SetText(std::string _text);
+	//std::string GetText() const;
 };

@@ -50,6 +50,13 @@ public:
 	//Should only be accessed by GameProperties
 	void setSoundVolume(float _volume);
 	void setMusicVolume(float _volume);
+	void setMainVolume(float _volume);
+
+	//Returns sound effects volume level (adjusted by main volume)
+	float getSoundVolume() const;
+
+	//Returns music volume level (adjusted by main volume)
+	float getMusicVolume() const;
 private:
 	AudioManager();
 
@@ -57,5 +64,7 @@ private:
 	//Mapped with a string that acts as an identifier
 	std::map<std::string, Sound *> Sounds;
 	std::map<std::string, Music *> Musics;
+
+	float musicVolume, soundVolume, mainVolume;
 };
 

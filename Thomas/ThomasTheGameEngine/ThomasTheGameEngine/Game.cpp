@@ -46,7 +46,7 @@ Game::Game()
 	SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
 		SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
 
-	if (properties->getVideoProperties()->isFullscreen) SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN);
+	SetFullscreen(properties->getVideoProperties()->isFullscreen);
 
 	SDL_GetRendererInfo(gameRenderer, &displayRendererInfo);
 
@@ -99,6 +99,10 @@ Game::Game()
 		timeSinceLastFPSUpdate = timeStart;
 		FPS = 0;
 	}
+
+	Audio->setMainVolume(GameProperties::getInstance()->getAudioProperties()->masterVolume);
+	Audio->setMusicVolume(GameProperties::getInstance()->getAudioProperties()->musicVolume);
+	Audio->setSoundVolume(GameProperties::getInstance()->getAudioProperties()->soundVolume);
 };
 
 Game::~Game()
@@ -290,4 +294,43 @@ Uint32 Game::GetGUIHeight() const
 Uint32 Game::GetGUIWidth() const
 {
 	return guiWidth;
+}
+
+void Game::SetFullscreen(bool fullscreen_)
+{
+	if (fullscreen_)
+	{
+		SDL_SetWindowFullscreen(gameWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(gameWindow, 0);
+	}
+
+	int w, h;
+	SDL_GetWindowSize(gameWindow, &w, &h);
+	glViewport(0, 0, w, h);
+
+	properties->getVideoProperties()->screenWidth = w;
+	properties->getVideoProperties()->screenHeight = h;
+	SDL_SetWindowPosition(gameWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+}
+
+void Game::SetResolution(int width_, int height_)
+{
+	//SDL_DestroyRenderer(gameRenderer);
+	//SDL_DestroyWindow(gameWindow);
+
+	//SDL_CreateWindowAndRenderer(properties->getVideoProperties()->screenWidth, properties->getVideoProperties()->screenHeight,
+	//	SDL_WINDOW_OPENGL, &gameWindow, &gameRenderer);
+
+	//SDL_GL_MakeCurrent(gameWindow, glcontext);
+
+	SDL_SetWindowSize(gameWindow, width_, height_);
+
+	int w, h;
+	SDL_GetWindowSize(gameWindow, &w, &h);
+	glViewport(0, 0, w, h);	
+
+	SDL_SetWindowPosition(gameWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }

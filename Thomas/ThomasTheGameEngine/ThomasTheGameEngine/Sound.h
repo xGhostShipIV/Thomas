@@ -18,5 +18,6 @@ private:
 	Sound(const char * fileName);
 
 	FMOD::Sound * sound;
+	FMOD::Channel * soundChannel;
 };
 

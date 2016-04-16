@@ -59,3 +59,13 @@ void TextButton::SetTextColour(Colour* unpressedTextColour_, Colour* pressedText
 	if (pressedTextColour_)
 		pressedTextColour = *pressedTextColour_;
 }
+
+void TextButton::SetText(std::string _text)
+{
+	label.SetText(_text);
+}
+
+//std::string TextButton::GetText() const
+//{
+//	return label.GetText();
+//}

@@ -134,3 +134,14 @@ float GuiElement::GetOpacity() const
 {
 	return ((GUI_RenderableComponent*)renderable)->opacity;
 }
+
+void GuiElement::ResetGUIElement()
+{
+	scale = Vec3(scale.x / guiScale.x, scale.y / guiScale.y, scale.z);
+
+	//Recalculate GUISCALE
+	guiScale = Vec2(ModelManager::getInstance()->GetTextureWidth(texture) / (float)GameProperties::getInstance()->getVideoProperties()->screenWidth,
+		ModelManager::getInstance()->GetTextureHeight(texture) / (float)GameProperties::getInstance()->getVideoProperties()->screenHeight);
+
+	scale = Vec3(scale.x * guiScale.x, scale.y * guiScale.y, scale.z);
+}

@@ -26,6 +26,7 @@ void LandingScreen::LoadContent()
 
 	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
 	Audio->getMusic("menuTheme")->Play();
+	Audio->getMusic("menuTheme")->Pause();
 
 	/* Set up and position skybox */
 	{
@@ -52,6 +53,8 @@ LandingScreen::~LandingScreen()
 
 void LandingScreen::LevelUpdate(float timeStep_)
 {
+	Audio->getMusic("menuTheme")->Resume();
+
 	Level::LevelUpdate(timeStep_);
 
 	if (gui->GetState() == Tranisiton)
@@ -67,7 +70,7 @@ void LandingScreen::LevelUpdate(float timeStep_)
 			galaxyMap->SetIsRotating(false);
 		}
 	}
-	else if (gui->GetState() == Select)
+	else if (gui->GetState() == Select && gui->GetSelectState() == Select_Default)
 	{
 		if (Input->isMousePressed(SDL_BUTTON_LEFT))
 		{

@@ -54,6 +54,8 @@ public:
 
 	virtual void SetOpacity(float opacity_);
 	virtual float GetOpacity() const;
+
+	virtual void ResetGUIElement();
 };
 
 #endif

@@ -128,3 +128,11 @@ void Level::SetCamera(Camera * _c)
 {
 	currentCamera = _c;
 }
+
+void Level::ResetGUI()
+{
+	for (auto it = guiElements.begin(); it != guiElements.end(); it++)
+	{
+		(*it)->ResetGUIElement();
+	}
+}

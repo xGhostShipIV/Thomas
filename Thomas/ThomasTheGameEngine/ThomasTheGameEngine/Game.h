@@ -95,6 +95,9 @@ public:
 
 	void setRunning(bool);
 
+	void SetFullscreen(bool fullscreen_);
+	void SetResolution(int width_, int height_);
+
 	float GetFPS() const;
 
 	float GetTotalTime() const;

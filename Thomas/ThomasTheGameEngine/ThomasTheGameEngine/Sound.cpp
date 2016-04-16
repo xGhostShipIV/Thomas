@@ -22,5 +22,13 @@ Sound::~Sound()
 
 void Sound::Play()
 {
-	AudioManager::getInstance()->system->playSound(sound, 0, false, 0);
+	bool isPlaying;
+	soundChannel->isPlaying(&isPlaying);
+
+	if (isPlaying)
+		soundChannel->stop();
+
+	Audio->system->playSound(sound, 0, true, &(soundChannel));
+	soundChannel->setVolume(Audio->getSoundVolume());
+	soundChannel->setPaused(false);
 }

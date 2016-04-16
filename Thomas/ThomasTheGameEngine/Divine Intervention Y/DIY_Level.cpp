@@ -83,6 +83,7 @@ void DIY_Level::LoadContent()
 	//Load up and play the music for in-game
 	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
 	Audio->getMusic("gameTheme")->Play();
+	Audio->getMusic("gameTheme")->Pause();
 
 	Models->loadModel("wormhole", "Models/wormhole.obj", true);
 	Models->loadTexture("wormholeTexture", "Images/Galaxy.png");
@@ -186,6 +187,8 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	if (!hasFinishedLoading)
 		return;
+
+	Audio->getMusic("gameTheme")->Resume();
 
 	Level::LevelUpdate(timeStep_);
 

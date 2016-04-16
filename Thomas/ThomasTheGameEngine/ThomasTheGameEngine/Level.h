@@ -48,6 +48,8 @@ public:
 	void LevelCleanUp();
 
 	void SetAmbientColor(Colour _color);
+
+	void ResetGUI();
 protected:
 	virtual void DebugRender(){};
 	Colour ambientLightColor;
