@@ -123,6 +123,10 @@ void DIY_Level::LoadContent()
 
 	//Can now go through Update loop.
 	hasFinishedLoading = true;
+
+	Models->loadTexture("LoadingScreen", "Images/LoadingScreen.png");
+	loadingScreen = new GuiImage(this, "LoadingScreen", Vec2(), CENTER);
+	loadingScreen->Hide();
 }
 
 DIY_Level::~DIY_Level()
@@ -195,6 +199,9 @@ void DIY_Level::LevelUpdate(float timeStep_)
 {
 	if (!hasFinishedLoading)
 		return;
+
+	if (loadingScreen->IsVisible() && levelToLoad)
+		GAME->LoadLevel(levelToLoad);
 
 	Audio->getMusic("gameTheme")->Resume();
 

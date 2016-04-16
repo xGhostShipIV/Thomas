@@ -10,7 +10,7 @@
 #include <GameProperties.h>
 #include <sstream>
 
-Landing_GUI::Landing_GUI(Level *level_) : level(level_)
+Landing_GUI::Landing_GUI(Level *level_)
 {
 
 	Models->loadTexture("LANDING_GUI_DESCRIPTOR", "Images/Level GUI/Buttons/descriptor.png");
@@ -300,6 +300,10 @@ void Landing_GUI::Update(float timeStep_)
 		switch (select_state)
 		{
 		case Menu_Select_State::Select_Default:
+
+			if (landingScreen->loadingScreen->IsVisible())
+				GAME->LoadLevel(new DIY_Level(landingScreen->GetTargetFileName()));
+
 			ShowSelectButtons();
 			if (levelDescriptor->DescriptorHasBeenSet())
 				levelDescriptor->Show();
@@ -312,7 +316,8 @@ void Landing_GUI::Update(float timeStep_)
 				{
 					Audio->getSound("ding")->Play();
 					Audio->getMusic("menuTheme")->Stop();
-					GAME->LoadLevel(new DIY_Level(levelName));
+					landingScreen->loadingScreen->Show();
+					//GAME->LoadLevel(new DIY_Level(levelName));
 				}
 			}
 			else if (ExitButton->HasBeenClicked())
@@ -498,7 +503,7 @@ void Landing_GUI::Update(float timeStep_)
 
 				GameProperties::getInstance()->ApplyChanges();
 
-				level->ResetGUI();
+				landingScreen->ResetGUI();
 
 				Audio->getSound("ding")->Play();
 								

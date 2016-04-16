@@ -43,7 +43,8 @@ void DIY_Level_GUI::Update(float timeStep_)
 
 		if (pauseGUI->ExitButton->HasBeenClicked())
 		{
-			GAME->LoadLevel(new LandingScreen());
+			level->loadingScreen->Show();
+			level->levelToLoad = new LandingScreen();
 		}
 
 		if (pauseGUI->ResumeButton->HasBeenClicked())
@@ -66,12 +67,14 @@ void DIY_Level_GUI::Update(float timeStep_)
 			if (victoryGUI->exitButton->HasBeenClicked())
 			{
 				//Go back to landing screen
-				GAME->LoadLevel(new LandingScreen());
+				level->loadingScreen->Show();
+				level->levelToLoad = new LandingScreen();
 			}
 			else if (victoryGUI->retryButton->HasBeenClicked())
 			{
 				//Reload the level
-				GAME->LoadLevel(new DIY_Level(level->GetLevelFileName()));
+				level->loadingScreen->Show();
+				level->levelToLoad = new DIY_Level(level->GetLevelFileName());
 			}
 			else if (victoryGUI->levelSelectButton->HasBeenClicked())
 			{
@@ -96,7 +99,8 @@ void DIY_Level_GUI::Update(float timeStep_)
 			}
 			else if (victoryGUI->selectedLevel != "" && victoryGUI->loadLevelButton->HasBeenClicked())
 			{
-				GAME->LoadLevel(new DIY_Level(victoryGUI->selectedLevel));
+				level->loadingScreen->Show();
+				level->levelToLoad = new DIY_Level(victoryGUI->selectedLevel);
 			}
 			else
 			{

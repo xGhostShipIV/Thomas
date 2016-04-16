@@ -59,6 +59,10 @@ public:
 	std::string GetLevelFileName();
 
 	Vec2 GetLevelBounds();
+
+	GuiImage * loadingScreen;
+
+	Level * levelToLoad;
 private:
 	GameObject * skybox, *playerBall, *layerRB;
 	Sun * sun;

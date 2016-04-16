@@ -59,9 +59,6 @@ class Landing_GUI
 private:
 	Menu_State state;
 	Menu_Select_State select_state;
-
-	Level *level;
-
 	void SetResolutionLabel();
 public:
 	Landing_GUI(Level *level_);

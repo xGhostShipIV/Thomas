@@ -50,6 +50,10 @@ void LandingScreen::LoadContent()
 	mainCamera->LookAt(galaxyMap->position);
 
 	gui = new Landing_GUI(this);
+
+	Models->loadTexture("LoadingScreen", "Images/LoadingScreen.png");
+	loadingScreen = new GuiImage(this, "LoadingScreen", Vec2(), CENTER);
+	loadingScreen->Hide();
 }
 
 LandingScreen::~LandingScreen()

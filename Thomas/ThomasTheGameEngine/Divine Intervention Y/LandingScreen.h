@@ -4,6 +4,7 @@
 #include <Level.h>
 #include "Landing_GUI.h"
 #include "GalaxyMap.h"
+#include <GuiImage.h>
 
 class LandingScreen : public Level
 {
@@ -23,4 +24,5 @@ public:
 
 	GameObject * skybox;
 	GalaxyMap * galaxyMap;
+	GuiImage * loadingScreen;
 };
