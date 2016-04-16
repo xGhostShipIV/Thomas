@@ -24,6 +24,12 @@ void LandingScreen::LoadContent()
 	Models->loadTexture("skybox1",		"Images/skyboxUP.png");
 	Models->loadTexture("galaxyMap",	"Images/galaxy1.png");
 
+	bool musicIsPlaying;
+
+	Audio->musicChannel->isPlaying(&musicIsPlaying);
+	if (musicIsPlaying)
+		Audio->musicChannel->stop();
+
 	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
 	Audio->getMusic("menuTheme")->Play();
 	Audio->getMusic("menuTheme")->Pause();

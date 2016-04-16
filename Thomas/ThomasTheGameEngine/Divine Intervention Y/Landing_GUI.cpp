@@ -12,6 +12,9 @@
 
 Landing_GUI::Landing_GUI(Level *level_) : level(level_)
 {
+
+	Models->loadTexture("LANDING_GUI_DESCRIPTOR", "Images/Level GUI/Buttons/descriptor.png");
+
 	Vec2 OptionsButtonLocation = Vec2(143, 205);
 	Vec2 InstructionsButtonLocation = OptionsButtonLocation + Vec2(0, -80);
 	Vec2 ExitButtonLocation = InstructionsButtonLocation + Vec2(0, -80);
@@ -567,23 +570,25 @@ Level_Descriptor::Level_Descriptor(Level * level_) : hasDescriptorBeenSet(false)
 {
 	FontManager::getInstance()->GenerateFont("DESCRIPTOR_FONT", 22, "Font/Aaargh.ttf");
 	FontManager::getInstance()->GenerateFont("DESCRIPTOR_FONT2", 18, "Font/Aaargh.ttf");
+	FontManager::getInstance()->GenerateFont("DESCRIPTOR_FONT3", 32, "Font/Aaargh.ttf");
 
-	mainImage = new GuiImage(level_, "LANDING_GUI_BLANK", Vec2(0, 0));
-	mainImage->Scale(Vec3(1.f, 3.5f, 1));
+	
+	mainImage = new GuiImage(level_, "LANDING_GUI_DESCRIPTOR", Vec2(0, 0));
+	mainImage->Scale(Vec3(1.f, 3.f, 1));
 
-	playButton = new SelectButton(level_, Vec2(0, -80), "Play", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), BOTTOM_LEFT);
+	playButton = new SelectButton(level_, Vec2(0, -80), "Play", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT3"), BOTTOM_LEFT);
 	playButton->Scale(Vec3(0.5, 0.5, 1));
 	playButton->isSelected = true;
 	mainImage->addChild(playButton);
 
-	levelName = new Label(level_, "Name: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-40, 100));
+	levelName = new Label(level_, "Name: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-40, 100), BOTTOM_LEFT, Colour::White());
 	mainImage->addChild(levelName);
 
-	levelPar = new Label(level_, "Par: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-100, 80));
+	levelPar = new Label(level_, "Par: ", FontManager::getInstance()->GetFont("DESCRIPTOR_FONT"), Vec2(-100, 80), BOTTOM_LEFT, Colour::White());
 	mainImage->addChild(levelPar);
 
 	reasonWhy = new MultiLineLabel(level_, "I like to write a number of things. None of which are really all that important.", 
-		250, FontManager::getInstance()->GetFont("DESCRIPTOR_FONT2"), Vec2(0, -10));
+		250, FontManager::getInstance()->GetFont("DESCRIPTOR_FONT2"), Vec2(0, -10), BOTTOM_LEFT, Colour::White());
 
 	mainImage->addChild(reasonWhy);
 
@@ -627,7 +632,10 @@ void Level_Descriptor::SetDescriptor(const Node * node_)
 	levelPar->SetText("Par: " + std::to_string(node_->par));
 	reasonWhy->SetText(node_->description);
 
-	mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	Vec2 screenPos = node_->getScreenPosition();
+
+	//mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	mainImage->Translate(Vec3(screenPos.x + (GameProperties::getVideoProperties()->screenWidth * 0.25f), screenPos.y, 0));
 	Show();
 
 	hasDescriptorBeenSet = true;

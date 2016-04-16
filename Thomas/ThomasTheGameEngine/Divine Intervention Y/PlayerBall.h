@@ -3,6 +3,7 @@
 #include <GameObject.h>
 #include <RenderableComponent.h>
 #include <Rigidbody.h>
+#include <ParticleSystem.h>
 
 #include "Pointer.h"
 
@@ -38,4 +39,5 @@ private:
 	float modifier;
 
 	Sound * hitSound;
+	ParticleSystem * particle;
 };

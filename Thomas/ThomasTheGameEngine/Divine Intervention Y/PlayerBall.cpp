@@ -34,10 +34,17 @@ PlayerBall::PlayerBall(Level * level_, Vec3 position_) : GameObject(level_, posi
 
 	Audio->loadSound("ballHit", "Sounds/strike.wav");
 	hitSound = Audio->getSound("ballHit");
+
+	particle = new ParticleSystem(this, ParticleSystem::Emitter_Type_Cone, "plane", "smoke", 4, 0, 1.5f, Particle::Billboard, false);
+	particle->Stop();
+	particle->SetInitialScale(Vec3(0.7, 0.7, 0.7));
 }
 
 void PlayerBall::Update(float timeStep_)
 {	
+
+	GameObject::Update(timeStep_);
+
 	//All the controls go here
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING && 
 		((DIY_Level*)GAME->currentLevel)->playingState == DIY_Level_Playing_State::SHOOTING)
@@ -53,6 +60,7 @@ void PlayerBall::Update(float timeStep_)
 					modifier = -CHARGE_PER_SECOND;
 				else if (chargePercent <= 0)
 					modifier = CHARGE_PER_SECOND;
+
 			}
 			else
 				chargingStrike = true;
@@ -67,7 +75,25 @@ void PlayerBall::Update(float timeStep_)
 			chargePercent = 0;
 			modifier = CHARGE_PER_SECOND;
 
+			particle->SetInitialVelocity((hand->position - position).Normalized() * 0.5f);
+			particle->Play();
 			positionAtStrike = position;
+		}
+
+		//hand tween
+		if (chargingStrike)
+		{
+			if ((position - hand->position).length() < 4)
+				hand->Translate((hand->position - position).Normalized() * (1.5f * timeStep_));
+		}
+		else if ((position - hand->position).length() > 1)
+		{
+			//hand->Translate((position - hand->position).Normalized() * (0.5f * timeStep_));
+
+			if ((position - hand->position).length() <= 1)
+			{
+
+			}
 		}
 	}
 

@@ -12,6 +12,36 @@
 #include "Flipbook.h"
 #include "Rigidbody.h"
 #include "PhysicsWorld.h"
+#include "Ray.h"
+#include "GameProperties.h"
+#include "InputHandler.h"
+
+Vec2 GameObject::getScreenPosition() const {
+	Vec2 screenPosition = Vec2::Zero();
+	Vec3 worldNearPlaneColPoint = Vec3::Zero();
+
+	Camera* levelCamera = level->mainCamera;
+	Ray pointToCamera = Ray(this->position, levelCamera->position - this->position);
+
+	pointToCamera.castTo(Plane(levelCamera->forward(), levelCamera->forward() * 0.1 + levelCamera->position), worldNearPlaneColPoint);
+
+	worldNearPlaneColPoint -= levelCamera->position;
+	Quat::rotate(levelCamera->rotation.inverse(), worldNearPlaneColPoint);
+
+	//worldnearplane is now about 0, convert to screen position
+	//(transformed.nearBottomRight.x - transformed.nearTopLeft.x)
+	Vec2 frustumSize = Vec2((levelCamera->frustrum.nearBottomRight - levelCamera->frustrum.nearTopLeft).x, (levelCamera->frustrum.nearBottomRight - levelCamera->frustrum.nearTopLeft).y);
+	screenPosition = Vec2(
+		(levelCamera->frustrum.nearBottomRight.x - worldNearPlaneColPoint.x) / frustumSize.x,
+		(levelCamera->frustrum.nearBottomRight.y - worldNearPlaneColPoint.y) / frustumSize.y
+		);
+	
+	//Screen position is now %age of screen
+	screenPosition.x = (screenPosition.x + levelCamera->frustrum.nearTopLeft.x) * GameProperties::getInstance()->getVideoProperties()->screenWidth;
+	screenPosition.y = (screenPosition.y + levelCamera->frustrum.nearBottomRight.y) * GameProperties::getInstance()->getVideoProperties()->screenHeight;
+
+	return screenPosition;
+}
 
 void GameObject::Translate(Vec3 _translate)
 {

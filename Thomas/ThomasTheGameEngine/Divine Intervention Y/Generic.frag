@@ -29,6 +29,7 @@ uniform float Opacity;
 
 void main()
 {
+
 	//if Alpha == 0, don't draw
 	if (texture2D(texture, texCoord).w == 0)
 		discard;
@@ -153,4 +154,8 @@ void main()
 
 	fColor = specular + texture2D(texture, texCoord) * (ambientLight + diffuse);
 	fColor.w = fColor.w * Opacity;
+
+
+	//Normals Debug
+	//fColor = 0.5 * vNormal + 0.5;
 }
