@@ -45,7 +45,7 @@ public:
 	~DIY_Level_PauseGUI();
 
 	GuiImage *Background;
-	TextButton *ExitButton, *ResumeButton;
+	TextButton *ExitButton, *ResumeButton, *RetryButton;
 
 	void Hide();
 	void Show();
@@ -88,4 +88,6 @@ public:
 
 	//Used to update the stroke count
 	void PlayerTookAStroke(int strokeIncrement = 1);	
+
+	void ResetGUI();
 };

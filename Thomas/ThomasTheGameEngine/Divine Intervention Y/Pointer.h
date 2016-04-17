@@ -14,6 +14,8 @@ public:
 	void Update(float timeStep_) override;
 	void Render() override;
 
+	void PointAtBall();
+
 private:
 	Generic_RenderableComponent * renderer;
 	PlayerBall * ball;

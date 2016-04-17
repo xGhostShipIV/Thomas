@@ -47,7 +47,7 @@ public:
 	DIY_Level_GUI * gui;
 
 	bool PlayerHasShotBallIntoSun;
-	bool rotateLevel;
+	bool rotateLevel, startingStateSaved;
 
 	void LevelUpdate(float timeStep_) override;
 
@@ -63,6 +63,8 @@ public:
 	GuiImage * loadingScreen;
 
 	Level * levelToLoad;
+
+	void ResetLevel();
 private:
 	GameObject * skybox, *playerBall, *layerRB;
 	Sun * sun;
@@ -85,5 +87,8 @@ private:
 	float levelBoundsX;
 	const float levelBoundsY = 5.f;
 	const float DISTANCE_BETWEEN_LAYERS = 20.0f;
+
+	Vec3 playerStartPosition, cameraStartPosition;
+	Quat playerStartRotation, cameraStartRotation;
 };
 

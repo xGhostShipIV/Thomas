@@ -134,3 +134,9 @@ void PlayerBall::FoulReset()
 	position = positionAtStrike;
 	rigidBody->velocity = Vec3::Zero();
 }
+
+void PlayerBall::ResetVelocity()
+{
+	rigidBody->velocity = Vec3();
+	hand->PointAtBall();
+}

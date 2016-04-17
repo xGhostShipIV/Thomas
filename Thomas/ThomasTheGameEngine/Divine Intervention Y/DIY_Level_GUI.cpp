@@ -47,9 +47,14 @@ void DIY_Level_GUI::Update(float timeStep_)
 			level->levelToLoad = new LandingScreen();
 		}
 
-		if (pauseGUI->ResumeButton->HasBeenClicked())
+		else if (pauseGUI->ResumeButton->HasBeenClicked())
 		{
 			((DIY_Level*)GAME->currentLevel)->levelState = DIY_Level_State::PLAYING;
+		}
+
+		else if (pauseGUI->RetryButton->HasBeenClicked())
+		{
+			ResetGUI();
 		}
 	}
 	else
@@ -72,9 +77,7 @@ void DIY_Level_GUI::Update(float timeStep_)
 			}
 			else if (victoryGUI->retryButton->HasBeenClicked())
 			{
-				//Reload the level
-				level->loadingScreen->Show();
-				level->levelToLoad = new DIY_Level(level->GetLevelFileName());
+				ResetGUI();
 			}
 			else if (victoryGUI->levelSelectButton->HasBeenClicked())
 			{
@@ -262,6 +265,18 @@ void DIY_Level_GameGUI::Show()
 	//ObjectivesCountLabel->Show();
 }
 
+void DIY_Level_GUI::ResetGUI()
+{
+	strokes = 0;
+
+	gameGUI->StrokeCountLabel->SetText(IntToString(strokes));
+	victoryGUI->strokeCountLabel->SetText(IntToString(strokes));
+
+
+
+	level->ResetLevel();
+}
+
 /***********************************************************/
 /*						PAUSE GUI						   */
 /***********************************************************/
@@ -269,7 +284,8 @@ void DIY_Level_GameGUI::Show()
 DIY_Level_PauseGUI::DIY_Level_PauseGUI(Level *level_)
 {
 	Vec2 ResumeButtonLocation = Vec2(0, 200);
-	Vec2 ExitButtonLocation = ResumeButtonLocation + Vec2(0, -200);
+	Vec2 RetryButtonLocation = ResumeButtonLocation + Vec2(0, -100);
+	Vec2 ExitButtonLocation = RetryButtonLocation + Vec2(0, -200);
 
 	/* BACKGROUND */
 	Models->loadTexture("DIY_LEVEL_PAUSEGUI_BACKGROUND", "Images/Level GUI/PauseBackground.png");
@@ -293,6 +309,8 @@ DIY_Level_PauseGUI::DIY_Level_PauseGUI(Level *level_)
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME_PRESSED", "Images/Level GUI/Buttons/ResumePressed.png");
 	Models->loadTexture("DIY_LEVEL_GUI_RESUME_HOVERED", "Images/Level GUI/Buttons/ResumeHovered.png");*/
 	ResumeButton = new TextButton(level_, ResumeButtonLocation, "RESUME", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_BUTTON_LARGE"), "LEVEL_GUI_BLANK", "LEVEL_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow());
+
+	RetryButton = new TextButton(level_, RetryButtonLocation, "Retry", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_BUTTON_LARGE"), "LEVEL_GUI_BLANK", "LEVEL_GUI_BLANK_HOVERED", ScreenAnchor::CENTER, Colour::Yellow());
 }
 
 DIY_Level_PauseGUI::~DIY_Level_PauseGUI(){}
@@ -302,6 +320,7 @@ void DIY_Level_PauseGUI::Hide()
 	Background->Hide();
 	ExitButton->Hide();
 	ResumeButton->Hide();
+	RetryButton->Hide();
 }
 
 void DIY_Level_PauseGUI::Show()
@@ -309,6 +328,7 @@ void DIY_Level_PauseGUI::Show()
 	Background->Show();
 	ExitButton->Show();
 	ResumeButton->Show();
+	RetryButton->Show();
 }
 
 

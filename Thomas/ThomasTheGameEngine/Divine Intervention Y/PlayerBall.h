@@ -23,6 +23,7 @@ public:
 	void FoulReset();
 
 	Pointer * hand;
+	void ResetVelocity();
 private:
 	Generic_RenderableComponent * renderer;
 	Rigidbody * rigidBody; 

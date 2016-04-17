@@ -44,9 +44,7 @@ void Pointer::Update(float timeStep_)
 	if (Input->isMouseDown(SDL_BUTTON_RIGHT) && followCam)
 	{
 		//RotateAround(ball->position, Vec3::BasisY(), Input->deltaMouse().x * timeStep_);
-		position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
-		LookAt(ball->position);
-		Rotate(Quat(M_PI / 2, Vec3::BasisY()));
+		PointAtBall();
 	}
 
 	if (((DIY_Level*)GAME->currentLevel)->levelState == DIY_Level_State::PLAYING &&
@@ -54,10 +52,7 @@ void Pointer::Update(float timeStep_)
 	{
 		if (!isEnabled)
 		{
-			position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
-			LookAt(ball->position);
-			Rotate(Quat(M_PI / 2, Vec3::BasisY()));
-			//Translate(Vec3(0, -1, 0));
+			PointAtBall();
 		}
 		isEnabled = true;
 	}
@@ -67,11 +62,19 @@ void Pointer::Update(float timeStep_)
 	renderer->isEnabled = isEnabled;
 
 	//position += (level->currentCamera->right() * 0.5f);
-
+	LookAt(ball->position);
+	Rotate(Quat(M_PI / 2, Vec3::BasisY()));
 }
 
 void Pointer::Render()
 {
 	if (isEnabled)
 		GameObject::Render();
+}
+
+void Pointer::PointAtBall()
+{
+	position = ball->position + Vec3(level->currentCamera->position.x - ball->position.x, 0, level->currentCamera->position.z - ball->position.z).Normalized() * 2;
+	/*LookAt(ball->position);
+	Rotate(Quat(M_PI / 2, Vec3::BasisY()));*/
 }

@@ -16,7 +16,7 @@
 #include <PhysicsWorld.h>
 #include "LandingScreen.h"
 
-DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false), PlayerHasShotBallIntoSun(false)
+DIY_Level::DIY_Level(std::string fileName_) : fileName(fileName_), isPausedKeyStillPressed(false), hasFinishedLoading(false), PlayerHasShotBallIntoSun(false), startingStateSaved(false)
 {
 	levelState = DIY_Level_State::PLAYING;
 	playingState = DIY_Level_Playing_State::SHOOTING;
@@ -192,7 +192,6 @@ void DIY_Level::LoadLevel()
 
 		element = element->NextSiblingElement();
 	} 
-	
 }
 
 void DIY_Level::LevelUpdate(float timeStep_)
@@ -202,6 +201,16 @@ void DIY_Level::LevelUpdate(float timeStep_)
 
 	if (loadingScreen->IsVisible() && levelToLoad)
 		GAME->LoadLevel(levelToLoad);
+
+	if (!startingStateSaved && isShooting)
+	{
+		startingStateSaved = true;
+		cameraStartPosition = mainCamera->position;
+		cameraStartRotation = mainCamera->rotation;
+		playerStartPosition = playerBall->position;
+		playerStartRotation = playerBall->rotation;
+	}
+
 
 	Audio->getMusic("gameTheme")->Resume();
 
@@ -327,4 +336,26 @@ std::string  DIY_Level::GetLevelFileName()
 Vec2 DIY_Level::GetLevelBounds()
 {
 	return Vec2(levelBoundsX, levelBoundsY);
+}
+
+void DIY_Level::ResetLevel()
+{
+	if (startingStateSaved)
+	{
+		playerBall->position = playerStartPosition;
+		playerBall->rotation = playerStartRotation;
+
+		mainCamera->isFlagged = true;
+		mainCamera = new FocusCamera(this, playerBall, playerBall->position + Vec3(0, 0, -7));
+		currentCamera = mainCamera;
+		
+		((PlayerBall*)playerBall)->ResetVelocity();
+
+		SetLayerPlane(layers.back());		
+	}
+
+	levelState = DIY_Level_State::PLAYING;
+	playingState = DIY_Level_Playing_State::SHOOTING;
+	victoryState = DIY_Level_Victory_State::REVIEW;
+
 }
