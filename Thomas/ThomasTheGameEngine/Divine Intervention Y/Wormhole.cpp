@@ -63,7 +63,7 @@ void Wormhole::Update(float timeStep_)
 
 			//Teleport to layer
 			//player->position = getDestinationLayer()->position + destinationLocation + Vec3(0, 1.5f, 0);
-			static_cast<FocusCamera*>(level->currentCamera)->startPan(2.5f, this);
+			static_cast<FocusCamera*>(level->currentCamera)->startPan(10.0f, this);
 		}
 	}
 	else

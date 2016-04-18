@@ -69,7 +69,7 @@ Orbit::~Orbit(){}
 Refocus::Refocus(float duration, Wormhole* targetLayer_, void* whoAmI) : State(whoAmI) {
 	maxTime = duration;
 	guidance = targetLayer_;
-	isNewLayerSet = false;
+	isNextLayerSet = false;
 }
 Refocus::~Refocus(){}
 
@@ -182,27 +182,50 @@ void Peek::onExit(){
 
 void Refocus::Execute(){
 
-	//Rotate around the centre point
-	PhysicsWorld::Orbit(centrePos, Vec3::cross(guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0) - centrePos, Vec3::BasisY()).Normalized(), Parent, -M_PI * Physics->getTimeStep() / maxTime);
+	//Change R to get closer to the right thing.
+	curR += dR * Physics->getTimeStep();
+
+	//Rotate selfie-stick
+	sunSelfieStick = Quat::rotate(Quat(dTheta * Physics->getTimeStep(),Vec3::BasisY()), sunSelfieStick);
+
+	//Set position to proper spot
+	Parent->position = guidance->diyLevel->sun->position + sunSelfieStick * curR;
+
+	//Parent->LookAt(guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0) + Parent->selfieStick * Parent->followDistance);
+	Parent->LookAt(guidance->diyLevel->sun->position);
 
 	curTime += Physics->getTimeStep();
-	if (curTime / maxTime >= 0.5f && !isNewLayerSet){ 
-		static_cast<DIY_Level*>(Game::GetInstance()->currentLevel)->SetLayerPlane(guidance->getDestinationLayer());
-		Parent->focus->position = guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0);
-		isNewLayerSet = true;
-	}
-
 	if (curTime >= maxTime) { Parent->stateMachine.ChangeState(new Stare(Parent)); }
 }
 
 void Refocus::onEnter(){
-	//travelDistanceStep = ((Parent->getFocus()->position + Parent->selfieStick * Parent->followDistance) - Parent->position) / maxTime;
+	//set selfie stick!
+	sunSelfieStick = Vec3(Parent->position - guidance->diyLevel->sun->position).Normalized();
+	curR = Vec3::length(Vec3(Parent->position - guidance->diyLevel->sun->position));
+
+	//get destination point to calculate things.
+	Vec3 destinationPoint = guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0) + Parent->selfieStick * Parent->followDistance;
+
+	//Calculate dR and dTheta
+	dR = Vec3::length(destinationPoint - guidance->diyLevel->sun->position) - Vec3::length(Parent->position - guidance->diyLevel->sun->position);
+	dR = dR / maxTime; //normalize dR to seconds
+	dTheta = asin((Parent->position - guidance->diyLevel->sun->position).z / curR) - asin((destinationPoint - guidance->diyLevel->sun->position).z / (dR * maxTime + curR));
+	dTheta = dTheta/ maxTime;
+
+	//Control stuff
 	Parent->focus->getComponent<Rigidbody>()->isKinematic = false;
-	centrePos = Parent->position + (guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0)) / 2;
+	curTime = 0.0f;
+
+	cameraOrientation = Parent->rotation;
+
+	guidance->diyLevel->SetLayerPlane(guidance->getDestinationLayer());
+	Parent->focus->position = guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0);
+	
 }
 
 void Refocus::onExit(){
 	Parent->focus->getComponent<Rigidbody>()->isKinematic = true;
+	Parent->rotation = cameraOrientation;
 	//Parent->focus->position = destination->position
-	Parent->position = Parent->selfieStick.Normalized() * Parent->followDistance + Parent->focus->position;
+	//Parent->position = Parent->selfieStick.Normalized() * Parent->followDistance + Parent->focus->position;
 }
