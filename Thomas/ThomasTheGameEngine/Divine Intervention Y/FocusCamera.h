@@ -77,10 +77,21 @@ public:
 };
 
 class Refocus : public State {
-	float curTime, maxTime, radsPerSecond;
-	Vec3 centrePos;
+	float maxTime;
+
+	//With respect to time:
+	float dR, dTheta;
+
+	//Current values
+	float curR, curTime;
+	Vec3 sunSelfieStick; //Makes positioning easy
+
+	//Needed data for facilitation
 	Wormhole* guidance;
-	bool isNewLayerSet;
+	bool isNextLayerSet;
+
+	Quat cameraOrientation;
+
 public:
 	Refocus(float duration, Wormhole* destination_, void* self);
 	~Refocus();

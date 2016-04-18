@@ -28,6 +28,7 @@ class DIY_Level :
 	public Level
 {
 	friend class Layer;
+	friend class Refocus;
 public:
 	DIY_Level(std::string fileName_);
 	~DIY_Level();
