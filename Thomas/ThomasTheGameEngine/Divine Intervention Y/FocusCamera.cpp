@@ -204,12 +204,13 @@ void Refocus::onEnter(){
 	curR = Vec3::length(Vec3(Parent->position - guidance->diyLevel->sun->position));
 
 	//get destination point to calculate things.
-	Vec3 destinationPoint = guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0) + Parent->selfieStick * Parent->followDistance;
+	Vec3 destinationPoint = guidance->getDestinationLayer()->position + guidance->destinationLocation + Vec3(0, 1.5f, 0) + Parent->selfieStick.Normalized() * Parent->followDistance;
 
 	//Calculate dR and dTheta
 	dR = Vec3::length(destinationPoint - guidance->diyLevel->sun->position) - Vec3::length(Parent->position - guidance->diyLevel->sun->position);
 	dR = dR / maxTime; //normalize dR to seconds
-	dTheta = asin((Parent->position - guidance->diyLevel->sun->position).z / curR) - asin((destinationPoint - guidance->diyLevel->sun->position).z / (dR * maxTime + curR));
+	//dTheta = asin((Parent->position - guidance->diyLevel->sun->position).z / curR) - asin((destinationPoint - guidance->diyLevel->sun->position).z / (dR * maxTime + curR));
+	dTheta = atan2((Parent->position - guidance->diyLevel->sun->position).z / curR, (Parent->position - guidance->diyLevel->sun->position).x / curR) - atan2((destinationPoint - guidance->diyLevel->sun->position).z / curR, (destinationPoint - guidance->diyLevel->sun->position).x / curR);
 	dTheta = dTheta/ maxTime;
 
 	//Control stuff
