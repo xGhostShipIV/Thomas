@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Level001.xml" />
+    <Xml Include="Level003.xml" />
     <Xml Include="properties.xml" />
     <Xml Include="Level002.xml" />
   </ItemGroup>

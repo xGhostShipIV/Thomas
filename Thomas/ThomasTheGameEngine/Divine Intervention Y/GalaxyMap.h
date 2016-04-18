@@ -20,7 +20,7 @@ public:
 	std::vector<GameObject *> nodes;
 private:
 
-	const int NUMBER_OF_NODES = 2;
+	//const int NUMBER_OF_NODES = 3;
 
 	//2 planes so theyll both render when you rotate it around
 	//Face-culling avoidance

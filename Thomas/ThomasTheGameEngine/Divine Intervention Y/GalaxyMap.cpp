@@ -4,6 +4,7 @@
 #include <RenderableComponent.h>
 #include <Random.h>
 #include <ModelManager.h>
+#include <dependencies\TinyXML\tinyxml2.h>
 
 GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 {
@@ -40,7 +41,9 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 
 	addChild(core);
 
-	for (int i = 0; i < NUMBER_OF_NODES; i++)
+	int i = 0;
+	bool levelExists = true;
+	while (levelExists)
 	{
 		std::string levelName = "Level0";
 
@@ -52,23 +55,33 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 
 		levelName += ".xml";
 
-		//Generate a random position
-		Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 10);
-		nodePosition.y = -0.2f;
-
-		//Loop to ensure that nodes aren't spawned too close to eachother
-		if (i != 0)
+		tinyxml2::XMLDocument doc;
+		if (doc.LoadFile(levelName.c_str()) == tinyxml2::XML_NO_ERROR)
 		{
-			while ((nodePosition - nodes[i - 1]->position).magnitude() < 1.0f)
-			{
-				nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
-				nodePosition.y = -0.2f;
-			}
-		}
+			//Generate a random position
+			Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 10);
+			nodePosition.y = -0.2f;
 
-		Node * star = new Node(level_, nodePosition, levelName);
-		nodes.push_back(star);
-		addChild(nodes.back());
+			//Loop to ensure that nodes aren't spawned too close to eachother
+			if (i != 0)
+			{
+				while ((nodePosition - nodes[i - 1]->position).magnitude() < 1.0f)
+				{
+					nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
+					nodePosition.y = -0.2f;
+				}
+			}
+
+			Node * star = new Node(level_, nodePosition, levelName);
+			nodes.push_back(star);
+			addChild(nodes.back());
+
+			i++;
+		}
+		else
+		{
+			levelExists = false;
+		}		
 	}
 
 	//Get a nice looking rotation on it
@@ -77,7 +90,6 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 	Translate(Vec3(0, -5.f, 50));
 
 	isRotating = true;
-
 }
 
 
