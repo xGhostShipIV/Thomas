@@ -1,42 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Level numLayers="5" par="15" name="Nesvia" skybox="skybox1">
+<Level numLayers="4" par="8" name="Nesvia" skybox="skybox1">
   They play billiards with only Eight balls.
-  <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="7" planetZ = "0" planetScale="12" planetTexture = "planet3">
-  </Layer>
-  
-  <Layer r = "240" s = "10" wormHoleX = "9" wormHoleZ = "0" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="0" planetZ = "0" planetScale="10" planetTexture = "planet1">
-    <Object type="Satellite" x="0" z="-10" ></Object>
-    <Object type="Satellite" x="0" z="10"></Object>
+  <Layer r = "120" s = "5" wormHoleX = "0" wormHoleZ = "-50" wormHoleDestX ="0" wormHoleDestY ="0" planetX ="0" planetZ = "10" planetScale="12" planetTexture = "planet1">
+
   </Layer>
 
-  <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="7" planetZ = "0" planetScale="12" planetTexture = "planet3">
-  </Layer>
+  <Layer r = "240" s = "15" wormHoleX = "0" wormHoleZ = "12" wormHoleDestX ="0" wormHoleDestY ="-5" planetX ="0" planetZ = "25" planetScale="16" planetTexture = "planet3">
+    <Object type="Aliens" x="8" z="-10"></Object>
+    <Object type="Aliens" x="-8" z="-10"></Object>
+    <Object type="Aliens" x="2" z="4"></Object>
+    <Object type="Aliens" x="-2" z="4"></Object>
 
-  <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="7" planetZ = "0" planetScale="12" planetTexture = "planet3">
-  </Layer>
-
-  <Layer r = "330" s = "10" wormHoleX = "5" wormHoleZ = "-6" wormHoleDestX ="-9" wormHoleDestY ="0" planetX ="10" planetZ = "0" planetScale="8" planetTexture = "planet2" playerX="-5" playerZ ="0">
+    <Object type="WarpGate" x="0" z="-3"></Object>
+    <Object type="Asteroids" x="0" z="0"></Object>
+    <Object type="Asteroids" x="2" z="0"></Object>
+    <Object type="Asteroids" x="3" z="0"></Object>
     
-  <Object type="Aliens" x="2" z="-2"></Object>
+    <Object type="Asteroids" x="5" z="-13"></Object>
+    <Object type="Asteroids" x="-5" z="-13"></Object>
 
-	<Object type="Asteroids" x="0" z="-10"></Object>
-  <Object type="Asteroids" x="0" z="-9"></Object>
-  <Object type="Asteroids" x="0" z="-8"></Object>
-  <Object type="Asteroids" x="0" z="-7"></Object>
-  <Object type="Asteroids" x="0" z="-6"></Object>
-  <Object type="Asteroids" x="0" z="-5"></Object>
-  <Object type="Asteroids" x="0" z="-4"></Object>
-  <Object type="Asteroids" x="0" z="-2"></Object>
-  <Object type="Asteroids" x="0" z="2"></Object>
-  <Object type="Asteroids" x="0" z="3"></Object>
-  <Object type="Asteroids" x="0" z="4"></Object>
-  <Object type="Asteroids" x="0" z="5"></Object>
-  <Object type="Asteroids" x="0" z="6"></Object>
-  <Object type="Asteroids" x="0" z="7"></Object>
-  <Object type="Asteroids" x="0" z="8"></Object>
-  <Object type="Asteroids" x="0" z="9"></Object>
-  <Object type="Asteroids" x="0" z="10"></Object>
+    <Object type="Asteroids" x="5" z="-8"></Object>
+    <Object type="Asteroids" x="-5" z="-8"></Object>
+
+    <Object type="Asteroids" x="5" z="-3"></Object>
+    <Object type="Asteroids" x="-5" z="-3"></Object>
+
+    <Object type="Asteroids" x="10" z="4"></Object>
+    <Object type="Asteroids" x="-10" z="4"></Object>
+
+    <Object type="Asteroids" x="13" z="8"></Object>
+    <Object type="Asteroids" x="-13" z="8"></Object>
+
+    <Object type="Asteroids" x="4" z="6"></Object>
+    <Object type="Asteroids" x="-4" z="6"></Object>
+
+    <Object type="Asteroids" x="4" z="8"></Object>
+    <Object type="Asteroids" x="-4" z="8"></Object>
+
+    <Object type="Asteroids" x="4" z="10"></Object>
+    <Object type="Asteroids" x="-4" z="10"></Object>
+  </Layer>
+
+  <Layer r = "500" s = "8" wormHoleX = "6" wormHoleZ = "0" wormHoleDestX ="0" wormHoleDestY ="-13" planetX ="0" planetZ = "-20" planetScale="20" planetTexture = "planet4">
+
+    <Object type="PopUp" x="-3" z="3"></Object>
+    <Object type="PopUp" x="-3" z="0"></Object>
+    <Object type="PopUp" x="-3" z="-3"></Object>
+    <Object type="PopUp" x="-3" z="-6"></Object>
+    <Object type="PopUp" x="-3" z="3"></Object>
+    <Object type="PopUp" x="-3" z="0"></Object>
+    <Object type="PopUp" x="-3" z="-3"></Object>
+    <Object type="PopUp" x="-3" z="-6"></Object>
+    <Object type="PopUp" x="-3" z="3"></Object>
+    <Object type="PopUp" x="-3" z="0"></Object>
+    <Object type="PopUp" x="-3" z="-3"></Object>
+    <Object type="PopUp" x="-3" z="-6"></Object>
+    
+    <Object type="PopUp" x="0" z="3"></Object>
+    <Object type="PopUp" x="0" z="-3"></Object>
+    <Object type="PopUp" x="0" z="3"></Object>
+    <Object type="PopUp" x="0" z="-3"></Object>
+
+    <Object type="PopUp" x="6" z="6"></Object>
+    <Object type="PopUp" x="6" z="3"></Object>
+    <Object type="PopUp" x="6" z="-3"></Object>
+    <Object type="PopUp" x="6" z="-6"></Object>    
+    <Object type="PopUp" x="6" z="6"></Object>
+    <Object type="PopUp" x="6" z="3"></Object>
+    <Object type="PopUp" x="6" z="-3"></Object>
+    <Object type="PopUp" x="6" z="-6"></Object>
+  </Layer>
+
+  <Layer r = "600" s = "20" wormHoleX = "-10" wormHoleZ = "1.5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="-15" planetZ = "15" planetScale="4" planetTexture = "planet5" playerX="16" playerZ ="-16">
+
+    <Object type="PopUp" x="1" z="-1"></Object>
+    <Object type="WarpGate" x="4" z="-4"></Object>
+    <Object type="WarpGate" x="14" z="-14"></Object>
+
+    <Object type="Asteroids" x="-1" z="1"></Object>
+    
+    <Object type="Asteroids" x="1" z="1"></Object>
+    <Object type="Asteroids" x="3" z="0"></Object>
+    <Object type="Asteroids" x="4" z="-1"></Object>
+    <Object type="Asteroids" x="5" z="-2"></Object>
+    <Object type="Asteroids" x="6" z="-3"></Object>
+    <Object type="Asteroids" x="7" z="-4"></Object>
+    <Object type="Asteroids" x="8" z="-5"></Object>
+    <Object type="Asteroids" x="9" z="-6"></Object>
+    <Object type="Asteroids" x="10" z="-7"></Object>
+    <Object type="Asteroids" x="11" z="-8"></Object>
+    <Object type="Asteroids" x="12" z="-9"></Object>
+    <Object type="Asteroids" x="13" z="-10"></Object>
+    <Object type="Asteroids" x="14" z="-11"></Object>
+    
+    <Object type="Asteroids" x="15" z="-12"></Object>
+    <Object type="Asteroids" x="16" z="-12"></Object>
+    <Object type="Asteroids" x="17" z="-12"></Object>
+    <Object type="Asteroids" x="18" z="-12"></Object>
+    <Object type="Asteroids" x="19" z="-12"></Object>
+    <Object type="Asteroids" x="20" z="-12"></Object>
+
+    <Object type="Asteroids" x="-1" z="-1"></Object>
+    <Object type="Asteroids" x="-1" z="-2"></Object>
+    <Object type="Asteroids" x="0" z="-3"></Object>
+    <Object type="Asteroids" x="1" z="-4"></Object>
+    <Object type="Asteroids" x="2" z="-5"></Object>
+    <Object type="Asteroids" x="3" z="-6"></Object>
+    <Object type="Asteroids" x="4" z="-7"></Object>
+    <Object type="Asteroids" x="5" z="-8"></Object>
+    <Object type="Asteroids" x="6" z="-9"></Object>
+    <Object type="Asteroids" x="7" z="-10"></Object>
+    <Object type="Asteroids" x="8" z="-11"></Object>
+    <Object type="Asteroids" x="9" z="-12"></Object>
+    <Object type="Asteroids" x="10" z="-13"></Object>
+    <Object type="Asteroids" x="11" z="-14"></Object>
+   
+    <Object type="Asteroids" x="12" z="-15"></Object>
+    <Object type="Asteroids" x="12" z="-16"></Object>
+    <Object type="Asteroids" x="12" z="-17"></Object>
+    <Object type="Asteroids" x="12" z="-18"></Object>
+    <Object type="Asteroids" x="12" z="-19"></Object>
+    <Object type="Asteroids" x="12" z="-20"></Object>
+
+
+    <Object type="Asteroids" x="-5" z="20"></Object>
+    <Object type="Asteroids" x="-6" z="20"></Object>
+    <Object type="Asteroids" x="-7" z="20"></Object>
+    <Object type="Asteroids" x="-8" z="20"></Object>
+    <Object type="Asteroids" x="-9" z="20"></Object>
+    <Object type="Asteroids" x="-10" z="20"></Object>
+    <Object type="Asteroids" x="-11" z="20"></Object>
+    <Object type="Asteroids" x="-12" z="20"></Object>
+    <Object type="Asteroids" x="-13" z="20"></Object>
+    <Object type="Asteroids" x="-14" z="20"></Object>
+    <Object type="Asteroids" x="-15" z="20"></Object>
+    <Object type="Asteroids" x="-16" z="20"></Object>
+    <Object type="Asteroids" x="-17" z="20"></Object>
+    <Object type="Asteroids" x="-18" z="20"></Object>
+    <Object type="Asteroids" x="-19" z="20"></Object>
+    
+    <Object type="Asteroids" x="-20" z="20"></Object>
+
+    <Object type="Asteroids" x="-20" z="19"></Object>
+    <Object type="Asteroids" x="-20" z="18"></Object>
+    <Object type="Asteroids" x="-20" z="17"></Object>
+    <Object type="Asteroids" x="-20" z="16"></Object>
+    <Object type="Asteroids" x="-20" z="15"></Object>
+    <Object type="Asteroids" x="-20" z="14"></Object>
+    <Object type="Asteroids" x="-20" z="13"></Object>
+    <Object type="Asteroids" x="-20" z="12"></Object>
+    <Object type="Asteroids" x="-20" z="11"></Object>
+    <Object type="Asteroids" x="-20" z="10"></Object>
+    <Object type="Asteroids" x="-20" z="9"></Object>
+    <Object type="Asteroids" x="-20" z="8"></Object>
+    <Object type="Asteroids" x="-20" z="7"></Object>
+    <Object type="Asteroids" x="-20" z="6"></Object>
+    <Object type="Asteroids" x="-20" z="5"></Object>
+    
   </Layer>
 
 </Level>

@@ -20,6 +20,8 @@ void Rigidbody::Init(){
 	//AngularVelocity = Quat(0, Vec3::Zero());
 	//AngularAccel = Quat(0, Vec3::Zero());
 
+	isEnabled = true;
+
 	PhysicsWorld::getInstance()->PhysicalObjects.push_back(this);
 }
 

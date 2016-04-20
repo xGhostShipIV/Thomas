@@ -33,9 +33,9 @@ void Planet::Update(float timeStep_)
 {
 	Rotate(Quat(0.3f * timeStep_, Vec3(0, 1, 0)));
 
-	if (hasAtmosphere)
+	if (hasAtmosphere && PhysicsWorld::getInstance()->isPhysicsRunning)
 	{
-		atmosphere->Rotate(Quat(0.15f * timeStep_, Vec3(0, 1, 0)));
+		atmosphere->Rotate(Quat(-0.15f * timeStep_, Vec3(0, 1, 0)));
 		at_renderer->offset += Vec3::BasisX() * 0.05f * timeStep_;
 	}
 
@@ -63,4 +63,6 @@ void Planet::SetRenderEnabled(bool isEnabled_)
 
 	if (hasAtmosphere)
 		at_renderer->isEnabled = isEnabled_;
+
+	rigidbody->isEnabled = isEnabled_;
 }

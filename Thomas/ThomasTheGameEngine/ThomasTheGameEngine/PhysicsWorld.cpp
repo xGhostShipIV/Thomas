@@ -138,49 +138,56 @@ void PhysicsWorld::Update(float _deltaTime){
 	if (isPhysicsRunning){
 		//Collision Response
 		for (auto first = PhysicalObjects.begin(); first != PhysicalObjects.end(); first++){
+			if ((*first)->isEnabled)
 			for (auto second = std::next(first, 1); second != PhysicalObjects.end(); second++){
-				if (Collider::isColliding((*first)->col, (*second)->col)){
-					PhysicsWorld::Impulse((*first)/*->parentObject*/, (*second)/*->parentObject*/);
-					//Friction calculations here?
-					float dragForce = Vec3::length(worldGravity / 1.5) * 0.4;
-					(*first)->AddForce((*first)->velocity.Normalized() * -dragForce);
-					(*second)->AddForce((*second)->velocity.Normalized() * -dragForce);
+				if ((*second)->isEnabled && ((*first)->isKinematic || (*second)->isKinematic))
+				{
+					if (Collider::isColliding((*first)->col, (*second)->col)){
+						PhysicsWorld::Impulse((*first)/*->parentObject*/, (*second)/*->parentObject*/);
+						//Friction calculations here?
+						float dragForce = Vec3::length(worldGravity / 1.5) * 0.4;
+						(*first)->AddForce((*first)->velocity.Normalized() * -dragForce);
+						(*second)->AddForce((*second)->velocity.Normalized() * -dragForce);
+					}
 				}
 			}
 		}
 
 		for (auto it = PhysicalObjects.begin(); it != PhysicalObjects.end(); it++){
-			if ((*it)->isKinematic) {
-				if ((*it)->gravitas){
-					(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
-				}
+			if ((*it)->isEnabled)
+			{
+				if ((*it)->isKinematic) {
+					if ((*it)->gravitas){
+						(*it)->AddForce(worldGravity * (*it)->mass * _deltaTime);
+					}
 
-				(*it)->velocity += ((*it)->accel);
-				(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
+					(*it)->velocity += ((*it)->accel);
+					(*it)->AngularVelocity = (*it)->AngularVelocity * (*it)->AngularAccel;
 
-				//Linear motion & sleep
-				if ((*it)->velocity.length() > (*it)->sleepThreshold)
-				{
-					(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
-				}
-				else 
-				{
-					(*it)->velocity = Vec3::Zero();
-				}
+					//Linear motion & sleep
+					if ((*it)->velocity.length() > (*it)->sleepThreshold)
+					{
+						(*it)->parentObject->Translate((*it)->velocity * _deltaTime);
+					}
+					else 
+					{
+						(*it)->velocity = Vec3::Zero();
+					}
 				
-				(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
-			}
+					(*it)->parentObject->Rotate((*it)->AngularVelocity.NormalizeThis() * _deltaTime);
+				}
 
-			(*it)->accel = Vec3::Zero();
-			(*it)->AngularAccel = Quat::Identity();
+				(*it)->accel = Vec3::Zero();
+				(*it)->AngularAccel = Quat::Identity();
 
-			//Cheezy gravity stalling, to be "fixed"
-			/*if ((*it)->velocity == Vec3::Zero()){
-				(*it)->gravitas = false;
+				//Cheezy gravity stalling, to be "fixed"
+				/*if ((*it)->velocity == Vec3::Zero()){
+					(*it)->gravitas = false;
+				}
+				else {
+					(*it)->gravitas = true;
+				}*/
 			}
-			else {
-				(*it)->gravitas = true;
-			}*/
 
 		}
 	}

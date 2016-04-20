@@ -151,6 +151,7 @@ void GameObject::LookAt(Vec3 _target)
 GameObject::GameObject(Level * _level) : position(Vec3::Zero()), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
 {
 	isFlagged = false;
+	isEnabled = true;
 	level = _level;
 
 	if (level)
@@ -160,6 +161,7 @@ GameObject::GameObject(Level * _level) : position(Vec3::Zero()), scale(Vec3(1, 1
 GameObject::GameObject(Level * _level, Vec3 _position) : position(_position), scale(Vec3(1, 1, 1)), rotation(Quat(1, 0, 0, 0))
 {
 	isFlagged = false;
+	isEnabled = true;
 	level = _level;
 
 	if (level)

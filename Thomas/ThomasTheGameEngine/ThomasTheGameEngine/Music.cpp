@@ -49,5 +49,6 @@ void Music::Resume()
 
 void Music::setLoops(int _loops)
 {
-	isLooped = _loops;
+	Audio->musicChannel->setLoopCount(_loops);
+	//isLooped = _loops;
 }

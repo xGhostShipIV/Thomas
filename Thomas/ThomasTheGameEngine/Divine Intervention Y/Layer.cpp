@@ -108,6 +108,7 @@ void Layer::SetEnabled(bool isEnabled_)
 	for (int i = 0; i < childObjects.size(); i++)
 	{
 		childObjects[i]->SetRenderEnabled(isEnabled_);
+		childObjects[i]->isEnabled = isEnabled_;
 	}
 }
 

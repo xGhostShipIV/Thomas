@@ -138,5 +138,6 @@ void PlayerBall::FoulReset()
 void PlayerBall::ResetVelocity()
 {
 	rigidBody->velocity = Vec3();
+	rigidBody->isKinematic = true;
 	hand->PointAtBall();
 }

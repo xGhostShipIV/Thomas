@@ -12,6 +12,8 @@ public:
 	Rigidbody(GameObject* _parent, Collider* _collider);
 	~Rigidbody();
 
+	bool isEnabled;
+
 	float mass;
 	Vec3 centreOfMass;
 	bool isKinematic;

@@ -33,14 +33,14 @@ void WarpGate::Update(float timeStep_)
 	{
 		Rigidbody * rb = player->getComponent<Rigidbody>();
 
-		if (Vec3::dot(forward(), rb->velocity) > 0.5f || Vec3::dot(forward() * -1, rb->velocity) > 0.5f)
+		//if (Vec3::dot(forward(), rb->velocity) > 0.5f || Vec3::dot(forward() * -1, rb->velocity) > 0.5f)
 		{
 			rb->AddForce(rb->velocity.Normalized() * 10.0f);
 			sound->Play();
 		}
-		else
+		/*else
 		{
 			rb->velocity = rb->velocity * -1.f;
-		}
+		}*/
 	}
 }

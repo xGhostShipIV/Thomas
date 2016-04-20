@@ -65,7 +65,7 @@ void Level::LevelRender()
 	//Pre-Render
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		if (!gameObjects[i]->isFlagged)
+		if (!gameObjects[i]->isFlagged && gameObjects[i]->isEnabled)
 			gameObjects[i]->PreRender();
 	}
 	LightManager::getInstance()->PushLights(mainCamera->position);
@@ -87,7 +87,7 @@ void Level::LevelUpdate(float _timeStep)
 {
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		if (!gameObjects[i]->isFlagged)
+		if (!gameObjects[i]->isFlagged && gameObjects[i]->isEnabled)
 			gameObjects[i]->Update(_timeStep);
 	}
 

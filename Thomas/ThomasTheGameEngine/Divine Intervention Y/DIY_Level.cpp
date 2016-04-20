@@ -90,6 +90,7 @@ void DIY_Level::LoadContent()
 		Audio->musicChannel->stop();
 
 	Audio->loadMusic("gameTheme", "Sounds/Exotics.wav");
+	Audio->getMusic("gameTheme")->setLoops(-1);
 	Audio->getMusic("gameTheme")->Play();
 	Audio->getMusic("gameTheme")->Pause();
 
@@ -351,7 +352,7 @@ void DIY_Level::ResetLevel()
 		
 		((PlayerBall*)playerBall)->ResetVelocity();
 
-		SetLayerPlane(layers.back());		
+		SetLayerPlane(layers.back());
 	}
 
 	levelState = DIY_Level_State::PLAYING;

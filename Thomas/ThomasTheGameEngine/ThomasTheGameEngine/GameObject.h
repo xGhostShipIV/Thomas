@@ -69,6 +69,8 @@ public:
 	//Flag that sets object for removal from game
 	bool isFlagged;
 
+	bool isEnabled;
+
 	//A list of ALL the gameObjects components
 	std::vector<Component *> components;
 

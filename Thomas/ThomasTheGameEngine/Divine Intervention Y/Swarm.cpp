@@ -54,7 +54,7 @@ void Swarm::Update(float timeStep_)
 
 		if (player->getComponent<Rigidbody>()->isAwake())
 		{
-			printf("Awake");
+			//printf("Awake");
 		}
 		else
 		{

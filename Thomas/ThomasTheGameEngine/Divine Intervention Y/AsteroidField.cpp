@@ -85,6 +85,8 @@ void AsteroidField::SetRenderEnabled(bool isEnabled_)
 		if (r)
 			r->isEnabled = isEnabled_;
 	}
+
+	rigidbody->isEnabled = isEnabled_;
 }
 
 bool AsteroidField::GetRenderEnabled()
