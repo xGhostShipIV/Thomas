@@ -458,34 +458,37 @@ void Landing_GUI::Update(float timeStep_)
 			if (applyButton->HasBeenClicked())
 			{
 				//APPLY OPTIONS
-				switch (currentResolution)
+				if (!isFullscreen)
 				{
-				case Resolution::_0800x0600:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 800;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 600;					
-					break;
-				case Resolution::_1024x0768:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 1024;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 768;
-					break;
-				case Resolution::_1280x0720:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 1280;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 720;
-					break;
-				case Resolution::_1440x0900:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 1440;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 900;
-					break;
-				case Resolution::_1600x0900:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 1600;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 900;
-					break;
-				case Resolution::_1920x1080:
-					GameProperties::getInstance()->getVideoProperties()->screenWidth = 1920;
-					GameProperties::getInstance()->getVideoProperties()->screenHeight = 1080;
-					break;
-				}				
-				GAME->SetResolution(GameProperties::getInstance()->getVideoProperties()->screenWidth, GameProperties::getInstance()->getVideoProperties()->screenHeight);
+					switch (currentResolution)
+					{
+					case Resolution::_0800x0600:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 800;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 600;					
+						break;
+					case Resolution::_1024x0768:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 1024;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 768;
+						break;
+					case Resolution::_1280x0720:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 1280;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 720;
+						break;
+					case Resolution::_1440x0900:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 1440;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 900;
+						break;
+					case Resolution::_1600x0900:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 1600;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 900;
+						break;
+					case Resolution::_1920x1080:
+						GameProperties::getInstance()->getVideoProperties()->screenWidth = 1920;
+						GameProperties::getInstance()->getVideoProperties()->screenHeight = 1080;
+						break;
+					}				
+					GAME->SetResolution(GameProperties::getInstance()->getVideoProperties()->screenWidth, GameProperties::getInstance()->getVideoProperties()->screenHeight);
+				}
 
 				if (GameProperties::getInstance()->getVideoProperties()->isFullscreen != isFullscreen)
 				{
@@ -597,7 +600,7 @@ Level_Descriptor::Level_Descriptor(Level * level_) : hasDescriptorBeenSet(false)
 
 	mainImage->addChild(reasonWhy);
 
-	//mainImage->Translate(Vec3(200, 200, 0));
+	mainImage->Translate(Vec3(1110, 165, 0));
 
 	Hide();
 }
@@ -630,8 +633,8 @@ void Level_Descriptor::SetDescriptor(const Node * node_)
 {
 	Hide();
 
-	if (mainImage->position.x != 0)
-		mainImage->Translate(mainImage->position * -1);
+	/*if (mainImage->position.x != 0)
+		mainImage->Translate(mainImage->position * -1);*/
 
 	levelName->SetText("Name: " + node_->objectiveName);
 	levelPar->SetText("Par: " + std::to_string(node_->par));
@@ -639,8 +642,8 @@ void Level_Descriptor::SetDescriptor(const Node * node_)
 
 	Vec2 screenPos = node_->getScreenPosition();
 
-	//mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
-	mainImage->Translate(Vec3(screenPos.x + (GameProperties::getVideoProperties()->screenWidth * 0.25f), screenPos.y, 0));
+	////mainImage->Translate(Vec3(mainImage->position.x - (node_->position.x + 10) + 650, mainImage->position.y - node_->position.y + 220, 0));
+	//mainImage->Translate(Vec3(screenPos.x + (GameProperties::getVideoProperties()->screenWidth * 0.25f), screenPos.y, 0));
 	Show();
 
 	hasDescriptorBeenSet = true;

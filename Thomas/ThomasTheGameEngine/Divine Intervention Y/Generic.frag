@@ -7,7 +7,7 @@ in vec2 texCoord;
 in vec4 vNormal; //vertex normal
 in vec4 worldPosition;
 
-uniform vec3 CamPosition;
+
 uniform vec4 AmbientColor;
 uniform vec3 NumberOfLights;
 
@@ -26,8 +26,10 @@ uniform vec3 IsEffectedByLight;
 uniform vec3 Material;
 
 uniform float Opacity;
-
 uniform float Outline;
+
+in vec4 toCameraVector;
+in float distanceToVertex;
 
 void main()
 {
@@ -49,7 +51,7 @@ void main()
 	vec4 specular = vec4(0, 0, 0, 0);
 
 
-	vec4 toCameraVector = normalize(vec4(CamPosition, 0.0) - worldPosition);
+	//vec4 toCameraVector = normalize(vec4(CamPosition, 0.0) - worldPosition);
 
 	if (IsEffectedByLight.x > 0)
 	{
@@ -158,22 +160,17 @@ void main()
 	fColor.w = fColor.w * Opacity;
 
 	//Red Outline
-	if(Outline > 0 && length(vec4(CamPosition, 0.0) - worldPosition) < 100)
+	if(Outline > 0 && distanceToVertex < 100)
 	{
-		float dist = length(vec4(CamPosition, 0.0) - worldPosition);
+		//float dist = length(vec4(vCamPosition, 0.0) - worldPosition);
 
-		if (dist > 5)
-		{	if (dot(toCameraVector, vNormal) <= 0.20f)
+		if (distanceToVertex > 10)
+		{	if (dot(toCameraVector, vNormal) <= 0.10f)
 				fColor.xyz = vec3(1, 0, 0);
 		}
-		else if (dist >= 3)
+		else if (distanceToVertex >= 3)
 		{
-			if (dot(toCameraVector, vNormal) <= 0.04f * dist)
-				fColor.xyz = vec3(1, 0, 0);
-		}
-		else if (dist > 2)
-		{
-			if (dot(toCameraVector, vNormal) <= 0.04f * (dist - 2))
+			if (dot(toCameraVector, vNormal) <= 0.031622f * pow(distanceToVertex, -2))
 				fColor.xyz = vec3(1, 0, 0);
 		}
 	}

@@ -13,7 +13,7 @@ Wormhole::Wormhole(Level * level_, Vec3 position_, int layerIndex, Vec3 destinat
 
 	Scale(Vec3(2, 2, 2));
 
-	rc = new Generic_RenderableComponent(this, "wormhole", "wormholeTexture");
+	rc = new Generic_RenderableComponent(this, "wormhole", "wormholeTexture", 1.0f, new Material(1, 1, 1), true);
 
 	ballCaught = false;
 	isScalingDown = true;

@@ -9,9 +9,13 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 Transform; //model
 uniform mat4 Rotation; //for normals
+uniform vec3 CamPosition;
 
 out vec4 vNormal;
 out vec4 worldPosition;
+
+out vec4 toCameraVector;
+out float distanceToVertex;
 
 void main()
 {
@@ -25,4 +29,8 @@ void main()
 	vNormal =  normalize(Rotation * Normal);
 
 	texCoord = vTexCoord;
+
+	toCameraVector = normalize(vec4(CamPosition, 0.0) - worldPosition);
+
+	distanceToVertex = length(vec4(CamPosition, 0.0) - worldPosition);
 }

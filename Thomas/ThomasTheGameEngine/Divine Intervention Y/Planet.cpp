@@ -35,7 +35,7 @@ void Planet::Update(float timeStep_)
 
 	if (hasAtmosphere && PhysicsWorld::getInstance()->isPhysicsRunning)
 	{
-		atmosphere->Rotate(Quat(-0.15f * timeStep_, Vec3(0, 1, 0)));
+		//atmosphere->Rotate(Quat(-0.15f * timeStep_, Vec3(0, 1, 0)));
 		at_renderer->offset += Vec3::BasisX() * 0.05f * timeStep_;
 	}
 
