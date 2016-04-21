@@ -43,7 +43,7 @@ Layer::Layer(Level * _level, tinyxml2::XMLElement * element_, int index_) : Game
 	const char * sunTex = element_->Attribute("planetTexture");
 
 	//Planet creation not including scale
-	planet = new Planet(dl, position + Vec3(x, 0, z), s, sunTex);
+	planet = new Planet(dl, position + Vec3(x, 0, z), s, sunTex, true, index == 0);
 	objects.push_back(planet);
 
 	//Grab the first element and loop through all the elements

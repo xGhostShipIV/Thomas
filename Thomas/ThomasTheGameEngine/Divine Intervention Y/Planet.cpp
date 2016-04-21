@@ -4,13 +4,13 @@
 #include <iostream>
 
 #include <Rigidbody.h>
-Planet::Planet(Level * level_, Vec3 position_, float scaleFactor_, std::string textName, bool hasAtmosphere_) : GameObject(level_), hasAtmosphere(hasAtmosphere_)
+Planet::Planet(Level * level_, Vec3 position_, float scaleFactor_, std::string textName, bool hasAtmosphere_, bool hasOutline_) : GameObject(level_), hasAtmosphere(hasAtmosphere_)
 {
 	Scale(Vec3(scaleFactor_, scaleFactor_, scaleFactor_));
 
 	position = position_ + Vec3(0, 0.5f, 0);
 
-	renderer = new Generic_RenderableComponent(this, "sphere", textName);
+	renderer = new Generic_RenderableComponent(this, "sphere", textName, 1, new Material(1, 1, 1), hasOutline_);
 
 	rigidbody = new Rigidbody(this, new SphereCollider(this));
 	((SphereCollider *)rigidbody->col)->collisionRadius = scale.x / 2.0f;

@@ -47,6 +47,7 @@ public:
 	GLuint lightColor_Point_Location, lightPosition_Point_Location;
 	GLuint lightColor_Spot_Location, lightPosition_Spot_Location, lightDirection_Spot_Location, lightAngle_Spot_Location;
 	GLuint isEffectedByLight_Location, material_Location;
+	GLuint Outline_Location;
 private:
 	Generic_Shader();
 };

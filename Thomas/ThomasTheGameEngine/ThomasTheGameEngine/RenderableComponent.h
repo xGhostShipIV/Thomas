@@ -48,8 +48,9 @@ public:
 	Material * mat;
 	Vec3 isEffectedByLight;
 	float opacity;
+	bool hasOutline;
 
-	Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_ = 1, Material * mat_ = new Material(1.0f, 1.0f, 1.0f));
+	Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_ = 1, Material * mat_ = new Material(1.0f, 1.0f, 1.0f), bool hasOutline_ = false);
 
 	~Generic_RenderableComponent();
 

@@ -51,8 +51,9 @@ void Generic_RenderableComponent::SetEffecctedByLight(bool _directional, bool _p
 	isEffectedByLight = Vec3(_directional, _point, _spot);
 }
 
-Generic_RenderableComponent::Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_, Material * mat_) : RenderableComponent(parent_, Generic_Shader::_GetInstance())
+Generic_RenderableComponent::Generic_RenderableComponent(GameObject* parent_, std::string modelID_, std::string textureID_, float opacity_, Material * mat_, bool hasOutline_) : RenderableComponent(parent_, Generic_Shader::_GetInstance())
 {
+	hasOutline = hasOutline_;
 	opacity = opacity_;
 	modelName = ModelManager::getInstance()->GetModelID(modelID_);
 	textureName.push_back(ModelManager::getInstance()->GetTextureID(textureID_));
@@ -96,6 +97,7 @@ void Generic_RenderableComponent::Render()
 	glProgramUniform3fv(shader_->GetProgram(), shader_->isEffectedByLight_Location, 1, effected);
 
 	glProgramUniform1f(shader_->GetProgram(), shader_->opacity_Location, opacity);
+	glProgramUniform1f(shader_->GetProgram(), shader_->Outline_Location, hasOutline);
 
 	//Get Transform Stuff
 	glProgramUniformMatrix4fv(shader_->GetProgram(), shader_->transform_Location, 1, GL_FALSE, parentObject->toMat4().transpose().values);

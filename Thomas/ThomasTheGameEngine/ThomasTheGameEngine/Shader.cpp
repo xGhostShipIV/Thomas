@@ -54,6 +54,7 @@ Generic_Shader::Generic_Shader() : Shader(GLU::CreateShaders("Generic.vert", "Ge
 	view_Location = glGetUniformLocation(program, "view");
 	projection_Location = glGetUniformLocation(program, "projection");
 	opacity_Location = glGetUniformLocation(program, "Opacity");
+	Outline_Location = glGetUniformLocation(program, "Outline");
 }
 Generic_Shader::~Generic_Shader(){}
 #pragma endregion

@@ -27,6 +27,8 @@ uniform vec3 Material;
 
 uniform float Opacity;
 
+uniform float Outline;
+
 void main()
 {
 
@@ -155,6 +157,26 @@ void main()
 	fColor = specular + texture2D(texture, texCoord) * (ambientLight + diffuse);
 	fColor.w = fColor.w * Opacity;
 
+	//Red Outline
+	if(Outline > 0 && length(vec4(CamPosition, 0.0) - worldPosition) < 100)
+	{
+		float dist = length(vec4(CamPosition, 0.0) - worldPosition);
+
+		if (dist > 5)
+		{	if (dot(toCameraVector, vNormal) <= 0.20f)
+				fColor.xyz = vec3(1, 0, 0);
+		}
+		else if (dist >= 3)
+		{
+			if (dot(toCameraVector, vNormal) <= 0.04f * dist)
+				fColor.xyz = vec3(1, 0, 0);
+		}
+		else if (dist > 2)
+		{
+			if (dot(toCameraVector, vNormal) <= 0.04f * (dist - 2))
+				fColor.xyz = vec3(1, 0, 0);
+		}
+	}
 
 	//Normals Debug
 	//fColor = 0.5 * vNormal + 0.5;

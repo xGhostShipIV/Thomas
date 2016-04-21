@@ -9,7 +9,7 @@ class PlayerBall;
 class Planet : public GameObject
 {
 public:
-	Planet(Level *, Vec3, float, std::string textName_, bool hasAtmosphere_ = true);
+	Planet(Level *, Vec3, float, std::string textName_, bool hasAtmosphere_ = true, bool hasOutline_ = false);
 	~Planet();
 
 	void Update(float) override;
