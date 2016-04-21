@@ -117,6 +117,8 @@ GameObject * Level::FindGameObjectWithTag(Tag _tag)
 	{
 		if (gameObjects[i]->hasTag(_tag))return gameObjects[i];
 	}
+	
+	return nullptr;
 }
 
 void Level::SetAmbientColor(Colour _c)

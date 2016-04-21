@@ -29,7 +29,6 @@ void PhysicsWorld::Orbit(Vec3 _point,Vec3 _axis, GameObject* _rotator, float _an
 	_rotator->Translate((Quat::rotate(Quat(_angle,_axis ), _rotator->position - _point) + _point) - _rotator->position);
 }
 
-//Not tested, will be tested in testing area with actual planet movements
 //Velocity is not changed, will experience strange behaviour
 void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre)
 {
@@ -37,8 +36,6 @@ void PhysicsWorld::Orbit(Rigidbody* mover_, GameObject* centre)
 		return;
 
 	Orbit(centre->position, Vec3::cross(mover_->velocity, mover_->parentObject->position - centre->position), mover_->parentObject, Vec3::length(mover_->velocity) / Vec3::length(mover_->parentObject->position - centre->position));
-	//rotate velocity vector to match new heading
-	//mover_->velocity = Quat::rotate(, mover_->velocity);
 
 }
 
@@ -101,10 +98,6 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 		Vec3::dot(normal, Vec3::cross(_second->inertiaTensor.inverse() * Vec3::cross(r2, normal),r2))
 		);
 
-	//Friction from impulse
-	//float frictionCoefficient = 0.4f;
-	//Vec3 collisionTangent = Vec3::cross(Vec3::cross(normal, _first->velocity - _second->velocity), normal);
-
 	//Adjust for kinematics, impulse force includes tangential (friction) and normal impulse forces
 	if (!_first->isKinematic || !_second->isKinematic){
 		Vec3 gravComp = Vec3::dot(Physics->worldGravity, normal.Normalized()) * normal.Normalized() * Physics->lastTimeStep;
@@ -121,11 +114,6 @@ void PhysicsWorld::Impulse(Rigidbody* _first, Rigidbody*_second){
 		_first->accel += (normal * J) / _first->mass;
 		_second->accel += (normal * -J) / _second->mass;
 	}
-
-	//Pretending friction
-	//_first->velocity = _first->velocity * 0.95;
-	//_second->velocity = _second->velocity * 0.95;
-
 	/*firstBody->AngularAccel = firstBody->AngularAccel * Quat(-J / 1000.0f, Vec3::cross(r1, normal).Normalized());
 	secondBody->AngularAccel = secondBody->AngularAccel * Quat(J / 1000.0f, Vec3::cross(r2, normal).Normalized());*/
 
@@ -143,8 +131,7 @@ void PhysicsWorld::Update(float _deltaTime){
 				if ((*second)->isEnabled && ((*first)->isKinematic || (*second)->isKinematic))
 				{
 					if (Collider::isColliding((*first)->col, (*second)->col)){
-						PhysicsWorld::Impulse((*first)/*->parentObject*/, (*second)/*->parentObject*/);
-						//Friction calculations here?
+						PhysicsWorld::Impulse((*first), (*second));
 						float dragForce = Vec3::length(worldGravity / 1.5) * 0.4;
 						(*first)->AddForce((*first)->velocity.Normalized() * -dragForce);
 						(*second)->AddForce((*second)->velocity.Normalized() * -dragForce);
@@ -180,13 +167,6 @@ void PhysicsWorld::Update(float _deltaTime){
 				(*it)->accel = Vec3::Zero();
 				(*it)->AngularAccel = Quat::Identity();
 
-				//Cheezy gravity stalling, to be "fixed"
-				/*if ((*it)->velocity == Vec3::Zero()){
-					(*it)->gravitas = false;
-				}
-				else {
-					(*it)->gravitas = true;
-				}*/
 			}
 
 		}

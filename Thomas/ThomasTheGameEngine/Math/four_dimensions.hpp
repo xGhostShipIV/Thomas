@@ -112,7 +112,7 @@ public:
 	std::string toString();
 
 	//Entry access
-	struct Matrix4Entry
+	/*struct Matrix4Entry
 	{
 		const int index;
 		const Matrix4* m;
@@ -130,7 +130,7 @@ public:
 		int index = i1;
 
 		return Matrix4Entry(index, this);
-	}
+	}*/
 
 	//--------------------------------Actual Maths----------------------------------------------------\\
 

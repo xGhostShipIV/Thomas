@@ -58,4 +58,5 @@ bool Ray::castTo(Plane target_, Vec3 &output_) {
 	else {
 		output_ = point + -t * dir;
 	}
+	return true;
 }
