@@ -83,7 +83,7 @@ void LandingScreen::LevelUpdate(float timeStep_)
 	}
 	else if (gui->GetState() == Select && gui->GetSelectState() == Select_Default)
 	{
-		if (Input->isMousePressed(SDL_BUTTON_LEFT))
+		if (Input->isMouseDown(SDL_BUTTON_LEFT))
 		{
 			bool selected = false;
 
@@ -105,7 +105,7 @@ void LandingScreen::LevelUpdate(float timeStep_)
 				//galaxyMap->nodes[i]->position = rayHitPosition;
 
 				//std::cout << "Distance to node: " << (galaxyMap->nodes[i]->position - rayHitPosition).magnitude() << std::endl;
-				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 0.5f)
+				if ((galaxyMap->nodes[i]->position - rayHitPosition).magnitude() < 1.5f)
 				{
 					printf("selected Level\n");
 					targetFileName = ((Node *)galaxyMap->nodes[i])->GetFileName();

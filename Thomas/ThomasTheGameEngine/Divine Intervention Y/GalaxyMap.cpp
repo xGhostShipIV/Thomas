@@ -116,8 +116,10 @@ void GalaxyMap::SetIsRotating(bool isRotating_)
 
 void GalaxyMap::Update(float timeStep_)
 {
-	if (isRotating)
+	if (isRotating) //FAST
 	{
 		Rotate(Quat(0.25f * timeStep_, up()));
 	}
+	else
+		Rotate(Quat(0.125f * timeStep_, up()));
 }
