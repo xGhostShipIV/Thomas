@@ -27,7 +27,7 @@ GuiImage::~GuiImage()
 
 void GuiImage::Update(float _deltaTime)
 {
-
+	GameObject::Update(_deltaTime);
 }
 
 void GuiImage::OnClick()

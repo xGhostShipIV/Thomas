@@ -59,16 +59,23 @@ GalaxyMap::GalaxyMap(Level * level_) : GameObject(level_)
 		if (doc.LoadFile(levelName.c_str()) == tinyxml2::XML_NO_ERROR)
 		{
 			//Generate a random position
-			Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 10);
-			nodePosition.y = -0.2f;
+			float r = Random::box_muller(5.5, 1.5);
+			float theta = Random::box_muller(M_PI, M_PI);
+
+			Vec3 nodePosition = Vec3(r * cos(theta), -0.2f, r * sin(theta));
+
+			//Vec3 nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25.0f / 2.0f);
+			//nodePosition.y = -0.2f;
 
 			//Loop to ensure that nodes aren't spawned too close to eachother
 			if (i != 0)
 			{
 				while ((nodePosition - nodes[i - 1]->position).magnitude() < 1.0f)
 				{
-					nodePosition = Vec3(cos(Random::box_muller(0, 1)), -0.2f, sin(Random::box_muller(0, 1))).Normalized() * Random::box_muller(0, 25);
-					nodePosition.y = -0.2f;
+					float r = Random::box_muller(10, 10) + 5;
+					float theta = Random::box_muller(M_PI, M_PI);
+
+					Vec3 nodePosition = Vec3(r * cos(theta), -0.2f, r * sin(theta));
 				}
 			}
 

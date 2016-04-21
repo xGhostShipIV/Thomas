@@ -21,7 +21,7 @@ FocusCamera::FocusCamera(Level * level_, GameObject * focus_, Vec3 position_) : 
 	}
 
 	xInverted = 1;
-	yInverted = 1;
+	yInverted = -1;
 	lookSpeed = 1.f;
 }
 

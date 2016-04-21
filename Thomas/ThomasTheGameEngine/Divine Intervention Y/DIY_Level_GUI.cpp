@@ -3,6 +3,7 @@
 #include <Game.h>
 #include "DIY_Level.h"
 #include "LandingScreen.h"
+#include <Flipbook.h>
 
 std::string IntToString(int i_);
 std::string IntToString(int i_, int digits_);
@@ -196,6 +197,12 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 	{
 		Vec2 ShotPowerMeterLocation = Vec2(-350, 65);
 
+		fire = new GuiImage(level_, "white", ShotPowerMeterLocation + Vec2(30,10), ScreenAnchor::BOTTOM_RIGHT);
+		fire->Scale(Vec3(475, 150, 1));
+		Flipbook * fb = new Flipbook(fire, 14, "Images/Animation/Fire/slice0.png", 1.0f, true, Flipbook::PNG);
+		fb->Play();
+		fire->Hide();
+
 		Models->loadTexture("DIY_LEVEL_GUI_SHOT_METER", "Images/Level GUI/ShotPowerMeter.png");
 		ShotPowerMeter = new GuiImage(level_, "DIY_LEVEL_GUI_SHOT_METER", ShotPowerMeterLocation + Vec2(2, 0), ScreenAnchor::BOTTOM_RIGHT, true);
 		//ShotPowerMeter->drawStyle = DRAW_STYLE::RAINBOW_STYLE;
@@ -208,6 +215,8 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 		ParBackground->SetOpacity(0.5f);
 		StrokeBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", StrokeLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 		StrokeBackground->SetOpacity(0.5f);
+
+
 		//ObjectivesBackground = new GuiImage(level_, "DIY_LEVEL_GAMEGUI_BACKGROUND", ObjectivesLabelLocation + Vec2(35, 5), ScreenAnchor::TOP_LEFT);
 	}
 
@@ -221,12 +230,20 @@ DIY_Level_GameGUI::DIY_Level_GameGUI(Level *level_, int par_, int objectives_)
 		StrokeLabel = new Label(level_, "Strokes", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), StrokeLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		//ObjectivesLabel = new Label(level_, "Objectives Remaining", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_TEXT"), ObjectivesLabelLocation, ScreenAnchor::TOP_LEFT, Colour::Yellow());
 
+		finishIt = new Label(level_, "FINISH IT!", FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), Vec2(0, 150), ScreenAnchor::CENTER, Colour::Yellow());
+		finishIt->Hide();
+
 		ParCountLabel = new Label(level_, IntToString(par_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ParLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		StrokeCountLabel = new Label(level_, IntToString(strokes), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), StrokeLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 		//ObjectivesCountLabel = new Label(level_, IntToString(objectives_), FontManager::getInstance()->GetFont("DIY_LEVEL_GUI_COUNT"), ObjectivesLabelLocation + Vec2(175, 0), ScreenAnchor::TOP_LEFT, Colour::Yellow());
 	}
 }
 
+void DIY_Level_GUI::DisplayFinalLayer()
+{
+	gameGUI->finishIt->Show();
+	gameGUI->fire->Show();
+}
 DIY_Level_GameGUI::~DIY_Level_GameGUI(){}
 
 void DIY_Level_GameGUI::Hide()

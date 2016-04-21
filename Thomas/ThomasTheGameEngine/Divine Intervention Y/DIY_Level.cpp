@@ -301,6 +301,11 @@ void DIY_Level::SetLayerPlane(Layer * layer_)
 
 	//Render the new layer visible
 	((Layer *)planeRigidBody->parentObject)->SetEnabled(true);
+
+	if (layer_ == layers[0])
+	{
+		gui->DisplayFinalLayer();
+	}
 }
 
 Layer * DIY_Level::GetLayerPlane()

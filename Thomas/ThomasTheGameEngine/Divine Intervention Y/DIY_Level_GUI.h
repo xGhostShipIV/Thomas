@@ -58,8 +58,8 @@ public:
 	~DIY_Level_GameGUI();
 
 	Label *ParLabel, *StrokeLabel;// , *ObjectivesLabel;
-	Label *ParCountLabel, *StrokeCountLabel;// , *ObjectivesCountLabel;
-	GuiImage *ShotPowerMeterFrame, *ShotPowerMeter, *ParBackground, *StrokeBackground;// , *ObjectivesBackground;
+	Label *ParCountLabel, *StrokeCountLabel, *finishIt;// , *ObjectivesCountLabel;
+	GuiImage *ShotPowerMeterFrame, *ShotPowerMeter, *ParBackground, *StrokeBackground, *fire;// , *ObjectivesBackground;
 
 	void Hide();
 	void Show();
@@ -88,6 +88,7 @@ public:
 
 	//Used to update the stroke count
 	void PlayerTookAStroke(int strokeIncrement = 1);	
+	void DisplayFinalLayer();
 
 	void ResetGUI();
 };
