@@ -96,6 +96,7 @@ bool Collider::isColliding(Collider* _first, Collider* _second){
 			}
 		}
 	}
-	else return false;
+	
+	return false;
 
 }

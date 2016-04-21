@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Level numLayers="3" par="6" name="Chor" skybox="skybox1">
+  No one works on days that end in Y. They instead swim in pools of lard.
+  <Layer r = "120" s = "10" wormHoleX = "0" wormHoleZ = "-5" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="7" planetZ = "0" planetScale="12" planetTexture = "planet1">
+  </Layer>
+
+  <Layer r = "260" s = "10" wormHoleX = "9.5" wormHoleZ = "3" wormHoleDestX ="-7" wormHoleDestY ="0" planetX ="10" planetZ = "10" planetScale="9" planetTexture = "planet3">
+    <Object type="Aliens" x="-7" z="-6"></Object>
+    <Object type="Aliens" x="-7" z="0"></Object>
+    <Object type="Aliens" x="-7" z="6"></Object>
+
+    <Object type="Aliens" x="-3" z="3"></Object>
+    <Object type="Aliens" x="-3" z="-3"></Object>
+
+    <Object type="Aliens" x="1" z="-6"></Object>
+    <Object type="Aliens" x="1" z="0"></Object>
+    <Object type="Aliens" x="1" z="6"></Object>
+
+    <Object type="Aliens" x="6" z="-3"></Object>
+    <Object type="Aliens" x="6" z="3"></Object>
+
+    <Object type="PopUp" x="1" z="-8.5"></Object>
+    <Object type="PopUp" x="7" z="1"></Object>
+    <Object type="PopUp" x="-1" z="1.5"></Object>
+  </Layer>
+
+  <Layer r = "500" s = "10" wormHoleX = "-8" wormHoleZ = "8" wormHoleDestX ="-9" wormHoleDestY ="-9" planetX ="-8" planetZ = "0" planetScale="5" planetTexture = "planet5" playerX="-8" playerZ ="-8">
+    <Object type="Asteroids" x="0" z="-10"></Object>
+    <Object type="Asteroids" x="0" z="-9"></Object>
+    <Object type="Asteroids" x="0" z="-8"></Object>
+    <Object type="Asteroids" x="0" z="-7"></Object>
+    <Object type="Asteroids" x="0" z="-6"></Object>
+    <Object type="Asteroids" x="0" z="-5"></Object>
+    <Object type="Asteroids" x="0" z="5"></Object>
+    <Object type="Asteroids" x="0" z="6"></Object>
+    <Object type="Asteroids" x="0" z="7"></Object>
+    <Object type="Asteroids" x="0" z="8"></Object>
+    <Object type="Asteroids" x="0" z="9"></Object>
+    <Object type="Asteroids" x="0" z="10"></Object>
+
+    <Object type="PopUp" x="-5" z="0"></Object>
+    <Object type="PopUp" x="-3" z="0"></Object>
+    <Object type="PopUp" x="-1" z="0"></Object>
+    <Object type="PopUp" x="1" z="0"></Object>
+    <Object type="PopUp" x="3" z="0"></Object>
+
+    <Object type="WarpGate" x="-5" z="2"></Object>
+    <Object type="WarpGate" x="3" z="-2"></Object>
+    <Object type="WarpGate" x="-1" z="4"></Object>
+    <Object type="WarpGate" x="-3" z="-4"></Object>
+  </Layer>
+</Level>
