@@ -244,6 +244,13 @@ void DIY_Level_GUI::DisplayFinalLayer()
 	gameGUI->finishIt->Show();
 	gameGUI->fire->Show();
 }
+
+void DIY_Level_GUI::HideFinalLayer()
+{
+	gameGUI->finishIt->Hide();
+	gameGUI->fire->Hide();
+}
+
 DIY_Level_GameGUI::~DIY_Level_GameGUI(){}
 
 void DIY_Level_GameGUI::Hide()
@@ -289,7 +296,7 @@ void DIY_Level_GUI::ResetGUI()
 	gameGUI->StrokeCountLabel->SetText(IntToString(strokes));
 	victoryGUI->strokeCountLabel->SetText(IntToString(strokes));
 
-
+	HideFinalLayer();
 
 	level->ResetLevel();
 }

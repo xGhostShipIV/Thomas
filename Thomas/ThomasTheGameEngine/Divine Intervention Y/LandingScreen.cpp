@@ -31,7 +31,7 @@ void LandingScreen::LoadContent()
 		Audio->musicChannel->stop();
 
 	Audio->loadMusic("menuTheme",		"Sounds/menu.wav");
-	Audio->getMusic("menuTheme")->setLoops(-1);
+	//Audio->getMusic("menuTheme")->setLoops(999);
 	Audio->getMusic("menuTheme")->Play();
 	Audio->getMusic("menuTheme")->Pause();
 

@@ -89,6 +89,7 @@ public:
 	//Used to update the stroke count
 	void PlayerTookAStroke(int strokeIncrement = 1);	
 	void DisplayFinalLayer();
+	void HideFinalLayer();
 
 	void ResetGUI();
 };

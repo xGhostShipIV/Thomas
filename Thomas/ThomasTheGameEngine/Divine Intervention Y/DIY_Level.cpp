@@ -364,4 +364,5 @@ void DIY_Level::ResetLevel()
 	playingState = DIY_Level_Playing_State::SHOOTING;
 	victoryState = DIY_Level_Victory_State::REVIEW;
 
+	PlayerHasShotBallIntoSun = false;
 }
